@@ -134,5 +134,10 @@
   .v-breadcrumbs-divider:last-of-type{
     color: rgb(var(--v-theme-primary)) !important;
   }
+
+  // selecting the last divider
+  .v-breadcrumbs-divider:has(+li:last-child) svg{
+    color: rgb(var(--v-theme-primary)) !important;
+  }
 }
 </style>
