@@ -23,7 +23,6 @@
 
 }
 .container{
-  background-color: aqua;
   display: flex;
   flex-direction: column;
   align-self: stretch;

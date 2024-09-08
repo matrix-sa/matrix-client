@@ -111,12 +111,11 @@
 </template>
 
 <style lang="scss" scoped>
-
 .flex-start {
   display: flex;
   align-items: center;
   justify-content: start;
-  gap:5px;
+  gap: 5px;
 }
 
 .padding-start {
@@ -131,31 +130,31 @@
   padding-block: 1.5em;
 }
 
-/* Reusable class for rounded corners */
 .border-radius {
   border-radius: 1em;
 }
 
-/* Specific styles */
 .vertical-nav-menu-wrapper {
   width: calc(280px + 1.5em);
-  height: 100vh;
+  min-height: 100vh;
   padding: 0;
   padding-block: 1.5em;
   padding-inline-start: 1.5em;
 }
 
-.vertical-nav-menu-wrapper nav {
-  background-color: rgb(255, 255, 255);
-  height: 100%;
-  width: 100%;
-  position: relative;
-  /* Using border-radius class */
-  border-radius: 1em;
+.vertical-nav-menu-wrapper {
+  nav {
+    background-color: rgb(255, 255, 255);
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    width: 100%;
+    border-radius: 1em;
+    padding-block-end: 1.5em;
+  }
 }
 
 .nav-item {
-  /* Using flex and padding classes */
   @extend .flex-start;
   @extend .padding-start;
   @extend .padding-block;
@@ -176,7 +175,6 @@
 }
 
 .help-center {
-  /* Using flex, padding, gap, and border-radius classes */
   @extend .flex-start;
   @extend .padding-start;
   @extend .padding-block;
@@ -184,10 +182,7 @@
   border-radius: 50px;
   width: 90%;
   margin: auto;
-  position: absolute;
-  left: 50%;
-  transform: translate(-50%, 0);
+  margin-block-start: 3em;
   bottom: 1.5em;
 }
-
 </style>

@@ -8,12 +8,8 @@ export {}
 declare module 'vue' {
   export interface GlobalComponents {
     AppBar: typeof import('./src/components/shared/AppBar.vue')['default']
-    AppBat: typeof import('./src/components/shared/AppBat.vue')['default']
-    AppFooter: typeof import('./src/components/AppFooter.vue')['default']
-    HelloWorld: typeof import('./src/components/HelloWorld.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
-    VerticalNavenu: typeof import('./src/components/VerticalNavenu.vue')['default']
     VerticalNavMenu: typeof import('./src/components/shared/VerticalNavMenu.vue')['default']
   }
 }

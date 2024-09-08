@@ -5,7 +5,7 @@ const matrixTheme = {
     surface: '#FFFFFF',
     'surface-bright': '#FFFFFF',
     'surface-light': '#EEEEEE',
-    'surface-variant': '#424242',
+    'surface-variant': '#706D79',
     'on-surface-variant': '#EEEEEE',
     primary: '#FB813E',
     'primary-darken-1': '#1F5592',
