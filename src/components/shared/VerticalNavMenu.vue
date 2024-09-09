@@ -1,62 +1,79 @@
 <script setup>
   import { ref } from 'vue'
   import { useI18n } from 'vue-i18n'
+  import { useAuthStore } from '@/stores/useAuthStore'
+  import { storeToRefs } from 'pinia'
 
-  const { t } = useI18n()
+  const { t, locale } = useI18n()
   const route = useRoute()
+  const authStore = useAuthStore()
 
-  const items1 = ref([
-    {
-      title: t('dashboard'),
-      icon: 'tabler-dashboard',
-      to: 'dashboards',
-    },
-    {
-      title: t('account_connect'),
-      icon: 'tabler-link',
-      to: 'account-setup',
-    },
-    {
-      title: t('campaigns'),
-      icon: 'tabler-speakerphone',
-      to: 'campaigns',
-    },
-    {
-      title: t('campaign_rules'),
-      icon: 'tabler-list',
-      to: 'rules',
-    },
-    {
-      title: t('reports'),
-      icon: 'tabler-report',
-      to: { name: 'reports-tab', params: { tab: 'campaigns' } },
-    },
-  ])
+  const { user } = storeToRefs(authStore)
 
-  const items2 = ref([
-    {
-      title: t('digital_writer'),
-      icon: 'tabler-message-chatbot',
-      to: 'assistant-writer',
-    },
-    {
-      title: t('digital_designer'),
-      icon: 'tabler-robot',
-      to: 'assistant-designer',
-    },
-    {
-      title: t('marketing-consultation.name'),
-      icon: 'ic:baseline-recommend',
-      to: 'marketing-consultations',
-    },
-    {
-      title: t('marketing-consultation-order.name'),
-      icon: 'lets-icons:order',
-      to: 'marketing-consultations-orders',
-    },
-  ])
+  const items1 = ref([])
+
+  const items2 = ref([])
 
   const isActive = to => route.name === to
+
+  watch(
+    locale,
+    () => {
+      items1.value = [
+        {
+          title: t('dashboard'),
+          icon: 'tabler-dashboard',
+          to: '/',
+        },
+        {
+          title: t('account_connect'),
+          icon: 'tabler-link',
+          to: 'account-setup',
+        },
+        {
+          title: t('campaigns'),
+          icon: 'tabler-speakerphone',
+          to: 'campaigns',
+        },
+        {
+          title: t('campaign_rules'),
+          icon: 'tabler-list',
+          to: 'rules',
+        },
+        {
+          title: t('reports'),
+          icon: 'tabler-report',
+          to: { name: 'reports-tab', params: { tab: 'campaigns' } },
+        },
+      ]
+
+      items2.value = [
+        {
+          title: t('digital_writer'),
+          icon: 'tabler-message-chatbot',
+          to: 'assistant-writer',
+        },
+        {
+          title: t('digital_designer'),
+          icon: 'tabler-robot',
+          to: 'assistant-designer',
+        },
+        {
+          title: t('marketing-consultation.name'),
+          icon: 'ic:baseline-recommend',
+          to: 'marketing-consultations',
+        },
+        {
+          title: t('marketing-consultation-order.name'),
+          icon: 'lets-icons:order',
+          to: 'marketing-consultations-orders',
+        },
+      ]
+    },
+    {
+      immediate: true,
+    }
+  )
 </script>
 
 <template>
@@ -64,7 +81,7 @@
     <nav>
       <v-img
         aspect-ratio="1/1"
-        cover
+        :max-height="185"
         src="@/assets/logo.svg"
         style="margin: auto"
         :width="185"
@@ -99,7 +116,7 @@
 
       <div class="username-container">
         <h4 class="text-black">{{ t("username") }}</h4>
-        <h5>admin@gmail.com</h5>
+        <h5>{{ user.name }}</h5>
       </div>
 
       <div class="help-center">
@@ -136,6 +153,7 @@
 
 .vertical-nav-menu-wrapper {
   width: calc(280px + 1.5em);
+  height: 1px;
   min-height: 100vh;
   padding: 0;
   padding-block: 1.5em;
@@ -159,11 +177,14 @@
   @extend .padding-start;
   @extend .padding-block;
   cursor: pointer;
+  padding-inline-start: 1em;
+  margin-inline: 1em;
 }
 
 .nav-item.active {
   background-color: rgb(var(--v-theme-primary)) !important;
   color: rgb(var(--v-theme-on-kbd)) !important;
+  border-radius: 50px;
 }
 
 .username-container {

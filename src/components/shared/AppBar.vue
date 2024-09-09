@@ -1,19 +1,34 @@
 <script setup>
-  const items = ref([
+  import { useBreadcrumbsStore } from '@/stores/useBreadcrumbsStore'
+  import { storeToRefs } from 'pinia'
+  import { useI18n } from 'vue-i18n'
+
+  const { locale } = useI18n()
+  const breadcrumbsStore = useBreadcrumbsStore()
+  const { items } = storeToRefs(breadcrumbsStore)
+  const prependColor = computed(() => items.value.length === 1 ? 'primary' : '')
+
+  const languageOptions = ref([
     {
-      title: 'ربط الحسابات الإعلانية',
-      disabled: false,
-      href: 'breadcrumbs_dashboard',
+      title: 'العربي',
+      value: 'ar',
     },
     {
-      title: 'إضافة متجر',
-      disabled: false,
-      active: true,
-      href: 'breadcrumbs_link_1',
+      title: 'English',
+      value: 'en',
     },
   ])
 
-  const language = ref('English')
+  const language = ref(locale.value)
+
+  const handleUpdate = value => {
+    // i18n.global.locale.value = value
+    // console.log(value)
+    localStorage.setItem('lang', value)
+    language.value = value
+    locale.value = value
+    // t.locale.value = value
+  }
 </script>
 
 <template>
@@ -30,7 +45,7 @@
             <v-icon icon="mdi:dot" />
           </template>
           <template #prepend>
-            <v-icon icon="mdi:dot" />
+            <v-icon :color="prependColor" icon="mdi:dot" />
           </template>
         </v-breadcrumbs>
       </div>
@@ -42,13 +57,14 @@
           color="primary"
           flat
           hide-details
-          :items="['English', 'العربي']"
+          :items="languageOptions"
           :model-value="language"
           prepend-inner-icon="mdi:language"
           rounded
           single-line
           variant="solo"
           width="150"
+          @update:model-value="handleUpdate"
         />
 
         <v-btn

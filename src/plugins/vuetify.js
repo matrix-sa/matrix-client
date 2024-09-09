@@ -11,15 +11,15 @@ import 'vuetify/styles'
 // Icons
 import icons from '@/plugins/icons'
 
-// i18n locale
-import en from '@/i18n/locale/en'
-import ar from '@/i18n/locale/ar'
-
 // theme
 import matrixTheme from '@/plugins/theme'
 
 // Composables
 import { createVuetify } from 'vuetify'
+import { createVueI18nAdapter } from 'vuetify/locale/adapters/vue-i18n'
+
+import i18n from '@/i18n'
+import { useI18n } from 'vue-i18n'
 
 // https://vuetifyjs.com/en/introduction/why-vuetify/#feature-guides
 export default createVuetify({
@@ -30,9 +30,7 @@ export default createVuetify({
     },
   },
   locale: {
-    locale: 'ar',
-    fallback: 'ar',
-    messages: { ar, en },
+    adapter: createVueI18nAdapter({ i18n, useI18n }),
   },
   icons,
 })
