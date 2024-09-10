@@ -15,44 +15,45 @@
 
   const handleUpdate = value => {
     localStorage.setItem('lang', value)
+    locale.value = value
   }
 </script>
 <template>
-  <v-select
-    v-model="locale"
-    :items="languageOptions"
-    v-bind="{...$attrs}"
-    @update:model-value="handleUpdate"
-  />
-
-  <IconBtn>
-    <VIcon
-      icon="tabler-language"
-      size="26"
+  <div>
+    <v-select
+      v-if="!$vuetify.display.mdAndDown"
+      v-model="locale"
+      :items="languageOptions"
+      v-bind="{...$attrs}"
+      prepend-inner-icon="mdi:language"
+      @update:model-value="handleUpdate"
     />
 
-    <!-- Menu -->
-    <VMenu
-      activator="parent"
-      offset="14px"
-    >
-      <!-- List -->
-      <VList
-        v-model:selected="currentLang"
-        min-width="175px"
+    <v-btn v-if="$vuetify.display.mdAndDown">
+      <VIcon
+        icon="tabler-language"
+        size="26"
+      />
+
+      <VMenu
+        activator="parent"
+        offset="14px"
       >
-        <!-- List item -->
-        <VListItem
-          v-for="lang in props.languages"
-          :key="lang.i18nLang"
-          :active="lang.i18nLang === locale"
-          :value="lang.i18nLang"
-          @click="locale = lang.i18nLang; $emit('change', lang.i18nLang)"
+        <VList
+          min-width="175px"
+          :selected="locale"
         >
-          <!-- Language label -->
-          <VListItemTitle>{{ t(lang.i18nLang) }}</VListItemTitle>
-        </VListItem>
-      </VList>
-    </VMenu>
-  </IconBtn>
+          <VListItem
+            v-for="option in languageOptions"
+            :key="option.value"
+            :active="option.value === locale"
+            :value="option.value"
+            @click="handleUpdate(option.value)"
+          >
+            <VListItemTitle>{{ option.title }}</VListItemTitle>
+          </VListItem>
+        </VList>
+      </VMenu>
+    </v-btn>
+  </div>
 </template>

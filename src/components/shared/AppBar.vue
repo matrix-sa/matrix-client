@@ -34,7 +34,6 @@
           color="primary"
           flat
           hide-details
-          prepend-inner-icon="mdi:language"
           rounded
           single-line
           variant="solo"

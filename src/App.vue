@@ -28,28 +28,11 @@
     >
       <v-progress-circular color="primary" indeterminate size="50" :width="7" />
     </v-overlay>
-    <DesktopLayout v-if="!loadingUser" class="desktop-layout" />
-    <MobileLayout v-if="!loadingUser" class="mobile-layout" />
+    <DesktopLayout v-if="!loadingUser && !$vuetify.display.mdAndDown" />
+    <MobileLayout v-if="!loadingUser && $vuetify.display.mdAndDown" class="mobile-layout" />
 
     <v-snackbar v-model="isShown" :color="type" elevation="24" :timeout="2000">
       {{ message }}
     </v-snackbar>
   </v-app>
 </template>
-<style lang="scss" scoped>
-.desktop-layout {
-  display: none;
-
-  @media (min-width: 768px) {
-    display: flex;
-  }
-}
-
-.mobile-layout {
-  display: block;
-
-  @media (min-width: 768px) {
-    display: none;
-  }
-}
-</style>
