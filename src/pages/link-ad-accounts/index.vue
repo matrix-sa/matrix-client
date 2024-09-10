@@ -238,7 +238,7 @@
 
 .selects-container {
   display: grid;
-  grid-template-columns: 85fr 150fr 24fr;
+  grid-template-columns: 1fr 1.5fr 0.5fr;
   align-items: start;
   gap: 12px;
   height: 3em;

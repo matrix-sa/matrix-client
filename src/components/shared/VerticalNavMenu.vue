@@ -184,6 +184,7 @@
   margin-inline: 1em;
   border-radius: 50px;
   text-decoration: none;
+  color: inherit;
   &:hover {
     background-color: rgb(
       var(--v-theme-secondary)
@@ -191,7 +192,7 @@
   }
 
   &:visited {
-    color: inherit; // Ensures visited links don't change color
+    color: inherit;
   }
 
   p {
