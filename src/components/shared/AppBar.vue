@@ -22,12 +22,9 @@
   const language = ref(locale.value)
 
   const handleUpdate = value => {
-    // i18n.global.locale.value = value
-    // console.log(value)
     localStorage.setItem('lang', value)
     language.value = value
     locale.value = value
-    // t.locale.value = value
   }
 </script>
 

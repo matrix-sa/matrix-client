@@ -28,7 +28,7 @@
           title: t('dashboard'),
           disabled: false,
           active: true,
-          href: '/',
+          to: '/',
         },
       ])
     },

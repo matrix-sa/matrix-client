@@ -253,6 +253,8 @@ export default {
     },
     connect_btn_text: 'توصيل الحساب',
   },
+  connect_platform_btn: 'توصيل المنصة',
+  connect_store_btn: 'توصيل المتجر',
   id: 'المعرف',
   name: 'الاسم',
   start_time: 'وقت البداية',
@@ -649,4 +651,6 @@ export default {
     },
   },
   username: 'اسم المستخدم',
+  link_accounts_title: 'جهز حسابك',
+  paste: 'لصق',
 }

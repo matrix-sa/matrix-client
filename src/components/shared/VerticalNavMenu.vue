@@ -3,6 +3,7 @@
   import { useI18n } from 'vue-i18n'
   import { useAuthStore } from '@/stores/useAuthStore'
   import { storeToRefs } from 'pinia'
+  import { RouterLink } from 'vue-router'
 
   const { t, locale } = useI18n()
   const route = useRoute()
@@ -14,7 +15,7 @@
 
   const items2 = ref([])
 
-  const isActive = to => route.name === to
+  const isActive = to => route.name === to.name
 
   watch(
     locale,
@@ -23,27 +24,27 @@
         {
           title: t('dashboard'),
           icon: 'tabler-dashboard',
-          to: '/',
+          to: { name: '/' },
         },
         {
           title: t('account_connect'),
           icon: 'tabler-link',
-          to: 'account-setup',
+          to: { name: '/link-ad-accounts/' },
         },
         {
           title: t('campaigns'),
           icon: 'tabler-speakerphone',
-          to: 'campaigns',
+          to: { name: '/campaigns/' },
         },
         {
           title: t('campaign_rules'),
           icon: 'tabler-list',
-          to: 'rules',
+          to: { name: '/rules/' },
         },
         {
           title: t('reports'),
           icon: 'tabler-report',
-          to: { name: 'reports-tab', params: { tab: 'campaigns' } },
+          to: { name: '/reports/', params: { tab: 'campaigns' } },
         },
       ]
 
@@ -51,22 +52,22 @@
         {
           title: t('digital_writer'),
           icon: 'tabler-message-chatbot',
-          to: 'assistant-writer',
+          to: { name: '/assistant/writer/' },
         },
         {
           title: t('digital_designer'),
           icon: 'tabler-robot',
-          to: 'assistant-designer',
+          to: { name: '/assistant/designer/' },
         },
         {
           title: t('marketing-consultation.name'),
           icon: 'ic:baseline-recommend',
-          to: 'marketing-consultations',
+          to: { name: '/marketing-consultations/' },
         },
         {
           title: t('marketing-consultation-order.name'),
           icon: 'lets-icons:order',
-          to: 'marketing-consultations-orders',
+          to: { name: '/marketing-consultations-orders/' },
         },
       ]
     },
@@ -86,31 +87,33 @@
         style="margin: auto"
         :width="185"
       />
-      <div
+      <RouterLink
         v-for="(item, index) in items1"
         :key="index"
         class="nav-item"
         :class="{
           active: isActive(item.to),
         }"
+        :to="item.to"
       >
-        <h3><v-icon :icon="item.icon" /></h3>
-        <h3>{{ item.title }}</h3>
-      </div>
+        <p><v-icon :icon="item.icon" /></p>
+        <p>{{ item.title }}</p>
+      </RouterLink>
 
       <v-divider class="mx-5 my-3" :thickness="2" />
 
-      <div
+      <RouterLink
         v-for="(item, index) in items2"
         :key="index"
         class="nav-item"
         :class="{
           active: isActive(item.to),
         }"
+        :to="item.to"
       >
-        <h3><v-icon :icon="item.icon" /></h3>
-        <h3>{{ item.title }}</h3>
-      </div>
+        <p><v-icon :icon="item.icon" /></p>
+        <p>{{ item.title }}</p>
+      </RouterLink>
 
       <v-divider class="mx-5 my-3" :thickness="2" />
 
@@ -179,12 +182,26 @@
   cursor: pointer;
   padding-inline-start: 1em;
   margin-inline: 1em;
+  border-radius: 50px;
+  text-decoration: none;
+  &:hover {
+    background-color: rgb(
+      var(--v-theme-secondary)
+    );
+  }
+
+  &:visited {
+    color: inherit; // Ensures visited links don't change color
+  }
+
+  p {
+    font-weight: 500;
+  }
 }
 
 .nav-item.active {
   background-color: rgb(var(--v-theme-primary)) !important;
   color: rgb(var(--v-theme-on-kbd)) !important;
-  border-radius: 50px;
 }
 
 .username-container {

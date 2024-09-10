@@ -255,6 +255,8 @@ export default {
     },
     connect_btn_text: 'Connect the account',
   },
+  connect_platform_btn: 'Connect Platform',
+  connect_store_btn: 'Connect Store',
   id: 'code',
   name: 'Name',
   start_time: 'Start time',
@@ -657,4 +659,6 @@ export default {
     },
   },
   username: 'Username',
+  link_accounts_title: 'Get your accounts ready',
+  paste: 'Paste',
 }

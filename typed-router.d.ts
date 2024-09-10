@@ -19,6 +19,16 @@ declare module 'vue-router/auto-routes' {
    */
   export interface RouteNamedMap {
     '/': RouteRecordInfo<'/', '/', Record<never, never>, Record<never, never>>,
-    '/LinkAdAccounts/': RouteRecordInfo<'/LinkAdAccounts/', '/LinkAdAccounts', Record<never, never>, Record<never, never>>,
+    '/[...all]': RouteRecordInfo<'/[...all]', '/:all(.*)', { all: ParamValue<true> }, { all: ParamValue<false> }>,
+    '/account-setup/': RouteRecordInfo<'/account-setup/', '/account-setup', Record<never, never>, Record<never, never>>,
+    '/assistant/': RouteRecordInfo<'/assistant/', '/assistant', Record<never, never>, Record<never, never>>,
+    '/assistant/designer/': RouteRecordInfo<'/assistant/designer/', '/assistant/designer', Record<never, never>, Record<never, never>>,
+    '/assistant/writer/': RouteRecordInfo<'/assistant/writer/', '/assistant/writer', Record<never, never>, Record<never, never>>,
+    '/campaigns/': RouteRecordInfo<'/campaigns/', '/campaigns', Record<never, never>, Record<never, never>>,
+    '/link-ad-accounts/': RouteRecordInfo<'/link-ad-accounts/', '/link-ad-accounts', Record<never, never>, Record<never, never>>,
+    '/marketing-consultations/': RouteRecordInfo<'/marketing-consultations/', '/marketing-consultations', Record<never, never>, Record<never, never>>,
+    '/marketing-consultations-orders/': RouteRecordInfo<'/marketing-consultations-orders/', '/marketing-consultations-orders', Record<never, never>, Record<never, never>>,
+    '/reports/': RouteRecordInfo<'/reports/', '/reports', Record<never, never>, Record<never, never>>,
+    '/rules/': RouteRecordInfo<'/rules/', '/rules', Record<never, never>, Record<never, never>>,
   }
 }
