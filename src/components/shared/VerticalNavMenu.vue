@@ -171,6 +171,7 @@
     width: 100%;
     border-radius: 1em;
     padding-block-end: 1.5em;
+    overflow-y: scroll;
   }
 }
 
