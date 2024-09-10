@@ -15,7 +15,6 @@
     authStore.fetchUser(refresh)
   )
   watch(locale, () => {
-    console.log('FFF')
     fetchUser(true)
   })
 </script>
@@ -27,34 +26,30 @@
       class="align-center justify-center"
       persistent
     >
-      <v-progress-circular indeterminate />
+      <v-progress-circular color="primary" indeterminate size="50" :width="7" />
     </v-overlay>
-    <v-main v-if="!loadingUser" class="main">
-      <VerticalNavMenu />
-      <div class="container">
-        <AppBar />
-        <router-view />
-      </div>
-    </v-main>
+    <DesktopLayout v-if="!loadingUser" class="desktop-layout" />
+    <MobileLayout v-if="!loadingUser" class="mobile-layout" />
 
     <v-snackbar v-model="isShown" :color="type" elevation="24" :timeout="2000">
       {{ message }}
     </v-snackbar>
   </v-app>
 </template>
+<style lang="scss" scoped>
+.desktop-layout {
+  display: none;
 
-<style scoped lang="scss">
-.main {
-  display: flex;
-  flex-direction: row;
-  justify-content: start;
-  align-items: flex-start;
-  width: 100%;
+  @media (min-width: 768px) {
+    display: flex;
+  }
 }
-.container {
-  display: flex;
-  flex-direction: column;
-  align-self: stretch;
-  flex-grow: 1;
+
+.mobile-layout {
+  display: block;
+
+  @media (min-width: 768px) {
+    display: none;
+  }
 }
 </style>

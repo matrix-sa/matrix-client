@@ -8,8 +8,15 @@ export {}
 declare module 'vue' {
   export interface GlobalComponents {
     AppBar: typeof import('./src/components/shared/AppBar.vue')['default']
+    AppSelect: typeof import('./src/components/core/AppSelect.vue')['default']
+    AppTextField: typeof import('./src/components/core/AppTextField.vue')['default']
+    ConfirmDialog: typeof import('./src/components/dialogs/ConfirmDialog.vue')['default']
+    DesktopLayout: typeof import('./src/components/shared/DesktopLayout.vue')['default']
+    LanguageSwitch: typeof import('./src/components/shared/LanguageSwitch.vue')['default']
+    MobileLayout: typeof import('./src/components/shared/MobileLayout.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
+    VerticalDrawer: typeof import('./src/components/shared/VerticalDrawer.vue')['default']
     VerticalNavMenu: typeof import('./src/components/shared/VerticalNavMenu.vue')['default']
   }
 }

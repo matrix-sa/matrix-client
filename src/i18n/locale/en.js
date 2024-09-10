@@ -661,4 +661,6 @@ export default {
   username: 'Username',
   link_accounts_title: 'Get your accounts ready',
   paste: 'Paste',
+  salla: 'Salla',
+  zid: 'Zid',
 }

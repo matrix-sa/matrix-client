@@ -1,31 +1,10 @@
 <script setup>
   import { useBreadcrumbsStore } from '@/stores/useBreadcrumbsStore'
   import { storeToRefs } from 'pinia'
-  import { useI18n } from 'vue-i18n'
 
-  const { locale } = useI18n()
   const breadcrumbsStore = useBreadcrumbsStore()
   const { items } = storeToRefs(breadcrumbsStore)
   const prependColor = computed(() => items.value.length === 1 ? 'primary' : '')
-
-  const languageOptions = ref([
-    {
-      title: 'العربي',
-      value: 'ar',
-    },
-    {
-      title: 'English',
-      value: 'en',
-    },
-  ])
-
-  const language = ref(locale.value)
-
-  const handleUpdate = value => {
-    localStorage.setItem('lang', value)
-    language.value = value
-    locale.value = value
-  }
 </script>
 
 <template>
@@ -33,7 +12,7 @@
     <div class="app-bar">
       <div>
         <v-breadcrumbs
-          active-color="black"
+          active-color="surface-variant"
           class="app-bar-breadcrumbs"
           color="surface-variant"
           :items="items"
@@ -47,21 +26,19 @@
         </v-breadcrumbs>
       </div>
       <div class="d-flex align-center ga-3">
-        <v-select
+
+        <LanguageSwitch
           base-color="black"
           bg-color="background"
           class="lagnuage-select"
           color="primary"
           flat
           hide-details
-          :items="languageOptions"
-          :model-value="language"
           prepend-inner-icon="mdi:language"
           rounded
           single-line
           variant="solo"
           width="150"
-          @update:model-value="handleUpdate"
         />
 
         <v-btn
@@ -151,6 +128,11 @@
   // selecting the last divider
   .v-breadcrumbs-divider:has(+li:last-child) svg{
     color: rgb(var(--v-theme-primary)) !important;
+  }
+
+  .v-breadcrumbs-item--disabled{
+    color: black !important;
+    opacity: 1 !important;
   }
 }
 </style>

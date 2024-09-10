@@ -653,4 +653,6 @@ export default {
   username: 'اسم المستخدم',
   link_accounts_title: 'جهز حسابك',
   paste: 'لصق',
+  salla: 'سلة',
+  zid: 'زد',
 }
