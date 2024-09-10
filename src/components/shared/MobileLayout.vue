@@ -14,36 +14,51 @@
   const items1 = ref([])
   const items2 = ref([])
 
-  const isActive = to => route.name === to.name
+  const isActive = to => route.name === to
 
   watch(
-    locale,
+    [locale, route],
     () => {
       items1.value = [
         {
           title: t('dashboard'),
-          icon: 'tabler-dashboard',
-          to: { name: '/' },
+          props: {
+            prependIcon: 'tabler-dashboard',
+            active: isActive('/'),
+            to: { name: '/' },
+          },
         },
         {
           title: t('account_connect'),
-          icon: 'tabler-link',
-          to: { name: '/link-ad-accounts/' },
+          props: {
+            prependIcon: 'tabler-link',
+            active: isActive('/link-ad-accounts/'),
+            to: { name: '/link-ad-accounts/' },
+          },
         },
         {
           title: t('campaigns'),
-          icon: 'tabler-speakerphone',
-          to: { name: '/campaigns/' },
+          props: {
+            prependIcon: 'tabler-speakerphone',
+            active: isActive('/campaigns/'),
+            to: { name: '/campaigns/' },
+          },
         },
         {
           title: t('campaign_rules'),
-          icon: 'tabler-list',
-          to: { name: '/rules/' },
+          props: {
+            prependIcon: 'tabler-list',
+            active: isActive('/rules/'),
+            to: { name: '/rules/' },
+          },
         },
         {
           title: t('reports'),
-          icon: 'tabler-report',
-          to: { name: '/reports/', params: { tab: 'campaigns' } },
+          props: {
+            prependIcon: 'tabler-report',
+            active: isActive('/reports/'),
+            to: { name: '/reports/', params: { tab: 'campaigns' } },
+          },
         },
       ]
 
@@ -101,6 +116,13 @@
       </v-app-bar>
 
       <v-navigation-drawer v-model="drawer" temporary>
+        <v-img
+          aspect-ratio="1/1"
+          src="@/assets/logo.svg"
+          style="margin: auto"
+          width="70%"
+        />
+        <v-divider />
         <v-list :items="items1" />
         <v-divider />
         <v-list :items="items2" />
