@@ -15,15 +15,16 @@
   const { stores, chosenStoreFromAddStoreForm } = storeToRefs(storesStore)
 
   const userHasConnectedStore = computed(
-    () => false && stores.value.some(store => store.status === 'Success')
+    () => stores.value.some(store => store.status === 'Success')
+  )
+
+  const isConnectPlatformStep = computed(() =>
+    route.name.includes('connect-platform')
   )
 
   const { loading: loadingCheckStatuses } = useRequest(storesStore.checkAuthAll, {
     onSuccess: () => {
-      if (
-        route.name.includes('connect-platform') &&
-        !userHasConnectedStore.value
-      ) {
+      if (isConnectPlatformStep.value && !userHasConnectedStore.value) {
         show(t('connect_store_first'), 'warning')
         router.push({ name: '/link-ad-accounts/' })
       }
@@ -87,51 +88,71 @@
   )
 
   const connectButtonText = computed(() =>
-    isCurrentStoreConnected.value ? t('edit_platform_btn') : t('connect_platform_btn')
+    isCurrentStoreConnected.value
+      ? t('edit_platform_btn')
+      : t('connect_platform_btn')
   )
+
+  const activeBtnProps = ref({
+    color: 'primary',
+    flat: true,
+  })
+
+  const inActiveBtnProps = ref({
+    color: 'surface-variant',
+    flat: true,
+    variant: 'outlined',
+  })
 </script>
 
 <template>
-  <v-overlay v-model="loadingCheckStatuses" class="align-center justify-center">
-    <v-progress-circular color="primary" indeterminate size="50" :width="7" />
-  </v-overlay>
-  <div class="main">
-    <p class="link-ad-title">{{ t("link_accounts_title") }}</p>
-    <div class="buttons-container">
-      <v-btn
-        color="primary"
-        flat
-        height="40px"
-        prepend-icon="zondicons:add-solid"
-        rounded
-      >
-        {{ t("add_store") }}
-      </v-btn>
-      <v-btn
-        color="surface-variant"
-        flat
-        height="40px"
-        prepend-icon="bi:link"
-        rounded
-        variant="outlined"
-      >
-        {{ t("connect_platform_btn") }}
-      </v-btn>
-      <v-btn
-        class="store-btn"
-        color="primary"
-        :disabled="!chosenStoreFromAddStoreForm"
-        flat
-        height="40px"
-        :loading="loadingAuthentication"
-        rounded
-        :text="connectButtonText"
-        type="submit"
-        @click="startConnectingStore"
-      />
+  <div>
+    <v-overlay v-model="loadingCheckStatuses" class="align-center justify-center">
+      <v-progress-circular color="primary" indeterminate size="50" :width="7" />
+    </v-overlay>
+    <div class="main">
+      <p class="link-ad-title">{{ t("link_accounts_title") }}</p>
+      <div class="buttons-container">
+        <v-btn
+          v-bind="isConnectPlatformStep ? inActiveBtnProps : activeBtnProps"
+          height="40px"
+          prepend-icon="zondicons:add-solid"
+          rounded
+          :to="{ name: '/link-ad-accounts/add-store' }"
+        >
+          {{ t("add_store") }}
+        </v-btn>
+        <v-btn
+          v-bind="isConnectPlatformStep ? activeBtnProps : inActiveBtnProps"
+          height="40px"
+          prepend-icon="bi:link"
+          rounded
+          :to="{ name: '/link-ad-accounts/connect-platform' }"
+        >
+          {{ t("connect_platform_btn") }}
+        </v-btn>
+        <v-btn
+          class="store-btn"
+          color="primary"
+          :disabled="!chosenStoreFromAddStoreForm"
+          flat
+          height="40px"
+          :loading="loadingAuthentication"
+          rounded
+          :text="connectButtonText"
+          type="submit"
+          @click="startConnectingStore"
+        />
+      </div>
+      <v-divider class="divider" />
+      <div style="{min-height:200px}">
+        <router-view v-slot="{ Component }">
+          <transition name="xyz">
+            <component :is="Component" />
+          </transition>
+        </router-view>
+      </div>
     </div>
-    <v-divider class="divider" />
-    <router-view />
   </div>
 </template>
 
@@ -168,4 +189,6 @@
 .divider {
   margin-block: 1em;
 }
+</style>
+<style>
 </style>

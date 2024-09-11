@@ -21,7 +21,7 @@
 <template>
   <div>
     <v-select
-      v-if="!$vuetify.display.mdAndDown"
+      v-if="$vuetify.display.mdAndUp"
       v-model="locale"
       :items="languageOptions"
       v-bind="{...$attrs}"
@@ -29,7 +29,7 @@
       @update:model-value="handleUpdate"
     />
 
-    <v-btn v-if="$vuetify.display.mdAndDown">
+    <v-btn v-if="!$vuetify.display.mdAndUp">
       <VIcon
         icon="tabler-language"
         size="26"

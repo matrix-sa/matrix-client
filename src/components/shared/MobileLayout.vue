@@ -2,7 +2,6 @@
   import { useI18n } from 'vue-i18n'
   import { useAuthStore } from '@/stores/useAuthStore'
   import { storeToRefs } from 'pinia'
-  import { RouterLink } from 'vue-router'
 
   const { t, locale } = useI18n()
   const route = useRoute()
@@ -122,6 +121,9 @@
           style="margin: auto"
           width="70%"
         />
+        <v-divider />
+        <h4 class="text-black">{{ t("username") }}</h4>
+        <h5>{{ user.name }}</h5>
         <v-divider />
         <v-list :items="items1" />
         <v-divider />

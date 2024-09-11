@@ -14,36 +14,52 @@
 
   const items2 = ref([])
 
-  const isActive = to => route.name === to.name
+  const isActive = (to, partial) =>
+    partial ? route.name.includes(to) : route.name === to
 
   watch(
-    locale,
+    [locale, route],
     () => {
       items1.value = [
         {
           title: t('dashboard'),
-          icon: 'tabler-dashboard',
-          to: { name: '/' },
+          props: {
+            prependIcon: 'tabler-dashboard',
+            active: isActive('/'),
+            to: { name: '/' },
+          },
         },
         {
           title: t('account_connect'),
-          icon: 'tabler-link',
-          to: { name: '/link-ad-accounts/add-store' },
+          props: {
+            prependIcon: 'tabler-link',
+            active: isActive('/link-ad-accounts/', true),
+            to: { name: '/link-ad-accounts/' },
+          },
         },
         {
           title: t('campaigns'),
-          icon: 'tabler-speakerphone',
-          to: { name: '/campaigns/' },
+          props: {
+            prependIcon: 'tabler-speakerphone',
+            active: isActive('/campaigns/'),
+            to: { name: '/campaigns/' },
+          },
         },
         {
           title: t('campaign_rules'),
-          icon: 'tabler-list',
-          to: { name: '/rules/' },
+          props: {
+            prependIcon: 'tabler-list',
+            active: isActive('/rules/'),
+            to: { name: '/rules/' },
+          },
         },
         {
           title: t('reports'),
-          icon: 'tabler-report',
-          to: { name: '/reports/', params: { tab: 'campaigns' } },
+          props: {
+            prependIcon: 'tabler-report',
+            active: isActive('/reports/'),
+            to: { name: '/reports/', params: { tab: 'campaigns' } },
+          },
         },
       ]
 
@@ -91,9 +107,9 @@
         :key="index"
         class="nav-item"
         :class="{
-          active: isActive(item.to),
+          active: item.props.active,
         }"
-        :to="item.to"
+        :to="item.props.to"
       >
         <p><v-icon :icon="item.icon" /></p>
         <p>{{ item.title }}</p>
@@ -188,9 +204,7 @@
   text-decoration: none;
   color: inherit;
   &:hover {
-    background-color: rgb(
-      var(--v-theme-secondary)
-    );
+    background-color: rgb(var(--v-theme-secondary));
   }
 
   &:visited {
