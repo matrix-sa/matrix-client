@@ -1,17 +1,5 @@
 <template>
-  <p>Fine</p>
-  <p>Fine</p>
-  <p>Fine</p>
-  <p>Fine</p>
-  <p>Fine</p>
-  <p>Fine</p>
-  <p>Fine</p>
-  <p>Fine</p>
-  <p>Fine</p>
-  <p>Fine</p>
-  <p>Fine</p>
-  <p>Fine</p>
-  <p>Fine</p>
+  <h1>Dashboard Goes Here</h1>
 </template>
 
 <script setup>
@@ -26,7 +14,7 @@
       update([
         {
           title: t('dashboard'),
-          disabled: false,
+          disabled: true,
           active: true,
           to: '/',
         },

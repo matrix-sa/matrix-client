@@ -28,7 +28,7 @@
         {
           title: t('account_connect'),
           icon: 'tabler-link',
-          to: { name: '/link-ad-accounts/' },
+          to: { name: '/link-ad-accounts/add-store' },
         },
         {
           title: t('campaigns'),
@@ -172,6 +172,7 @@
     border-radius: 1em;
     padding-block-end: 1.5em;
     overflow-y: scroll;
+    scrollbar-width: none;
   }
 }
 
@@ -182,6 +183,7 @@
   cursor: pointer;
   padding-inline-start: 1em;
   margin-inline: 1em;
+  margin-block: 0.25em;
   border-radius: 50px;
   text-decoration: none;
   color: inherit;
