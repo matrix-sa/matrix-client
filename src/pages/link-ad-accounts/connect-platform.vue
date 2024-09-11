@@ -1,12 +1,15 @@
 <script setup>
+  import { useBreadcrumbsStore } from '@/stores/useBreadcrumbsStore'
   import { usePlatformsStore } from '@/stores/usePlatformsStore'
   import { storeToRefs } from 'pinia'
   import { useI18n } from 'vue-i18n'
   import { useRequest } from 'vue-request'
+
   const platformsStore = usePlatformsStore()
 
   const { platforms } = storeToRefs(platformsStore)
-  const { t } = useI18n()
+  const { update } = useBreadcrumbsStore()
+  const { t, locale } = useI18n()
 
   const { run: checkAllPlatforms, loading: loadingCheckingPlatforms } =
     useRequest(platformsStore.getActivePlatforms)
@@ -21,6 +24,26 @@
     color: 'info',
     text: t('connect'),
   })
+
+  watch(
+    locale,
+    () => {
+      update([
+        {
+          title: t('account_connect'),
+          active: false,
+          to: '/link-ad-accounts/',
+        },
+        {
+          title: t('connect_platform'),
+          active: true,
+          disabled: true,
+          to: '/link-ad-accounts/connect-platform/',
+        },
+      ])
+    },
+    { immediate: true }
+  )
 </script>
 <template>
   <div class="boxes-container">

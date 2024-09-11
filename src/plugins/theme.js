@@ -11,10 +11,10 @@ const matrixTheme = {
     'primary-darken-1': '#1F5592',
     secondary: '#EEEEEE',
     'secondary-darken-1': '#018786',
-    error: 'red',
+    error: '#FF0000',
     info: '#A580BA',
     success: '#24c87e',
-    'on-success': 'white',
+    'on-success': '#ffffff',
     warning: '#FB8C00',
   },
   variables: {

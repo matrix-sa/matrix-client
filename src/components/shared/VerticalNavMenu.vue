@@ -111,7 +111,7 @@
         }"
         :to="item.props.to"
       >
-        <p><v-icon :icon="item.icon" /></p>
+        <p><v-icon :icon="item.props.prependIcon" /></p>
         <p>{{ item.title }}</p>
       </RouterLink>
 

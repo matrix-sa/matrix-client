@@ -519,6 +519,7 @@ export default {
   privacy_policy_and_terms: 'سياسة الخصوصية و شروط الموقع',
   agree: 'موافق',
   add_store: 'إضافة متجر',
+  connect_platform: 'توصيل المنصة',
   login_with_facebook: 'تسجيل الدخول باستخدام فيسبوك',
   no_date: 'لا يوجد',
   edit_ad_title: 'تعديل الإعلان',
@@ -658,4 +659,5 @@ export default {
   salla: 'سلة',
   zid: 'زد',
   connect_store_first: 'اربط متجرك أولا',
+  
 }
