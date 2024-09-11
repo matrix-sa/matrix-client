@@ -22,7 +22,7 @@
     route.name.includes('connect-platform')
   )
 
-  const { loading: loadingCheckStatuses } = useRequest(storesStore.checkAuthAll, {
+  const { run: checkAllStores, loading: loadingCheckStatuses } = useRequest(storesStore.checkAuthAll, {
     onSuccess: () => {
       if (isConnectPlatformStep.value && !userHasConnectedStore.value) {
         show(t('connect_store_first'), 'warning')
@@ -87,10 +87,10 @@
         ?.status === 'Success'
   )
 
-  const connectButtonText = computed(() =>
+  const connectStoreButtonText = computed(() =>
     isCurrentStoreConnected.value
-      ? t('edit_platform_btn')
-      : t('connect_platform_btn')
+      ? t('edit_store_btn')
+      : t('connect_store_btn')
   )
 
   const activeBtnProps = ref({
@@ -119,6 +119,7 @@
           prepend-icon="zondicons:add-solid"
           rounded
           :to="{ name: '/link-ad-accounts/add-store' }"
+          @click="checkAllStores"
         >
           {{ t("add_store") }}
         </v-btn>
@@ -128,10 +129,12 @@
           prepend-icon="bi:link"
           rounded
           :to="{ name: '/link-ad-accounts/connect-platform' }"
+          @click="checkAllStores"
         >
           {{ t("connect_platform_btn") }}
         </v-btn>
         <v-btn
+          v-if="!isConnectPlatformStep"
           class="store-btn"
           color="primary"
           :disabled="!chosenStoreFromAddStoreForm"
@@ -139,15 +142,15 @@
           height="40px"
           :loading="loadingAuthentication"
           rounded
-          :text="connectButtonText"
+          :text="connectStoreButtonText"
           type="submit"
           @click="startConnectingStore"
         />
       </div>
       <v-divider class="divider" />
-      <div style="{min-height:200px}">
+      <div>
         <router-view v-slot="{ Component }">
-          <transition name="xyz">
+          <transition name="fade">
             <component :is="Component" />
           </transition>
         </router-view>
@@ -191,4 +194,13 @@
 }
 </style>
 <style>
+/* TODO Doha: Remove animation if you want */
+.fade-enter-active {
+    transition: all 0.3s ease-out;
+  }
+  .fade-enter-from,
+  .fade-leave-to {
+    transform: translateX(2em);
+    opacity: 0;
+  }
 </style>

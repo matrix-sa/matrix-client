@@ -21,5 +21,6 @@
   flex-direction: column;
   align-self: stretch;
   flex-grow: 1;
+  padding-block-end: 2em;
 }
 </style>

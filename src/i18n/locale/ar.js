@@ -256,6 +256,7 @@ export default {
   connect_platform_btn: 'توصيل المنصة',
   edit_platform_btn: 'تعديل المنصة',
   connect_store_btn: 'توصيل المتجر',
+  edit_store_btn: 'تعديل المتجر',
   id: 'المعرف',
   name: 'الاسم',
   start_time: 'وقت البداية',

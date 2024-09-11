@@ -257,6 +257,7 @@ export default {
   },
   connect_platform_btn: 'Connect Platform',
   connect_store_btn: 'Connect Store',
+  edit_store_btn: 'Edit Store',
   id: 'code',
   name: 'Name',
   start_time: 'Start time',

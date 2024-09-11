@@ -50,12 +50,7 @@
   )
 </script>
 <template>
-
-  <VForm
-    id="add-store-form"
-    ref="refVForm"
-    class="selects-container"
-  >
+  <VForm id="add-store-form" ref="refVForm" class="selects-container">
     <v-select
       v-model="form.website_type"
       density="comfortable"
@@ -72,20 +67,21 @@
     />
   </VForm>
 </template>
+
 <style lang="scss" scoped>
-.selects-container {
-  display: grid;
-  grid-template-columns: 1fr 1.5fr 0.5fr;
-  align-items: start;
-  gap: 12px;
-  height: 3em;
-}
+  .selects-container {
+    display: grid;
+    grid-template-columns: 1fr 1.5fr 0.5fr;
+    align-items: start;
+    gap: 12px;
+    height: 3em;
+  }
 </style>
 
 <style lang="scss">
-.main {
-  .v-field__overlay {
-    display: none;
+  .main {
+    .v-field__overlay {
+      display: none;
+    }
   }
-}
 </style>
