@@ -663,4 +663,5 @@ export default {
   paste: 'Paste',
   salla: 'Salla',
   zid: 'Zid',
+  connect_store_first: 'Connect your store first',
 }

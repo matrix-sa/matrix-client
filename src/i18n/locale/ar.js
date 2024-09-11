@@ -254,6 +254,7 @@ export default {
     connect_btn_text: 'توصيل الحساب',
   },
   connect_platform_btn: 'توصيل المنصة',
+  edit_platform_btn: 'تعديل المنصة',
   connect_store_btn: 'توصيل المتجر',
   id: 'المعرف',
   name: 'الاسم',
@@ -655,4 +656,5 @@ export default {
   paste: 'لصق',
   salla: 'سلة',
   zid: 'زد',
+  connect_store_first: 'اربط متجرك أولا',
 }
