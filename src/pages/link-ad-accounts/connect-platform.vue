@@ -10,20 +10,29 @@
   const { platforms } = storeToRefs(platformsStore)
   const { update } = useBreadcrumbsStore()
   const { t, locale } = useI18n()
+  const showConnectionDialog = ref(false)
+  const chosenPlatform = ref(null)
 
   const { run: checkAllPlatforms, loading: loadingCheckingPlatforms } =
     useRequest(platformsStore.getActivePlatforms)
+  checkAllPlatforms() // TODO remove
 
   const connectedProps = ref({
     color: 'success',
     text: t('connected'),
     prependIcon: 'streamline:check-solid',
+    disabled: true,
   })
 
   const notConnectedProps = ref({
     color: 'info',
     text: t('connect'),
   })
+
+  const startConnection = platform => {
+    chosenPlatform.value = platform
+    showConnectionDialog.value = true
+  }
 
   watch(
     locale,
@@ -65,8 +74,15 @@
         v-bind="platform.status === 'Success' ? connectedProps : notConnectedProps"
         rounded
         width="90%"
+        v-on="platform.status === 'Success' ? {} : { click: () => startConnection(platform)}"
       />
     </div>
+    <v-dialog
+      v-model="showConnectionDialog"
+      width="auto"
+    >
+      <ConnectPlatformDialog :platform="chosenPlatform" />
+    </v-dialog>
   </div>
 </template>
 
@@ -96,5 +112,11 @@
     color: black;
     font-weight: 500;
   }
+}
+</style>
+
+<style lang="scss">
+.v-btn--disabled .v-btn__overlay{
+  opacity: 0 !important;
 }
 </style>

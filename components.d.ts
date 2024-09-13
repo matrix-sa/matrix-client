@@ -10,6 +10,7 @@ declare module 'vue' {
     AppBar: typeof import('./src/components/shared/AppBar.vue')['default']
     AppSelect: typeof import('./src/components/core/AppSelect.vue')['default']
     AppTextField: typeof import('./src/components/core/AppTextField.vue')['default']
+    ConnectPlatformDialog: typeof import('./src/components/dialogs/ConnectPlatformDialog.vue')['default']
     DesktopLayout: typeof import('./src/components/shared/DesktopLayout.vue')['default']
     LanguageSwitch: typeof import('./src/components/shared/LanguageSwitch.vue')['default']
     MobileLayout: typeof import('./src/components/shared/MobileLayout.vue')['default']
