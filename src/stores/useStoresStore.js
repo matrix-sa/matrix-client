@@ -29,9 +29,6 @@ export const useStoresStore = defineStore('stores-store', {
     async checkAuthAll () {
       await Promise.all(this.stores.map(item => this.checkAuth(item.code)))
     },
-    assignChosenStoreFromAddStoreForm (store) {
-      this.chosenStoreFromAddStoreForm = store
-    },
     getStatus (type) {
       return this.stores.find(item => item.code === type)?.status
     },

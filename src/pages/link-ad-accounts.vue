@@ -2,7 +2,6 @@
   import { useI18n } from 'vue-i18n'
   import { useStoresStore } from '@/stores/useStoresStore'
   import { useSnackbarStore } from '@/stores/useSnackBarStore'
-  import StoresService from '@/servcies/stores-service'
   import { storeToRefs } from 'pinia'
   import { useRequest } from 'vue-request'
 
@@ -12,7 +11,7 @@
   const router = useRouter()
   const route = useRoute()
 
-  const { stores, chosenStoreFromAddStoreForm } = storeToRefs(storesStore)
+  const { stores } = storeToRefs(storesStore)
 
   const userHasConnectedStore = computed(
     () => stores.value.some(store => store.status === 'Success')
@@ -30,68 +29,6 @@
       }
     },
   })
-
-  const { run: startAuthentication, loading: loadingAuthentication } = useRequest(
-    StoresService.startAuthentication,
-    {
-      manual: true,
-      onSuccess: response => {
-        const { data, messages, error } = response.data
-
-        if (error) {
-          show(messages[0], 'error')
-
-          return
-        }
-
-        const popupWindow = window.open(
-          data.authentication_url,
-          'PopupWindow',
-          'width=600,height=400'
-        )
-
-        window.addEventListener('message', async function (e) {
-          if (e.origin === 'https://matrix.sa') {
-            const { error, messages } = JSON.parse(e.data)
-
-            if (error) {
-              popupWindow.close()
-              show(messages[0], 'error')
-
-              return
-            }
-
-            popupWindow.close()
-
-            show(t('connected_successfully'), 'success')
-            websiteStore.checkAuth(form.value.website_type)
-
-            await authStore.fetchUser(true)
-          }
-        })
-      },
-      onError: error => {
-        show(error, 'error')
-      },
-    }
-  )
-
-  const startConnectingStore = () => {
-    if (!chosenStoreFromAddStoreForm.value) return
-    startAuthentication(chosenStoreFromAddStoreForm.value)
-  }
-
-  const isCurrentStoreConnected = computed(
-    () =>
-      stores.value.find(s => s.code === chosenStoreFromAddStoreForm.value)
-        ?.status === 'Success'
-  )
-
-  const connectStoreButtonText = computed(() =>
-    isCurrentStoreConnected.value
-      ? t('edit_store_btn')
-      : t('connect_store_btn')
-  )
 
   const activeBtnProps = ref({
     color: 'warning',
@@ -133,19 +70,6 @@
         >
           {{ t("connect_platform_btn") }}
         </v-btn>
-        <v-btn
-          v-if="!isConnectPlatformStep"
-          class="store-btn"
-          color="warning"
-          :disabled="!chosenStoreFromAddStoreForm"
-          flat
-          height="40px"
-          :loading="loadingAuthentication"
-          rounded
-          :text="connectStoreButtonText"
-          type="submit"
-          @click="startConnectingStore"
-        />
       </div>
       <v-divider class="divider" />
       <div>

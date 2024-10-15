@@ -15,6 +15,10 @@
 
   const isActive = to => route.name === to
 
+  const userShouldLink = computed(
+    () => !user.has_linked_website || !user.has_linked_ad_account
+  )
+
   watch(
     [locale, route],
     () => {
@@ -25,14 +29,16 @@
             prependIcon: 'tabler-dashboard',
             active: isActive('/'),
             to: { name: '/' },
+            disabled: userShouldLink.value,
           },
         },
         {
           title: t('account_connect'),
           props: {
             prependIcon: 'tabler-link',
-            active: isActive('/link-ad-accounts/'),
+            active: isActive('/link-ad-accounts/', true),
             to: { name: '/link-ad-accounts/' },
+            disabled: false,
           },
         },
         {
@@ -41,6 +47,7 @@
             prependIcon: 'tabler-speakerphone',
             active: isActive('/campaigns/'),
             to: { name: '/campaigns/' },
+            disabled: userShouldLink.value,
           },
         },
         {
@@ -49,6 +56,7 @@
             prependIcon: 'tabler-list',
             active: isActive('/rules/'),
             to: { name: '/rules/' },
+            disabled: userShouldLink.value,
           },
         },
         {
@@ -57,6 +65,7 @@
             prependIcon: 'tabler-report',
             active: isActive('/reports/'),
             to: { name: '/reports/', params: { tab: 'campaigns' } },
+            disabled: userShouldLink.value,
           },
         },
       ]
@@ -64,23 +73,48 @@
       items2.value = [
         {
           title: t('digital_writer'),
-          icon: 'tabler-message-chatbot',
-          to: { name: '/assistant/writer/' },
+          props: {
+            prependIcon: 'tabler-message-chatbot',
+            active: isActive('/assistant/writer/'),
+            to: { name: '/assistant/writer/' },
+            disabled: userShouldLink.value,
+          },
         },
         {
           title: t('digital_designer'),
-          icon: 'tabler-robot',
-          to: { name: '/assistant/designer/' },
+          props: {
+            prependIcon: 'tabler-robot',
+            active: isActive('/assistant/designer/'),
+            to: { name: '/assistant/designer/' },
+            disabled: userShouldLink.value,
+          },
         },
         {
           title: t('marketing-consultation.name'),
-          icon: 'ic:baseline-recommend',
-          to: { name: '/marketing-consultations/' },
+          props: {
+            prependIcon: 'ic:baseline-recommend',
+            active: isActive('/marketing-consultations/'),
+            to: { name: '/marketing-consultations/' },
+            disabled: userShouldLink.value,
+          },
         },
         {
           title: t('marketing-consultation-order.name'),
-          icon: 'lets-icons:order',
-          to: { name: '/marketing-consultations-orders/' },
+          props: {
+            prependIcon: 'lets-icons:order',
+            active: isActive('/marketing-consultations-orders/'),
+            to: { name: '/marketing-consultations-orders/' },
+            disabled: userShouldLink.value,
+          },
+        },
+        {
+          title: t('dashboard'),
+          props: {
+            prependIcon: 'tabler-dashboard',
+            active: isActive('/'),
+            to: { name: '/' },
+            disabled: userShouldLink.value,
+          },
         },
       ]
     },

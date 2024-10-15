@@ -17,6 +17,10 @@
   const isActive = (to, partial) =>
     partial ? route.name.includes(to) : route.name === to
 
+  const userShouldLink = computed(
+    () => !user.has_linked_website || !user.has_linked_ad_account
+  )
+
   watch(
     [locale, route],
     () => {
@@ -27,6 +31,7 @@
             prependIcon: 'tabler-dashboard',
             active: isActive('/'),
             to: { name: '/' },
+            disabled: userShouldLink.value,
           },
         },
         {
@@ -35,6 +40,7 @@
             prependIcon: 'tabler-link',
             active: isActive('/link-ad-accounts/', true),
             to: { name: '/link-ad-accounts/' },
+            disabled: false,
           },
         },
         {
@@ -43,6 +49,7 @@
             prependIcon: 'tabler-speakerphone',
             active: isActive('/campaigns/'),
             to: { name: '/campaigns/' },
+            disabled: userShouldLink.value,
           },
         },
         {
@@ -51,6 +58,7 @@
             prependIcon: 'tabler-list',
             active: isActive('/rules/'),
             to: { name: '/rules/' },
+            disabled: userShouldLink.value,
           },
         },
         {
@@ -59,6 +67,7 @@
             prependIcon: 'tabler-report',
             active: isActive('/reports/'),
             to: { name: '/reports/', params: { tab: 'campaigns' } },
+            disabled: userShouldLink.value,
           },
         },
       ]
@@ -68,21 +77,25 @@
           title: t('digital_writer'),
           icon: 'tabler-message-chatbot',
           to: { name: '/assistant/writer/' },
+          disabled: userShouldLink.value,
         },
         {
           title: t('digital_designer'),
           icon: 'tabler-robot',
           to: { name: '/assistant/designer/' },
+          disabled: userShouldLink.value,
         },
         {
           title: t('marketing-consultation.name'),
           icon: 'ic:baseline-recommend',
           to: { name: '/marketing-consultations/' },
+          disabled: userShouldLink.value,
         },
         {
           title: t('marketing-consultation-order.name'),
           icon: 'lets-icons:order',
           to: { name: '/marketing-consultations-orders/' },
+          disabled: userShouldLink.value,
         },
       ]
     },
@@ -108,7 +121,9 @@
         class="nav-item"
         :class="{
           active: item.props.active,
+          disabled: item.props.disabled,
         }"
+        :disabled="item.props.disabled"
         :to="item.props.to"
       >
         <p><v-icon :icon="item.props.prependIcon" /></p>
@@ -123,7 +138,9 @@
         class="nav-item"
         :class="{
           active: isActive(item.to),
+          disabled: item.disabled,
         }"
+        :disabled="item.disabled"
         :to="item.to"
       >
         <p><v-icon :icon="item.icon" /></p>
@@ -219,6 +236,12 @@
 .nav-item.active {
   background-color: rgb(var(--v-theme-warning)) !important;
   color: rgb(var(--v-theme-on-kbd)) !important;
+}
+
+.nav-item.disabled {
+  cursor: not-allowed;
+  pointer-events: none;
+  opacity: 0.5;
 }
 
 .username-container {
