@@ -1,161 +1,139 @@
 <script setup>
-  import { useI18n } from 'vue-i18n'
-  import { useAuthStore } from '@/stores/useAuthStore'
-  import { storeToRefs } from 'pinia'
-  import { RouterLink } from 'vue-router'
+import { useI18n } from 'vue-i18n'
+import { useAuthStore } from '@/stores/useAuthStore'
+import { storeToRefs } from 'pinia'
+import { RouterLink } from 'vue-router'
 
-  const { t, locale } = useI18n()
-  const route = useRoute()
-  const authStore = useAuthStore()
+const { t, locale } = useI18n()
+const route = useRoute()
+const authStore = useAuthStore()
 
-  const { user } = storeToRefs(authStore)
+const { user } = storeToRefs(authStore)
 
-  const items1 = ref([])
+const items1 = ref([])
 
-  const items2 = ref([])
+const items2 = ref([])
 
-  const isActive = (to, partial) =>
-    partial ? route.name.includes(to) : route.name === to
+const isActive = (to, partial) =>
+  partial ? route.name.includes(to) : route.name === to
 
-  const userShouldLink = computed(
-    () => !user.has_linked_website || !user.has_linked_ad_account
-  )
+watch(
+  [locale, route],
+  () => {
+    items1.value = [
+      {
+        title: t('dashboard'),
+        props: {
+          prependIcon: 'tabler-dashboard',
+          active: isActive('/'),
+          to: { name: '/' },
+        },
+      },
+      {
+        title: t('account_connect'),
+        props: {
+          prependIcon: 'tabler-link',
+          active: isActive('/link-ad-accounts/', true),
+          to: { name: '/link-ad-accounts/' },
+        },
+      },
+      {
+        title: t('campaigns'),
+        props: {
+          prependIcon: 'tabler-speakerphone',
+          active: isActive('/campaigns/'),
+          to: { name: '/campaigns/' },
+        },
+      },
+      {
+        title: t('campaign_rules'),
+        props: {
+          prependIcon: 'tabler-list',
+          active: isActive('/rules/'),
+          to: { name: '/rules/' },
+        },
+      },
+      {
+        title: t('reports'),
+        props: {
+          prependIcon: 'tabler-report',
+          active: isActive('/reports/'),
+          to: { name: '/reports/', params: { tab: 'campaigns' } },
+        },
+      },
+    ]
 
-  watch(
-    [locale, route],
-    () => {
-      items1.value = [
-        {
-          title: t('dashboard'),
-          props: {
-            prependIcon: 'tabler-dashboard',
-            active: isActive('/'),
-            to: { name: '/' },
-            disabled: userShouldLink.value,
-          },
-        },
-        {
-          title: t('account_connect'),
-          props: {
-            prependIcon: 'tabler-link',
-            active: isActive('/link-ad-accounts/', true),
-            to: { name: '/link-ad-accounts/' },
-            disabled: false,
-          },
-        },
-        {
-          title: t('campaigns'),
-          props: {
-            prependIcon: 'tabler-speakerphone',
-            active: isActive('/campaigns/'),
-            to: { name: '/campaigns/' },
-            disabled: userShouldLink.value,
-          },
-        },
-        {
-          title: t('campaign_rules'),
-          props: {
-            prependIcon: 'tabler-list',
-            active: isActive('/rules/'),
-            to: { name: '/rules/' },
-            disabled: userShouldLink.value,
-          },
-        },
-        {
-          title: t('reports'),
-          props: {
-            prependIcon: 'tabler-report',
-            active: isActive('/reports/'),
-            to: { name: '/reports/', params: { tab: 'campaigns' } },
-            disabled: userShouldLink.value,
-          },
-        },
-      ]
-
-      items2.value = [
-        {
-          title: t('digital_writer'),
-          icon: 'tabler-message-chatbot',
-          to: { name: '/assistant/writer/' },
-          disabled: userShouldLink.value,
-        },
-        {
-          title: t('digital_designer'),
-          icon: 'tabler-robot',
-          to: { name: '/assistant/designer/' },
-          disabled: userShouldLink.value,
-        },
-        {
-          title: t('marketing-consultation.name'),
-          icon: 'ic:baseline-recommend',
-          to: { name: '/marketing-consultations/' },
-          disabled: userShouldLink.value,
-        },
-        {
-          title: t('marketing-consultation-order.name'),
-          icon: 'lets-icons:order',
-          to: { name: '/marketing-consultations-orders/' },
-          disabled: userShouldLink.value,
-        },
-      ]
-    },
-    {
-      immediate: true,
-    }
-  )
+    items2.value = [
+      {
+        title: t('digital_writer'),
+        icon: 'tabler-message-chatbot',
+        to: { name: '/assistant/writer/' },
+      },
+      {
+        title: t('digital_designer'),
+        icon: 'tabler-robot',
+        to: { name: '/assistant/designer/' },
+      },
+      {
+        title: t('marketing-consultation.name'),
+        icon: 'lets-icons:order',
+        to: { name: '/marketing-consultations/' },
+      },
+      {
+        title: t('marketing-consultation-order.name'),
+        icon: 'lets-icons:order',
+        to: { name: '/marketing-consultations-orders/' },
+      },
+    ]
+  },
+  {
+    immediate: true,
+  }
+)
 </script>
 
 <template>
   <div class="vertical-nav-menu-wrapper">
     <nav>
-      <v-img
-        aspect-ratio="1/1"
-        :max-height="185"
-        src="@/assets/logo.svg"
-        style="margin: auto"
-        :width="185"
-      />
-      <RouterLink
-        v-for="(item, index) in items1"
-        :key="index"
-        class="nav-item"
-        :class="{
-          active: item.props.active,
-          disabled: item.props.disabled,
-        }"
-        :disabled="item.props.disabled"
-        :to="item.props.to"
-      >
+      <v-img aspect-ratio="1/1" :max-height="185" src="@/assets/logo.svg" style="margin: auto" :width="185" />
+      <RouterLink v-for="(item, index) in items1" :key="index" class="nav-item" :class="{
+        active: item.props.active,
+      }" :to="item.props.to">
         <p><v-icon :icon="item.props.prependIcon" /></p>
         <p>{{ item.title }}</p>
       </RouterLink>
 
       <v-divider class="mx-5 my-3" :thickness="2" />
 
-      <RouterLink
-        v-for="(item, index) in items2"
-        :key="index"
-        class="nav-item"
-        :class="{
-          active: isActive(item.to),
-          disabled: item.disabled,
-        }"
-        :disabled="item.disabled"
-        :to="item.to"
-      >
+      <RouterLink v-for="(item, index) in items2" :key="index" class="nav-item" :class="{
+        active: isActive(item.to),
+      }" :to="item.to">
         <p><v-icon :icon="item.icon" /></p>
         <p>{{ item.title }}</p>
       </RouterLink>
 
       <v-divider class="mx-5 my-3" :thickness="2" />
 
-      <div class="username-container">
-        <h4 class="text-black">{{ t("username") }}</h4>
-        <h5>{{ user.name }}</h5>
+      <div class="d-flex align-center username-container-section">
+        <div class="username-container">
+
+          <div>
+            <v-img aspect-ratio="1/1" src="@/assets/user.png" :width="40" />
+          </div>
+
+          <div>
+            <h4 class="text-black">{{ t("username") }}</h4>
+            <h5>{{ user.email }}</h5>
+          </div>
+        </div>
+
+        <div class="icon">
+          <v-icon icon="tabler-menu-3" />
+        </div>
       </div>
 
       <div class="help-center">
-        <h3><v-icon icon="tabler-help" /></h3>
+        <h3><v-icon icon="tabler-info-circle" /></h3>
         <h3>{{ t("help-center") }}</h3>
       </div>
     </nav>
@@ -167,7 +145,7 @@
   display: flex;
   align-items: center;
   justify-content: start;
-  gap: 5px;
+  gap: 8px;
 }
 
 .padding-start {
@@ -214,12 +192,13 @@
   @extend .padding-start;
   @extend .padding-block;
   cursor: pointer;
-  padding-inline-start: 1em;
+  padding: 12px;
   margin-inline: 1em;
   margin-block: 0.25em;
   border-radius: 50px;
   text-decoration: none;
   color: inherit;
+
   &:hover {
     background-color: rgb(var(--v-theme-secondary));
   }
@@ -238,29 +217,47 @@
   color: rgb(var(--v-theme-on-kbd)) !important;
 }
 
-.nav-item.disabled {
-  cursor: not-allowed;
-  pointer-events: none;
-  opacity: 0.5;
+.username-container-section {
+
+  gap: 16px;
+
+  .username-container {
+    @extend .flex-start;
+    @extend .padding-start;
+    align-items: center;
+    padding-block: 1em;
+
+    h5 {
+      font-size: 10px;
+    }
+
+    h4 {
+      font-weight: 500;
+      font-size: 14px;
+    }
+  }
+
+  .icon {
+    transform: rotate(90deg);
+    color: #FB813E;
+  }
 }
 
-.username-container {
-  @extend .flex-start;
-  @extend .padding-start;
-  flex-direction: column;
-  align-items: start;
-  padding-block: 1em;
-}
 
 .help-center {
   @extend .flex-start;
   @extend .padding-start;
-  @extend .padding-block;
   background-color: rgb(var(--v-theme-background));
   border-radius: 50px;
   width: 90%;
   margin: auto;
   margin-block-start: 3em;
   bottom: 1.5em;
+  padding: 16px;
+
+  h3 {
+    font-size: 16px;
+    font-weight: 500
+  }
 }
 </style>
