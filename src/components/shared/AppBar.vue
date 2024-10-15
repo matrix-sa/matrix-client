@@ -4,7 +4,7 @@
 
   const breadcrumbsStore = useBreadcrumbsStore()
   const { items } = storeToRefs(breadcrumbsStore)
-  const prependColor = computed(() => items.value.length === 1 ? 'primary' : '')
+  const prependColor = computed(() => items.value.length === 1 ? 'warning' : '')
 </script>
 
 <template>
@@ -31,7 +31,7 @@
           base-color="black"
           bg-color="background"
           class="lagnuage-select"
-          color="primary"
+          color="warning"
           flat
           hide-details
           rounded
@@ -46,7 +46,7 @@
           stacked
           variant="plain"
         >
-          <v-badge color="primary" dot>
+          <v-badge color="warning" dot>
             <v-icon>mdi:bell</v-icon>
           </v-badge>
         </v-btn>
@@ -115,18 +115,18 @@
   }
 
   .v-field__append-inner {
-    color: rgb(var(--v-theme-primary)) !important;
+    color: rgb(var(--v-theme-warning)) !important;
   }
 }
 
 .app-bar-breadcrumbs{
   .v-breadcrumbs-divider:last-of-type{
-    color: rgb(var(--v-theme-primary)) !important;
+    color: rgb(var(--v-theme-warning)) !important;
   }
 
   // selecting the last divider
   .v-breadcrumbs-divider:has(+li:last-child) svg{
-    color: rgb(var(--v-theme-primary)) !important;
+    color: rgb(var(--v-theme-warning)) !important;
   }
 
   .v-breadcrumbs-item--disabled{
