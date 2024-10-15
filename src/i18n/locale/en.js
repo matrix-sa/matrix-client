@@ -666,4 +666,5 @@ export default {
   salla: 'Salla',
   zid: 'Zid',
   connect_store_first: 'Connect your store first',
+  search_here: "Search Here..."
 }
