@@ -60,7 +60,7 @@ axiosIns.interceptors.response.use(
       // localStorage.removeItem('userAbilities')
 
       // If 401 response returned from api
-      router.push({ name: 'auth-login' })
+      router.push({ name: '/auth/login/' })
     } else {
       return Promise.reject(error)
     }

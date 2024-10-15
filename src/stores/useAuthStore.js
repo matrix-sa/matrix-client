@@ -67,7 +67,7 @@ export const useAuthStore = defineStore('auth-store', () => {
 
   function logout () {
     clearUserData()
-    router.push({ name: 'auth-login' })
+    router.push({ name: '/auth/login' })
   }
 
   async function fetchUser (refresh = false) {
