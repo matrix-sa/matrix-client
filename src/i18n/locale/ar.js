@@ -659,7 +659,12 @@ export default {
   salla: 'سلة',
   zid: 'زد',
   connect_store_first: 'اربط متجرك أولا',
-  search_here: "ابحث هنا ..."
-
-
+  search_here: "ابحث هنا ...",
+  simply_connect_with: 'بكل بساطة قم بتوصيل متجرك مع منصة',
+  matrix: 'ماتريكس',
+  through_connect: 'عن طريق الضغط على توصيل.',
+  how_to_edit: 'لتعديل التوصيل قم بالضغط على زر التعديل الخاص بالمتجر.',
+  connect_your_store: 'قم بتوصيل متجرك',
+  connected_with_store: 'متصل مع المتجر',
+  store_x: 'متجر {store}',
 }

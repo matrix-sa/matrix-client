@@ -44,6 +44,7 @@ const StoresService = (function () {
   }
 
   const startAuthentication = (type, params) => {
+    console.log("Ho")
     return API.get(`${type}/Account/StartAuthentication`, params)
   }
 

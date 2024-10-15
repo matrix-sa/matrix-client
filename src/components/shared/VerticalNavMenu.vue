@@ -213,7 +213,7 @@ watch(
 }
 
 .nav-item.active {
-  background-color: rgb(var(--v-theme-primary)) !important;
+  background-color: rgb(var(--v-theme-warning)) !important;
   color: rgb(var(--v-theme-on-kbd)) !important;
 }
 

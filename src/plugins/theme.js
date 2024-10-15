@@ -7,15 +7,15 @@ const matrixTheme = {
     'surface-light': '#EEEEEE',
     'surface-variant': '#706D79',
     'on-surface-variant': '#EEEEEE',
-    primary: '#FB813E',
+    primary: '#4E1AC7',
     'primary-darken-1': '#1F5592',
-    secondary: '#EEEEEE',
+    secondary: '#F8F7FA',
     'secondary-darken-1': '#018786',
     error: '#FF0000',
     info: '#A580BA',
-    success: '#24c87e',
+    success: '#24C87E',
     'on-success': '#ffffff',
-    warning: '#FB8C00',
+    warning: '#FB813E',
   },
   variables: {
     'border-color': '#000000',
@@ -36,6 +36,8 @@ const matrixTheme = {
     'theme-on-code': '#000000',
     'theme-on-background': '#706D79',
     'btn-size': '1rem',
+    'dark-1': '#1F1625',
+    'dark-2': '#41324C',
   },
 }
 

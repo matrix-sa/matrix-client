@@ -9,28 +9,27 @@ const { t } = useI18n()
 
 const breadcrumbsStore = useBreadcrumbsStore()
 const { items } = storeToRefs(breadcrumbsStore)
-const prependColor = computed(() => items.value.length === 1 ? 'primary' : '')
+const prependColor = computed(() => items.value.length === 1 ? 'orange' : '')
 </script>
 
 <template>
   <div class="app-bar-wrapper">
     <div class="app-bar">
       <div>
-        <v-breadcrumbs active-color="surface-variant" class="app-bar-breadcrumbs" color="surface-variant"
-          :items="items">
+        <VBreadcrumbs active-color="surface-variant" class="app-bar-breadcrumbs" color="surface-variant" :items="items">
           <template #divider>
             <v-icon icon="mdi:dot" />
           </template>
           <template #prepend>
             <v-icon :color="prependColor" icon="mdi:dot" size="30" />
           </template>
-        </v-breadcrumbs>
+        </VBreadcrumbs>
       </div>
 
 
       <div class="d-flex align-center ga-3">
 
-        <LanguageSwitch base-color="black" bg-color="background" class="lagnuage-select" color="primary" flat
+        <LanguageSwitch base-color="black" bg-color="background" class="lagnuage-select" color="orange" flat
           hide-details rounded single-line variant="solo" width="150" />
 
         <VBtn base-color="black" class="notification-btn" stacked variant="plain">
@@ -39,7 +38,7 @@ const prependColor = computed(() => items.value.length === 1 ? 'primary' : '')
         </VBtn>
 
         <VBtn base-color="black" class="notification-btn" stacked variant="plain">
-          <v-badge color="primary" dot>
+          <VBadge color="orange" dot>
             <svg width="18" height="20" viewBox="0 0 18 20" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path
                 d="M17.1872 12.0349L16.0572 10.1549C15.8072 9.74492 15.5872 8.95492 15.5872 8.47492V6.6049C15.5872 2.9749 12.6372 0.0249023 9.01724 0.0249023C5.38727 0.0349023 2.43727 2.9749 2.43727 6.6049V8.46492C2.43727 8.94492 2.21727 9.73492 1.97727 10.1449L0.847273 12.0249C0.417273 12.7549 0.317273 13.5849 0.587273 14.3049C0.857273 15.0349 1.46727 15.6149 2.26727 15.8749C3.34727 16.2349 4.43727 16.4949 5.54727 16.6849C5.65727 16.7049 5.76727 16.7149 5.87727 16.7349C6.01727 16.7549 6.16727 16.7749 6.31727 16.7949C6.57727 16.8349 6.83727 16.8649 7.10724 16.8849C7.73724 16.9449 8.37724 16.9749 9.01724 16.9749C9.64724 16.9749 10.2772 16.9449 10.8972 16.8849C11.1272 16.8649 11.3572 16.8449 11.5772 16.8149C11.7572 16.7949 11.9372 16.7749 12.1172 16.7449C12.2272 16.7349 12.3372 16.7149 12.4472 16.6949C13.5672 16.5149 14.6772 16.2349 15.7572 15.8749C16.5272 15.6149 17.1172 15.0349 17.3972 14.2949C17.6772 13.5449 17.5972 12.7249 17.1872 12.0349ZM9.74724 7.97492C9.74724 8.39492 9.40724 8.73492 8.98724 8.73492C8.56724 8.73492 8.22724 8.39492 8.22724 7.97492V4.8749C8.22724 4.4549 8.56724 4.1149 8.98724 4.1149C9.40724 4.1149 9.74724 4.4549 9.74724 4.8749V7.97492Z"
@@ -49,7 +48,7 @@ const prependColor = computed(() => items.value.length === 1 ? 'primary' : '')
                 fill="#1F1625" />
             </svg>
 
-          </v-badge>
+          </VBadge>
         </VBtn>
 
         <div class="search-wrapper">
@@ -137,9 +136,8 @@ const prependColor = computed(() => items.value.length === 1 ? 'primary' : '')
   }
 
   .v-field__append-inner {
-    content: '';
     appearance: none;
-    color: rgb(var(--v-theme-primary)) !important;
+    color: rgb(var(--v-theme-warning)) !important;
 
     & svg:nth-child(2) {
       display: none
@@ -155,6 +153,17 @@ const prependColor = computed(() => items.value.length === 1 ? 'primary' : '')
   // selecting the last divider
   .v-breadcrumbs-divider:has(+li:last-child) svg {
     color: rgb(var(--v-theme-primary)) !important;
+  }
+}
+
+.app-bar-breadcrumbs {
+  .v-breadcrumbs-divider:last-of-type {
+    color: rgb(var(--v-theme-warning)) !important;
+  }
+
+  // selecting the last divider
+  .v-breadcrumbs-divider:has(+li:last-child) svg {
+    color: rgb(var(--v-theme-warning)) !important;
   }
 
   .v-breadcrumbs-item--disabled {
