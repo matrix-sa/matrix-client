@@ -5,6 +5,7 @@ import metaImage from '@/assets/meta-logo.svg'
 import tiktokImage from '@/assets/tiktok-logo.svg'
 import xImage from '@/assets/x-logo.svg'
 import snapchatImage from '@/assets/snapchat-logo.svg'
+import googleImage from '@/assets/google-logo.svg'
 
 const { t } = i18n.global
 
@@ -40,6 +41,14 @@ export const usePlatformsStore = defineStore('platforms', {
         title: t('platforms.snapchat.title'),
         subtitle: t('platforms.snapchat.subtitle'),
         image: snapchatImage,
+        btnText: t('platforms.connect_btn_text'),
+        status: 'UnlinkedAccount',
+      },
+      {
+        code: 'googleads',
+        title: t('platforms.google.title'),
+        subtitle: t('platforms.google.subtitle'),
+        image: googleImage,
         btnText: t('platforms.connect_btn_text'),
         status: 'UnlinkedAccount',
       },
@@ -110,6 +119,20 @@ export const usePlatformsStore = defineStore('platforms', {
       await Promise.all(promises)
 
       return this.platforms.filter(p => p.status === 'Success')
+    },
+
+    async startAuthentication (platform) {
+      this.platforms.find(item => item.code === platform).loading = true
+      this.isLoading = true
+
+      const socialService = SocialPlatformsService(platform)
+
+      const { data } = await socialService.startAuthentication()
+
+      this.platforms.find(item => item.code === platform).loading = false
+      this.isLoading = false
+
+      return data
     },
   },
 })

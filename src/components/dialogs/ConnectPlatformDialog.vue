@@ -8,61 +8,35 @@
     },
   })
 
-  const emits = defineEmits(['connectionEnded'])
+  const emit = defineEmits(['connectionEnded', 'update:isDialogVisible'])
 
+  const handleClose = () => {
+    emit('update:isDialogVisible', false)
+  }
   const { t } = useI18n()
 </script>
 <template>
-  <v-card max-width="600" rounded="lg">
-    <v-card-title class="d-flex justify-space-between align-center">
-      <div class="text-h5 text-medium-emphasis ps-2">
+  <v-card class="connect-platform px-6 rounded-xl" max-width="600" rounded="lg">
+    <v-card-title class="d-flex justify-space-between align-center px-0">
+      <div class="text-h5 text-medium-emphasis">
         <div class="d-flex align-center ga-2">
           <v-img aspect-ratio="1/1" :src="props.platform.image" width="40" />
           <p>
-            <span> {{ t('account_connect') }} </span>
-            <span class="text-primary"> ({{ props.platform.title }}) </span>
+            <span class="dark-1"> {{ t("account_connect") }} </span>
+            <span class="text-warning"> ({{ props.platform.title }}) </span>
           </p>
         </div>
-
       </div>
 
       <v-btn
+        class="close-btn"
         icon="mdi-close"
         variant="text"
-        @click="isActive.value = false"
+        @click="handleClose"
       />
     </v-card-title>
 
     <v-divider class="mb-4" />
-
-    <v-card-text>
-      <div class="text-medium-emphasis mb-4">
-        Invite collaborators to your network and grow your connections.
-      </div>
-
-      <div class="mb-2">Message (optional)</div>
-
-      <v-textarea
-        class="mb-2"
-        :counter="300"
-        persistent-counter
-        rows="2"
-        variant="outlined"
-      />
-
-      <div class="text-overline mb-2">💎 PREMIUM</div>
-
-      <div class="text-medium-emphasis mb-1">
-        Share with unlimited people and get more insights about your network. Try Premium Free for 30 days.
-      </div>
-
-      <v-btn
-        class="text-none font-weight-bold ms-n4"
-        color="primary"
-        text="Retry Premium Free"
-        variant="text"
-      />
-    </v-card-text>
 
     <v-divider class="mt-2" />
 
@@ -71,7 +45,7 @@
         class="text-none"
         rounded="xl"
         text="Cancel"
-        @click="isActive.value = false"
+        @click="handleClose"
       />
 
       <v-btn
@@ -80,8 +54,21 @@
         rounded="xl"
         text="Send"
         variant="flat"
-        @click="isActive.value = false"
+        @click="handleClose"
       />
     </v-card-actions>
   </v-card>
 </template>
+
+<style lang="scss">
+.connect-platform {
+  .dark-1 {
+    color: rgb(var(--v-dark-1));
+  }
+  .close-btn {
+    svg {
+      color: rgb(var(--v-dark-1));
+    }
+  }
+}
+</style>
