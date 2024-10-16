@@ -44,8 +44,12 @@
 
 <template>
   <div>
-    <v-overlay v-model="loadingCheckStatuses" class="align-center justify-center">
-      <v-progress-circular color="warning" indeterminate size="50" :width="7" />
+    <v-overlay
+      v-model="loadingCheckStatuses"
+      class="align-center justify-center"
+      persistent
+    >
+      <v-progress-circular color="primary" indeterminate size="50" :width="7" />
     </v-overlay>
     <div class="main">
       <p class="link-ad-title">{{ t("link_accounts_title") }}</p>

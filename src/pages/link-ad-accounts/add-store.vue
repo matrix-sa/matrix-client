@@ -106,8 +106,12 @@
 </script>
 <template>
   <div class="stores-container">
-    <v-overlay v-model="loading" class="align-center justify-center" persistent>
-      <v-progress-circular color="warning" indeterminate size="50" :width="7" />
+    <v-overlay
+      v-model="loading"
+      class="align-center justify-center"
+      persistent
+    >
+      <v-progress-circular color="primary" indeterminate size="50" :width="7" />
     </v-overlay>
     <img alt="" :src="storesLogo">
     <div class="content">
