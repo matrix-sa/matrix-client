@@ -16,7 +16,7 @@
   const isActive = to => route.name === to
 
   const userShouldLink = computed(
-    () => !user.has_linked_website || !user.has_linked_ad_account
+    () => !user.value.has_linked_website || !user.value.has_linked_ad_account
   )
 
   watch(
