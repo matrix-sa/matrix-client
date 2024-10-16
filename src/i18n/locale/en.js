@@ -666,7 +666,7 @@ export default {
   salla: 'Salla',
   zid: 'Zid',
   connect_store_first: 'Connect your store first',
-  search_here: "Search Here...",
+  search_here: 'Search Here...',
   simply_connect_with: 'Simply connect your store with the platform',
   matrix: 'Matrix',
   through_connect: 'Through clicking on connect.',
@@ -674,4 +674,5 @@ export default {
   connect_your_store: 'Connect your store',
   connected_with_store: 'Connected with the store',
   store_x: 'Store {store}',
+  choose_public_profile: 'Choose Public Profile',
 }

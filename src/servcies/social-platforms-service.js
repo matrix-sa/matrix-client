@@ -33,6 +33,12 @@ const SocialPlatformsService = function (platform) {
     })
   }
 
+  const getPublicProfiles = async AdAccountId => {
+    return API.get(`${platform}/AdAccounts/GetPublicProfiles`, {
+      AdAccountId,
+    })
+  }
+
   return {
     checkAuthentication,
     startAuthentication,
@@ -41,6 +47,7 @@ const SocialPlatformsService = function (platform) {
     getPixels,
     getFacebookPages,
     getFundingInstruments,
+    getPublicProfiles,
   }
 }
 

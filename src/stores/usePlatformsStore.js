@@ -134,5 +134,17 @@ export const usePlatformsStore = defineStore('platforms', {
 
       return data
     },
+
+    async getPublicProfiles (adAccountId) {
+      this.isLoading = true
+
+      const socialService = SocialPlatformsService('snapchat')
+
+      const result = await socialService.getPublicProfiles(adAccountId)
+
+      this.isLoading = false
+
+      return result
+    },
   },
 })

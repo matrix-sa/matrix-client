@@ -114,6 +114,10 @@
     loadingCheckingPlatforms.value ||
     loadingCheckingPlatform.value)
 
+  const handleSavedAccount = () => {
+    runCheckAuth(chosenPlatform.value.code)
+  }
+
   watch(
     locale,
     () => {
@@ -159,9 +163,10 @@
       @confirmed="handleConfirmation"
     />
     <v-dialog v-model="showConnectionDialog" width="auto">
-      <ConnectPlatformDialog
+      <ConnectPlatformAccountDialog
         v-model:is-dialog-visible="showConnectionDialog"
         :platform="chosenPlatform"
+        @saved="handleSavedAccount"
       />
     </v-dialog>
   </div>
