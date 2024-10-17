@@ -11,11 +11,16 @@ declare module 'vue' {
     AppSelect: typeof import('./src/components/core/AppSelect.vue')['default']
     AppTextField: typeof import('./src/components/core/AppTextField.vue')['default']
     ConnectPlatformDialog: typeof import('./src/components/dialogs/ConnectPlatformDialog.vue')['default']
+    copy: typeof import('./src/components/digital-writer/Questions copy.vue')['default']
     DesktopLayout: typeof import('./src/components/shared/DesktopLayout.vue')['default']
+    Header: typeof import('./src/components/digital-writer/Header.vue')['default']
     LanguageSwitch: typeof import('./src/components/shared/LanguageSwitch.vue')['default']
     MobileLayout: typeof import('./src/components/shared/MobileLayout.vue')['default']
+    Question: typeof import('./src/components/digital-writer/Question.vue')['default']
+    Questions: typeof import('./src/components/digital-writer/Questions.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
+    Tabs: typeof import('./src/components/digital-writer/Tabs.vue')['default']
     VerticalNavMenu: typeof import('./src/components/shared/VerticalNavMenu.vue')['default']
   }
 }
