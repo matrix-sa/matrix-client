@@ -5,16 +5,28 @@
  */
 
 // https://vuetifyjs.com/features/sass-variables/`
-// @use 'vuetify/settings' with (
-//   $color-pack: false
-// );
+@use "vuetify/settings" with (
+  // $color-pack: false
+  // 👉 Card
+  $card-background: #fff,
+  $card-border-radius: 1rem,
+  $card-title-font-size: 1rem,
+  $card-title-font-weight: 700,
+  $card-title-line-height: 1.25rem,
+  $card-text-padding: 24px,
+  $card-item-padding: 24px,
+  $card-subtitle-font-size: 0.75rem,
+  $card-subtitle-opacity: 1,
+  $card-elevation: 0,
+  $card-subtitle-header-padding: 0
+);
 
-@import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@200;300;400;500;700;800;900&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Tajawal:wght@200;300;400;500;700;800;900&display=swap");
 
 html {
-  font-family: 'Tajawal', sans-serif;
+  font-family: "Tajawal", sans-serif;
 }
 
 .text-tajawal {
-  font-family: 'Tajawal' !important;
+  font-family: "Tajawal" !important;
 }
