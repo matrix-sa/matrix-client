@@ -15,10 +15,5 @@ module.exports = {
   ],
   rules: {
     'vue/multi-word-component-names': 'off',
-    "vue/script-indent": ["error", 0, {
-      "baseIndent": 0,
-      "switchCase": 0,
-      "ignores": []
-    }]
   },
 }
