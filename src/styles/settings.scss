@@ -8,7 +8,7 @@
 @use "vuetify/settings" with (
   // $color-pack: false
   // 👉 Card
-  $card-background: #fff,
+  // $card-background: #fff,
   $card-border-radius: 1rem,
   $card-title-font-size: 1rem,
   $card-title-font-weight: 700,
@@ -18,15 +18,27 @@
   $card-subtitle-font-size: 0.75rem,
   $card-subtitle-opacity: 1,
   $card-elevation: 0,
-  $card-subtitle-header-padding: 0
+  $card-subtitle-header-padding: 0,
+
+  // 👉 Table
+  // $table-background: #fff,
+  // $list-background: #fff
+  $carousel-dot-margin: 0 2px
 );
 
 @import url("https://fonts.googleapis.com/css2?family=Tajawal:wght@200;300;400;500;700;800;900&display=swap");
 
-html {
+html,
+*,
+[class*="text-"] {
   font-family: "Tajawal", sans-serif;
 }
 
 .text-tajawal {
   font-family: "Tajawal" !important;
+}
+
+.text-xs {
+  font-size: 10px;
+  line-height: 1.25;
 }

@@ -35,9 +35,8 @@ const chartOptions = computed(() => {
       bar: {
         barHeight: '100%',
         columnWidth: '25%',
-        startingShape: 'rounded',
-        endingShape: 'rounded',
         borderRadius: 4,
+        borderRadiusApplication: 'around',
 
         colors: {
           backgroundBarColors: ['#EEE', '#EEE', '#EEE', '#EEE', '#EEE', '#EEE', '#EEE'],
@@ -78,22 +77,12 @@ const chartOptions = computed(() => {
 </script>
 
 <template>
-  <VCard
-    :title="$t('orders')"
-    :subtitle="$t('last-week')"
-    class="home-orders"
-  >
+  <VCard :title="$t('orders')" :subtitle="$t('last-week')" class="home-orders">
     <VCardText>
       <template v-if="props.orders !== null">
-        <VueApexCharts
-          :options="chartOptions"
-          :series="series"
-        />
+        <VueApexCharts :options="chartOptions" :series="series" />
 
-        <HomeCardFooter
-          class="mt-auto"
-          :rate="props.orders?.rate"
-        >
+        <HomeCardFooter class="mt-auto" :rate="props.orders?.rate">
           <template #current>
             {{ props.orders?.total_current }}
           </template>

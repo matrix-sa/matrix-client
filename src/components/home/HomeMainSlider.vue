@@ -56,54 +56,20 @@ const websiteAnalytics = computed(() => {
 </script>
 
 <template>
-  <VCard
-    class="bg-gradient-primary"
-    color="primary"
-  >
+  <VCard class="bg-gradient-primary" color="primary">
     <!-- cycle -->
-    <VCarousel
-      v-if="props.generalStoreInfo !== null"
-      cycle
-      :continuous="false"
-      :show-arrows="false"
-      hide-delimiter-background
-      :delimiter-icon="() => h(VIcon, { icon: 'fa-circle', size: '10' })"
-      height="auto"
-      class="carousel-delimiter-top-end web-analytics-carousel"
-    >
-      <VCarouselItem
-        v-for="item in websiteAnalytics"
-        :key="item.name"
-      >
+    <VCarousel v-if="props.generalStoreInfo !== null" :continuous="false" :show-arrows="false" hide-delimiter-background
+      :delimiter-icon="() => h(VIcon, { icon: 'fa-circle', size: '8' })" height="auto"
+      class="carousel-delimiter-top-end web-analytics-carousel">
+      <VCarouselItem v-for="item in websiteAnalytics" :key="item.name">
         <VCardText>
-          <HomeCardHeading
-            white
-            size="large"
-            :title=" $t(item.name)"
-            :subtitle="$t('last-24-hours') "
-          />
+          <HomeCardHeading white size="large" :title="$t(item.name)" :subtitle="$t('last-24-hours')" />
           <VRow>
-            <VCol
-              cols="12"
-              sm="9"
-              order="2"
-              order-sm="1"
-              class="pt-16 pb-10"
-            >
+            <VCol cols="12" sm="9" order="2" order-sm="1" class="pt-16 pb-10">
               <VRow>
-                <VCol
-                  v-for="d in item.data"
-                  :key="d.number"
-                  cols="12"
-                  sm="6"
-                  class="text-no-wrap pb-2"
-                >
-                  <VChip
-                    size="default"
-                    variant="flat"
-                    color="#5C2EC6"
-                    class="font-weight-medium justify-center text-white rounded me-2"
-                  >
+                <VCol v-for="d in item.data" :key="d.number" cols="12" sm="6" class="text-no-wrap pb-2">
+                  <VChip size="default" variant="flat" color="#5C2EC6"
+                    class="font-weight-medium justify-center text-white rounded me-2">
                     {{ d.number }}
                   </VChip>
                   <span>{{ $t(d.text) }}</span>
@@ -111,32 +77,34 @@ const websiteAnalytics = computed(() => {
               </VRow>
             </VCol>
 
-            <VCol
-              cols="12"
-              sm="3"
-              order="1"
-              order-sm="2"
-              class="position-relative text-center"
-            >
-              <img
-                :src="slideImg"
-                class="card-website-analytics-img"
-              >
+            <VCol cols="12" sm="3" order="1" order-sm="2" class="position-relative text-center">
+              <img :src="slideImg" class="card-website-analytics-img">
             </VCol>
           </VRow>
         </VCardText>
       </VCarouselItem>
     </VCarousel>
-    
+
     <HomeEmptyState v-else />
   </VCard>
 </template>
 
 
 <style scoped>
-:deep(.carousel-delimiter-top-end .v-carousel__controls){
+:deep(.carousel-delimiter-top-end .v-carousel__controls) {
   inset-block-start: 1rem;
-  padding-inline: 1.3rem
+  padding-inline: 1.3rem;
+  justify-content: end;
+}
+
+:deep(.carousel-delimiter-top-end .v-carousel__controls .v-btn) {
+  width: 8px;
+  height: 8px;
+}
+
+:deep(.carousel-delimiter-top-end .v-carousel__controls .v-btn .v-icon) {
+  width: 8px;
+  height: 8px;
 }
 </style>
 
@@ -146,11 +114,12 @@ const websiteAnalytics = computed(() => {
   opacity: 0.35;
 }
 
-.v-chip{
+.v-chip {
   width: 88px;
   height: 26px;
   font-size: 16px;
 }
+
 
 @media screen and (min-width: 600px) {
   .card-website-analytics-img {
@@ -166,13 +135,21 @@ const websiteAnalytics = computed(() => {
 
 .web-analytics-carousel {
   .v-carousel__controls {
-    .v-btn:not(.v-btn--active) {
-      opacity: 0.4;
+    .v-btn {
+      &::after {
+        content: unset;
+      }
+
+      &:not(.v-btn--active) {
+        opacity: 0.4;
+
+      }
     }
+
   }
 }
 
-.bg-gradient-primary{
+.bg-gradient-primary {
   background: linear-gradient(to left, #6130D3, #784AE3)
 }
 </style>

@@ -243,6 +243,9 @@ export default {
       subtitle:
         'Display your ads across the X platform, reach campaigns, engagement, app installs, and video views.',
     },
+    googleads: {
+      title: 'Google'
+    },
     google: {
       title: 'Google',
       subtitle:

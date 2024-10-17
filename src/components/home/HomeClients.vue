@@ -67,6 +67,7 @@ const chartOptions = computed(() => {
         colors: ["#706D79"],
       },
       markers: {
+        shape: 'circle',
         size: 8,
         offsetX: 4,
         offsetY: 2,
@@ -78,7 +79,8 @@ const chartOptions = computed(() => {
         horizontal: false,
         columnWidth: 16,
         borderRadius: 7,
-        startingShape: "rounded",
+        borderRadiusApplication: 'end',
+        borderRadiusWhenStacked: 'all',
         colors: {
           backgroundBarColors: [
             currentTheme.warning,
@@ -144,18 +146,9 @@ const chartOptions = computed(() => {
 </script>
 
 <template>
-  <VCard
-    :title="$t('clients')"
-    :subtitle="$t('last-14-days')"
-    class="home-clients"
-  >
+  <VCard :title="$t('clients')" :subtitle="$t('last-14-days')" class="home-clients">
     <VCardText>
-      <VueApexCharts
-        v-if="props.customersStatistics !== null"
-        :options="chartOptions"
-        :series="series"
-        :height="300"
-      />
+      <VueApexCharts v-if="props.customersStatistics !== null" :options="chartOptions" :series="series" :height="300" />
       <HomeEmptyState v-else />
     </VCardText>
   </VCard>

@@ -36,15 +36,15 @@ const getData = selected => {
     x: t(`month.${item.month}`),
     y: item[selected],
     fillColor:
-          index + 1 === currentMonth
-            ? currentTheme.warning
-            : currentTheme.primary,
+      index + 1 === currentMonth
+        ? currentTheme.warning
+        : currentTheme.primary,
     color: index + 1 === currentMonth
       ? currentTheme.warning
       : currentTheme.primary,
   })))
 
-  if(isRtl.value)
+  if (isRtl.value)
     result.reverse()
 
   return [
@@ -64,10 +64,10 @@ const colors = computed(() => {
       : currentTheme.primary,
   )
 
-  if(isRtl.value)
+  if (isRtl.value)
     result.reverse()
 
-  return  result
+  return result
 })
 
 const currentTab = ref(0)
@@ -82,7 +82,7 @@ const chartConfigs = computed(() => {
       },
       plotOptions: {
         bar: {
-          startingShape: "rounded",
+          borderRadiusApplication: 'end',
           borderRadius: 4,
           dataLabels: { position: "top" },
         },
@@ -191,51 +191,20 @@ const chartConfigs = computed(() => {
 </script>
 
 <template>
-  <VCard
-    :title="$t('performance-indicator')"
-    :subtitle="$t('last-year')"
-  >
+  <VCard :title="$t('performance-indicator')" :subtitle="$t('last-year')">
     <template #append>
-      <HomeGraphFilter
-        v-if="props.performance !== null"
-        :options="platforms"
-        @selected="setSelectedPlatform($event)"
-      />
+      <HomeGraphFilter v-if="props.performance !== null" :options="platforms" @selected="setSelectedPlatform($event)" />
     </template>
 
     <VCardText>
       <template v-if="props.performance !== null">
-        <VSlideGroup
-          v-model="currentTab"
-          show-arrows
-          mandatory
-          class="mb-6"
-        >
-          <VSlideGroupItem
-            v-for="(report, index) in chartConfigs"
-            :key="report.title"
-            v-slot="{ isSelected, toggle }"
-            :value="index"
-          >
-            <VResponsive
-              width="96px"
-              class="cursor-pointer flex-grow-0 rounded me-6"
-              :class="
-                isSelected ? 'border border-primary' : 'border border-dashed'
-              "
-              @click="toggle"
-            >
-              <div
-                class="text-center text-xs h-100 px-1 py-2"
-                style="display: grid; place-items: center;"
-              >
-                <VAvatar
-                  rounded
-                  size="32"
-                  :color="isSelected ? 'primary' : 'black'"
-                  variant="tonal"
-                  class="mb-3"
-                >
+        <VSlideGroup v-model="currentTab" show-arrows mandatory class="mb-6">
+          <VSlideGroupItem v-for="(report, index) in chartConfigs" :key="report.title" v-slot="{ isSelected, toggle }"
+            :value="index">
+            <VResponsive width="96px" class="cursor-pointer flex-grow-0 rounded me-6" :class="isSelected ? 'border border-primary' : 'border border-dashed'
+              " @click="toggle">
+              <div class="text-center text-xs h-100 px-1 py-2" style="display: grid; place-items: center;">
+                <VAvatar rounded size="32" :color="isSelected ? 'primary' : 'black'" variant="tonal" class="mb-3">
                   <VIcon :icon="report.icon" />
                 </VAvatar>
                 {{ report.title }}
@@ -244,13 +213,8 @@ const chartConfigs = computed(() => {
           </VSlideGroupItem>
         </VSlideGroup>
 
-        <VueApexCharts
-          ref="refVueApexChart"
-          :key="currentTab"
-          :options="chartConfigs[Number(currentTab)].chartOptions"
-          :series="chartConfigs[Number(currentTab)].series"
-          height="240"
-        />
+        <VueApexCharts ref="refVueApexChart" :key="currentTab" :options="chartConfigs[Number(currentTab)].chartOptions"
+          :series="chartConfigs[Number(currentTab)].series" height="240" />
       </template>
 
       <HomeEmptyState v-else />

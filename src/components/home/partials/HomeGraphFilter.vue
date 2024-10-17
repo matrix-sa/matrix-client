@@ -11,9 +11,9 @@ const { t } = i18n.global
 
 
 const options = computed(() => {
-  if(props.options){
+  if (props.options) {
     return props.options
-  }else{
+  } else {
     return [
       {
         id: 'sales',
@@ -33,7 +33,7 @@ const options = computed(() => {
 
 const selected = ref(options.value[0].id)
 
-const setSelected = () =>{
+const setSelected = () => {
   emit('selected', selected.value)
 }
 
@@ -41,13 +41,6 @@ setSelected()
 </script>
 
 <template>
-  <VSelect
-    v-model="selected"
-    min-width="140px"
-    density="compact"
-    :items="options"
-    :item-title="item => item.name"
-    :item-value="item => item.id"
-    @update:model-value="setSelected"
-  />
+  <VSelect v-model="selected" variant="outlined" min-width="140px" density="compact" :items="options"
+    :item-title="item => item.name" :item-value="item => item.id" @update:model-value="setSelected" />
 </template>

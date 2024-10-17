@@ -7,11 +7,11 @@ const props = defineProps({
 })
 
 const series = ref([])
-const selectedName= ref('')
+const selectedName = ref('')
 
-const setSeries = selected =>{
+const setSeries = selected => {
   selectedName.value = selected
-  series.value =[{
+  series.value = [{
     data: props.contributions?.map(item => item[selected]),
   }]
 }
@@ -43,13 +43,13 @@ const categories = computed(() => {
 })
 
 
-const mappedData = computed(()=>{
+const mappedData = computed(() => {
   let count = -1
 
-  return props.contributions.map(element =>{
+  return props.contributions.map(element => {
     count++
 
-    return{
+    return {
       name: element.platform.toLowerCase(),
       data: element[selectedName.value],
       color: colors.value[count],
@@ -68,10 +68,9 @@ const chartOptions = computed(() => {
       bar: {
         horizontal: true,
         distributed: true,
-        barHeight: '50px',
+        barHeight: '16px',
         borderRadius: 7,
-        startingShape: 'rounded',
-
+        borderRadiusApplication: 'end',
         dataLabels: {
           position: 'top',
         },
@@ -108,7 +107,6 @@ const chartOptions = computed(() => {
       },
       padding: {
         top: -35,
-
         bottom: 0,
         right: 5,
       },
@@ -116,7 +114,7 @@ const chartOptions = computed(() => {
     yaxis: {
       reversed: true,
       labels: {
-        formatter: val => { return val.toString().substring(0, 1)},
+        formatter: val => { return val.toString().substring(0, 1) },
       },
     },
     xaxis: {
@@ -135,49 +133,22 @@ const chartOptions = computed(() => {
 </script>
 
 <template>
-  <VCard
-    :title="$t('platforms-contributions')"
-    :subtitle="$t('last-month')"
-  >
+  <VCard :title="$t('platforms-contributions')" :subtitle="$t('last-month')">
     <template #append>
-      <HomeGraphFilter
-        v-if="props.contributions !== null"
-        @selected="setSeries($event)"
-      />
+      <HomeGraphFilter v-if="props.contributions !== null" @selected="setSeries($event)" />
     </template>
 
     <VCardText>
       <VRow v-if="props.contributions !== null">
-        <VCol
-          cols="12"
-          md="8"
-        >
-          <VueApexCharts
-            :options="chartOptions"
-            :series="series"
-            height="280"
-          />
+        <VCol cols="12" md="8">
+          <VueApexCharts :options="chartOptions" :series="series" height="280" />
         </VCol>
-        <VCol
-          cols="12"
-          md="4"
-        >
+        <VCol cols="12" md="4">
           <VRow>
-            <VCol
-              v-for="platform in mappedData"
-              :key="platform.color"
-              cols="6"
-              class="text-sm pa-3"
-              style="white-space: nowrap;"
-            >
+            <VCol v-for="platform in mappedData" :key="platform.color" cols="6" class="text-sm pa-3 text-truncate">
               <div class="d-flex flex-column">
                 <div class="d-flex align-center">
-                  <VIcon
-                    icon="tabler-circle-filled"
-                    size="6"
-                    class="me-1"
-                    :color="platform.color"
-                  />
+                  <VIcon icon="tabler-circle-filled" size="6" class="me-1" :color="platform.color" />
                   {{ $t(`platforms.${platform.name}.title`) }}
                 </div>
                 {{ Math.round(platform.data) }}

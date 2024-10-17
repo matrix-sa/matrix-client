@@ -33,14 +33,14 @@ export default defineConfig({
       dts: true,
     }),
     Fonts({
-      google: {
-        families: [
-          {
-            name: 'Roboto',
-            styles: 'wght@100;300;400;500;700;900',
-          },
-        ],
-      },
+      // google: {
+      //   families: [
+      //     {
+      //       name: 'Roboto',
+      //       styles: 'wght@100;300;400;500;700;900',
+      //     },
+      //   ],
+      // },
     }),
     AutoImport({
       imports: ['vue', 'vue-router'],

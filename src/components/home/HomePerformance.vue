@@ -1,5 +1,5 @@
 <script setup>
-import i18n from "@/i18n"
+import i18n from '@/i18n'
 import VueApexCharts from 'vue3-apexcharts'
 import { useTheme } from 'vuetify'
 
@@ -10,9 +10,8 @@ const props = defineProps({
 const vuetifyTheme = useTheme()
 const currentTheme = vuetifyTheme.current.value.colors
 
-
 const months = computed(() => {
-  return props.performance?.map( item =>  t(`month.${item.month}`))
+  return props.performance?.map(item => t(`month.${item.month}`))
 })
 
 const { t } = i18n.global
@@ -66,16 +65,9 @@ const chartOptions = {
 </script>
 
 <template>
-  <VCard
-    :title="$t('performance')"
-    :subtitle="$t('last-6-months')"
-  >
+  <VCard :subtitle="$t('last-6-months')" :title="$t('performance')">
     <VCardText class="pa-md-0">
-      <VueApexCharts
-        v-if="props.performance !== null"
-        :options="chartOptions"
-        :series="series"
-      />
+      <VueApexCharts v-if="props.performance !== null" :options="chartOptions" :series="series" />
 
       <HomeEmptyState v-else />
     </VCardText>

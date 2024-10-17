@@ -25,8 +25,6 @@ const chartOptions = computed(() => {
       bar: {
         barHeight: '60%',
         columnWidth: '12px',
-        startingShape: 'rounded',
-        endingShape: 'rounded',
         borderRadius: 6,
         distributed: true,
       },
@@ -45,8 +43,8 @@ const chartOptions = computed(() => {
     dataLabels: { enabled: false },
     tooltip: {
       enabled: true,
-      custom: function({ series, seriesIndex, dataPointIndex, w }) {
-        return  `
+      custom: function ({ series, seriesIndex, dataPointIndex, w }) {
+        return `
           <h4 class="text-h4 font-weight-bold bar_tooltip">
             ${series[seriesIndex][dataPointIndex]}%
           </h4>
@@ -90,24 +88,12 @@ const chartOptions = computed(() => {
 </script>
 
 <template>
-  <VCard
-    :title="$t('sales-growth')"
-    :subtitle="$t('weekly')"
-  >
+  <VCard :title="$t('sales-growth')" :subtitle="$t('weekly')">
     <VCardText>
       <template v-if="props.sales !== null">
-        <VueApexCharts
-          :options="chartOptions"
-          :series="series"
-          :height="200"
-        />
+        <VueApexCharts :options="chartOptions" :series="series" :height="200" />
 
-        <HomeCardFooter
-          chip-bg
-          :current="false"
-          class="mt-auto"
-          :rate="props.sales?.total_growth"
-        />
+        <HomeCardFooter chip-bg :current="false" class="mt-auto" :rate="props.sales?.total_growth" />
       </template>
 
       <HomeEmptyState v-else />
@@ -117,7 +103,7 @@ const chartOptions = computed(() => {
 
 
 <style scoped>
-:deep(.vue-apexcharts .apexcharts-tooltip){
+:deep(.vue-apexcharts .apexcharts-tooltip) {
   border: none;
   border-radius: 0;
   background: none;
