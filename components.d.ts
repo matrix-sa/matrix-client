@@ -11,6 +11,7 @@ declare module 'vue' {
     ConnectionConfirmationDialog: typeof import('./src/components/dialogs/ConnectionConfirmationDialog.vue')['default']
     ConnectPlatformAccountDialog: typeof import('./src/components/dialogs/ConnectPlatformAccountDialog.vue')['default']
     DesktopLayout: typeof import('./src/components/shared/DesktopLayout.vue')['default']
+    Header: typeof import('./src/components/digital-writer/Header.vue')['default']
     HomeAdsStatistics: typeof import('./src/components/home/HomeAdsStatistics.vue')['default']
     HomeCardFooter: typeof import('./src/components/home/partials/HomeCardFooter.vue')['default']
     HomeCardHeading: typeof import('./src/components/home/partials/HomeCardHeading.vue')['default']
@@ -42,8 +43,11 @@ declare module 'vue' {
     LanguageSwitch: typeof import('./src/components/shared/LanguageSwitch.vue')['default']
     MetaButton: typeof import('./src/components/platforms/meta/MetaButton.vue')['default']
     MobileLayout: typeof import('./src/components/shared/MobileLayout.vue')['default']
+    Question: typeof import('./src/components/digital-writer/Question.vue')['default']
+    Questions: typeof import('./src/components/digital-writer/Questions.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
+    Tabs: typeof import('./src/components/digital-writer/Tabs.vue')['default']
     VerticalNavMenu: typeof import('./src/components/shared/VerticalNavMenu.vue')['default']
   }
 }

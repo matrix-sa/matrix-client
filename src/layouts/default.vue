@@ -1,5 +1,5 @@
 <script setup>
-  //
+//
 </script>
 <template>
   <div class="router-container">
@@ -8,11 +8,9 @@
 </template>
 
 <style lang="scss" scoped>
-
-.router-container{
-  margin-inline : 1.5em;
+.router-container {
+  margin-inline: 1.5em;
   border-radius: 1.5em;
-  padding: 1em;
+  /* padding: 1em; */
 }
-
 </style>
