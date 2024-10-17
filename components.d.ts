@@ -8,11 +8,12 @@ export {}
 declare module 'vue' {
   export interface GlobalComponents {
     AppBar: typeof import('./src/components/shared/AppBar.vue')['default']
+    AppSelect: typeof import('./src/components/core/AppSelect.vue')['default']
+    AppTextField: typeof import('./src/components/core/AppTextField.vue')['default']
     ConnectionConfirmationDialog: typeof import('./src/components/dialogs/ConnectionConfirmationDialog.vue')['default']
     ConnectPlatformAccountDialog: typeof import('./src/components/dialogs/ConnectPlatformAccountDialog.vue')['default']
-    ConnectPlatformDialog: typeof import('./src/components/dialogs/ConnectPlatformAccountDialog.vue')['default']
+    ConnectPlatformDialog: typeof import('./src/components/dialogs/ConnectPlatformDialog.vue')['default']
     DesktopLayout: typeof import('./src/components/shared/DesktopLayout.vue')['default']
-    DialogCloseBtn: typeof import('./src/components/core/DialogCloseBtn.vue')['default']
     LanguageSwitch: typeof import('./src/components/shared/LanguageSwitch.vue')['default']
     MetaButton: typeof import('./src/components/platforms/meta/MetaButton.vue')['default']
     MobileLayout: typeof import('./src/components/shared/MobileLayout.vue')['default']
