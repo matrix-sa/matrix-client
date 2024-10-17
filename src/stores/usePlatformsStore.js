@@ -1,5 +1,5 @@
 import i18n from '@/i18n'
-import SocialPlatformsService from '@/servcies/social-platforms-service'
+import SocialPlatformsService from '@/services/social-platforms-service'
 import { defineStore } from 'pinia'
 import metaImage from '@/assets/meta-logo.svg'
 import tiktokImage from '@/assets/tiktok-logo.svg'
@@ -55,20 +55,20 @@ export const usePlatformsStore = defineStore('platforms', {
     ],
   }),
   actions: {
-    async checkAuth (platform) {
+    async checkAuth(platform) {
       this.platforms.find(item => item.code === platform).loading = true
       const socialService = SocialPlatformsService(platform)
       const { data } = await socialService.checkAuthentication()
       this.platforms.find(item => item.code === platform).status = data.code
     },
 
-    async getAdAccounts (platform) {
+    async getAdAccounts(platform) {
       const socialService = SocialPlatformsService(platform)
       const { data } = await socialService.getAdAccounts()
       return data?.data
     },
 
-    async getFacebookPages () {
+    async getFacebookPages() {
       this.isLoading = true
 
       const socialService = SocialPlatformsService('meta')
@@ -80,7 +80,7 @@ export const usePlatformsStore = defineStore('platforms', {
       return data?.data
     },
 
-    async getFundingInstruments (platform, adAccountID) {
+    async getFundingInstruments(platform, adAccountID) {
       this.isLoading = true
 
       const socialService = SocialPlatformsService(platform)
@@ -92,7 +92,7 @@ export const usePlatformsStore = defineStore('platforms', {
       return data?.data
     },
 
-    async getPixels (platform, adAccountID) {
+    async getPixels(platform, adAccountID) {
       const socialService = SocialPlatformsService(platform)
 
       const { data } = await socialService.getPixels(adAccountID)
@@ -100,7 +100,7 @@ export const usePlatformsStore = defineStore('platforms', {
       return data?.data
     },
 
-    async storeAdAccount (platform, payload) {
+    async storeAdAccount(platform, payload) {
       this.isLoading = true
 
       const socialService = SocialPlatformsService(platform)
@@ -110,7 +110,7 @@ export const usePlatformsStore = defineStore('platforms', {
       return socialService.storeAdAccount(payload)
     },
 
-    async getActivePlatforms () {
+    async getActivePlatforms() {
       const promises = []
       const allPlatformsCodes = this.platforms.map(p => p.code)
       for (const key in allPlatformsCodes) {

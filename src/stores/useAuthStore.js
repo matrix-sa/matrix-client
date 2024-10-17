@@ -1,5 +1,5 @@
 import router from '@/router'
-import AuthService from '@/servcies/auth-service'
+import AuthService from '@/services/auth-service'
 import { defineStore } from 'pinia'
 import { useSnackbarStore } from './useSnackBarStore'
 import i18n from '@/i18n'
@@ -16,7 +16,7 @@ export const useAuthStore = defineStore('auth-store', () => {
   )
   const loading = ref(false)
 
-  async function register (payload) {
+  async function register(payload) {
     await executeWithLoading(async () => {
       const res = await AuthService.register(payload)
       const { data } = res.data
@@ -34,7 +34,7 @@ export const useAuthStore = defineStore('auth-store', () => {
       router.push({ name: 'auth-mobile-otp' })
     })
   }
-  async function login (payload) {
+  async function login(payload) {
     await executeWithLoading(async () => {
       const res = await AuthService.login(payload)
       const { data } = res.data
@@ -53,7 +53,7 @@ export const useAuthStore = defineStore('auth-store', () => {
     })
   }
 
-  async function verify (payload) {
+  async function verify(payload) {
     await executeWithLoading(async () => {
       const res = await AuthService.verifyMobile(payload)
 
@@ -65,12 +65,12 @@ export const useAuthStore = defineStore('auth-store', () => {
     })
   }
 
-  function logout () {
+  function logout() {
     clearUserData()
     router.push({ name: '/auth/login' })
   }
 
-  async function fetchUser (refresh = false) {
+  async function fetchUser(refresh = false) {
     if (user.value && !refresh) return user.value
 
     const res = await AuthService.me()
@@ -82,7 +82,7 @@ export const useAuthStore = defineStore('auth-store', () => {
     return user.value
   }
 
-  async function executeWithLoading (callback) {
+  async function executeWithLoading(callback) {
     loading.value = true
     try {
       await callback()
@@ -96,14 +96,14 @@ export const useAuthStore = defineStore('auth-store', () => {
     }
   }
 
-  function handleAuthResponse (res) {
+  function handleAuthResponse(res) {
     const { error, messages } = res.data
     if (error) {
       throw new Error(messages[0])
     }
   }
 
-  function updateUserAndToken (data) {
+  function updateUserAndToken(data) {
     const { token: accessToken, user: currentUser } = data
 
     if (accessToken) {
@@ -113,7 +113,7 @@ export const useAuthStore = defineStore('auth-store', () => {
     user.value = currentUser
   }
 
-  function clearUserData () {
+  function clearUserData() {
     token.value = null
     user.value = null
     localStorage.removeItem('accessToken')

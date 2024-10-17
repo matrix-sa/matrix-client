@@ -7,7 +7,7 @@
   import zidLogo from '@/assets/zid.svg'
   import storesLogo from '@/assets/stores.svg'
   import { useRequest } from 'vue-request'
-  import StoresService from '@/servcies/stores-service'
+  import StoresService from '@/services/stores-service'
   import { useSnackbarStore } from '@/stores/useSnackBarStore'
 
   const storesStore = useStoresStore()
