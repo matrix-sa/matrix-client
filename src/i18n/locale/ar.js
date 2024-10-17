@@ -615,7 +615,7 @@ export default {
     original_price: 'السعر الأصلي',
     create: 'إنشاء طلب',
   },
-  SAR: 'ريال سعودي',
+  SAR: 'ر.س',
   yes: 'نعم',
   no: 'لا',
   loading: 'جاري التحميل',
