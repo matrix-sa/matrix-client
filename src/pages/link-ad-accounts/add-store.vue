@@ -7,7 +7,7 @@ import sallaLogo from '@/assets/salla.svg'
 import zidLogo from '@/assets/zid.svg'
 import storesLogo from '@/assets/stores.svg'
 import { useRequest } from 'vue-request'
-import StoresService from '@/servcies/stores-service'
+import StoresService from '@/services/stores-service'
 import { useSnackbarStore } from '@/stores/useSnackBarStore'
 
 const storesStore = useStoresStore()
@@ -107,7 +107,7 @@ watch(
 <template>
   <div class="stores-container">
     <v-overlay v-model="loading" class="align-center justify-center" persistent>
-      <v-progress-circular color="warning" indeterminate size="50" :width="7" />
+      <v-progress-circular color="primary" indeterminate size="50" :width="7" />
     </v-overlay>
     <img alt="" :src="storesLogo">
     <div class="content">

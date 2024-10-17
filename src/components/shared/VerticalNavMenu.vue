@@ -15,7 +15,7 @@ const items1 = ref([])
 const items2 = ref([])
 
 const isActive = (to, partial) =>
-  partial ? route.name.includes(to) : route.name === to
+  partial ? route.name?.includes(to) : route.name === to
 
 const userShouldLink = computed(
   () => !user.value.has_linked_website || !user.value.has_linked_ad_account

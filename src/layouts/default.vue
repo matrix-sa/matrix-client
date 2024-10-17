@@ -11,7 +11,6 @@
 
 .router-container{
   margin-inline : 1.5em;
-  background-color: white;
   border-radius: 1.5em;
   padding: 1em;
 }

@@ -1,0 +1,178 @@
+<script setup>
+import slideImg from '@images/svg/analytics-graph.svg'
+import { VIcon } from 'vuetify/components/VIcon'
+
+import { computed } from 'vue'
+
+
+const props = defineProps({
+  generalStoreInfo: Object,
+})
+
+
+const websiteAnalytics = computed(() => {
+  return [
+    {
+      name: 'store-performance',
+      data: [
+        {
+          number: props.generalStoreInfo?.donaload_speed,
+          text: 'download-speed',
+        },
+        {
+          number: props.generalStoreInfo?.average_staying_duration,
+          text: 'average-staying-duration',
+        },
+        {
+          number: props.generalStoreInfo?.bounce_rate,
+          text: 'bounce-rate',
+        },
+      ],
+    },
+    {
+      name: 'payments-performance',
+      data: [
+        {
+          number: props.generalStoreInfo?.total_transactions,
+          text: 'total-transactions',
+        },
+        {
+          number: props.generalStoreInfo?.successful_transactions,
+          text: 'successful-transactions',
+        },
+        {
+          number: props.generalStoreInfo?.failed_transactions,
+          text: 'failed-transactions',
+        },
+        {
+          number: '23k',
+          number: props.generalStoreInfo?.transactions_success_rate,
+          text: 'transactions-success-rate',
+        },
+      ],
+    },
+  ]
+})
+</script>
+
+<template>
+  <VCard
+    class="bg-gradient-primary"
+    color="primary"
+  >
+    <!-- cycle -->
+    <VCarousel
+      v-if="props.generalStoreInfo !== null"
+      cycle
+      :continuous="false"
+      :show-arrows="false"
+      hide-delimiter-background
+      :delimiter-icon="() => h(VIcon, { icon: 'fa-circle', size: '10' })"
+      height="auto"
+      class="carousel-delimiter-top-end web-analytics-carousel"
+    >
+      <VCarouselItem
+        v-for="item in websiteAnalytics"
+        :key="item.name"
+      >
+        <VCardText>
+          <HomeCardHeading
+            white
+            size="large"
+            :title=" $t(item.name)"
+            :subtitle="$t('last-24-hours') "
+          />
+          <VRow>
+            <VCol
+              cols="12"
+              sm="9"
+              order="2"
+              order-sm="1"
+              class="pt-16 pb-10"
+            >
+              <VRow>
+                <VCol
+                  v-for="d in item.data"
+                  :key="d.number"
+                  cols="12"
+                  sm="6"
+                  class="text-no-wrap pb-2"
+                >
+                  <VChip
+                    size="default"
+                    variant="flat"
+                    color="#5C2EC6"
+                    class="font-weight-medium justify-center text-white rounded me-2"
+                  >
+                    {{ d.number }}
+                  </VChip>
+                  <span>{{ $t(d.text) }}</span>
+                </VCol>
+              </VRow>
+            </VCol>
+
+            <VCol
+              cols="12"
+              sm="3"
+              order="1"
+              order-sm="2"
+              class="position-relative text-center"
+            >
+              <img
+                :src="slideImg"
+                class="card-website-analytics-img"
+              >
+            </VCol>
+          </VRow>
+        </VCardText>
+      </VCarouselItem>
+    </VCarousel>
+    
+    <HomeEmptyState v-else />
+  </VCard>
+</template>
+
+
+<style scoped>
+:deep(.carousel-delimiter-top-end .v-carousel__controls){
+  inset-block-start: 1rem;
+  padding-inline: 1.3rem
+}
+</style>
+
+<style scoped lang="scss">
+.card-website-analytics-img {
+  block-size: 150px;
+  opacity: 0.35;
+}
+
+.v-chip{
+  width: 88px;
+  height: 26px;
+  font-size: 16px;
+}
+
+@media screen and (min-width: 600px) {
+  .card-website-analytics-img {
+    position: absolute;
+    margin: auto;
+    inset-block-end: 40px;
+    inset-block-start: -1rem;
+    inset-inline-end: 1rem;
+  }
+}
+
+
+
+.web-analytics-carousel {
+  .v-carousel__controls {
+    .v-btn:not(.v-btn--active) {
+      opacity: 0.4;
+    }
+  }
+}
+
+.bg-gradient-primary{
+  background: linear-gradient(to left, #6130D3, #784AE3)
+}
+</style>
