@@ -45,6 +45,9 @@ $borderColor: rgba(31, 22, 37, 0.1);
 
 .writer-wrapper {
   gap: 16px;
+  background-color: #FFF;
+  padding: 24px;
+  border-radius: 16px;
 
   .separator {
     border-color: $borderColor;

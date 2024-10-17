@@ -120,7 +120,7 @@ $borderColor: rgba(31, 22, 37, 0.1);
 }
 
 .v-list {
-  background-color: #FFF;
+  background-color: transparent;
   box-shadow: none !important;
   gap: 8px !important;
   display: flex;
