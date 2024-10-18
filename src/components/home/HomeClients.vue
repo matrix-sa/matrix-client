@@ -1,154 +1,154 @@
 <script setup>
-import i18n from "@/i18n"
-import VueApexCharts from "vue3-apexcharts"
-import { useTheme } from "vuetify"
-import { isRtl } from './'
+  import i18n from '@/i18n'
+  import VueApexCharts from 'vue3-apexcharts'
+  import { useTheme } from 'vuetify'
+  import { isRtl } from './'
 
-const props = defineProps({
-  customersStatistics: Object,
-})
-
-const dates = computed(() => {
-  const result = props.customersStatistics.map(item => {
-    const dateObj = new Date(item.date)
-
-    const day = dateObj.getDate()
-    const month = dateObj.getMonth() + 1
-
-    return isRtl.value ? `${month}/${day}` : `${day}/${month}`
+  const props = defineProps({
+    customersStatistics: Object,
   })
 
-  if (!isRtl.value) result.reverse()
+  const dates = computed(() => {
+    const result = props.customersStatistics.map(item => {
+      const dateObj = new Date(item.date)
 
-  return result
-})
+      const day = dateObj.getDate()
+      const month = dateObj.getMonth() + 1
 
-const { t } = i18n.global
+      return isRtl.value ? `${month}/${day}` : `${day}/${month}`
+    })
 
-const vuetifyTheme = useTheme()
+    if (!isRtl.value) result.reverse()
 
-const series = [
-  {
-    name: t("new-clients"),
-    data: props.customersStatistics?.map(item => item.new_customers),
-  },
-  {
-    name: t("old-clients"),
-    data: props.customersStatistics?.map(item => item.old_customers),
-  },
-]
+    return result
+  })
 
-const chartOptions = computed(() => {
-  const currentTheme = vuetifyTheme.current.value.colors
+  const { t } = i18n.global
 
-  return {
-    chart: {
-      parentHeightOffset: 0,
-      stacked: true,
-      type: "bar",
-      toolbar: { show: false },
-      stackType: "100%",
-      zoom: {
-        enabled: false,
-      },
+  const vuetifyTheme = useTheme()
+
+  const series = [
+    {
+      name: t('new-clients'),
+      data: props.customersStatistics?.map(item => item.new_customers),
     },
-
-    fill: {
-      opacity: 1,
+    {
+      name: t('old-clients'),
+      data: props.customersStatistics?.map(item => item.old_customers),
     },
+  ]
 
-    legend: {
-      position: "top",
-      horizontalAlign: "right",
-      fontSize: "12px",
-      fontWeight: 500,
-      fontFamily: "Tajawal",
-      labels: {
-        colors: ["#706D79"],
-      },
-      markers: {
-        shape: 'circle',
-        size: 8,
-        offsetX: 4,
-        offsetY: 2,
-      },
-    },
+  const chartOptions = computed(() => {
+    const currentTheme = vuetifyTheme.current.value.colors
 
-    plotOptions: {
-      bar: {
-        horizontal: false,
-        columnWidth: 16,
-        borderRadius: 7,
-        borderRadiusApplication: 'end',
-        borderRadiusWhenStacked: 'all',
-        colors: {
-          backgroundBarColors: [
-            currentTheme.warning,
-            currentTheme.warning,
-            currentTheme.warning,
-            currentTheme.warning,
-            currentTheme.warning,
-            currentTheme.warning,
-            currentTheme.warning,
-            currentTheme.warning,
-            currentTheme.warning,
-            currentTheme.warning,
-            currentTheme.warning,
-            currentTheme.warning,
-            currentTheme.warning,
-            currentTheme.warning,
-          ],
-          backgroundBarRadius: 7,
+    return {
+      chart: {
+        parentHeightOffset: 0,
+        stacked: true,
+        type: 'bar',
+        toolbar: { show: false },
+        stackType: '100%',
+        zoom: {
+          enabled: false,
         },
       },
-    },
 
-    dataLabels: {
-      enabled: false,
-      style: {
-        fontSize: '10px',
+      fill: {
+        opacity: 1,
+      },
+
+      legend: {
+        position: 'top',
+        horizontalAlign: 'right',
+        fontSize: '12px',
+        fontWeight: 500,
         fontFamily: 'Tajawal',
-        fontWeight: 700,
+        labels: {
+          colors: ['#706D79'],
+        },
+        markers: {
+          shape: 'circle',
+          size: 8,
+          offsetX: 4,
+          offsetY: 2,
+        },
       },
-    },
-    colors: [currentTheme.primary, currentTheme.warning],
-    grid: {
-      padding: {
-        right: 35,
+
+      plotOptions: {
+        bar: {
+          horizontal: false,
+          columnWidth: 16,
+          borderRadius: 7,
+          borderRadiusApplication: 'end',
+          borderRadiusWhenStacked: 'all',
+          colors: {
+            backgroundBarColors: [
+              currentTheme.warning,
+              currentTheme.warning,
+              currentTheme.warning,
+              currentTheme.warning,
+              currentTheme.warning,
+              currentTheme.warning,
+              currentTheme.warning,
+              currentTheme.warning,
+              currentTheme.warning,
+              currentTheme.warning,
+              currentTheme.warning,
+              currentTheme.warning,
+              currentTheme.warning,
+              currentTheme.warning,
+            ],
+            backgroundBarRadius: 7,
+          },
+        },
       },
-    },
-    xaxis: {
-      type: "datetime",
-      categories: dates?.value,
-      labels: {
-        format: 'd/M',
+
+      dataLabels: {
+        enabled: false,
         style: {
           fontSize: '10px',
-          fontWeight: 400,
-          fontFamily: "Tajawal",
+          fontFamily: 'Tajawal',
+          fontWeight: 700,
         },
       },
-      offsetX: -8,
-      axisTicks: { show: false },
-      axisBorder: { show: false },
-    },
-    yaxis: {
-      tickAmount: 4,
-      offsetX: -8,
-      opposite: isRtl.value,
-    },
-    states: {
-      hover: { filter: { type: "none" } },
-      active: { filter: { type: "none" } },
-    },
-  }
-})
+      colors: [currentTheme.primary, currentTheme.warning],
+      grid: {
+        padding: {
+          right: 35,
+        },
+      },
+      xaxis: {
+        type: 'datetime',
+        categories: dates?.value,
+        labels: {
+          format: 'd/M',
+          style: {
+            fontSize: '10px',
+            fontWeight: 400,
+            fontFamily: 'Tajawal',
+          },
+        },
+        offsetX: -8,
+        axisTicks: { show: false },
+        axisBorder: { show: false },
+      },
+      yaxis: {
+        tickAmount: 4,
+        offsetX: -8,
+        opposite: isRtl.value,
+      },
+      states: {
+        hover: { filter: { type: 'none' } },
+        active: { filter: { type: 'none' } },
+      },
+    }
+  })
 </script>
 
 <template>
-  <VCard :title="$t('clients')" :subtitle="$t('last-14-days')" class="home-clients">
+  <VCard class="home-clients" :subtitle="$t('last-14-days')" :title="$t('clients')">
     <VCardText>
-      <VueApexCharts v-if="props.customersStatistics !== null" :options="chartOptions" :series="series" :height="300" />
+      <VueApexCharts v-if="props.customersStatistics !== null" :height="300" :options="chartOptions" :series="series" />
       <HomeEmptyState v-else />
     </VCardText>
   </VCard>
