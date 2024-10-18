@@ -1,67 +1,67 @@
 <script setup>
-import i18n from '@/i18n'
-import VueApexCharts from 'vue3-apexcharts'
-import { useTheme } from 'vuetify'
+  import i18n from '@/i18n'
+  import VueApexCharts from 'vue3-apexcharts'
+  import { useTheme } from 'vuetify'
 
-const props = defineProps({
-  performance: Object,
-})
+  const props = defineProps({
+    performance: Object,
+  })
 
-const vuetifyTheme = useTheme()
-const currentTheme = vuetifyTheme.current.value.colors
+  const vuetifyTheme = useTheme()
+  const currentTheme = vuetifyTheme.current.value.colors
 
-const months = computed(() => {
-  return props.performance?.map(item => t(`month.${item.month}`))
-})
+  const months = computed(() => {
+    return props.performance?.map(item => t(`month.${item.month}`))
+  })
 
-const { t } = i18n.global
+  const { t } = i18n.global
 
-const series = [{
-  name: t('sales'),
-  data: props.performance?.map(item => item.sales),
-},
-{
-  name: t('return_on_spending'),
-  data: props.performance?.map(item => item.spendings),
-}]
+  const series = [{
+                    name: t('sales'),
+                    data: props.performance?.map(item => item.sales),
+                  },
+                  {
+                    name: t('return_on_spending'),
+                    data: props.performance?.map(item => item.spendings),
+                  }]
 
-const chartOptions = {
-  chart: {
-    type: 'radar',
-    toolbar: false,
-  },
-  colors: [currentTheme.warning, currentTheme.primary],
-  fill: {
-    opacity: 1,
-  },
-  legend: {
-    fontSize: '12px',
-    fontWeight: 500,
-    fontFamily: 'Tajawal',
-    labels: {
-      colors: ['#706D79'],
+  const chartOptions = {
+    chart: {
+      type: 'radar',
+      toolbar: false,
     },
-    markers: {
-      size: 8,
-      offsetX: 4,
-      fillColors: [currentTheme.warning, currentTheme.primary],
+    colors: [currentTheme.warning, currentTheme.primary],
+    fill: {
+      opacity: 1,
     },
-  },
-  markers: {
-    size: 0,
-  },
-  yaxis: {
-    show: false,
-  },
-  xaxis: {
-    categories: months.value,
-    labels: {
-      style: {
-        fontFamily: 'Tajawal',
+    legend: {
+      fontSize: '12px',
+      fontWeight: 500,
+      fontFamily: 'Tajawal',
+      labels: {
+        colors: ['#706D79'],
+      },
+      markers: {
+        size: 8,
+        offsetX: 4,
+        fillColors: [currentTheme.warning, currentTheme.primary],
       },
     },
-  },
-}
+    markers: {
+      size: 0,
+    },
+    yaxis: {
+      show: false,
+    },
+    xaxis: {
+      categories: months.value,
+      labels: {
+        style: {
+          fontFamily: 'Tajawal',
+        },
+      },
+    },
+  }
 </script>
 
 <template>
