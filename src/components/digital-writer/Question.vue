@@ -4,6 +4,12 @@
 // Define props directly in script setup
 const props = defineProps(['q'])
 
+const emit = defineEmits(['update:questionValue'])
+
+const updateValue = (value) => {
+  emit('update:questionValue', { id: props.q.id, value })
+}
+
 </script>
 
 <template>
@@ -15,13 +21,14 @@ const props = defineProps(['q'])
 
     <div class="question-solution d-flex">
 
-      <input type="text" :placeholder="q.placeholder" v-if="q.type == 'text'" />
+      <input v-model="q.value" @input="updateValue($event.target.value)" type="text" :placeholder="q.placeholder"
+        v-if="q.type == 'text'" />
 
-      <v-btn-toggle v-if="q.type == 'select'" class="select">
-        <v-btn v-for="i in q.items" :key="i.id">
+      <VBtn-toggle v-if="q.type == 'select'" class="select" v-model="q.value">
+        <VBtn v-for="i in q.items" :key="i.id">
           {{ i.text }}
-        </v-btn>
-      </v-btn-toggle>
+        </VBtn>
+      </VBtn-toggle>
 
     </div>
   </div>
