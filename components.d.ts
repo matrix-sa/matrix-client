@@ -8,9 +8,14 @@ export {}
 declare module 'vue' {
   export interface GlobalComponents {
     AppBar: typeof import('./src/components/shared/AppBar.vue')['default']
+    AppNumberField: typeof import('./src/components/core/AppNumberField.vue')['default']
+    AppSelect: typeof import('./src/components/core/AppSelect.vue')['default']
+    AppSelectField: typeof import('./src/components/core/AppSelectField.vue')['default']
+    ApptextField: typeof import('./src/components/core/ApptextField.vue')['default']
     ConnectionConfirmationDialog: typeof import('./src/components/dialogs/ConnectionConfirmationDialog.vue')['default']
     ConnectPlatformAccountDialog: typeof import('./src/components/dialogs/ConnectPlatformAccountDialog.vue')['default']
     DesktopLayout: typeof import('./src/components/shared/DesktopLayout.vue')['default']
+    GoogleAdsCampaignForm: typeof import('./src/components/forms/campaigns/GoogleAdsCampaignForm.vue')['default']
     Header: typeof import('./src/components/digital-writer/Header.vue')['default']
     HomeAdsStatistics: typeof import('./src/components/home/HomeAdsStatistics.vue')['default']
     HomeCardFooter: typeof import('./src/components/home/partials/HomeCardFooter.vue')['default']

@@ -26,6 +26,7 @@ declare module 'vue-router/auto-routes' {
     '/assistant/writer/': RouteRecordInfo<'/assistant/writer/', '/assistant/writer', Record<never, never>, Record<never, never>>,
     '/auth/login': RouteRecordInfo<'/auth/login', '/auth/login', Record<never, never>, Record<never, never>>,
     '/campaigns/': RouteRecordInfo<'/campaigns/', '/campaigns', Record<never, never>, Record<never, never>>,
+    '/campaigns/[platform]/add/': RouteRecordInfo<'/campaigns/[platform]/add/', '/campaigns/:platform/add', { platform: ParamValue<true> }, { platform: ParamValue<false> }>,
     '/link-ad-accounts': RouteRecordInfo<'/link-ad-accounts', '/link-ad-accounts', Record<never, never>, Record<never, never>>,
     '/link-ad-accounts/': RouteRecordInfo<'/link-ad-accounts/', '/link-ad-accounts', Record<never, never>, Record<never, never>>,
     '/link-ad-accounts/add-store': RouteRecordInfo<'/link-ad-accounts/add-store', '/link-ad-accounts/add-store', Record<never, never>, Record<never, never>>,

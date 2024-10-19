@@ -874,4 +874,8 @@ export default {
   thePlatforms: 'المنصات',
   targeting_quality: 'جودة الإستهداف',
   average_cost_per1_k_customers: 'متوسط التكلفة للوصول لكل 1000',
+  add_campaign: 'إضافة حملة',
+  campaign_settings: 'إعدادات الحملة',
+  how_to_edit_campaign:
+    'يمكنك تعديل هذه المعلومات لاحقاً عن طريق تحديد الحملة والضغط على تعديل.',
 }
