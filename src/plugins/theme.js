@@ -2,7 +2,7 @@ const matrixTheme = {
   dark: false,
   colors: {
     background: '#F8F7FA',
-    surface: '#F8F7FA',
+    surface: '#FFFFFF',
     'surface-bright': '#F8F7FA',
     'surface-light': '#EEEEEE',
     'surface-variant': '#706D79',

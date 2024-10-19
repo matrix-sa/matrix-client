@@ -1,5 +1,5 @@
 import i18n from '@/i18n'
-import StoresService from '@/servcies/stores-service'
+import StoresService from '@/services/stores-service'
 import { defineStore } from 'pinia'
 
 const { t } = i18n.global
@@ -21,15 +21,15 @@ export const useStoresStore = defineStore('stores-store', {
     chosenStoreFromAddStoreForm: null,
   }),
   actions: {
-    async checkAuth (type) {
+    async checkAuth(type) {
       const { data } = await StoresService.checkAuthentication(type)
 
       this.stores.find(item => item.code === type).status = data.code
     },
-    async checkAuthAll () {
+    async checkAuthAll() {
       await Promise.all(this.stores.map(item => this.checkAuth(item.code)))
     },
-    getStatus (type) {
+    getStatus(type) {
       return this.stores.find(item => item.code === type)?.status
     },
   },

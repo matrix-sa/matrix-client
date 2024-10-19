@@ -19,5 +19,4 @@ localStorage.setItem('accessToken', '"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJod
 const app = createApp(App)
 
 registerPlugins(app)
-
 app.mount('#app')

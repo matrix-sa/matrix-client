@@ -15,7 +15,7 @@
   const items2 = ref([])
 
   const isActive = (to, partial) =>
-    partial ? route.name.includes(to) : route.name === to
+    partial ? route.name?.includes(to) : route.name === to
 
   const userShouldLink = computed(
     () => !user.value.has_linked_website || !user.value.has_linked_ad_account
@@ -170,7 +170,10 @@
         <div class="username-container">
 
           <div>
-            <v-img aspect-ratio="1/1" src="@/assets/user.png" :width="40" />
+            <v-icon
+              color="black"
+              :icon="`tabler:letter-${user.email[0]}`"
+            />
           </div>
 
           <div>
@@ -218,8 +221,7 @@
 
 .vertical-nav-menu-wrapper {
   width: calc(280px + 1.5em);
-  height: 1px;
-  min-height: 100vh;
+  height: auto;
   padding: 0;
   padding-block: 1.5em;
   padding-inline-start: 1.5em;
