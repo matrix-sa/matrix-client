@@ -27,5 +27,7 @@
     ]"
     label="Gender"
   />
+
+  <app-file-input label="Upload" />
 </template>
 <style lang="scss"></style>

@@ -9,6 +9,7 @@ declare module 'vue' {
   export interface GlobalComponents {
     AppBar: typeof import('./src/components/shared/AppBar.vue')['default']
     AppChipSelect: typeof import('./src/components/core/AppChipSelect.vue')['default']
+    AppFileInput: typeof import('./src/components/core/AppFileInput.vue')['default']
     AppNumberField: typeof import('./src/components/core/AppNumberField.vue')['default']
     AppSelect: typeof import('./src/components/core/AppSelect.vue')['default']
     AppSelectField: typeof import('./src/components/core/AppSelectField.vue')['default']
