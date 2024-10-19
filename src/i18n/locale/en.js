@@ -244,7 +244,7 @@ export default {
         'Display your ads across the X platform, reach campaigns, engagement, app installs, and video views.',
     },
     googleads: {
-      title: 'Google'
+      title: 'Google',
     },
     google: {
       title: 'Google',
@@ -472,8 +472,7 @@ export default {
   view_all: 'View All',
   no_notification_found: 'No Notification Found!',
   notifications: 'Notifications',
-  'no-ad-accounts':
-    `You don't have any ad account on {platform}. Please create an ad account first. For more information, click`,
+  'no-ad-accounts': `You don't have any ad account on {platform}. Please create an ad account first. For more information, click`,
   here: 'here',
   pixel: 'pixel',
   both_genders: 'Both Genders',
@@ -677,57 +676,77 @@ export default {
   connect_your_store: 'Connect your store',
   connected_with_store: 'Connected with the store',
   store_x: 'Store {store}',
-  let_the_digital_writer_make_your_work_easier: "Let the digital writer make your work easier",
-  writer_title_desc: "Answer the questions for the section you need and start the conversation",
-  advertising_texts: "advertising texts",
-  previous_conversations: "Previous conversations",
-  description_of_products: "Description of products",
-  advertising_scenarios: "Advertising scenarios",
-  content_designs: "Content designs",
-  landing_pages: "Landing pages",
-  text: "Text from the previous conversation",
-  what_is_the_product_or_service_provided: "What is the product or service provided?",
-  p1: "Example: delivery services, food products...",
-  what_problem_does_the_product_or_service_solve: "What problem does the product or service solve?",
-  p2: "Example: Facilitating the sending of orders...",
-  who_is_the_target_audience: "Who is the target audience?",
-  p3: "Example: residents of a specific area, men, women, school students...",
-  what_is_a_special_promotion: "What is a special promotion?",
-  p4: "Example: Discount on bill, buy 2 get 1 free...",
-  is_there_a_specific_message_you_want_to_convey_to_the_audience: "Is there a specific message you want to convey to the audience?",
-  p5: "Example: product quality, service exclusivity...",
-  start_the_conversation: "Start the conversation",
-  what_are_the_technical_specifications_or_basic_details_of_the_product: "What are the technical specifications or basic details of the product?",
-  what_are_the_main_benefits_the_user_will_get: "What are the main benefits the user will get?",
-  how_is_the_product_different_from_competitors: "How is the product different from competitors?",
-  p6: "Example: Excellence in quality, variety of options...",
-  who_is_the_ideal_audience_to_benefit_from_this_product: "Who is the ideal audience to benefit from this product",
-  what_is_the_main_story_or_message_you_want_to_communicate: "What is the main story or message you want to communicate?",
-  what_is_the_duration_of_the_ad_in_seconds: "What is the duration of the ad in seconds?",
-  p7: "Example: 30 seconds, 60 seconds, 90 seconds...",
-  What_feeling_or_emotion_should_the_video_generate: "What feeling or emotion should the video generate?",
-  p8: "Example: importance of the product, strong message...",
-  what_is_the_preferred_advertising_method: "What is the preferred advertising method?",
-  social_media: "social media",
-  blogs: "Blogs",
-  personal_promotion: "Personal promotion",
-  other: "Other",
-  what_is_the_purpose_of_the_design_ad_social_media_post_profile: "What is the purpose of the design (ad, social media post, profile)?",
-  p9: "Example: product promotion, offer promotion...",
-  what_is_a_promotion_discount_free_benefit: "What is a promotion (discount/free benefit)?",
-  is_there_a_particular_message_you_want_to_focus_on: "Is there a particular message you want to focus on?",
-  what_is_the_purpose_of_a_landing_page: "What is the purpose of a landing page?",
-  p10: "Example: attracting potential customers, promoting a specific product...",
-  p11: "Example: A website introducing a specific product or service...",
-  what_are_the_benefits_of_the_product_or_service: "What are the benefits of the product or service?",
-  p12: "Example: solving a problem, facilitating a certain matter...",
-  what_is_the_offer_or_value_provided_to_the_audience: "What is the offer or value provided to the audience?",
-  what_action_is_required_of_the_visitor: "What action is required of the visitor?",
-  p13: "Example: login, register phone number...",
-  what_distinguishes_your_product_or_service_from_competitors:"What distinguishes your product or service from competitors?",
+  let_the_digital_writer_make_your_work_easier:
+    'Let the digital writer make your work easier',
+  writer_title_desc:
+    'Answer the questions for the section you need and start the conversation',
+  advertising_texts: 'advertising texts',
+  previous_conversations: 'Previous conversations',
+  description_of_products: 'Description of products',
+  advertising_scenarios: 'Advertising scenarios',
+  content_designs: 'Content designs',
+  landing_pages: 'Landing pages',
+  text: 'Text from the previous conversation',
+  what_is_the_product_or_service_provided:
+    'What is the product or service provided?',
+  p1: 'Example: delivery services, food products...',
+  what_problem_does_the_product_or_service_solve:
+    'What problem does the product or service solve?',
+  p2: 'Example: Facilitating the sending of orders...',
+  who_is_the_target_audience: 'Who is the target audience?',
+  p3: 'Example: residents of a specific area, men, women, school students...',
+  what_is_a_special_promotion: 'What is a special promotion?',
+  p4: 'Example: Discount on bill, buy 2 get 1 free...',
+  is_there_a_specific_message_you_want_to_convey_to_the_audience:
+    'Is there a specific message you want to convey to the audience?',
+  p5: 'Example: product quality, service exclusivity...',
+  start_the_conversation: 'Start the conversation',
+  what_are_the_technical_specifications_or_basic_details_of_the_product:
+    'What are the technical specifications or basic details of the product?',
+  what_are_the_main_benefits_the_user_will_get:
+    'What are the main benefits the user will get?',
+  how_is_the_product_different_from_competitors:
+    'How is the product different from competitors?',
+  p6: 'Example: Excellence in quality, variety of options...',
+  who_is_the_ideal_audience_to_benefit_from_this_product:
+    'Who is the ideal audience to benefit from this product',
+  what_is_the_main_story_or_message_you_want_to_communicate:
+    'What is the main story or message you want to communicate?',
+  what_is_the_duration_of_the_ad_in_seconds:
+    'What is the duration of the ad in seconds?',
+  p7: 'Example: 30 seconds, 60 seconds, 90 seconds...',
+  What_feeling_or_emotion_should_the_video_generate:
+    'What feeling or emotion should the video generate?',
+  p8: 'Example: importance of the product, strong message...',
+  what_is_the_preferred_advertising_method:
+    'What is the preferred advertising method?',
+  social_media: 'social media',
+  blogs: 'Blogs',
+  personal_promotion: 'Personal promotion',
+  other: 'Other',
+  what_is_the_purpose_of_the_design_ad_social_media_post_profile:
+    'What is the purpose of the design (ad, social media post, profile)?',
+  p9: 'Example: product promotion, offer promotion...',
+  what_is_a_promotion_discount_free_benefit:
+    'What is a promotion (discount/free benefit)?',
+  is_there_a_particular_message_you_want_to_focus_on:
+    'Is there a particular message you want to focus on?',
+  what_is_the_purpose_of_a_landing_page:
+    'What is the purpose of a landing page?',
+  p10: 'Example: attracting potential customers, promoting a specific product...',
+  p11: 'Example: A website introducing a specific product or service...',
+  what_are_the_benefits_of_the_product_or_service:
+    'What are the benefits of the product or service?',
+  p12: 'Example: solving a problem, facilitating a certain matter...',
+  what_is_the_offer_or_value_provided_to_the_audience:
+    'What is the offer or value provided to the audience?',
+  what_action_is_required_of_the_visitor:
+    'What action is required of the visitor?',
+  p13: 'Example: login, register phone number...',
+  what_distinguishes_your_product_or_service_from_competitors:
+    'What distinguishes your product or service from competitors?',
   choose_public_profile: 'Choose Public Profile',
-  no_public_profiles:
-    `You don't have any public profile on { platform }. Please create a public profile first.`,
+  no_public_profiles: `You don't have any public profile on { platform }. Please create a public profile first.`,
   sar: 'SAR',
   snapchat_radius_validation: 'Radius should be between {min} and {max}',
   'bidding-strategy-type': 'Bidding Strategy Type',
@@ -857,4 +876,7 @@ export default {
   thePlatforms: 'platforms',
   targeting_quality: 'Targeting Quality',
   average_cost_per1_k_customers: 'Average Cost per 1000 Customers',
+  add_campaign: 'Add Campaign',
+  campaign_settings: 'Campaign Settings',
+  how_to_edit_campaign: 'You can edit this information later by selecting the campaign and clicking on Edit.',
 }
