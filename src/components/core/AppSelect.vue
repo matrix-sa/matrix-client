@@ -9,7 +9,7 @@
     const _elementIdToken = attrs.id || attrs.label
 
     return _elementIdToken
-      ? `app-text-field-${_elementIdToken}-${Math.random()
+      ? `app-select-${_elementIdToken}-${Math.random()
         .toString(36)
         .slice(2, 7)}`
       : undefined
@@ -19,7 +19,7 @@
 </script>
 
 <template>
-  <div class="app-text-field flex-grow-1" :class="$attrs.class">
+  <div class="app-select flex-grow-1" :class="$attrs.class">
     <VLabel
       v-if="label"
       class="mb-1 text-body-2 text-high-emphasis"
@@ -45,7 +45,7 @@
   </div>
 </template>
 <style lang="scss">
-.app-text-field {
+.app-select {
   .v-field {
     border-radius: 0.75rem;
   }
