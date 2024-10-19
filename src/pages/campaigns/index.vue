@@ -1,2 +1,4 @@
 <script setup></script>
- <template></template>
+<template>
+  <p>Campaign go here</p>
+</template>
