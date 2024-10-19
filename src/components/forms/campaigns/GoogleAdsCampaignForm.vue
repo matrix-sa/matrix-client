@@ -28,6 +28,6 @@
     label="Gender"
   />
 
-  <app-file-input label="Upload" />
+  <app-file-input label="Upload" label-hint="png,svg" />
 </template>
 <style lang="scss"></style>
