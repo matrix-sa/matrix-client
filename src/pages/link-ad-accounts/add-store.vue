@@ -1,108 +1,108 @@
 <script setup>
-import { useBreadcrumbsStore } from '@/stores/useBreadcrumbsStore'
-import { useI18n } from 'vue-i18n'
-import { useStoresStore } from '@/stores/useStoresStore'
-import { storeToRefs } from 'pinia'
-import sallaLogo from '@/assets/salla.svg'
-import zidLogo from '@/assets/zid.svg'
-import storesLogo from '@/assets/stores.svg'
-import { useRequest } from 'vue-request'
-import StoresService from '@/services/stores-service'
-import { useSnackbarStore } from '@/stores/useSnackBarStore'
+  import { useBreadcrumbsStore } from '@/stores/useBreadcrumbsStore'
+  import { useI18n } from 'vue-i18n'
+  import { useStoresStore } from '@/stores/useStoresStore'
+  import { storeToRefs } from 'pinia'
+  import sallaLogo from '@/assets/salla.svg'
+  import zidLogo from '@/assets/zid.svg'
+  import storesLogo from '@/assets/stores.svg'
+  import { useRequest } from 'vue-request'
+  import StoresService from '@/services/stores-service'
+  import { useSnackbarStore } from '@/stores/useSnackBarStore'
 
-const storesStore = useStoresStore()
-const { update } = useBreadcrumbsStore()
-const { t, locale } = useI18n()
+  const storesStore = useStoresStore()
+  const { update } = useBreadcrumbsStore()
+  const { t, locale } = useI18n()
 
-const { stores } = storeToRefs(storesStore)
-const { show } = useSnackbarStore()
+  const { stores } = storeToRefs(storesStore)
+  const { show } = useSnackbarStore()
 
-const storeTypesItems = ref([])
+  const storeTypesItems = ref([])
 
-const storesItems = computed(() =>
-  stores.value.map(store => ({
-    title: store.title,
-    code: store.code,
-    icon: store.code === 'salla' ? sallaLogo : zidLogo,
-    status: store.status,
-  }))
-)
-
-const { run: startAuthentication, loading: loadingAuthentication } = useRequest(
-  StoresService.startAuthentication,
-  {
-    manual: true,
-    onSuccess: response => {
-      const { data, messages, error } = response.data
-
-      if (error) {
-        show(messages[0], 'error')
-
-        return
-      }
-
-      const popupWindow = window.open(
-        data.authentication_url,
-        'PopupWindow',
-        'width=600,height=400'
-      )
-
-      window.addEventListener('message', async function (e) {
-        if (e.origin === 'https://matrix.sa') {
-          const { error, messages } = JSON.parse(e.data)
-
-          if (error) {
-            popupWindow.close()
-            show(messages[0], 'error')
-
-            return
-          }
-
-          popupWindow.close()
-
-          show(t('connected_successfully'), 'success')
-          websiteStore.checkAuth(form.value.website_type)
-
-          await authStore.fetchUser(true)
-        }
-      })
-    },
-    onError: error => {
-      show(error, 'error')
-    },
-  }
-)
-
-const startConnectingStore = store => {
-  startAuthentication(store)
-}
-
-const loading = computed(() => loadingAuthentication.value)
-
-watch(
-  locale,
-  () => {
-    storeTypesItems.value = stores.value.map(store => ({
+  const storesItems = computed(() =>
+    stores.value.map(store => ({
       title: store.title,
-      value: store.code,
+      code: store.code,
+      icon: store.code === 'salla' ? sallaLogo : zidLogo,
+      status: store.status,
     }))
+  )
 
-    update([
-      {
-        title: t('account_connect'),
-        active: false,
-        to: '/link-ad-accounts/',
+  const { run: startAuthentication, loading: loadingAuthentication } = useRequest(
+    StoresService.startAuthentication,
+    {
+      manual: true,
+      onSuccess: response => {
+        const { data, messages, error } = response.data
+
+        if (error) {
+          show(messages[0], 'error')
+
+          return
+        }
+
+        const popupWindow = window.open(
+          data.authentication_url,
+          'PopupWindow',
+          'width=600,height=400'
+        )
+
+        window.addEventListener('message', async function (e) {
+          if (e.origin === 'https://matrix.sa') {
+            const { error, messages } = JSON.parse(e.data)
+
+            if (error) {
+              popupWindow.close()
+              show(messages[0], 'error')
+
+              return
+            }
+
+            popupWindow.close()
+
+            show(t('connected_successfully'), 'success')
+            websiteStore.checkAuth(form.value.website_type)
+
+            await authStore.fetchUser(true)
+          }
+        })
       },
-      {
-        title: t('add_store'),
-        active: true,
-        disabled: true,
-        to: '/link-ad-accounts/add-store/',
+      onError: error => {
+        show(error, 'error')
       },
-    ])
-  },
-  { immediate: true }
-)
+    }
+  )
+
+  const startConnectingStore = store => {
+    startAuthentication(store)
+  }
+
+  const loading = computed(() => loadingAuthentication.value)
+
+  watch(
+    locale,
+    () => {
+      storeTypesItems.value = stores.value.map(store => ({
+        title: store.title,
+        value: store.code,
+      }))
+
+      update([
+        {
+          title: t('account_connect'),
+          active: false,
+          to: '/link-ad-accounts/',
+        },
+        {
+          title: t('add_store'),
+          active: true,
+          disabled: true,
+          to: '/link-ad-accounts/add-store/',
+        },
+      ])
+    },
+    { immediate: true }
+  )
 </script>
 <template>
   <div class="stores-container">
@@ -136,17 +136,43 @@ watch(
         <div class="actions">
           <template v-if="store.status === 'Success'">
             <div class="buttons-container">
-              <VBtn color="primary" flat height="40px" prepend-icon="material-symbols:edit-outline" rounded
-                style="padding-inline: 2.7em" :text="t('edit')" :width="160"
-                @click="startConnectingStore(store.code)" />
+              <VBtn
+                color="primary"
+                flat
+                height="40px"
+                prepend-icon="material-symbols:edit-outline"
+                rounded
+                style="padding-inline: 2.7em"
+                :text="t('edit')"
+                :width="160"
+                @click="startConnectingStore(store.code)"
+              />
 
-              <VBtn color="success" flat height="40px" prepend-icon="icon-park-solid:correct" readonly rounded
-                style="padding-inline: 2.7em" :text="t('connected')" :width="160" />
+              <VBtn
+                color="success"
+                flat
+                height="40px"
+                prepend-icon="icon-park-solid:correct"
+                readonly
+                rounded
+                style="padding-inline: 2.7em"
+                :text="t('connected')"
+                :width="160"
+              />
             </div>
           </template>
 
-          <VBtn v-else color="warning" flat height="40px" rounded style="padding-inline: 2.7em" :text="t('connect')"
-            :width="160" @click="startConnectingStore(store.code)" />
+          <VBtn
+            v-else
+            color="warning"
+            flat
+            height="40px"
+            rounded
+            style="padding-inline: 2.7em"
+            :text="t('connect')"
+            :width="160"
+            @click="startConnectingStore(store.code)"
+          />
         </div>
       </div>
     </div>

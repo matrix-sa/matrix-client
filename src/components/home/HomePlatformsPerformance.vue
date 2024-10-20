@@ -45,7 +45,7 @@
         fontWeight: 500,
         fontFamily: 'Tajawal',
         labels: {
-          colors: ['#706D79'],
+          colors: [''],
         },
         markers: {
           size: 8,

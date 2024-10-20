@@ -878,10 +878,13 @@ export default {
   average_cost_per1_k_customers: 'Average Cost per 1000 Customers',
   add_campaign: 'Add Campaign',
   campaign_settings: 'Campaign Settings',
-  how_to_edit_campaign: 'You can edit this information later by selecting the campaign and clicking on Edit.',
-  camaign_rule_modal_text: 'Select the appropriate value for the return on spending in the event of more than or less than and then specify the type of increase, decrease, or stop the campaign.',
+  how_to_edit_campaign:
+    'You can edit this information later by selecting the campaign and clicking on Edit.',
+  camaign_rule_modal_text:
+    'Select the appropriate value for the return on spending in the event of more than or less than and then specify the type of increase, decrease, or stop the campaign.',
   if_the_return_on_spending: 'If the return on spending',
-  increase_the_value_select_the_type_of_increase: 'Increase the value Select the type of increase',
+  increase_the_value_select_the_type_of_increase:
+    'Increase the value Select the type of increase',
   the_value_of_return_on_spending: 'The value of return on spending',
   enter_value: 'Enter Value',
   greater_than: 'Greater Than',
@@ -891,5 +894,10 @@ export default {
   monetary_value: 'Monetary value',
   percentage: 'percentage',
   consultationsLog: 'Consultations Log',
-
+  control_rules: 'Control Rules',
+  control_rules_instructions:
+    'You can add new control rules or modify existing rules, and you can enable or disable rules.',
+  communication_rules_instructions:
+    'You can add new communication rules or modify existing rules, and you can enable or disable rules.',
+  rule: 'Rule',
 }
