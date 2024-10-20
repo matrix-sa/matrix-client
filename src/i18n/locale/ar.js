@@ -883,14 +883,14 @@ export default {
   increase_the_value_select_the_type_of_increase: "قم بزيادة القيمة حدد نوع الزيادة",
   the_value_of_return_on_spending: "قيمة العائد على الإنفاق",
   enter_value: "أدخل القيمة",
-    greater_than: "أكثر من",
+  greater_than: "أكثر من",
   less_than: "أقل من",
   increase_the_value_select_the_type_of_increase: "قم بزيادة القيمة حدد نوع الزيادة",
   increase_your_budget_by: "قم بزيادة الميزانية بقيمة",
   control_rule: "قاعدة تحكم",
   monetary_value: "قيمة نقدية",
-            percentage: "نسبة مئوية"
-
+  percentage: "نسبة مئوية",
+  consultationsLog: "سجل الاستشارات",
 
 
 

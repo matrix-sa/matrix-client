@@ -24,29 +24,29 @@ const headers = [
       key: "id",
     }, */
   {
-    title: t("marketing-consultation.scheduling_url"),
-    key: "scheduling_url",
+    title: t("marketing-consultation.arabic_title"),
+    key: "arabic_title",
   },
+  // {
+  //   title: t("marketing-consultation.english_title"),
+  //   key: "english_title",
+  // },
   {
     title: t("marketing-consultation.status"),
     key: "status",
   },
   {
-    title: t("marketing-consultation.arabic_title"),
-    key: "arabic_title",
-  },
-  {
-    title: t("marketing-consultation.english_title"),
-    key: "english_title",
+    title: t("marketing-consultation.scheduling_url"),
+    key: "scheduling_url",
   },
   {
     title: t("marketing-consultation.price"),
     key: "price",
   },
-  {
-    title: t("marketing-consultation.currency"),
-    key: "currency",
-  },
+  // {
+  //   title: t("marketing-consultation.currency"),
+  //   key: "currency",
+  // },
   {
     title: t("marketing-consultation.position"),
     key: "position",
@@ -88,7 +88,7 @@ const getStatus = status => {
 }
 
 const handleCreate = item => {
-  consultationsStore.setConsultationToAnswer(item.raw)
+  consultationsStore.setConsultationToAnswer(item)
   router.push({ name: 'marketing-consultations-orders-create' })
 }
 </script>
@@ -98,30 +98,32 @@ const handleCreate = item => {
     <VRow>
       <VCol cols="12">
         <VCard>
-          <VCardTitle>
-            {{ $t("marketing-consultation.table_title") }}
+          <VCardTitle class="font-weight-medium py-6">
+            {{ $t("consultationsLog") }}
           </VCardTitle>
-          <VDivider />
           <VCardText>
+            <VDivider />
             <VDataTable :loading="marketingConsulationsLoading" :items="consulations"
               :items-length="consulations.length" :headers="headers" class="text-no-wrap no-pagination"
               items-per-page="-1">
               <!-- Status -->
               <template #item.status="{ item }">
-                <VChip :color="resolveStatusVariant(item.raw?.status)" size="small" label class="text-capitalize">
-                  {{ getStatus(item.raw?.status) }}
+                <VChip :color="resolveStatusVariant(item.status)" size="small" label class="text-capitalize">
+                  {{ getStatus(item.status) }}
                 </VChip>
               </template>
 
               <!-- Is Active -->
               <template #item.is_active="{ item }">
-                {{ item.raw?.is_active ? $t('yes') : $t('no') }}
+                {{ item.is_active ? $t('yes') : $t('no') }}
               </template>
 
               <!-- Currency -->
-              <template #item.currency="{ item }">
-                <!-- {{ $t(item.raw?.currency) }} -->
-                {{ item.raw?.currency }}
+              <template #item.price="{ item }">
+                {{ item.price }}
+                <sub>
+                  {{ $t(item.currency) }}
+                </sub>
               </template>
 
               <template #bottom />
@@ -130,12 +132,8 @@ const handleCreate = item => {
               <template #item.actions="{ item }">
                 <VTooltip :text="$t('marketing-consultation-order.create')">
                   <template #activator="{ props }">
-                    <!-- <IconBtn size="large" color="success" v-bind="props" @click="handleCreate(item)">
-                      <VIcon icon="material-symbols:add" />
-                    </IconBtn> -->
-                    <button size="large" color="success" v-bind="props" @click="handleCreate(item)">
-                      <VIcon icon="material-symbols:add" />
-                    </button>
+                    <VBtn class="mx-1" icon="material-symbols:add" size="x-small" color="success" v-bind="props"
+                      @click="handleCreate(item)" />
                   </template>
                 </VTooltip>
 
@@ -144,12 +142,8 @@ const handleCreate = item => {
                   <template #activator="{ props: activatorProps }">
                     <VTooltip :text="$t('marketing-consultation.show-questions')">
                       <template #activator="{ props }">
-                        <!-- <IconBtn size="large" color="primary" v-bind="{ ...props, ...activatorProps }">
-                          <VIcon icon="carbon:view" />
-                        </IconBtn> -->
-                        <button size="large" color="primary" v-bind="{ ...props, ...activatorProps }">
-                          <VIcon icon="carbon:view" />
-                        </button>
+                        <VBtn class="mx-1" icon="carbon:view" size="x-small" color="primary"
+                          v-bind="{ ...props, ...activatorProps }" />
                       </template>
                     </VTooltip>
                   </template>
@@ -160,7 +154,7 @@ const handleCreate = item => {
                   <!-- Dialog Content -->
                   <VCard :title="$t('marketing-consultation.view-questions-modal.title')">
                     <VCardText>
-                      <MarketingConsultationQuestionsList :questions="item.raw?.questions" />
+                      <MarketingConsultationQuestionsList :questions="item.questions" />
                     </VCardText>
                   </VCard>
                 </VDialog>
