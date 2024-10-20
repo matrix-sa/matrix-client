@@ -48,6 +48,7 @@ declare module 'vue' {
     HomeSpendingReturnLine: typeof import('./src/components/home/HomeSpendingReturnLine.vue')['default']
     HomeViews: typeof import('./src/components/home/HomeViews.vue')['default']
     LanguageSwitch: typeof import('./src/components/shared/LanguageSwitch.vue')['default']
+    MarketingConsultationQuestionsList: typeof import('./src/components/MarketingConsultationQuestionsList.vue')['default']
     MetaButton: typeof import('./src/components/platforms/meta/MetaButton.vue')['default']
     MobileLayout: typeof import('./src/components/shared/MobileLayout.vue')['default']
     Question: typeof import('./src/components/digital-writer/Question.vue')['default']
