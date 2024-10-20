@@ -1,53 +1,65 @@
 <script setup>
-  defineOptions({
-    name: 'AppTextField',
-    inheritAttrs: false,
-  })
+defineOptions({
+  name: 'AppTextField',
+  inheritAttrs: false,
+  appendText: ''
+})
 
-  const elementId = computed(() => {
-    const attrs = useAttrs()
-    const _elementIdToken = attrs.id || attrs.label
+defineProps({
+  appendText: ''
+})
 
-    return _elementIdToken
-      ? `app-text-field-${_elementIdToken}-${Math.random()
-        .toString(36)
-        .slice(2, 7)}`
-      : undefined
-  })
+const elementId = computed(() => {
+  const attrs = useAttrs()
+  const _elementIdToken = attrs.id || attrs.label
 
-  const label = computed(() => useAttrs().label)
+  return _elementIdToken
+    ? `app-text-field-${_elementIdToken}-${Math.random()
+      .toString(36)
+      .slice(2, 7)}`
+    : undefined
+})
+
+const label = computed(() => useAttrs().label)
 </script>
 
 <template>
   <div class="app-text-field flex-grow-1" :class="$attrs.class">
-    <VLabel
-      v-if="label"
-      class="mb-1 text-body-2 text-high-emphasis"
-      :for="elementId"
-      persistent-placeholder
-      :text="label"
-    />
-    <VTextField
-      v-bind="{
-        ...$attrs,
-        class: null,
-        label: undefined,
-        variant: 'solo-filled',
-        id: elementId,
-        'bg-color': 'secondary',
-        flat: true,
-      }"
-    >
+    <VLabel v-if="label" class="mb-1 text-body-2 text-high-emphasis" :for="elementId" persistent-placeholder
+      :text="label" />
+    <VTextField density class="text-input" height="40" v-bind="{
+      ...$attrs,
+      class: null,
+      label: undefined,
+      variant: 'solo-filled',
+      id: elementId,
+      'bg-color': 'secondary',
+      flat: true,
+    }">
       <template v-for="(_, name) in $slots" #[name]="slotProps">
         <slot :name="name" v-bind="slotProps || {}" />
       </template>
+
+      <template #append-inner v-if="appendText">
+        <span @click="onClick" class="append-text">{{ appendText }}</span>
+      </template>
     </VTextField>
+
+
   </div>
 </template>
 <style lang="scss">
 .app-text-field {
+
   .v-field {
     border-radius: 0.75rem;
+    height: 48px;
+    margin-top: 8px;
+    padding: 11px 8px;
   }
+}
+
+.v-field__append-inner {
+  padding-left: 5px;
 }
 </style>

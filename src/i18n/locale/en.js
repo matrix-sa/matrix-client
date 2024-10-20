@@ -879,4 +879,17 @@ export default {
   add_campaign: 'Add Campaign',
   campaign_settings: 'Campaign Settings',
   how_to_edit_campaign: 'You can edit this information later by selecting the campaign and clicking on Edit.',
+  camaign_rule_modal_text: "Select the appropriate value for the return on spending in the event of more than or less than and then specify the type of increase, decrease, or stop the campaign.",
+  if_the_return_on_spending: "If the return on spending",
+  increase_the_value_select_the_type_of_increase: "Increase the value Select the type of increase",
+  the_value_of_return_on_spending: "The value of return on spending",
+  enter_value: "Enter Value",
+  greater_than: "Greater Than",
+  less_than: "Less Than",
+  increase_the_value_select_the_type_of_increase: "Increase the value Select the type of increase",
+  increase_your_budget_by: "Increase your budget by",
+  control_rule: "Control rule",
+  monetary_value: "Monetary value",
+  percentage: "percentage"
+
 }
