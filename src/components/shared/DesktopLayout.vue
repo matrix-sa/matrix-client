@@ -10,17 +10,8 @@
 
 <style scoped lang="scss">
 .main {
-  display: flex;
-  flex-direction: row;
-  justify-content: start;
-  align-items: flex-start;
-  width: 100%;
-}
-.container {
-  display: flex;
-  flex-direction: column;
-  align-self: stretch;
-  flex-grow: 1;
-  padding-block-end: 2em;
+  display: grid;
+  grid-template-columns: minmax(0, 280px) minmax(0, 1fr);
+  gap: 1.5rem;
 }
 </style>
