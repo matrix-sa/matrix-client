@@ -891,5 +891,5 @@ export default {
   monetary_value: 'Monetary value',
   percentage: 'percentage',
   consultationsLog: 'Consultations Log',
-
+  requestConsult: 'Request Consult'
 }
