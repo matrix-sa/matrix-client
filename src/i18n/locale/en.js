@@ -900,4 +900,5 @@ export default {
   communication_rules_instructions:
     'You can add new communication rules or modify existing rules, and you can enable or disable rules.',
   rule: 'Rule',
+  requestConsult: 'Request Consult',
 }

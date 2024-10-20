@@ -898,4 +898,5 @@ export default {
   communication_rules_instructions:
     'يمكنك إضافة قواعد اتصال جديدة أو تعديل قواعد موجودة بالفعل, كما يمكنك تفعيل أو تعطيل القواعد.',
   rule: 'قاعدة',
+  requestConsult: 'طلب استشارة',
 }

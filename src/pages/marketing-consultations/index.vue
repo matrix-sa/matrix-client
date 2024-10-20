@@ -1,182 +1,185 @@
 <script setup>
-import MarketingConsultationQuestionsList from "@/components/MarketingConsultationQuestionsList.vue"
+import { paginationMeta } from "@/composable/utils"
 import { useI18n } from 'vue-i18n'
-
-
-import MarketingConsultationsService from "@/services/marketing-consultations-service"
-import { useConsultationsStore } from '@/stores/useConsultationsStore'
+import { DateFormat } from "@/composable/useFormat"
+import MarketingConsultationsOrdersService from "@/services/marketing-consultations-orders-service"
+import useSnackbar from "@/composable/useSnackbar"
 import { useRequest } from "vue-request"
-import { useRouter } from "vue-router"
-// import { VDataTableServer } from "vuetify/labs/VDataTable"
 
-const consultationsStore = useConsultationsStore()
-const router = useRouter()
-const consulations = ref([])
-const isDialogVisible = ref(false)
+const totalCount = ref(0)
+const consultationsOrders = ref([])
 
+const options = ref({
+  page: 1,
+  itemsPerPage: 10,
+  sortBy: [],
+  groupBy: [],
+  search: undefined,
+})
 
-const { t } = useI18n()
+const { t, locale } = useI18n()
 
+const { show } = useSnackbar()
+
+const isArabic = locale.value === 'ar'
+const usedTitle = isArabic ? 'arabic_title' : 'english_title'
 
 const headers = [
-  /*   {
-      title: t("marketing-consultation.id"),
-      key: "id",
-    }, */
   {
-    title: t("marketing-consultation.arabic_title"),
-    key: "arabic_title",
+    title: t("marketing-consultation-order.title"),
+    key: usedTitle,
   },
-  // {
-  //   title: t("marketing-consultation.english_title"),
-  //   key: "english_title",
-  // },
   {
-    title: t("marketing-consultation.status"),
+    title: t("marketing-consultation-order.status"),
     key: "status",
   },
   {
-    title: t("marketing-consultation.scheduling_url"),
-    key: "scheduling_url",
+    title: t("marketing-consultation-order.created_at"),
+    key: "created_at",
   },
   {
-    title: t("marketing-consultation.price"),
+    title: t("marketing-consultation-order.serial_number"),
+    key: "serial_number",
+  },
+  {
+    title: t("marketing-consultation-order.price"),
     key: "price",
   },
   // {
-  //   title: t("marketing-consultation.currency"),
-  //   key: "currency",
+  //   title: t("marketing-consultation-order.actions"),
+  //   key: "actions",
   // },
-  {
-    title: t("marketing-consultation.position"),
-    key: "position",
-  },
-  {
-    title: t("marketing-consultation.is_active"),
-    key: "is_active",
-  },
-  {
-    title: t("actions"),
-    key: "actions",
-  },
 ]
 
-const {
-  run: fetchMarketingConsulations,
-  loading: marketingConsulationsLoading,
-} = useRequest(params => MarketingConsultationsService.getAll(params), {
-  onSuccess: res => {
-    const { data, error, message } = res.data
+const { run: fetchOrders, loading: loadingOrders } = useRequest(
+  MarketingConsultationsOrdersService.getAll,
+  {
+    isManual: true,
+    onSuccess: response => {
+      const { data, error, messages } = response.data
 
-    consulations.value = data
+      if (error) {
+        show(messages[0], "error")
+
+        return
+      }
+
+      consultationsOrders.value = data.items
+      options.value.page = data.current_page
+      options.value.itemsPerPage = data.page_size
+      totalCount.value = data.total_count
+    },
   },
-})
+)
 
 const resolveStatusVariant = status => {
   const statusVariants = {
-    created: 'success',
-    deleted: 'secondary',
+    created: "success",
+    accepted: "primary",
+    rejected: "error",
+    confirmed: "info",
+    cancelled: "warning",
+    completed: "success",
+    deleted: "secondary",
   }
 
-  return statusVariants[status?.toLowerCase()]
+  return statusVariants[status?.toLowerCase()] || "primary"
 }
 
 const getStatus = status => {
   const loweredStatus = status?.toLowerCase()
 
-  return t(`marketing-consultation.statuses.${loweredStatus}`)
+  return t(`marketing-consultation-order.statuses.${loweredStatus}`)
 }
 
-const handleCreate = item => {
-  consultationsStore.setConsultationToAnswer(item)
-  router.push({ name: 'marketing-consultations-orders-create' })
-}
+watch(
+  options,
+  () => {
+    fetchOrders({
+      PageSize: options.value.itemsPerPage,
+      Page: options.value.page,
+    })
+  },
+  { deep: true },
+)
+
+const loading = computed(() => loadingOrders.value)
 </script>
 
 <template>
   <section>
-    <VRow>
-      <VCol cols="12">
-        <VCard>
-          <VCardTitle class="font-weight-medium py-6">
-            {{ $t("consultationsLog") }}
-          </VCardTitle>
-          <VCardText>
+    <VCard>
+      <div class="d-flex align-center justify-space-between ga-4 pa-4">
+        <VCardTitle class="font-weight-medium text-surface-variant pa-0">
+          {{ $t("consultationsLog") }}
+
+        </VCardTitle>
+        <VBtn rounded color="warning">
+          <VIcon icon="tabler-circle-plus-filled" />
+          {{ $t("requestConsult") }}
+        </VBtn>
+      </div>
+
+      <VCardText class="pa-4 pt-0">
+        <VDivider />
+        <VDataTableServer v-model:items-per-page="options.itemsPerPage" v-model:page="options.page" :loading="loading"
+          :items="consultationsOrders" :items-length="totalCount" :headers="headers" :no-data-text="$t('no_data_text')"
+          class="text-no-wrap" @update:options="options = $event">
+          <!-- Created At -->
+          <template #item.created_at="{ item }">
+            {{ DateFormat(item.created_at) }}
+          </template>
+
+          <!-- Last Updated -->
+          <template #item.price="{ item }">
+            {{ item.price }}
+            <sub> {{ $t(item.currency) }}</sub>
+          </template>
+
+          <!-- Status -->
+          <template #item.status="{ item }">
+            <VChip :color="resolveStatusVariant(item.status)" variant="text" class="text-capitalize px-0">
+              {{ getStatus(item.status) }}
+            </VChip>
+          </template>
+
+          <!-- Actions -->
+          <!-- <template #item.actions="{ item }">
+            <td>
+              <VTooltip :text="$t('details')">
+                <template #activator="{ props }">
+                  <VBtn icon="carbon:view-filled" size="x-small" color="primary" v-bind="props" :to="{
+                    name: 'marketing-consultations-orders-details-id',
+                    params: { id: item.id },
+                  }" />
+                </template>
+              </VTooltip>
+
+              <VTooltip v-if="item.status === 'Accepted'" :text="$t('pay')">
+                <template #activator="{ props }">
+                  <VBtn icon="game-icons:take-my-money" size="x-small" color="primary" v-bind="props" :to="{
+                    name: 'marketing-consultations-orders-pay-id',
+                    params: { id: item.id },
+                  }" />
+                </template>
+              </VTooltip>
+            </td>
+          </template> -->
+
+          <!-- pagination -->
+          <template #bottom>
             <VDivider />
-            <VDataTable :loading="marketingConsulationsLoading" :items="consulations"
-              :items-length="consulations.length" :headers="headers" class="text-no-wrap no-pagination"
-              items-per-page="-1">
-              <!-- Status -->
-              <template #item.status="{ item }">
-                <VChip :color="resolveStatusVariant(item.status)" size="small" label class="text-capitalize">
-                  {{ getStatus(item.status) }}
-                </VChip>
-              </template>
+            <div class="d-flex align-center justify-sm-space-between justify-center flex-wrap gap-3 pa-5 pt-3">
+              <p class="text-sm text-disabled mb-0">
+                {{ paginationMeta(options, totalCount) }}
+              </p>
 
-              <!-- Is Active -->
-              <template #item.is_active="{ item }">
-                {{ item.is_active ? $t('yes') : $t('no') }}
-              </template>
-
-              <!-- Currency -->
-              <template #item.price="{ item }">
-                {{ item.price }}
-                <sub>
-                  {{ $t(item.currency) }}
-                </sub>
-              </template>
-
-              <template #bottom />
-
-              <!-- Actions -->
-              <template #item.actions="{ item }">
-                <VTooltip :text="$t('marketing-consultation-order.create')">
-                  <template #activator="{ props }">
-                    <VBtn class="mx-1" icon="material-symbols:add" size="x-small" color="success" v-bind="props"
-                      @click="handleCreate(item)" />
-                  </template>
-                </VTooltip>
-
-                <VDialog v-model="isDialogVisible" width="90vh" max-height="70vh">
-                  <!-- Activator -->
-                  <template #activator="{ props: activatorProps }">
-                    <VTooltip :text="$t('marketing-consultation.show-questions')">
-                      <template #activator="{ props }">
-                        <VBtn class="mx-1" icon="carbon:view" size="x-small" color="primary"
-                          v-bind="{ ...props, ...activatorProps }" />
-                      </template>
-                    </VTooltip>
-                  </template>
-
-                  <!-- Dialog close btn -->
-                  <!-- <DialogCloseBtn @click="isDialogVisible = !isDialogVisible" /> -->
-
-                  <!-- Dialog Content -->
-                  <VCard :title="$t('marketing-consultation.view-questions-modal.title')">
-                    <VCardText>
-                      <MarketingConsultationQuestionsList :questions="item.questions" />
-                    </VCardText>
-                  </VCard>
-                </VDialog>
-
-                <!-- Hide Pagination Controls -->
-              </template>
-            </VDataTable>
-          </VCardText>
-        </VCard>
-      </VCol>
-    </VRow>
+              <VPagination v-model="options.page" total-visible="3"
+                :length="Math.ceil(totalCount / options.itemsPerPage)" />
+            </div>
+          </template>
+        </VDataTableServer>
+      </VCardText>
+    </VCard>
   </section>
 </template>
-
-<style scoped>
-.headline {
-  font-size: 1.5rem;
-}
-</style>
-
-<style>
-.no-pagination .v-table__wrapper {
-  min-block-size: 65px !important;
-}
-</style>
