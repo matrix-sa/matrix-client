@@ -34,6 +34,10 @@ const headers = [
     key: "status",
   },
   {
+    title: t("marketing-consultation-order.created_at"),
+    key: "created_at",
+  },
+  {
     title: t("marketing-consultation-order.serial_number"),
     key: "serial_number",
   },
@@ -116,7 +120,7 @@ const loading = computed(() => loadingOrders.value)
         </VBtn>
       </div>
 
-      <VCardText class="pt-0">
+      <VCardText class="pa-4 pt-0">
         <VDivider />
         <VDataTableServer v-model:items-per-page="options.itemsPerPage" v-model:page="options.page" :loading="loading"
           :items="consultationsOrders" :items-length="totalCount" :headers="headers" :no-data-text="$t('no_data_text')"
