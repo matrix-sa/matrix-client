@@ -43,10 +43,10 @@
   <VSelect
     v-model="selected"
     density="compact"
-    :items="options"
     :item-title="item => item.name"
-    min-width="140px"
     :item-value="item => item.id"
+    :items="options"
+    min-width="140px"
     variant="outlined"
     @update:model-value="setSelected"
   />

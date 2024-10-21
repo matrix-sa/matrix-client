@@ -1,11 +1,11 @@
 <script setup>
-import ChatbotLogo from "@/assets/digital-writer/Chatbot.png";
-import { useI18n } from "vue-i18n";
-const { t } = useI18n();
+  import ChatbotLogo from '@/assets/digital-writer/Chatbot.png'
+  import { useI18n } from 'vue-i18n'
+  const { t } = useI18n()
 </script>
 <template>
   <div class="d-flex gap-4 title-container">
-    <img class="chatbot-img" :src="ChatbotLogo" />
+    <img class="chatbot-img" :src="ChatbotLogo">
 
     <div class="text-wrapper d-flex flex-column">
       <span>{{ t("let_the_digital_writer_make_your_work_easier") }}</span>

@@ -31,11 +31,11 @@
       <div class="d-flex flex-column align-end" :class="chipBg ? 'ga-3' : ''">
         <VChip
           class="font-weight-bold"
+          :class="chipBg ? 'py-0 px-3' : 'pa-0'"
           :color="rate === 0
             ? 'secondary' : rate?.toString()?.includes('-')
               ? 'error'
               : 'success'"
-          :class="chipBg ? 'py-0 px-3' : 'pa-0'"
           :density="chipBg ? 'comfortable' : 'compact'"
           :label="chipBg"
           size="x-large"
