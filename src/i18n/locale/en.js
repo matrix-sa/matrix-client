@@ -934,5 +934,6 @@ export default {
   send_a_notification_via: 'Send a notification via',
   whatsapp: 'WhatsApp',
   sms: 'SMS',
+  writeYourAnswer: 'Write your answer',
 
 }

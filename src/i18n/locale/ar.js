@@ -933,4 +933,5 @@ export default {
   send_a_notification_via: 'قم بإرسال إشعار عبر',
   whatsapp: 'واتساب',
   sms: 'رسالة نصية',
+  writeYourAnswer: 'اكتب إجابتك',
 }
