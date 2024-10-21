@@ -1,5 +1,4 @@
 <script setup>
-
   const props = defineProps({
     items: {
       type: Array,
@@ -26,10 +25,8 @@
         .slice(2, 7)}`
       : undefined
   })
-
 </script>
 <template>
-
   <div class="app-chip-select flex-grow-1">
     <VLabel
       v-if="label"
@@ -52,26 +49,26 @@
         :text="item.title"
         :value="item.id"
       />
-
     </v-chip-group>
   </div>
 </template>
 
 <style lang="scss">
-.app-chip-select{
-    .v-chip{
-        flex-grow: 1;
-        border-radius: 12px;
-        height: 48px;
-        &.v-chip-selected{
-            background-color: rgb(var(--v-theme-primary));
-            .v-chip__content{
-                color: white;
-            }
-        }
-        .v-chip__content{
-            margin: auto;
-        }
+.app-chip-select {
+  .v-chip {
+    flex-grow: 1;
+    border-radius: 12px;
+    height: 48px;
+    &.v-chip-selected {
+      background-color: rgb(var(--v-theme-primary));
+      .v-chip__content {
+        color: white;
+      }
     }
+    .v-chip__content {
+      font-size: 16px;
+      margin: auto;
+    }
+  }
 }
 </style>

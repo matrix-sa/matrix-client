@@ -10,6 +10,10 @@
       type: String,
       default: '',
     },
+    bordered: {
+      type: Boolean,
+      default: false,
+    },
   })
 
   const elementId = computed(() => {
@@ -37,6 +41,7 @@
     />
     <VTextField
       class="text-input"
+      :class="bordered ? 'input-bordered' : ''"
       height="40"
       v-bind="{
         ...$attrs,
@@ -44,7 +49,7 @@
         label: undefined,
         variant: 'solo-filled',
         id: elementId,
-        'bg-color': 'secondary',
+        'bg-color': 'background',
         flat: true,
       }"
     >
@@ -56,18 +61,34 @@
         <span class="append-text" @click="onClick">{{ appendText }}</span>
       </template>
     </VTextField>
-
   </div>
 </template>
 <style lang="scss">
 .app-text-field {
-
   .v-field {
     border-radius: 0.75rem;
     height: 48px;
     margin-top: 8px;
     padding: 11px 8px;
     align-content: center;
+  }
+}
+
+.text-input.input-bordered {
+  .v-input__control {
+    .v-field {
+      border: 1px solid #1f162526;
+      background: rgb(var(--v-theme-background));
+      transition: all 0.15s linear;
+
+      &--active {
+        outline: 1px solid rgb(var(--v-theme-primary));
+        border-color: rgb(var(--v-theme-primary));
+      }
+    }
+    .v-field__overlay {
+      background: unset;
+    }
   }
 }
 

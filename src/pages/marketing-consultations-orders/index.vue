@@ -4,7 +4,6 @@
   import MarketingConsultationsService from '@/services/marketing-consultations-service'
   import { useConsultationsStore } from '@/stores/useConsultationsStore'
   import { useRequest } from 'vue-request'
-  import { locale } from 'core-js'
 
   const consultationsStore = useConsultationsStore()
 
@@ -77,22 +76,24 @@
                 <form v-for="(question, i) in selected?.questions" :key="i">
                   <ApptextField
                     v-if="question.type === 'Text'"
+                    bordered
                     :label="question[localeTitle]"
                     :placeholder="$t('writeYourAnswer')"
                   />
-                  <VRadioGroup
+
+                  <!-- v-model="" -->
+                  <AppChipSelect
                     v-if="question.type === 'SingleChoice'"
-                    class="text-black text-body-2"
+                    :items="
+                      question.choices?.map((item) => {
+                        return {
+                          id: item.id,
+                          title: item[localeTitle],
+                        };
+                      })
+                    "
                     :label="question[localeTitle]"
-                  >
-                    <VRadio
-                      v-for="choice of question.choices"
-                      :key="choice.id"
-                      color="primary"
-                      :label="choice[localeTitle]"
-                      :value="choice.id"
-                    />
-                  </VRadioGroup>
+                  />
                 </form>
               </VCol>
             </template>
@@ -116,7 +117,10 @@
 :deep(.v-radio-group > .v-input__control > .v-label) {
   font-size: 14px;
 }
-:deep(.v-selection-control .v-label) {
-  font-size: 14px;
+
+:deep(.app-chip-select .v-label),
+:deep(.app-text-field .v-label) {
+  opacity: 1;
+  color: #1f1625 !important;
 }
 </style>
