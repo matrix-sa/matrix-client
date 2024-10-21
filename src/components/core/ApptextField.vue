@@ -59,6 +59,10 @@ const label = computed(() => useAttrs().label)
   }
 }
 
+.app-select .v-field__input {
+  line-height: 48px;
+}
+
 .v-field__append-inner {
   padding-left: 5px;
 }

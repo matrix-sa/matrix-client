@@ -8,6 +8,7 @@ export {}
 declare module 'vue' {
   export interface GlobalComponents {
     AppBar: typeof import('./src/components/shared/AppBar.vue')['default']
+    AppCheckBox: typeof import('./src/components/core/AppCheckBox.vue')['default']
     AppChipSelect: typeof import('./src/components/core/AppChipSelect.vue')['default']
     AppFileInput: typeof import('./src/components/core/AppFileInput.vue')['default']
     AppNumberField: typeof import('./src/components/core/AppNumberField.vue')['default']
@@ -15,6 +16,7 @@ declare module 'vue' {
     ApptextField: typeof import('./src/components/core/ApptextField.vue')['default']
     CampaignRuleModal: typeof import('./src/components/dialogs/CampaignRuleModal.vue')['default']
     ConnectionConfirmationDialog: typeof import('./src/components/dialogs/ConnectionConfirmationDialog.vue')['default']
+    ConnectionRuleModal: typeof import('./src/components/dialogs/ConnectionRuleModal.vue')['default']
     ConnectPlatformAccountDialog: typeof import('./src/components/dialogs/ConnectPlatformAccountDialog.vue')['default']
     DesktopLayout: typeof import('./src/components/shared/DesktopLayout.vue')['default']
     GoogleAdsCampaignForm: typeof import('./src/components/forms/campaigns/GoogleAdsCampaignForm.vue')['default']
