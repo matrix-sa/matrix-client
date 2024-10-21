@@ -83,13 +83,14 @@ const selected = ref(null);
                   <VRadioGroup
                     v-if="question.type === 'SingleChoice'"
                     :label="question[localeTitle]"
+                    class="text-black text-body-2"
                   >
                     <VRadio
-                      v-for="(choice, choiceIndex) of question.choices"
-                      :key="choiceIndex"
+                      v-for="choice of question.choices"
+                      :key="choice.id"
                       color="primary"
                       :label="choice[localeTitle]"
-                      :value="choice[localeTitle]"
+                      :value="choice.id"
                     />
                   </VRadioGroup>
                 </form>
@@ -110,3 +111,12 @@ const selected = ref(null);
     </VCardText>
   </VCard>
 </template>
+
+<style scoped>
+:deep(.v-radio-group > .v-input__control > .v-label) {
+  font-size: 14px;
+}
+:deep(.v-selection-control .v-label) {
+  font-size: 14px;
+}
+</style>
