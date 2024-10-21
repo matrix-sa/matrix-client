@@ -150,6 +150,10 @@ const prependColor = computed(() => items.value.length === 1 ? 'orange' : '')
     color: rgb(var(--v-theme-primary)) !important;
   }
 
+  .v-breadcrumbs-divider {
+    padding: 0 !important;
+  }
+
   // selecting the last divider
   .v-breadcrumbs-divider:has(+li:last-child) svg {
     color: rgb(var(--v-theme-primary)) !important;

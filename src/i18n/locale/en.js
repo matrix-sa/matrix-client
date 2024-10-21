@@ -890,6 +890,25 @@ export default {
   increase_your_budget_by: "Increase your budget by",
   control_rule: "Control rule",
   monetary_value: "Monetary value",
-  percentage: "percentage"
+  percentage: "percentage",
+  connection_rule: "Connection Rule",
+  connection_rule_text: "Specify the type of indicator that will be used if (decreased or increased) in order to notify you, specifying the value and time period.",
+  in_case: "in case",
+  decreased: "decreased",
+  increased: "increased",
+  select_the_indicator: "Select the indicator",
+  specify_the_value: "Specify the value",
+  during_another: "During another",
+  num_of_days: "Number of days",
+  day: "day",
+  send_a_notification_via: "Send a notification via",
+  whatsapp: "WhatsApp",
+  sms: "SMS",
+  email: "email"
+
+
+
+
+
 
 }

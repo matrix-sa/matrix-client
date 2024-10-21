@@ -889,7 +889,24 @@ export default {
   increase_your_budget_by: "قم بزيادة الميزانية بقيمة",
   control_rule: "قاعدة تحكم",
   monetary_value: "قيمة نقدية",
-            percentage: "نسبة مئوية"
+  percentage: "نسبة مئوية",
+  connection_rule: "قاعدة اتصال",
+  connection_rule_text: "قم بتحديد نوع المؤشر الذي سيتم استخدامه في حال (قل أو زاد) من أجل إشعاركم مع تحديد القيمة والمدة الزمنية.",
+  in_case: "في حال",
+          decreased: "قل",
+  increased: "زاد",
+  select_the_indicator: "حدد المؤشر",
+  specify_the_value: "حدد القيمة",
+  during_another: "خلال آخر",
+  num_of_days: "عدد الأيام",
+  day: "يوم",
+  send_a_notification_via: "قم بإرسال إشعار عبر",
+  whatsapp: "واتساب",
+  sms: "رسالة نصية",
+  email: "بريد إلكتروني"
+
+
+
 
 
 
