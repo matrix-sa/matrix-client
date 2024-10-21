@@ -1,11 +1,9 @@
-import API from "./api"
+import API from './api'
 
 const ConnectionRuleService = (function () {
-
-  const run = (data) => {
+  const run = data => {
     return API.post(`/Clients/CampaignsRules/CreateCommunicationRule`, data)
   }
-
 
   return {
     run,

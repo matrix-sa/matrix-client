@@ -1,20 +1,20 @@
 <script setup>
-import ksaFlag from '@images/icons/countries/ksa_flag.svg'
+  import ksaFlag from '@images/icons/countries/ksa_flag.svg'
 
-const props = defineProps({
-  cities: Object,
-})
+  const props = defineProps({
+    cities: Object,
+  })
 
-const currency = inject('currency')
+  const currency = inject('currency')
 </script>
 
 <template>
-  <VCard :title="$t('sales-by-city')" :subtitle="$t('last-month')">
+  <VCard :subtitle="$t('last-month')" :title="$t('sales-by-city')">
     <VCardText>
       <VList v-if="props.cities !== null" class="card-list">
         <VListItem v-for="city in cities" :key="city.total_this_duration">
           <template #prepend>
-            <VAvatar size="34" color="secondary" variant="tonal" :image="ksaFlag" />
+            <VAvatar color="secondary" :image="ksaFlag" size="34" variant="tonal" />
           </template>
 
           <VListItemTitle class="font-weight-medium">
@@ -26,11 +26,17 @@ const currency = inject('currency')
           </VListItemSubtitle>
 
           <template #append>
-            <div class="d-flex align-center font-weight-medium" :class="city.rate?.toString()?.includes('-')
-              ? 'text-error'
-              : 'text-success'">
-              <VIcon :icon="city.rate?.toString()?.includes('-') ? 'tabler-chevron-down' : 'tabler-chevron-up'"
-                size="20" class="me-1" />
+            <div
+              class="d-flex align-center font-weight-medium"
+              :class="city.rate?.toString()?.includes('-')
+                ? 'text-error'
+                : 'text-success'"
+            >
+              <VIcon
+                class="me-1"
+                :icon="city.rate?.toString()?.includes('-') ? 'tabler-chevron-down' : 'tabler-chevron-up'"
+                size="20"
+              />
               <span>{{ city.rate }}%</span>
             </div>
           </template>

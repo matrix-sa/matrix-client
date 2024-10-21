@@ -10,14 +10,13 @@ export const paginationMeta = computed(() => {
     const start = (options.page - 1) * options.itemsPerPage + 1
     const end = Math.min(options.page * options.itemsPerPage, total)
 
-    return t('showing_entries', { start: start, end: end, total: total })
+    return t('showing_entries', { start, end, total })
   }
 })
 export const genId = array => {
   const { length } = array
   let lastIndex = 0
-  if (length)
-    lastIndex = Number(array[length - 1]?.id) + 1
+  if (length) { lastIndex = Number(array[length - 1]?.id) + 1 }
 
   return lastIndex || (length + 1)
 }

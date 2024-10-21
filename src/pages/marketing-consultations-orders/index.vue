@@ -1,25 +1,25 @@
 <script setup>
-import emailSvg from "@images/svg/email-marketing.svg";
-import { localeTitle } from "@/composable/utils";
-import MarketingConsultationsService from "@/services/marketing-consultations-service";
-import { useConsultationsStore } from "@/stores/useConsultationsStore";
-import { useRequest } from "vue-request";
-import { locale } from "core-js";
+  import emailSvg from '@images/svg/email-marketing.svg'
+  import { localeTitle } from '@/composable/utils'
+  import MarketingConsultationsService from '@/services/marketing-consultations-service'
+  import { useConsultationsStore } from '@/stores/useConsultationsStore'
+  import { useRequest } from 'vue-request'
+  import { locale } from 'core-js'
 
-const consultationsStore = useConsultationsStore();
+  const consultationsStore = useConsultationsStore()
 
-const consultations = ref([]);
-const {
-  run: fetchMarketingConsultations,
-  loading: marketingConsultationsLoading,
-} = useRequest((params) => MarketingConsultationsService.getAll(params), {
-  onSuccess: (res) => {
-    const { data, error, message } = res.data;
-    consultations.value = data;
-  },
-});
+  const consultations = ref([])
+  const {
+    run: fetchMarketingConsultations,
+    loading: marketingConsultationsLoading,
+  } = useRequest(params => MarketingConsultationsService.getAll(params), {
+    onSuccess: res => {
+      const { data, error, message } = res.data
+      consultations.value = data
+    },
+  })
 
-const selected = ref(null);
+  const selected = ref(null)
 </script>
 
 <template>
@@ -36,7 +36,7 @@ const selected = ref(null);
           <section
             class="d-flex flex-column align-center justify-center ga-10 text-center px-6"
           >
-            <VImg :src="emailSvg" height="138" width="194" />
+            <VImg height="138" :src="emailSvg" width="194" />
             <h5 class="text-body-1">{{ $t("fillInfoToOrderConsult") }}</h5>
           </section>
           <!-- <VDivider vertical /> -->
@@ -60,7 +60,7 @@ const selected = ref(null);
                 "
                 @click="selected = consult"
               >
-                <VImg :src="consult.icon_url" height="48" width="48" />
+                <VImg height="48" :src="consult.icon_url" width="48" />
                 <span
                   :class="
                     selected?.id === consult.id
@@ -82,8 +82,8 @@ const selected = ref(null);
                   />
                   <VRadioGroup
                     v-if="question.type === 'SingleChoice'"
-                    :label="question[localeTitle]"
                     class="text-black text-body-2"
+                    :label="question[localeTitle]"
                   >
                     <VRadio
                       v-for="choice of question.choices"
@@ -101,9 +101,9 @@ const selected = ref(null);
         <VCol cols="12">
           <VCardActions class="justify-end">
             <VBtn :text="$t('back')" />
-            <VBtn rounded color="primary" variant="flat" class="px-4">
+            <VBtn class="px-4" color="primary" rounded variant="flat">
               {{ $t("sendOrder") }}
-              <VIcon icon="tabler-arrow-left" class="ms-2" />
+              <VIcon class="ms-2" icon="tabler-arrow-left" />
             </VBtn>
           </VCardActions>
         </VCol>

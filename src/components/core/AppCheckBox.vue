@@ -1,38 +1,40 @@
 <script setup>
-defineOptions({
-  name: 'AppCheckbox',
-  inheritAttrs: false
-})
+  defineOptions({
+    name: 'AppCheckbox',
+    inheritAttrs: false,
+  })
 
-defineProps({
-  label: {
-    type: String,
-    default: ''
-  }
-})
+  defineProps({
+    label: {
+      type: String,
+      default: '',
+    },
+  })
 
-const elementId = computed(() => {
-  const attrs = useAttrs()
-  const _elementIdToken = attrs.id || attrs.label
+  const elementId = computed(() => {
+    const attrs = useAttrs()
+    const _elementIdToken = attrs.id || attrs.label
 
-  return _elementIdToken
-    ? `app-checkbox-${_elementIdToken}-${Math.random()
-      .toString(36)
-      .slice(2, 7)}`
-    : undefined
-})
+    return _elementIdToken
+      ? `app-checkbox-${_elementIdToken}-${Math.random()
+        .toString(36)
+        .slice(2, 7)}`
+      : undefined
+  })
 </script>
 
 <template>
   <div class="app-checkbox" :class="$attrs.class">
-    <VCheckbox v-bind="{
-      ...$attrs,
-      class: null,
-      id: elementId,
+    <VCheckbox
+      v-bind="{
+        ...$attrs,
+        class: null,
+        id: elementId,
 
-      color: 'primary',
-      hideDetails: true
-    }">
+        color: 'primary',
+        hideDetails: true
+      }"
+    >
       <template #label>
         <span class="custom-label">{{ label }}</span>
       </template>

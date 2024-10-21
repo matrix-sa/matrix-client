@@ -1,75 +1,95 @@
 <script setup>
-import slideImg from '@images/svg/analytics-graph.svg'
-import { VIcon } from 'vuetify/components/VIcon'
+  import slideImg from '@images/svg/analytics-graph.svg'
+  import { VIcon } from 'vuetify/components/VIcon'
 
-import { computed } from 'vue'
+  import { computed } from 'vue'
 
+  const props = defineProps({
+    generalStoreInfo: Object,
+  })
 
-const props = defineProps({
-  generalStoreInfo: Object,
-})
-
-
-const websiteAnalytics = computed(() => {
-  return [
-    {
-      name: 'store-performance',
-      data: [
-        {
-          number: props.generalStoreInfo?.donaload_speed,
-          text: 'download-speed',
-        },
-        {
-          number: props.generalStoreInfo?.average_staying_duration,
-          text: 'average-staying-duration',
-        },
-        {
-          number: props.generalStoreInfo?.bounce_rate,
-          text: 'bounce-rate',
-        },
-      ],
-    },
-    {
-      name: 'payments-performance',
-      data: [
-        {
-          number: props.generalStoreInfo?.total_transactions,
-          text: 'total-transactions',
-        },
-        {
-          number: props.generalStoreInfo?.successful_transactions,
-          text: 'successful-transactions',
-        },
-        {
-          number: props.generalStoreInfo?.failed_transactions,
-          text: 'failed-transactions',
-        },
-        {
-          number: '23k',
-          number: props.generalStoreInfo?.transactions_success_rate,
-          text: 'transactions-success-rate',
-        },
-      ],
-    },
-  ]
-})
+  const websiteAnalytics = computed(() => {
+    return [
+      {
+        name: 'store-performance',
+        data: [
+          {
+            number: props.generalStoreInfo?.donaload_speed,
+            text: 'download-speed',
+          },
+          {
+            number: props.generalStoreInfo?.average_staying_duration,
+            text: 'average-staying-duration',
+          },
+          {
+            number: props.generalStoreInfo?.bounce_rate,
+            text: 'bounce-rate',
+          },
+        ],
+      },
+      {
+        name: 'payments-performance',
+        data: [
+          {
+            number: props.generalStoreInfo?.total_transactions,
+            text: 'total-transactions',
+          },
+          {
+            number: props.generalStoreInfo?.successful_transactions,
+            text: 'successful-transactions',
+          },
+          {
+            number: props.generalStoreInfo?.failed_transactions,
+            text: 'failed-transactions',
+          },
+          {
+            number: '23k',
+            number: props.generalStoreInfo?.transactions_success_rate,
+            text: 'transactions-success-rate',
+          },
+        ],
+      },
+    ]
+  })
 </script>
 
 <template>
   <VCard class="bg-gradient-primary" color="primary">
     <!-- cycle -->
-    <VCarousel v-if="props.generalStoreInfo !== null" :continuous="false" :show-arrows="false" hide-delimiter-background
-      :delimiter-icon="() => h(VIcon, { icon: 'fa-circle', size: '8' })" height="auto"
-      class="carousel-delimiter-top-end web-analytics-carousel">
+    <VCarousel
+      v-if="props.generalStoreInfo !== null"
+      class="carousel-delimiter-top-end web-analytics-carousel"
+      :continuous="false"
+      :delimiter-icon="() => h(VIcon, { icon: 'fa-circle', size: '8' })"
+      height="auto"
+      hide-delimiter-background
+      :show-arrows="false"
+    >
       <VCarouselItem v-for="item in websiteAnalytics" :key="item.name">
         <VCardText>
-          <HomeCardHeading white size="large" :title="$t(item.name)" :subtitle="$t('last-24-hours')" />
+          <HomeCardHeading size="large" :subtitle="$t('last-24-hours')" :title="$t(item.name)" white />
           <VRow>
-            <VCol cols="12" sm="9" order="2" order-sm="1" class="pt-16 pb-10">
+            <VCol
+              class="pt-16 pb-10"
+              cols="12"
+              order="2"
+              order-sm="1"
+              sm="9"
+            >
               <VRow>
-                <VCol v-for="d in item.data" :key="d.number" cols="12" sm="6" class="text-no-wrap pb-2">
-                  <VChip size="default" variant="flat" color="#5C2EC6"
-                    class="font-weight-medium justify-center text-white rounded me-2">
+                <VCol
+                  v-for="d in item.data"
+                  :key="d.number"
+                  class="text-no-wrap pb-2"
+                  cols="12"
+                  sm="6"
+                >
+                  <VChip
+                    class="font-weight-medium justify-center text-white rounded me-2"
+                    color="#5C2EC6"
+                    size="default"
+                    variant="flat"
+                  >
                     {{ d.number }}
                   </VChip>
                   <span>{{ $t(d.text) }}</span>
@@ -77,8 +97,14 @@ const websiteAnalytics = computed(() => {
               </VRow>
             </VCol>
 
-            <VCol cols="12" sm="3" order="1" order-sm="2" class="position-relative text-center">
-              <img :src="slideImg" class="card-website-analytics-img">
+            <VCol
+              class="position-relative text-center"
+              cols="12"
+              order="1"
+              order-sm="2"
+              sm="3"
+            >
+              <img class="card-website-analytics-img" :src="slideImg">
             </VCol>
           </VRow>
         </VCardText>
@@ -88,7 +114,6 @@ const websiteAnalytics = computed(() => {
     <HomeEmptyState v-else />
   </VCard>
 </template>
-
 
 <style scoped>
 :deep(.carousel-delimiter-top-end .v-carousel__controls) {
@@ -120,7 +145,6 @@ const websiteAnalytics = computed(() => {
   font-size: 16px;
 }
 
-
 @media screen and (min-width: 600px) {
   .card-website-analytics-img {
     position: absolute;
@@ -130,8 +154,6 @@ const websiteAnalytics = computed(() => {
     inset-inline-end: 1rem;
   }
 }
-
-
 
 .web-analytics-carousel {
   .v-carousel__controls {

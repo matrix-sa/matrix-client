@@ -1,8 +1,7 @@
-import API from "./api"
+import API from './api'
 
 const DigitalWriterService = (function () {
-
-  const run = (data) => {
+  const run = data => {
     return API.post(`/Clients/DigitalWriter/RequestService`, data)
   }
 

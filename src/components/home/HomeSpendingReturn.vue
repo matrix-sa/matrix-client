@@ -1,13 +1,13 @@
 <script setup>
-const props = defineProps({
-  spendings: Object,
-})
+  const props = defineProps({
+    spendings: Object,
+  })
 
-const currency = inject('currency')
+  const currency = inject('currency')
 </script>
 
 <template>
-  <VCard :title="$t('return_on_spending')" :subtitle="$t('last-week')" class="d-flex flex-column">
+  <VCard class="d-flex flex-column" :subtitle="$t('last-week')" :title="$t('return_on_spending')">
     <VCardText>
       <div v-if="props.spendings !== null" class="d-flex flex-column align-start ga-3 h-100 justify-end">
         <div class="d-flex align-center ga-1">
@@ -16,7 +16,13 @@ const currency = inject('currency')
           </h4>
           <sub>{{ currency }}</sub>
         </div>
-        <VChip label density="comfortable" size="x-large" color="success" class="font-weight-bold px-3">
+        <VChip
+          class="font-weight-bold px-3"
+          color="success"
+          density="comfortable"
+          label
+          size="x-large"
+        >
           {{ props.spendings?.rate }}%
           {{ props.spendings?.rate?.toString()?.includes('-') ? '-' : '+' }}
         </VChip>

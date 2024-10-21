@@ -1,106 +1,106 @@
 <script setup>
-import { localeTitle, paginationMeta } from "@/composable/utils"
-import { useI18n } from 'vue-i18n'
-import { DateFormat } from "@/composable/useFormat"
-import MarketingConsultationsOrdersService from "@/services/marketing-consultations-orders-service"
-import useSnackbar from "@/composable/useSnackbar"
-import { useRequest } from "vue-request"
+  import { localeTitle, paginationMeta } from '@/composable/utils'
+  import { useI18n } from 'vue-i18n'
+  import { DateFormat } from '@/composable/useFormat'
+  import MarketingConsultationsOrdersService from '@/services/marketing-consultations-orders-service'
+  import useSnackbar from '@/composable/useSnackbar'
+  import { useRequest } from 'vue-request'
 
-const totalCount = ref(0)
-const consultationsOrders = ref([])
+  const totalCount = ref(0)
+  const consultationsOrders = ref([])
 
-const options = ref({
-  page: 1,
-  itemsPerPage: 10,
-  sortBy: [],
-  groupBy: [],
-  search: undefined,
-})
+  const options = ref({
+    page: 1,
+    itemsPerPage: 10,
+    sortBy: [],
+    groupBy: [],
+    search: undefined,
+  })
 
-const { t } = useI18n()
+  const { t } = useI18n()
 
-const { show } = useSnackbar()
+  const { show } = useSnackbar()
 
-const headers = [
-  {
-    title: t("marketing-consultation-order.title"),
-    key: localeTitle,
-  },
-  {
-    title: t("marketing-consultation-order.status"),
-    key: "status",
-  },
-  {
-    title: t("marketing-consultation-order.created_at"),
-    key: "created_at",
-  },
-  {
-    title: t("marketing-consultation-order.serial_number"),
-    key: "serial_number",
-  },
-  {
-    title: t("marketing-consultation-order.price"),
-    key: "price",
-  },
+  const headers = [
+    {
+      title: t('marketing-consultation-order.title'),
+      key: localeTitle,
+    },
+    {
+      title: t('marketing-consultation-order.status'),
+      key: 'status',
+    },
+    {
+      title: t('marketing-consultation-order.created_at'),
+      key: 'created_at',
+    },
+    {
+      title: t('marketing-consultation-order.serial_number'),
+      key: 'serial_number',
+    },
+    {
+      title: t('marketing-consultation-order.price'),
+      key: 'price',
+    },
   // {
   //   title: t("marketing-consultation-order.actions"),
   //   key: "actions",
   // },
-]
+  ]
 
-const { run: fetchOrders, loading: loadingOrders } = useRequest(
-  MarketingConsultationsOrdersService.getAll,
-  {
-    isManual: true,
-    onSuccess: response => {
-      const { data, error, messages } = response.data
+  const { run: fetchOrders, loading: loadingOrders } = useRequest(
+    MarketingConsultationsOrdersService.getAll,
+    {
+      isManual: true,
+      onSuccess: response => {
+        const { data, error, messages } = response.data
 
-      if (error) {
-        show(messages[0], "error")
+        if (error) {
+          show(messages[0], 'error')
 
-        return
-      }
+          return
+        }
 
-      consultationsOrders.value = data.items
-      options.value.page = data.current_page
-      options.value.itemsPerPage = data.page_size
-      totalCount.value = data.total_count
+        consultationsOrders.value = data.items
+        options.value.page = data.current_page
+        options.value.itemsPerPage = data.page_size
+        totalCount.value = data.total_count
+      },
     },
-  },
-)
+  )
 
-const resolveStatusVariant = status => {
-  const statusVariants = {
-    created: "success",
-    accepted: "primary",
-    rejected: "error",
-    confirmed: "info",
-    cancelled: "warning",
-    completed: "success",
-    deleted: "secondary",
+  const resolveStatusVariant = status => {
+    const statusVariants = {
+      created: 'success',
+      accepted: 'primary',
+      rejected: 'error',
+      confirmed: 'info',
+      cancelled: 'warning',
+      completed: 'success',
+      deleted: 'secondary',
+    }
+
+    return statusVariants[status?.toLowerCase()] || 'primary'
   }
 
-  return statusVariants[status?.toLowerCase()] || "primary"
-}
+  const getStatus = status => {
+    const loweredStatus = status?.toLowerCase()
 
-const getStatus = status => {
-  const loweredStatus = status?.toLowerCase()
+    return t(`marketing-consultation-order.statuses.${loweredStatus}`)
+  }
 
-  return t(`marketing-consultation-order.statuses.${loweredStatus}`)
-}
+  watch(
+    options,
+    () => {
+      fetchOrders({
+        PageSize: options.value.itemsPerPage,
+        Page: options.value.page,
+      })
+    },
+    { deep: true },
+  )
 
-watch(
-  options,
-  () => {
-    fetchOrders({
-      PageSize: options.value.itemsPerPage,
-      Page: options.value.page,
-    })
-  },
-  { deep: true },
-)
-
-const loading = computed(() => loadingOrders.value)
+  const loading = computed(() => loadingOrders.value)
 </script>
 
 <template>
@@ -109,7 +109,7 @@ const loading = computed(() => loadingOrders.value)
       <VCardTitle class="font-weight-medium text-surface-variant pa-0">
         {{ $t("consultationsLog") }}
       </VCardTitle>
-      <VBtn rounded color="warning" :to="{ name: '/marketing-consultations-orders/' }">
+      <VBtn color="warning" rounded :to="{ name: '/marketing-consultations-orders/' }">
         <VIcon icon="tabler-circle-plus-filled" />
         {{ $t("requestConsult") }}
       </VBtn>
@@ -117,9 +117,17 @@ const loading = computed(() => loadingOrders.value)
 
     <VCardText class="pa-4 pt-0">
       <VDivider />
-      <VDataTableServer v-model:items-per-page="options.itemsPerPage" v-model:page="options.page" :loading="loading"
-        :items="consultationsOrders" :items-length="totalCount" :headers="headers" :no-data-text="$t('no_data_text')"
-        class="text-no-wrap" @update:options="options = $event">
+      <VDataTableServer
+        v-model:items-per-page="options.itemsPerPage"
+        v-model:page="options.page"
+        class="text-no-wrap"
+        :headers="headers"
+        :items="consultationsOrders"
+        :items-length="totalCount"
+        :loading="loading"
+        :no-data-text="$t('no_data_text')"
+        @update:options="options = $event"
+      >
         <!-- Created At -->
         <template #item.created_at="{ item }">
           {{ DateFormat(item.created_at) }}
@@ -133,7 +141,7 @@ const loading = computed(() => loadingOrders.value)
 
         <!-- Status -->
         <template #item.status="{ item }">
-          <VChip :color="resolveStatusVariant(item.status)" variant="text" class="text-capitalize px-0">
+          <VChip class="text-capitalize px-0" :color="resolveStatusVariant(item.status)" variant="text">
             {{ getStatus(item.status) }}
           </VChip>
         </template>
@@ -169,8 +177,11 @@ const loading = computed(() => loadingOrders.value)
               {{ paginationMeta(options, totalCount) }}
             </p>
 
-            <VPagination v-model="options.page" total-visible="3"
-              :length="Math.ceil(totalCount / options.itemsPerPage)" />
+            <VPagination
+              v-model="options.page"
+              :length="Math.ceil(totalCount / options.itemsPerPage)"
+              total-visible="3"
+            />
           </div>
         </template>
       </VDataTableServer>

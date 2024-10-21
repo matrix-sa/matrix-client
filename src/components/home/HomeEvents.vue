@@ -1,52 +1,52 @@
 <script setup>
-const monthlyCampaignState = [
-  {
-    avatarColor: 'success',
-    avatarIcon: 'tabler-mail',
-    title: 'Emails',
-    count: '12,346',
-    stats: '0.3%',
-    statsColor: 'success',
-  },
-  {
-    avatarColor: 'info',
-    avatarIcon: 'tabler-link',
-    title: 'Opened',
-    count: '8,734',
-    stats: '2.1%',
-    statsColor: 'success',
-  },
-  {
-    avatarColor: 'warning',
-    avatarIcon: 'tabler-click',
-    title: 'Clicked',
-    count: '967',
-    stats: '1.4%',
-    statsColor: 'error',
-  },
-  {
-    avatarColor: 'primary',
-    avatarIcon: 'tabler-users',
-    title: 'Subscribe',
-    count: '345',
-    stats: '8.5%',
-    statsColor: 'success',
-  },
-  {
-    avatarColor: 'error',
-    avatarIcon: 'tabler-ban',
-    title: 'Unsubscribe',
-    count: '86',
-    stats: '0.8%',
-    statsColor: 'success',
-  },
-]
+  const monthlyCampaignState = [
+    {
+      avatarColor: 'success',
+      avatarIcon: 'tabler-mail',
+      title: 'Emails',
+      count: '12,346',
+      stats: '0.3%',
+      statsColor: 'success',
+    },
+    {
+      avatarColor: 'info',
+      avatarIcon: 'tabler-link',
+      title: 'Opened',
+      count: '8,734',
+      stats: '2.1%',
+      statsColor: 'success',
+    },
+    {
+      avatarColor: 'warning',
+      avatarIcon: 'tabler-click',
+      title: 'Clicked',
+      count: '967',
+      stats: '1.4%',
+      statsColor: 'error',
+    },
+    {
+      avatarColor: 'primary',
+      avatarIcon: 'tabler-users',
+      title: 'Subscribe',
+      count: '345',
+      stats: '8.5%',
+      statsColor: 'success',
+    },
+    {
+      avatarColor: 'error',
+      avatarIcon: 'tabler-ban',
+      title: 'Unsubscribe',
+      count: '86',
+      stats: '0.8%',
+      statsColor: 'success',
+    },
+  ]
 </script>
 
 <template>
   <VCard
-    :title="$t('events')"
     :subtitle="$t('last-month')"
+    :title="$t('events')"
   >
     <VCardText>
       <VList class="card-list">
@@ -57,9 +57,9 @@ const monthlyCampaignState = [
           <template #prepend>
             <VAvatar
               :color="state.avatarColor"
-              variant="tonal"
-              size="34"
               rounded
+              size="34"
+              variant="tonal"
             >
               <VIcon :icon="state.avatarIcon" />
             </VAvatar>

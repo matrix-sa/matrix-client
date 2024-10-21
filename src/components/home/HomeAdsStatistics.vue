@@ -1,22 +1,21 @@
 <script setup>
-const props = defineProps({
-  stats: Object,
-})
+  const props = defineProps({
+    stats: Object,
+  })
 
+  const content = computed(() => {
+    const arr = []
+    for (const item in props.stats) {
+      arr.push({
+        name: item,
+        active: props.stats[item].active,
+        inactive: props.stats[item].in_active,
+        all: props.stats[item].total,
+      })
+    }
 
-const content = computed (() => {
-  const arr= []
-  for (const item in props.stats) {
-    arr.push({
-      name: item,
-      active: props.stats[item].active,
-      inactive: props.stats[item].in_active,
-      all: props.stats[item].total,
-    })
-  }
-
-  return arr
-})
+    return arr
+  })
 </script>
 
 <template>
@@ -69,8 +68,6 @@ const content = computed (() => {
   </VCard>
 </template>
 
-
-
 <style scoped>
 th{
   white-space: nowrap;
@@ -82,7 +79,6 @@ th{
 .v-table > .v-table__wrapper > table > tfoot > tr > th {
   text-align: center;
 }
-
 
 .v-table .v-table__wrapper > table > tbody > tr:not(:last-child) > td,
 .v-table > .v-table__wrapper > table > tbody > tr > td {

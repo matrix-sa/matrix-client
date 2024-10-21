@@ -5,7 +5,7 @@ export const useConsultationsStore = defineStore('consultations', {
     consultationToAnswer: {},
   }),
   actions: {
-    setConsultationToAnswer(consultation) {
+    setConsultationToAnswer (consultation) {
       this.consultationToAnswer = consultation
     },
   },

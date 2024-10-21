@@ -1,46 +1,53 @@
 <script setup>
-import i18n from "@/i18n"
+  import i18n from '@/i18n'
 
-const props = defineProps({
-  options: Array,
-})
+  const props = defineProps({
+    options: Array,
+  })
 
-const emit = defineEmits(['selected'])
+  const emit = defineEmits(['selected'])
 
-const { t } = i18n.global
+  const { t } = i18n.global
 
+  const options = computed(() => {
+    if (props.options) {
+      return props.options
+    } else {
+      return [
+        {
+          id: 'sales',
+          name: t('sales'),
+        },
+        {
+          id: 'roas',
+          name: t('roas'),
+        },
+        {
+          id: 'spendings',
+          name: t('expenses'),
+        },
+      ]
+    }
+  })
 
-const options = computed(() => {
-  if (props.options) {
-    return props.options
-  } else {
-    return [
-      {
-        id: 'sales',
-        name: t('sales'),
-      },
-      {
-        id: 'roas',
-        name: t('roas'),
-      },
-      {
-        id: 'spendings',
-        name: t('expenses'),
-      },
-    ]
+  const selected = ref(options.value[0].id)
+
+  const setSelected = () => {
+    emit('selected', selected.value)
   }
-})
 
-const selected = ref(options.value[0].id)
-
-const setSelected = () => {
-  emit('selected', selected.value)
-}
-
-setSelected()
+  setSelected()
 </script>
 
 <template>
-  <VSelect v-model="selected" variant="outlined" min-width="140px" density="compact" :items="options"
-    :item-title="item => item.name" :item-value="item => item.id" @update:model-value="setSelected" />
+  <VSelect
+    v-model="selected"
+    density="compact"
+    :items="options"
+    :item-title="item => item.name"
+    min-width="140px"
+    :item-value="item => item.id"
+    variant="outlined"
+    @update:model-value="setSelected"
+  />
 </template>

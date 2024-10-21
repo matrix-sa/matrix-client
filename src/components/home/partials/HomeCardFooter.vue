@@ -1,20 +1,20 @@
 <script setup>
-import { inject } from 'vue'
+  import { inject } from 'vue'
 
-const props = defineProps({
-  description: Object,
-  rate: Number || String,
-  chipBg: {
-    type: Boolean,
-    default: false,
-  },
-  current: {
-    type: Boolean,
-    default: true,
-  },
-})
+  const props = defineProps({
+    description: Object,
+    rate: Number || String,
+    chipBg: {
+      type: Boolean,
+      default: false,
+    },
+    current: {
+      type: Boolean,
+      default: true,
+    },
+  })
 
-const currency = inject('currency')
+  const currency = inject('currency')
 </script>
 
 <template>
@@ -29,11 +29,18 @@ const currency = inject('currency')
     </VCol>
     <VCol cols="9">
       <div class="d-flex flex-column align-end" :class="chipBg ? 'ga-3' : ''">
-        <VChip :label="chipBg" :density="chipBg ? 'comfortable' : 'compact'" :variant="chipBg ? 'tonal' : 'text'"
-          size="x-large" :color="rate === 0
+        <VChip
+          class="font-weight-bold"
+          :color="rate === 0
             ? 'secondary' : rate?.toString()?.includes('-')
               ? 'error'
-              : 'success'" class="font-weight-bold" :class="chipBg ? 'py-0 px-3' : 'pa-0'">
+              : 'success'"
+          :class="chipBg ? 'py-0 px-3' : 'pa-0'"
+          :density="chipBg ? 'comfortable' : 'compact'"
+          :label="chipBg"
+          size="x-large"
+          :variant="chipBg ? 'tonal' : 'text'"
+        >
           {{ rate }}%
           {{ rate?.toString()?.includes('-') ? '-' : '+' }}
         </VChip>

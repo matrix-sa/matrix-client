@@ -2,13 +2,13 @@
 // No need to import defineProps in <script setup>
 
 // Define props directly in script setup
-const props = defineProps(['q'])
+  const props = defineProps(['q'])
 
-const emit = defineEmits(['update:questionValue'])
+  const emit = defineEmits(['update:questionValue'])
 
-const updateValue = (value) => {
-  emit('update:questionValue', { id: props.q.id, value })
-}
+  const updateValue = value => {
+    emit('update:questionValue', { id: props.q.id, value })
+  }
 
 </script>
 
@@ -21,10 +21,15 @@ const updateValue = (value) => {
 
     <div class="question-solution d-flex">
 
-      <input v-model="q.value" @input="updateValue($event.target.value)" type="text" :placeholder="q.placeholder"
-        v-if="q.type == 'text'" />
+      <input
+        v-if="q.type == 'text'"
+        v-model="q.value"
+        :placeholder="q.placeholder"
+        type="text"
+        @input="updateValue($event.target.value)"
+      >
 
-      <VBtn-toggle v-if="q.type == 'select'" class="select" v-model="q.value">
+      <VBtn-toggle v-if="q.type == 'select'" v-model="q.value" class="select">
         <VBtn v-for="i in q.items" :key="i.id">
           {{ i.text }}
         </VBtn>

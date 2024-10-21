@@ -3,12 +3,10 @@ import { ref } from 'vue'
 const data = ref({
   show: false,
   msg: '',
-  type: 'info', 
+  type: 'info',
 })
 
-export default function useSnackbar() {
-
-
+export default function useSnackbar () {
   const show = (msg, type = 'info') => {
     data.value.show = true
     data.value.msg = msg

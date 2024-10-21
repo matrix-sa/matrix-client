@@ -1,12 +1,11 @@
 <script setup>
-const props = defineProps({
-  sales: Object,
-})
+  const props = defineProps({
+    sales: Object,
+  })
 </script>
 
-
 <template>
-  <VCard :title="$t('month-sales')" :subtitle="$t('last-month')">
+  <VCard :subtitle="$t('last-month')" :title="$t('month-sales')">
     <VCardText class="d-flex flex-column">
       <template v-if="props.sales !== null">
         <HomeCardFooter :rate="props.sales?.rate_to_previous_month">
@@ -18,8 +17,14 @@ const props = defineProps({
         <VRow>
           <VCol cols="5">
             <div class="d-flex align-center mb-3">
-              <VAvatar color="warning" variant="tonal" :size="24" rounded class="me-2">
-                <VIcon size="18" icon="tabler-graph" />
+              <VAvatar
+                class="me-2"
+                color="warning"
+                rounded
+                :size="24"
+                variant="tonal"
+              >
+                <VIcon icon="tabler-graph" size="18" />
               </VAvatar>
 
               <span>{{ $t('net') }}</span>
@@ -32,7 +37,7 @@ const props = defineProps({
 
           <VCol cols="2">
             <div class="d-flex flex-column align-center justify-center h-100">
-              <VDivider vertical class="mx-auto" />
+              <VDivider class="mx-auto" vertical />
 
               <div class="pa-1">
                 <VChip size="20">
@@ -40,16 +45,16 @@ const props = defineProps({
                 </VChip>
               </div>
 
-              <VDivider vertical class="mx-auto" />
+              <VDivider class="mx-auto" vertical />
             </div>
           </VCol>
 
-          <VCol cols="5" class="text-end">
+          <VCol class="text-end" cols="5">
             <div class="d-flex align-center justify-end mb-3">
               <span class="me-2">{{ $t('spendings') }}</span>
 
-              <VAvatar color="primary" variant="tonal" :size="24" rounded>
-                <VIcon size="18" icon="tabler-currency-dollar-off" />
+              <VAvatar color="primary" rounded :size="24" variant="tonal">
+                <VIcon icon="tabler-currency-dollar-off" size="18" />
               </VAvatar>
             </div>
             <h6 class="text-h5">
@@ -60,7 +65,13 @@ const props = defineProps({
         </VRow>
 
         <div class="mt-6">
-          <VProgressLinear :model-value="props.sales?.net_rate" color="warning" class="bg-primary" height="8" rounded />
+          <VProgressLinear
+            class="bg-primary"
+            color="warning"
+            height="8"
+            :model-value="props.sales?.net_rate"
+            rounded
+          />
         </div>
       </template>
 
