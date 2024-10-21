@@ -12,6 +12,8 @@
   const { t, locale } = useI18n()
   const { update } = useBreadcrumbsStore()
 
+  const openCommunicationRuleDialog = ref(false)
+  const ruleToEdit = ref(null)
   const rules = ref([])
   const { loading: loadingRules } = useRequest(
     CampaignsRulesService.getCommunicationRules,
@@ -28,6 +30,11 @@
   )
 
   const loading = computed(() => loadingRules.value)
+
+  const handleEditRule = rule => {
+    openCommunicationRuleDialog.value = true
+    ruleToEdit.value = rule
+  }
 
   watch(
     locale,
@@ -97,7 +104,13 @@
         </div>
       </div>
       <div class="data-row">
-        <v-btn class="rule-btn" color="primary" flat :text="t('edit')" />
+        <v-btn
+          class="rule-btn"
+          color="primary"
+          flat
+          :text="t('edit')"
+          @click="handleEditRule"
+        />
         <v-btn
           class="rule-btn"
           :color="rule.status === 'Active' ? 'error' : 'warning'"
@@ -106,6 +119,13 @@
         />
       </div>
     </div>
+
+    <v-dialog v-model="openCommunicationRuleDialog" max-width="500">
+      <ConnectionRuleModal
+        v-model:is-dialog-visible="openCommunicationRuleDialog"
+        :rule="ruleToEdit"
+      />
+    </v-dialog>
   </div>
 </template>
 <style lang="scss">

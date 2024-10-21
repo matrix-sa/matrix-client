@@ -1,70 +1,72 @@
 <script setup>
-import { requiredValidator } from '@/utilities/validators'
-import { useI18n } from 'vue-i18n'
-import { useRequest } from 'vue-request'
-import { useSnackbarStore } from '@/stores/useSnackBarStore'
-import ruleIcon from '@/assets/rule-icon.svg'
-import AppChipSelect from '../core/AppChipSelect.vue'
-import CampaignRuleService from '@/services/campaign-rule-service'
+  import { requiredValidator } from '@/utilities/validators'
+  import { useI18n } from 'vue-i18n'
+  import { useRequest } from 'vue-request'
+  import { useSnackbarStore } from '@/stores/useSnackBarStore'
+  import ruleIcon from '@/assets/rule-icon.svg'
+  import AppChipSelect from '../core/AppChipSelect.vue'
+  import CampaignRuleService from '@/services/campaign-rule-service'
 
-const props = defineProps({})
-
-const emit = defineEmits(['saved', 'update:isDialogVisible'])
-
-const form = ref({
-  roas_condition: null,
-  roas_comparing_value: null,
-  increment_type: null,
-  increment_value: null
-})
-
-const { t } = useI18n()
-const { show } = useSnackbarStore()
-
-const handleClose = () => {
-  emit('update:isDialogVisible', false)
-}
-
-const submit = () => {
-  create({ ...form.value })
-}
-
-const { run: create, loading: startLoading } = useRequest(
-  data => CampaignRuleService.run(data),
-  {
-    manual: true,
-    onSuccess: res => {
-      const { error, data, messages, code } = res.data
-
-      if (error) {
-        //show(messages[0], "error")
-
-        if (data) {
-          //
-        }
-
-        return
-      }
-
+  const props = defineProps({
+    rule: {
+      type: Object,
+      required: false,
     },
-  },
-)
+  })
 
-const isFormValid = computed(() => {
-  const requirements = {
-    roas_condition: () =>
-      form.value.roas_condition,
-    roas_comparing_value: () =>
-      form.value.roas_comparing_value,
-    increment_type: () =>
-      form.value.increment_type,
-    increment_value: () => form.value.increment_value,
-    default: () => form.value.roas_condition,
+  const emit = defineEmits(['saved', 'update:isDialogVisible'])
 
+  const form = ref({
+    roas_condition: null,
+    roas_comparing_value: null,
+    increment_type: null,
+    increment_value: null,
+  })
+
+  const { t } = useI18n()
+  const { show } = useSnackbarStore()
+
+  const handleClose = () => {
+    emit('update:isDialogVisible', false)
   }
 
-  return !!(requirements.default)()
-})
+  const submit = () => {
+    create({ ...form.value })
+  }
+
+  const { run: create, loading: startLoading } = useRequest(
+    data => CampaignRuleService.run(data),
+    {
+      manual: true,
+      onSuccess: res => {
+        const { error, data, messages, code } = res.data
+
+        if (error) {
+          // show(messages[0], "error")
+
+          if (data) {
+          //
+          }
+        }
+      },
+    },
+  )
+
+  const isFormValid = computed(() => {
+    const requirements = {
+      roas_condition: () =>
+        form.value.roas_condition,
+      roas_comparing_value: () =>
+        form.value.roas_comparing_value,
+      increment_type: () =>
+        form.value.increment_type,
+      increment_value: () => form.value.increment_value,
+      default: () => form.value.roas_condition,
+
+    }
+
+    return !!(requirements.default)()
+  })
 
 </script>
 <template>
@@ -90,43 +92,67 @@ const isFormValid = computed(() => {
       </p>
     </div>
 
-
     <v-container class="mt-4">
       <v-row>
         <v-col cols="12" sm="6">
-          <AppChipSelect v-model="form.roas_condition" :items="[
-            { id: 'BiggerThan', title: t('greater_than') },
-            { id: 'LessThan ', title: t('less_than') },
-          ]" :label="t('if_the_return_on_spending')" />
+          <AppChipSelect
+            v-model="form.roas_condition"
+            :items="[
+              { id: 'BiggerThan', title: t('greater_than') },
+              { id: 'LessThan ', title: t('less_than') },
+            ]"
+            :label="t('if_the_return_on_spending')"
+          />
         </v-col>
         <v-col cols="12" sm="6">
-          <ApptextField :appendText="t('SAR')" v-model="form.roas_comparing_value"
-            :label="t('the_value_of_return_on_spending')" :placeholder="t('enter_value')" />
+          <ApptextField
+            v-model="form.roas_comparing_value"
+            :append-text="t('SAR')"
+            :label="t('the_value_of_return_on_spending')"
+            :placeholder="t('enter_value')"
+          />
 
         </v-col>
 
         <v-col cols="12" sm="6">
-          <AppChipSelect v-model="form.increment_type" :items="[
-            { id: 'Value', title: t('monetary_value') },
-            { id: 'Percentage', title: t('percentage') },
-          ]" :label="t('increase_the_value_select_the_type_of_increase')" />
+          <AppChipSelect
+            v-model="form.increment_type"
+            :items="[
+              { id: 'Value', title: t('monetary_value') },
+              { id: 'Percentage', title: t('percentage') },
+            ]"
+            :label="t('increase_the_value_select_the_type_of_increase')"
+          />
         </v-col>
         <v-col cols="12" sm="6">
-          <ApptextField :appendText="t('SAR')" v-model="form.increment_value" :label="t('increase_your_budget_by')"
-            :placeholder="t('enter_value')" />
+          <ApptextField
+            v-model="form.increment_value"
+            :append-text="t('SAR')"
+            :label="t('increase_your_budget_by')"
+            :placeholder="t('enter_value')"
+          />
 
         </v-col>
       </v-row>
     </v-container>
-
 
     <v-divider class="mt-2" />
 
     <v-card-actions class="my-2 d-flex justify-end">
       <v-btn class="text-none" rounded="xl" :text="t('cancel')" @click="handleClose" />
 
-      <v-btn append-icon="mdi-check" @click="submit" class="text-none save-btn" color="success" :disabled="!isFormValid"
-        :loading="startLoading" rounded="xl" :text="t('save')" variant="flat" :width="120" />
+      <v-btn
+        append-icon="mdi-check"
+        class="text-none save-btn"
+        color="success"
+        :disabled="!isFormValid"
+        :loading="startLoading"
+        rounded="xl"
+        :text="t('save')"
+        variant="flat"
+        :width="120"
+        @click="submit"
+      />
     </v-card-actions>
   </v-card>
 </template>

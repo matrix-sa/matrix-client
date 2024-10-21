@@ -8,6 +8,9 @@
   const { t } = useI18n()
   const route = useRoute()
 
+  const openControlRuleDialog = ref(false)
+  const openCommunicationRuleDialog = ref(false)
+
   const activeBtnProps = ref({
     color: 'warning',
     flat: true,
@@ -41,6 +44,12 @@
       ? t('control_rules_instructions')
       : t('communication_rules_instructions')
   )
+
+  const addButtonClickHandler = computed(() =>
+    isCampaignsRulesTab.value
+      ? () => (openControlRuleDialog.value = true)
+      : () => (openCommunicationRuleDialog.value = true)
+  )
 </script>
 
 <template>
@@ -72,7 +81,7 @@
           {{ t("communication_rules") }}
           <template #prepend>
             <v-icon>
-              <img alt="Custom Icon" :src="usedCoomunicationIcon">
+              <img :src="usedCoomunicationIcon">
             </v-icon>
           </template>
         </v-btn>
@@ -84,7 +93,7 @@
           prepend-icon="gridicons:add"
           rounded
           :text="addButtonText"
-          :to="{ name: '/rules/campaigns/' }"
+          @click="addButtonClickHandler"
         />
       </div>
 
@@ -98,6 +107,14 @@
         </router-view>
       </div>
     </div>
+
+    <v-dialog v-model="openCommunicationRuleDialog" max-width="500">
+      <ConnectionRuleModal v-model:is-dialog-visible="openCommunicationRuleDialog" />
+    </v-dialog>
+
+    <v-dialog v-model="openControlRuleDialog" max-width="500">
+      <CampaignRuleModal v-model:is-dialog-visible="openControlRuleDialog" />
+    </v-dialog>
   </div>
 </template>
 

@@ -12,6 +12,8 @@
   const { update } = useBreadcrumbsStore()
   const { user } = storeToRefs(useAuthStore())
 
+  const openControlRuleDialog = ref(false)
+  const ruleToEdit = ref(null)
   const rules = ref([])
   const { loading: loadingRules } = useRequest(CampaignsRulesService.get, {
     onSuccess: response => {
@@ -25,6 +27,11 @@
   })
 
   const loading = computed(() => loadingRules.value)
+
+  const handleEditRule = rule => {
+    openControlRuleDialog.value = true
+    ruleToEdit.value = rule
+  }
 
   watch(
     locale,
@@ -84,7 +91,13 @@
         </v-chip>
       </div>
       <div class="data-row">
-        <v-btn class="rule-btn" color="primary" flat :text="t('edit')" />
+        <v-btn
+          class="rule-btn"
+          color="primary"
+          flat
+          :text="t('edit')"
+          @click="handleEditRule"
+        />
         <v-btn
           class="rule-btn"
           :color="rule.status === 'Active' ? 'error' : 'warning'"
@@ -93,6 +106,13 @@
         />
       </div>
     </div>
+
+    <v-dialog v-model="openControlRuleDialog" max-width="500">
+      <CampaignRuleModal
+        v-model:is-dialog-visible="openControlRuleDialog"
+        :rule="ruleToEdit"
+      />
+    </v-dialog>
   </div>
 </template>
 
