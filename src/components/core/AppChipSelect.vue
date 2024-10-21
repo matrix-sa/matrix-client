@@ -39,12 +39,14 @@
     <v-chip-group
       :id="elementId"
       v-model="selected"
+      class="mx-n1"
       column
       selected-class="text-primary v-chip-selected"
     >
       <v-chip
         v-for="item in props.items"
         :key="item.id"
+        class="mx-1"
         size="x-large"
         :text="item.title"
         :value="item.id"
