@@ -1,6 +1,6 @@
 <script setup>
   import { useRequest } from 'vue-request'
-  import CampaignsRulesService from '@/services/rules-service'
+  import CommunicationRuleService from '@/services/connection-rule-service'
   import { useSnackbarStore } from '@/stores/useSnackBarStore'
   import { useI18n } from 'vue-i18n'
   import { useBreadcrumbsStore } from '@/stores/useBreadcrumbsStore'
@@ -16,7 +16,7 @@
   const ruleToEdit = ref(null)
   const rules = ref([])
   const { loading: loadingRules } = useRequest(
-    CampaignsRulesService.getCommunicationRules,
+    CommunicationRuleService.getAll,
     {
       onSuccess: response => {
         const { data, error, messages } = response.data

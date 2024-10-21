@@ -1,6 +1,6 @@
 <script setup>
   import { useRequest } from 'vue-request'
-  import CampaignsRulesService from '@/services/rules-service'
+  import CampaignsRulesService from '@/services/campaign-rule-service'
   import { useSnackbarStore } from '@/stores/useSnackBarStore'
   import { useI18n } from 'vue-i18n'
   import { useBreadcrumbsStore } from '@/stores/useBreadcrumbsStore'
@@ -15,7 +15,7 @@
   const openControlRuleDialog = ref(false)
   const ruleToEdit = ref(null)
   const rules = ref([])
-  const { loading: loadingRules } = useRequest(CampaignsRulesService.get, {
+  const { loading: loadingRules } = useRequest(CampaignsRulesService.getAll, {
     onSuccess: response => {
       const { data, error, messages } = response.data
       if (error) {

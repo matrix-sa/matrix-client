@@ -182,6 +182,12 @@
     background-color: rgb(var(--v-theme-background));
     border-radius: 1rem;
     padding: 1rem;
+
+    .v-chip{
+      justify-content: center;
+      width: 4rem;
+      border-radius: 0.25rem;
+    }
     .row {
       display: flex;
       align-items: center;
