@@ -105,6 +105,7 @@
 .main {
   padding: 20px;
   background-color: white;
+  border-radius: 1rem;
 }
 
 .link-ad-title {
@@ -153,5 +154,49 @@
 .fade-leave-to {
   transform: translateX(2em);
   opacity: 0;
+}
+
+/* for rules cards */
+.rules-container {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(300px, 1fr));
+  gap: 20px;
+  .rule-card {
+    background-color: rgb(var(--v-theme-background));
+    border-radius: 1rem;
+    padding: 1rem;
+    .row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      .order {
+        width: 20px;
+        height: 20px;
+        background-color: rgb(var(--v-theme-warning));
+        color: white;
+        text-align: center;
+        clip-path: circle(50%);
+        line-height: 20px;
+      }
+      .check-icon {
+        margin-inline-start: auto;
+      }
+    }
+
+    .divider {
+      margin-block: 0.5rem;
+    }
+
+    .data-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-block-end: 0.75rem;
+      .rule-btn {
+        width: 45%;
+        border-radius: 12px;
+      }
+    }
+  }
 }
 </style>

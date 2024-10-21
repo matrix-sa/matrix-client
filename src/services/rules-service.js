@@ -7,6 +7,10 @@ const CampaignsRulesService = (function () {
     return API.get(`${prefix}/GetCampaignsRulesV2`, params)
   }
 
+  const getCommunicationRules = params => {
+    return API.get(`${prefix}/GetCommunicationRules`, params)
+  }
+
   const getById = params => {
     return API.get(`${prefix}/GetCampaignRule`, params)
   }
@@ -30,6 +34,7 @@ const CampaignsRulesService = (function () {
   return {
     create,
     get,
+    getCommunicationRules,
     getById,
     update,
     deleteRule,

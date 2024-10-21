@@ -90,7 +90,8 @@
 <style lang="scss" scoped>
 .main {
   padding: 20px;
-  background-color: white
+  background-color: white;
+  border-radius: 1rem;
 }
 
 .link-ad-title {
