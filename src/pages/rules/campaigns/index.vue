@@ -15,22 +15,48 @@
   const openControlRuleDialog = ref(false)
   const ruleToEdit = ref(null)
   const rules = ref([])
-  const { loading: loadingRules } = useRequest(CampaignsRulesService.getAll, {
-    onSuccess: response => {
-      const { data, error, messages } = response.data
-      if (error) {
-        show(messages, 'error')
-        return
-      }
-      rules.value = data
-    },
-  })
+  const { run: fetchRules, loading: loadingRules } = useRequest(
+    CampaignsRulesService.getAll,
+    {
+      onSuccess: response => {
+        const { data, error, messages } = response.data
+        if (error) {
+          show(messages, 'error')
+          return
+        }
+        rules.value = data
+      },
+    }
+  )
 
-  const loading = computed(() => loadingRules.value)
+  const { run: changeStatus, loading: loadingChangeStatus } = useRequest(
+    CampaignsRulesService.changeStatus,
+    {
+      manual: true,
+      onSuccess: response => {
+        const { error, messages } = response.data
+        if (error) {
+          show(messages[0], 'error')
+          return
+        }
+        show(t('status_changed_successfully'), 'success')
+        fetchRules()
+      },
+    }
+  )
+
+  const loading = computed(() => loadingRules.value || loadingChangeStatus.value)
 
   const handleEditRule = rule => {
     openControlRuleDialog.value = true
     ruleToEdit.value = rule
+  }
+
+  const handleStatusChange = rule => {
+    changeStatus({
+      id: rule.id,
+      status: rule.status === 'Active' ? 'Inactive' : 'Active',
+    })
   }
 
   watch(
@@ -103,6 +129,7 @@
           :color="rule.status === 'Active' ? 'error' : 'warning'"
           flat
           :text="rule.status === 'Active' ? t('deactivate') : t('activate')"
+          @click="handleStatusChange(rule)"
         />
       </div>
     </div>
@@ -116,6 +143,4 @@
   </div>
 </template>
 
-<style lang="scss">
-
-</style>
+<style lang="scss"></style>

@@ -15,7 +15,7 @@
   const openCommunicationRuleDialog = ref(false)
   const ruleToEdit = ref(null)
   const rules = ref([])
-  const { loading: loadingRules } = useRequest(
+  const { run: fetchRules, loading: loadingRules } = useRequest(
     CommunicationRuleService.getAll,
     {
       onSuccess: response => {
@@ -29,11 +29,34 @@
     }
   )
 
-  const loading = computed(() => loadingRules.value)
+  const { run: changeStatus, loading: loadingChangeStatus } = useRequest(
+    CommunicationRuleService.changeStatus,
+    {
+      manual: true,
+      onSuccess: response => {
+        const { error, messages } = response.data
+        if (error) {
+          show(messages[0], 'error')
+          return
+        }
+        show(t('status_changed_successfully'), 'success')
+        fetchRules()
+      },
+    }
+  )
+
+  const loading = computed(() => loadingRules.value || loadingChangeStatus.value)
 
   const handleEditRule = rule => {
     openCommunicationRuleDialog.value = true
     ruleToEdit.value = rule
+  }
+
+  const handleStatusChange = rule => {
+    changeStatus({
+      id: rule.id,
+      status: rule.status === 'Active' ? 'Inactive' : 'Active',
+    })
   }
 
   watch(
@@ -116,6 +139,7 @@
           :color="rule.status === 'Active' ? 'error' : 'warning'"
           flat
           :text="rule.status === 'Active' ? t('deactivate') : t('activate')"
+          @click="handleStatusChange(rule)"
         />
       </div>
     </div>
