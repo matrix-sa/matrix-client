@@ -1,6 +1,6 @@
 import i18n from '@/i18n'
 
-const { t } = i18n.global
+const { t, locale } = i18n.global
 
 export const paginateArray = (array, perPage, page) => array.slice((page - 1) * perPage, page * perPage)
 
@@ -21,3 +21,7 @@ export const genId = array => {
 
   return lastIndex || (length + 1)
 }
+
+export const localeTitle = computed(() => {
+  return locale.value === 'ar' ? 'arabic_title' : 'english_title'
+})

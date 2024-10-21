@@ -1,5 +1,5 @@
 <script setup>
-import { paginationMeta } from "@/composable/utils"
+import { localeTitle, paginationMeta } from "@/composable/utils"
 import { useI18n } from 'vue-i18n'
 import { DateFormat } from "@/composable/useFormat"
 import MarketingConsultationsOrdersService from "@/services/marketing-consultations-orders-service"
@@ -17,17 +17,14 @@ const options = ref({
   search: undefined,
 })
 
-const { t, locale } = useI18n()
+const { t } = useI18n()
 
 const { show } = useSnackbar()
-
-const isArabic = locale.value === 'ar'
-const usedTitle = isArabic ? 'arabic_title' : 'english_title'
 
 const headers = [
   {
     title: t("marketing-consultation-order.title"),
-    key: usedTitle,
+    key: localeTitle,
   },
   {
     title: t("marketing-consultation-order.status"),
@@ -107,44 +104,42 @@ const loading = computed(() => loadingOrders.value)
 </script>
 
 <template>
-  <section>
-    <VCard>
-      <div class="d-flex align-center justify-space-between ga-4 pa-4">
-        <VCardTitle class="font-weight-medium text-surface-variant pa-0">
-          {{ $t("consultationsLog") }}
+  <VCard>
+    <div class="d-flex align-center justify-space-between ga-4 pa-4">
+      <VCardTitle class="font-weight-medium text-surface-variant pa-0">
+        {{ $t("consultationsLog") }}
+      </VCardTitle>
+      <VBtn rounded color="warning" :to="{ name: '/marketing-consultations-orders/' }">
+        <VIcon icon="tabler-circle-plus-filled" />
+        {{ $t("requestConsult") }}
+      </VBtn>
+    </div>
 
-        </VCardTitle>
-        <VBtn rounded color="warning">
-          <VIcon icon="tabler-circle-plus-filled" />
-          {{ $t("requestConsult") }}
-        </VBtn>
-      </div>
+    <VCardText class="pa-4 pt-0">
+      <VDivider />
+      <VDataTableServer v-model:items-per-page="options.itemsPerPage" v-model:page="options.page" :loading="loading"
+        :items="consultationsOrders" :items-length="totalCount" :headers="headers" :no-data-text="$t('no_data_text')"
+        class="text-no-wrap" @update:options="options = $event">
+        <!-- Created At -->
+        <template #item.created_at="{ item }">
+          {{ DateFormat(item.created_at) }}
+        </template>
 
-      <VCardText class="pa-4 pt-0">
-        <VDivider />
-        <VDataTableServer v-model:items-per-page="options.itemsPerPage" v-model:page="options.page" :loading="loading"
-          :items="consultationsOrders" :items-length="totalCount" :headers="headers" :no-data-text="$t('no_data_text')"
-          class="text-no-wrap" @update:options="options = $event">
-          <!-- Created At -->
-          <template #item.created_at="{ item }">
-            {{ DateFormat(item.created_at) }}
-          </template>
+        <!-- Last Updated -->
+        <template #item.price="{ item }">
+          {{ item.price }}
+          <sub> {{ $t(item.currency) }}</sub>
+        </template>
 
-          <!-- Last Updated -->
-          <template #item.price="{ item }">
-            {{ item.price }}
-            <sub> {{ $t(item.currency) }}</sub>
-          </template>
+        <!-- Status -->
+        <template #item.status="{ item }">
+          <VChip :color="resolveStatusVariant(item.status)" variant="text" class="text-capitalize px-0">
+            {{ getStatus(item.status) }}
+          </VChip>
+        </template>
 
-          <!-- Status -->
-          <template #item.status="{ item }">
-            <VChip :color="resolveStatusVariant(item.status)" variant="text" class="text-capitalize px-0">
-              {{ getStatus(item.status) }}
-            </VChip>
-          </template>
-
-          <!-- Actions -->
-          <!-- <template #item.actions="{ item }">
+        <!-- Actions -->
+        <!-- <template #item.actions="{ item }">
             <td>
               <VTooltip :text="$t('details')">
                 <template #activator="{ props }">
@@ -166,20 +161,19 @@ const loading = computed(() => loadingOrders.value)
             </td>
           </template> -->
 
-          <!-- pagination -->
-          <template #bottom>
-            <VDivider />
-            <div class="d-flex align-center justify-sm-space-between justify-center flex-wrap gap-3 pa-5 pt-3">
-              <p class="text-sm text-disabled mb-0">
-                {{ paginationMeta(options, totalCount) }}
-              </p>
+        <!-- pagination -->
+        <template #bottom>
+          <VDivider />
+          <div class="d-flex align-center justify-sm-space-between justify-center flex-wrap gap-3 pa-5 pt-3">
+            <p class="text-sm text-disabled mb-0">
+              {{ paginationMeta(options, totalCount) }}
+            </p>
 
-              <VPagination v-model="options.page" total-visible="3"
-                :length="Math.ceil(totalCount / options.itemsPerPage)" />
-            </div>
-          </template>
-        </VDataTableServer>
-      </VCardText>
-    </VCard>
-  </section>
+            <VPagination v-model="options.page" total-visible="3"
+              :length="Math.ceil(totalCount / options.itemsPerPage)" />
+          </div>
+        </template>
+      </VDataTableServer>
+    </VCardText>
+  </VCard>
 </template>

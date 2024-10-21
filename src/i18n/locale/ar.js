@@ -915,4 +915,9 @@ export default {
   rule_increase_by: 'قم بزيادة القيمة بمقدار',
   BiggerThan: 'أكثر من',
   LessThan: 'أقل من',
+  newConsultOrder: 'طلب استشارة جديدة',
+  fillInfoToOrderConsult: 'قم بمليء المعلومات لإنشاء طلب استشارة جديد.',
+  selectConsultType: 'حدد نوع الاستشارة',
+  back: 'عودة',
+  sendOrder: 'إرسل الطلب',
 }

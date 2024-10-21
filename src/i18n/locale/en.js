@@ -917,4 +917,8 @@ export default {
   rule_increase_by: 'Increase By',
   BiggerThan: 'Bigger Than',
   LessThan: 'Less Than',
+  newConsultOrder: 'New Consult Order',
+  selectConsultType: 'Select Consult Type',
+  back: 'Back',
+  sendOrder: 'Send Order',
 }
