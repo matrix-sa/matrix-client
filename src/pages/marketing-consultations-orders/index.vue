@@ -2,10 +2,8 @@
   import emailSvg from '@images/svg/email-marketing.svg'
   import { localeTitle } from '@/composable/utils'
   import MarketingConsultationsService from '@/services/marketing-consultations-service'
-  import { useConsultationsStore } from '@/stores/useConsultationsStore'
+  import MarketingConsultationsOrdersService from '@/services/marketing-consultations-orders-service'
   import { useRequest } from 'vue-request'
-
-  const consultationsStore = useConsultationsStore()
 
   const consultations = ref([])
   const {
@@ -19,6 +17,45 @@
   })
 
   const selected = ref(null)
+  const answers = ref([])
+  const setSelected = clicked => {
+    clicked.id === selected.value?.id
+      ? (selected.value = null)
+      : (selected.value = clicked)
+
+    answers.value = selected.value?.questions?.map(question => ({
+      question_id: question.id,
+    }))
+  }
+
+  const dialog = ref(false)
+  const { run: createOrder, loading } = useRequest(
+    data => MarketingConsultationsOrdersService.create(data),
+    {
+      manual: true,
+      onSuccess: res => {
+        const { data, error, messages } = res.data
+        if (error) {
+          show(messages[0], 'error')
+        } else {
+          dialog.value = true
+        }
+      },
+    }
+  )
+
+  const onSubmit = () => {
+    createOrder({
+      marketing_consultation_id: selected.value?.id,
+      answers: answers.value,
+    })
+  }
+
+  const router = useRouter()
+  const closeDialog = () => {
+    dialog.value = false
+    router.push({ name: '/marketing-consultations/' })
+  }
 </script>
 
 <template>
@@ -30,87 +67,119 @@
     <VDivider class="mx-6" />
 
     <VCardText>
-      <VRow>
-        <VCol cols="12" lg="4">
-          <section
-            class="d-flex flex-column align-center justify-center ga-10 text-center px-6"
-          >
-            <VImg height="138" :src="emailSvg" width="194" />
-            <h5 class="text-body-1">{{ $t("fillInfoToOrderConsult") }}</h5>
-          </section>
-          <!-- <VDivider vertical /> -->
-        </VCol>
+      <VForm ref="refVForm" @submit.prevent="onSubmit">
+        <VRow>
+          <VCol cols="12" lg="4">
+            <div class="d-lg-flex h-100">
+              <section class="text-center pa-6">
+                <figure class="mb-10">
+                  <VImg
+                    class="mx-auto"
+                    height="138"
+                    :src="emailSvg"
+                    width="194"
+                  />
+                </figure>
+                <h5 class="text-body-1 px-6 text-surface-variant">
+                  {{ $t("fillInfoToOrderConsult") }}
+                </h5>
+              </section>
+              <VDivider class="d-none d-lg-block" vertical />
+              <VDivider class="d-lg-none" />
+            </div>
+          </VCol>
 
-        <VCol cols="12" lg="8">
-          <h5 class="text-body-2 mb-3">{{ $t("selectConsultType") }}</h5>
-          <VRow>
-            <VCol
-              v-for="consult in consultations"
-              :key="consult.id"
-              cols="6"
-              sm="3"
-            >
-              <button
-                class="w-100 d-flex flex-column justify-center align-center ga-4 bg-background rounded-lg pa-4 text-center h-100"
-                :class="
-                  selected?.id === consult.id
-                    ? 'border-md border-primary border-opacity-100'
-                    : 'border-sm border'
-                "
-                @click="selected = consult"
+          <VCol cols="12" lg="8">
+            <h5 class="text-body-2 mb-3">{{ $t("selectConsultType") }}</h5>
+            <VRow>
+              <VCol
+                v-for="consult in consultations"
+                :key="consult.id"
+                cols="6"
+                sm="3"
               >
-                <VImg height="48" :src="consult.icon_url" width="48" />
-                <span
+                <button
+                  class="w-100 d-flex flex-column justify-center align-center ga-4 bg-background rounded-lg pa-4 text-center h-100"
                   :class="
                     selected?.id === consult.id
-                      ? 'text-primary font-weight-bold'
-                      : 'text-black font-weight-medium'
+                      ? 'border-md border-primary border-opacity-100'
+                      : 'border-sm border'
                   "
+                  type="button"
+                  @click="setSelected(consult)"
                 >
-                  {{ consult[localeTitle] }}
-                </span>
-              </button>
-            </VCol>
-            <template v-if="selected">
-              <VCol cols="12">
-                <form v-for="(question, i) in selected?.questions" :key="i">
-                  <ApptextField
-                    v-if="question.type === 'Text'"
-                    bordered
-                    :label="question[localeTitle]"
-                    :placeholder="$t('writeYourAnswer')"
-                  />
-
-                  <!-- v-model="" -->
-                  <AppChipSelect
-                    v-if="question.type === 'SingleChoice'"
-                    :items="
-                      question.choices?.map((item) => {
-                        return {
-                          id: item.id,
-                          title: item[localeTitle],
-                        };
-                      })
+                  <VImg height="48" :src="consult.icon_url" width="48" />
+                  <span
+                    :class="
+                      selected?.id === consult.id
+                        ? 'text-primary font-weight-bold'
+                        : 'text-black font-weight-medium'
                     "
-                    :label="question[localeTitle]"
-                  />
-                </form>
+                  >
+                    {{ consult[localeTitle] }}
+                  </span>
+                </button>
               </VCol>
-            </template>
-          </VRow>
-        </VCol>
-        <VCol cols="12">
-          <VCardActions class="justify-end">
-            <VBtn :text="$t('back')" />
-            <VBtn class="px-4" color="primary" rounded variant="flat">
-              {{ $t("sendOrder") }}
-              <VIcon class="ms-2" icon="tabler-arrow-left" />
-            </VBtn>
-          </VCardActions>
-        </VCol>
-      </VRow>
+              <template v-if="selected">
+                <VCol cols="12">
+                  <template
+                    v-for="(question, i) in selected?.questions"
+                    :key="i"
+                  >
+                    <AppTextField
+                      v-if="question.type === 'Text'"
+                      v-model="answers[i].answer_text"
+                      bordered
+                      :label="question[localeTitle]"
+                      :placeholder="$t('writeYourAnswer')"
+                    />
+
+                    <AppChipSelect
+                      v-if="question.type === 'SingleChoice'"
+                      v-model="answers[i].selected_choice_id"
+                      :items="
+                        question.choices?.map((item) => {
+                          return {
+                            id: item.id,
+                            title: item[localeTitle],
+                          };
+                        })
+                      "
+                      :label="question[localeTitle]"
+                    />
+                  </template>
+                </VCol>
+              </template>
+            </VRow>
+          </VCol>
+          <VCol class="pt-0" cols="12">
+            <VCardActions class="justify-end pa-0">
+              <VBtn
+                :text="$t('back')"
+                :to="{ name: '/marketing-consultations/' }"
+              />
+              <VBtn
+                class="px-4"
+                color="primary"
+                :disabled="loading"
+                :loading="loading"
+                rounded
+                type="submit"
+                variant="flat"
+              >
+                {{ $t("sendOrder") }}
+                <VIcon class="ms-2" icon="tabler-arrow-left" />
+              </VBtn>
+            </VCardActions>
+          </VCol>
+        </VRow>
+      </VForm>
     </VCardText>
   </VCard>
+
+  <VDialog v-model="dialog" max-width="428" persistent>
+    <DialogSuccess @close="closeDialog" />
+  </VDialog>
 </template>
 
 <style scoped>

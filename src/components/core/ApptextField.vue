@@ -81,7 +81,7 @@
       background: rgb(var(--v-theme-background));
       transition: all 0.15s linear;
 
-      &--active {
+      &--focused {
         outline: 1px solid rgb(var(--v-theme-primary));
         border-color: rgb(var(--v-theme-primary));
       }

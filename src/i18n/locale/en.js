@@ -935,5 +935,7 @@ export default {
   whatsapp: 'WhatsApp',
   sms: 'SMS',
   writeYourAnswer: 'Write your answer',
-
+  orderSuccess: 'Order completed successfully!',
+  ourTeamWillAnswerSoon: 'Our specialized team will respond to your consultation as soon as possible.',
+  done: 'done',
 }

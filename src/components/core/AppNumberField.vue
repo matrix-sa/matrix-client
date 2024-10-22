@@ -2,7 +2,7 @@
   import { VNumberInput } from 'vuetify/labs/VNumberInput'
 
   defineOptions({
-    name: 'AppTextField',
+    name: 'AppNumberField',
     inheritAttrs: false,
   })
 

@@ -114,7 +114,7 @@ watch(
         </v-chip>
       </div>
       <div class="data-row">
-        <v-btn class="rule-btn" color="primary" flat :text="t('edit')" @click="handleEditRule" />
+        <v-btn class="rule-btn" color="primary" flat :text="t('edit')" @click="handleEditRule(rule)" />
         <v-btn class="rule-btn" :color="rule.status === 'Active' ? 'error' : 'warning'" flat
           :text="rule.status === 'Active' ? t('deactivate') : t('activate')" @click="handleStatusChange(rule)" />
       </div>

@@ -6,6 +6,7 @@ import { useSnackbarStore } from '@/stores/useSnackBarStore'
 import ruleIcon from '@/assets/rule-icon.svg'
 import AppChipSelect from '../core/AppChipSelect.vue'
 import CampaignRuleService from '@/services/campaign-rule-service'
+import AppTextField from '../core/ApptextField.vue'
 
 const props = defineProps({
   rule: {
@@ -30,6 +31,10 @@ const handleClose = () => {
   emit('update:isDialogVisible', false)
 }
 
+
+if (props.rule) {
+  form.value = props.rule
+}
 const submit = () => {
   create({ ...form.value })
 }
@@ -53,14 +58,7 @@ const { run: create, loading: startLoading } = useRequest(
 )
 
 
-// Watch for changes in rule._vts
-watch(
-  () => props.rule,
-  () => {
 
-    alert(1)
-  }
-);
 
 const isFormValid = computed(() => {
   const requirements = {
@@ -83,7 +81,9 @@ const isFormValid = computed(() => {
         <div class="d-flex align-center ga-2">
           <v-img aspect-ratio="1/1" :src="ruleIcon" width="40" />
           <p>
-            <span class="dark-1 font-weight-bold"> {{ t("control_rule") }} </span>
+            <span class="dark-1 font-weight-bold">
+              {{ t("control_rule") }}
+            </span>
           </p>
         </div>
       </div>
@@ -91,12 +91,11 @@ const isFormValid = computed(() => {
       <v-btn class="close-btn" icon="mdi-close" variant="text" @click="handleClose" />
     </v-card-title>
 
-    {{ JSON.stringify(rule) }}
     <v-divider class="mb-4" />
 
     <div class="camp-rule-text pa-4">
       <p>
-        {{ t('camaign_rule_modal_text') }}
+        {{ t("camaign_rule_modal_text") }}
       </p>
     </div>
 
@@ -109,21 +108,20 @@ const isFormValid = computed(() => {
           ]" :label="t('if_the_return_on_spending')" />
         </v-col>
         <v-col cols="12" sm="6">
-          <ApptextField v-model="form.roas_comparing_value" :append-text="t('SAR')"
+          <AppTextField v-model="form.roas_comparing_value" :append-text="t('SAR')"
             :label="t('the_value_of_return_on_spending')" :placeholder="t('enter_value')" />
-
         </v-col>
 
         <v-col cols="12" sm="6">
+
           <AppChipSelect v-model="form.increment_type" :items="[
             { id: 'Value', title: t('monetary_value') },
             { id: 'Percentage', title: t('percentage') },
           ]" :label="t('increase_the_value_select_the_type_of_increase')" />
         </v-col>
         <v-col cols="12" sm="6">
-          <ApptextField v-model="form.increment_value" :append-text="t('SAR')" :label="t('increase_your_budget_by')"
+          <AppTextField v-model="form.increment_value" :append-text="t('SAR')" :label="t('increase_your_budget_by')"
             :placeholder="t('enter_value')" />
-
         </v-col>
       </v-row>
     </v-container>
