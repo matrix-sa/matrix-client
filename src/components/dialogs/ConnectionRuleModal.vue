@@ -62,46 +62,53 @@
           }
         }
       },
-    },
+    }
   )
 
   const isFormValid = computed(() => {
     const requirements = {
-      indicator: () =>
-        form.value.indicator,
-      comparison_type: () =>
-        form.value.comparison_type,
-      channels: () =>
-        form.value.channels,
+      indicator: () => form.value.indicator,
+      comparison_type: () => form.value.comparison_type,
+      channels: () => form.value.channels,
       target_value: () => form.value.target_value,
       days_ago: () => form.value.days_ago,
       default: () => form.value.indicator,
-
     }
 
-    return !!(requirements.default)()
+    return !!requirements.default()
   })
 </script>
 <template>
-  <v-card class="connect-platform px-6 rounded-xl" min-width="40vw" rounded="lg">
+  <v-card
+    class="connect-platform px-6 rounded-xl"
+    min-width="40vw"
+    rounded="lg"
+  >
     <v-card-title class="d-flex justify-space-between align-center px-0">
       <div class="text-h5 text-medium-emphasis text-tajawal">
         <div class="d-flex align-center ga-2">
           <v-img aspect-ratio="1/1" :src="connectionRuleIcon" width="30" />
           <p>
-            <span class="dark-1 font-weight-bold"> {{ t("connection_rule") }} </span>
+            <span class="dark-1 font-weight-bold">
+              {{ t("connection_rule") }}
+            </span>
           </p>
         </div>
       </div>
 
-      <v-btn class="close-btn" icon="mdi-close" variant="text" @click="handleClose" />
+      <v-btn
+        class="close-btn"
+        icon="mdi-close"
+        variant="text"
+        @click="handleClose"
+      />
     </v-card-title>
 
     <v-divider class="mb-4" />
 
     <div class="camp-rule-text pa-4">
       <p>
-        {{ t('connection_rule_text') }}
+        {{ t("connection_rule_text") }}
       </p>
     </div>
 
@@ -118,58 +125,61 @@
           />
         </v-col>
         <v-col cols="12" sm="6">
-
           <AppSelect
             v-model="form.indicator"
-            :items="[
-              'CTR',
-              'CVC'
-            ]"
+            :items="['CTR', 'CVC']"
             :label="t('select_the_indicator')"
             placeholder="Select"
           />
-
         </v-col>
 
         <v-col cols="12" sm="6">
-          <ApptextField v-model="form.target_value" :label="t('specify_the_value')" :placeholder="t('enter_value')" />
-
+          <AppTextField
+            v-model="form.target_value"
+            :label="t('specify_the_value')"
+            :placeholder="t('enter_value')"
+          />
         </v-col>
         <v-col cols="12" sm="6">
-          <ApptextField
+          <AppTextField
             v-model="form.days_ago"
             :append-text="t('day')"
             :label="t('during_another')"
             :placeholder="t('num_of_days')"
           />
-
         </v-col>
 
-        <span>{{ t('send_a_notification_via') }}:</span>
+        <span>{{ t("send_a_notification_via") }}:</span>
 
         <div class="d-flex align-center justify-space-between w-100">
-          <AppCheckBox v-model="form.channels.whatsApp" :label="t('whatsapp')" />
+          <AppCheckBox
+            v-model="form.channels.whatsApp"
+            :label="t('whatsapp')"
+          />
           <img class="whatsapp" :src="whatsApp">
         </div>
 
         <div class="d-flex align-center justify-space-between w-100">
           <AppCheckBox v-model="form.channels.sms" :label="t('sms')" />
           <img class="chatbot-img" :src="sms">
-
         </div>
 
         <div class="d-flex align-center justify-space-between w-100">
           <AppCheckBox v-model="form.channels.email" :label="t('email')" />
           <img class="chatbot-img" :src="thread">
         </div>
-
       </v-row>
     </v-container>
 
     <v-divider class="mt-2" />
 
     <v-card-actions class="my-2 d-flex justify-end">
-      <v-btn class="text-none" rounded="xl" :text="t('cancel')" @click="handleClose" />
+      <v-btn
+        class="text-none"
+        rounded="xl"
+        :text="t('cancel')"
+        @click="handleClose"
+      />
 
       <v-btn
         append-icon="mdi-check"

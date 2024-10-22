@@ -49,46 +49,52 @@
           }
         }
       },
-    },
+    }
   )
 
   const isFormValid = computed(() => {
     const requirements = {
-      roas_condition: () =>
-        form.value.roas_condition,
-      roas_comparing_value: () =>
-        form.value.roas_comparing_value,
-      increment_type: () =>
-        form.value.increment_type,
+      roas_condition: () => form.value.roas_condition,
+      roas_comparing_value: () => form.value.roas_comparing_value,
+      increment_type: () => form.value.increment_type,
       increment_value: () => form.value.increment_value,
       default: () => form.value.roas_condition,
-
     }
 
-    return !!(requirements.default)()
+    return !!requirements.default()
   })
-
 </script>
 <template>
-  <v-card class="connect-platform px-6 rounded-xl" min-width="40vw" rounded="lg">
+  <v-card
+    class="connect-platform px-6 rounded-xl"
+    min-width="40vw"
+    rounded="lg"
+  >
     <v-card-title class="d-flex justify-space-between align-center px-0">
       <div class="text-h5 text-medium-emphasis text-tajawal">
         <div class="d-flex align-center ga-2">
           <v-img aspect-ratio="1/1" :src="ruleIcon" width="40" />
           <p>
-            <span class="dark-1 font-weight-bold"> {{ t("control_rule") }} </span>
+            <span class="dark-1 font-weight-bold">
+              {{ t("control_rule") }}
+            </span>
           </p>
         </div>
       </div>
 
-      <v-btn class="close-btn" icon="mdi-close" variant="text" @click="handleClose" />
+      <v-btn
+        class="close-btn"
+        icon="mdi-close"
+        variant="text"
+        @click="handleClose"
+      />
     </v-card-title>
 
     <v-divider class="mb-4" />
 
     <div class="camp-rule-text pa-4">
       <p>
-        {{ t('camaign_rule_modal_text') }}
+        {{ t("camaign_rule_modal_text") }}
       </p>
     </div>
 
@@ -105,13 +111,12 @@
           />
         </v-col>
         <v-col cols="12" sm="6">
-          <ApptextField
+          <AppTextField
             v-model="form.roas_comparing_value"
             :append-text="t('SAR')"
             :label="t('the_value_of_return_on_spending')"
             :placeholder="t('enter_value')"
           />
-
         </v-col>
 
         <v-col cols="12" sm="6">
@@ -125,13 +130,12 @@
           />
         </v-col>
         <v-col cols="12" sm="6">
-          <ApptextField
+          <AppTextField
             v-model="form.increment_value"
             :append-text="t('SAR')"
             :label="t('increase_your_budget_by')"
             :placeholder="t('enter_value')"
           />
-
         </v-col>
       </v-row>
     </v-container>
@@ -139,7 +143,12 @@
     <v-divider class="mt-2" />
 
     <v-card-actions class="my-2 d-flex justify-end">
-      <v-btn class="text-none" rounded="xl" :text="t('cancel')" @click="handleClose" />
+      <v-btn
+        class="text-none"
+        rounded="xl"
+        :text="t('cancel')"
+        @click="handleClose"
+      />
 
       <v-btn
         append-icon="mdi-check"
