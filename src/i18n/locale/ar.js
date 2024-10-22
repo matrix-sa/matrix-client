@@ -934,4 +934,7 @@ export default {
   whatsapp: 'واتساب',
   sms: 'رسالة نصية',
   writeYourAnswer: 'اكتب إجابتك',
+  orderSuccess: 'تم الطلب بنجاح!',
+  ourTeamWillAnswerSoon: 'سيقوم فريقنا المختص بالرد على الاستشارة بأسرع وقت ممكن',
+  done: 'تم',
 }

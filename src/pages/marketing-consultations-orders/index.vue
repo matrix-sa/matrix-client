@@ -3,10 +3,7 @@
   import { localeTitle } from '@/composable/utils'
   import MarketingConsultationsService from '@/services/marketing-consultations-service'
   import MarketingConsultationsOrdersService from '@/services/marketing-consultations-orders-service'
-  import { useConsultationsStore } from '@/stores/useConsultationsStore'
   import { useRequest } from 'vue-request'
-
-  const consultationsStore = useConsultationsStore()
 
   const consultations = ref([])
   const {
@@ -21,7 +18,6 @@
 
   const selected = ref(null)
   const answers = ref([])
-
   const setSelected = clicked => {
     clicked.id === selected.value?.id
       ? (selected.value = null)
@@ -32,8 +28,7 @@
     }))
   }
 
-  const router = useRouter()
-
+  const dialog = ref(false)
   const { run: createOrder, loading } = useRequest(
     data => MarketingConsultationsOrdersService.create(data),
     {
@@ -42,10 +37,9 @@
         const { data, error, messages } = res.data
         if (error) {
           show(messages[0], 'error')
-
-          return
+        } else {
+          dialog.value = true
         }
-        router.push({ name: '/marketing-consultations-orders/' })
       },
     }
   )
@@ -55,6 +49,12 @@
       marketing_consultation_id: selected.value?.id,
       answers: answers.value,
     })
+  }
+
+  const router = useRouter()
+  const closeDialog = () => {
+    dialog.value = false
+    router.push({ name: '/marketing-consultations/' })
   }
 </script>
 
@@ -69,14 +69,24 @@
     <VCardText>
       <VForm ref="refVForm" @submit.prevent="onSubmit">
         <VRow>
-          <VCol class="align-self-center" cols="12" lg="4">
-            <section
-              class="d-flex flex-column align-center justify-center ga-10 text-center pa-6"
-            >
-              <VImg height="138" :src="emailSvg" width="194" />
-              <h5 class="text-body-1">{{ $t("fillInfoToOrderConsult") }}</h5>
-            </section>
-            <!-- <VDivider vertical /> -->
+          <VCol cols="12" lg="4">
+            <div class="d-lg-flex h-100">
+              <section class="text-center pa-6">
+                <figure class="mb-10">
+                  <VImg
+                    class="mx-auto"
+                    height="138"
+                    :src="emailSvg"
+                    width="194"
+                  />
+                </figure>
+                <h5 class="text-body-1 px-6 text-surface-variant">
+                  {{ $t("fillInfoToOrderConsult") }}
+                </h5>
+              </section>
+              <VDivider class="d-none d-lg-block" vertical />
+              <VDivider class="d-lg-none" />
+            </div>
           </VCol>
 
           <VCol cols="12" lg="8">
@@ -142,8 +152,8 @@
               </template>
             </VRow>
           </VCol>
-          <VCol cols="12">
-            <VCardActions class="justify-end">
+          <VCol class="pt-0" cols="12">
+            <VCardActions class="justify-end pa-0">
               <VBtn
                 :text="$t('back')"
                 :to="{ name: '/marketing-consultations/' }"
@@ -166,6 +176,10 @@
       </VForm>
     </VCardText>
   </VCard>
+
+  <VDialog v-model="dialog" max-width="428" persistent>
+    <DialogSuccess @close="closeDialog" />
+  </VDialog>
 </template>
 
 <style scoped>

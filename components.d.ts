@@ -20,6 +20,7 @@ declare module 'vue' {
     ConnectionRuleModal: typeof import('./src/components/dialogs/ConnectionRuleModal.vue')['default']
     ConnectPlatformAccountDialog: typeof import('./src/components/dialogs/ConnectPlatformAccountDialog.vue')['default']
     DesktopLayout: typeof import('./src/components/shared/DesktopLayout.vue')['default']
+    DialogSuccess: typeof import('./src/components/dialogs/DialogSuccess.vue')['default']
     FormConsultationOrder: typeof import('./src/components/forms/FormConsultationOrder.vue')['default']
     GoogleAdsCampaignForm: typeof import('./src/components/forms/campaigns/GoogleAdsCampaignForm.vue')['default']
     Header: typeof import('./src/components/digital-writer/Header.vue')['default']
