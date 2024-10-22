@@ -15,9 +15,15 @@ const CampaignRuleService = (function () {
     })
   }
 
+
   const run = data => {
     return API.post(`${prefix}/CreateCampaignRuleV2`, data)
   }
+
+  const update = data => {
+    return API.put(`${prefix}/UpdateCampaignRuleV2`, data)
+  }
+
 
   const changeStatus = data => {
     return API.put(`${prefix}/ChangeCampaignRuleStatusV2`, data)
@@ -27,7 +33,8 @@ const CampaignRuleService = (function () {
     run,
     getAll,
     changeStatus,
-    getById
+    getById,
+    update
   }
 })()
 

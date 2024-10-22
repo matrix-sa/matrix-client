@@ -938,4 +938,6 @@ export default {
   orderSuccess: 'Order completed successfully!',
   ourTeamWillAnswerSoon: 'Our specialized team will respond to your consultation as soon as possible.',
   done: 'done',
+    campaign_rule_updated_successfully: "campaign rule updated successfully"
+
 }

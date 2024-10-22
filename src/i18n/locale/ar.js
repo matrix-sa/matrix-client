@@ -937,4 +937,5 @@ export default {
   orderSuccess: 'تم الطلب بنجاح!',
   ourTeamWillAnswerSoon: 'سيقوم فريقنا المختص بالرد على الاستشارة بأسرع وقت ممكن',
   done: 'تم',
+  campaign_rule_updated_successfully: "تم تحديث قاعدة الحملة بنجاح"
 }

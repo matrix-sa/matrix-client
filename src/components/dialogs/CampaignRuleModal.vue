@@ -24,6 +24,7 @@ const form = ref({
   increment_value: null,
 })
 
+
 const { t } = useI18n()
 const { show } = useSnackbarStore()
 
@@ -36,7 +37,18 @@ if (props.rule) {
   form.value = props.rule
 }
 const submit = () => {
-  create({ ...form.value })
+
+  if (!props.rule) {
+    create({ ...form.value })
+  } else {
+    runUpdate({
+      id: props.rule.id,
+      increment_type: form.value.increment_type,
+      increment_value: form.value.increment_value,
+      roas_comparing_value: form.value.roas_comparing_value,
+      roas_condition: form.value.roas_condition
+    })
+  }
 }
 
 const { run: create, loading: startLoading } = useRequest(
@@ -57,6 +69,21 @@ const { run: create, loading: startLoading } = useRequest(
   },
 )
 
+const { run: runUpdate, loading: loadingRunUpdate } = useRequest(
+  data => CampaignRuleService.update(data),
+  {
+    manual: true,
+    onSuccess: response => {
+      const { error, messages } = response.data
+      if (error) {
+        show(messages[0], 'error')
+        return
+      }
+      show(t('campaign_rule_updated_successfully'), 'success')
+
+    },
+  }
+)
 
 
 
@@ -72,6 +99,14 @@ const isFormValid = computed(() => {
   return !!(requirements.default)();
 });
 
+
+watch(
+  () => props.rule,
+  (newRule) => {
+    Object.assign(form.value, newRule);
+  },
+  { immediate: true }
+);
 </script>
 
 <template>
