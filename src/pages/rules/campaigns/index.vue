@@ -122,7 +122,7 @@
           color="primary"
           flat
           :text="t('edit')"
-          @click="handleEditRule"
+          @click="handleEditRule(rule)"
         />
         <v-btn
           class="rule-btn"
