@@ -7,6 +7,14 @@ const CampaignRuleService = (function () {
     return API.get(`${prefix}/GetCampaignsRulesV2`)
   }
 
+    const getById = params => {
+    return API.get(`${prefix}/GetCampaignRuleV2`, params, {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+  }
+
   const run = data => {
     return API.post(`${prefix}/CreateCampaignRuleV2`, data)
   }
@@ -19,6 +27,7 @@ const CampaignRuleService = (function () {
     run,
     getAll,
     changeStatus,
+    getById
   }
 })()
 
