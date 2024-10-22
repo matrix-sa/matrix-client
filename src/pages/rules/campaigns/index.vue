@@ -1,83 +1,83 @@
 <script setup>
-import { useRequest } from 'vue-request'
-import CampaignsRulesService from '@/services/campaign-rule-service'
-import { useSnackbarStore } from '@/stores/useSnackBarStore'
-import { useI18n } from 'vue-i18n'
-import { useBreadcrumbsStore } from '@/stores/useBreadcrumbsStore'
-import { useAuthStore } from '@/stores/useAuthStore'
-import { storeToRefs } from 'pinia'
+  import { useRequest } from 'vue-request'
+  import CampaignsRulesService from '@/services/campaign-rule-service'
+  import { useSnackbarStore } from '@/stores/useSnackBarStore'
+  import { useI18n } from 'vue-i18n'
+  import { useBreadcrumbsStore } from '@/stores/useBreadcrumbsStore'
+  import { useAuthStore } from '@/stores/useAuthStore'
+  import { storeToRefs } from 'pinia'
 
-const { show } = useSnackbarStore()
-const { t, locale } = useI18n()
-const { update } = useBreadcrumbsStore()
-const { user } = storeToRefs(useAuthStore())
+  const { show } = useSnackbarStore()
+  const { t, locale } = useI18n()
+  const { update } = useBreadcrumbsStore()
+  const { user } = storeToRefs(useAuthStore())
 
-const openControlRuleDialog = ref(false)
-const ruleToEdit = ref(null)
-const rules = ref([])
-const { run: fetchRules, loading: loadingRules } = useRequest(
-  CampaignsRulesService.getAll,
-  {
-    onSuccess: response => {
-      const { data, error, messages } = response.data
-      if (error) {
-        show(messages, 'error')
-        return
-      }
-      rules.value = data
-    },
-  }
-)
-
-const { run: changeStatus, loading: loadingChangeStatus } = useRequest(
-  CampaignsRulesService.changeStatus,
-  {
-    manual: true,
-    onSuccess: response => {
-      const { error, messages } = response.data
-      if (error) {
-        show(messages[0], 'error')
-        return
-      }
-      show(t('status_changed_successfully'), 'success')
-      fetchRules()
-    },
-  }
-)
-
-const loading = computed(() => loadingRules.value || loadingChangeStatus.value)
-
-const handleEditRule = rule => {
-  openControlRuleDialog.value = true
-  ruleToEdit.value = rule
-}
-
-const handleStatusChange = rule => {
-  changeStatus({
-    id: rule.id,
-    status: rule.status === 'Active' ? 'Inactive' : 'Active',
-  })
-}
-
-watch(
-  locale,
-  () => {
-    update([
-      {
-        title: t('campaign_rules'),
-        active: false,
-        to: '/rules/',
+  const openControlRuleDialog = ref(false)
+  const ruleToEdit = ref(null)
+  const rules = ref([])
+  const { run: fetchRules, loading: loadingRules } = useRequest(
+    CampaignsRulesService.getAll,
+    {
+      onSuccess: response => {
+        const { data, error, messages } = response.data
+        if (error) {
+          show(messages, 'error')
+          return
+        }
+        rules.value = data
       },
-      {
-        title: t('control_rules'),
-        active: true,
-        disabled: true,
-        to: '/rules/campaigns/',
+    }
+  )
+
+  const { run: changeStatus, loading: loadingChangeStatus } = useRequest(
+    CampaignsRulesService.changeStatus,
+    {
+      manual: true,
+      onSuccess: response => {
+        const { error, messages } = response.data
+        if (error) {
+          show(messages[0], 'error')
+          return
+        }
+        show(t('status_changed_successfully'), 'success')
+        fetchRules()
       },
-    ])
-  },
-  { immediate: true }
-)
+    }
+  )
+
+  const loading = computed(() => loadingRules.value || loadingChangeStatus.value)
+
+  const handleEditRule = rule => {
+    openControlRuleDialog.value = true
+    ruleToEdit.value = rule
+  }
+
+  const handleStatusChange = rule => {
+    changeStatus({
+      id: rule.id,
+      status: rule.status === 'Active' ? 'Inactive' : 'Active',
+    })
+  }
+
+  watch(
+    locale,
+    () => {
+      update([
+        {
+          title: t('campaign_rules'),
+          active: false,
+          to: '/rules/',
+        },
+        {
+          title: t('control_rules'),
+          active: true,
+          disabled: true,
+          to: '/rules/campaigns/',
+        },
+      ])
+    },
+    { immediate: true }
+  )
 </script>
 <template>
   <div class="rules-container">
@@ -90,8 +90,11 @@ watch(
         <p>
           {{ t("rule") }}
         </p>
-        <v-icon class="check-icon" :color="rule.status === 'Active' ? 'primary' : 'surface-variant'"
-          icon="fluent:checkbox-checked-20-filled" />
+        <v-icon
+          class="check-icon"
+          :color="rule.status === 'Active' ? 'primary' : 'surface-variant'"
+          icon="fluent:checkbox-checked-20-filled"
+        />
       </div>
       <v-divider class="divider" />
       <div class="data-row">
@@ -114,9 +117,20 @@ watch(
         </v-chip>
       </div>
       <div class="data-row">
-        <v-btn class="rule-btn" color="primary" flat :text="t('edit')" @click="handleEditRule(rule)" />
-        <v-btn class="rule-btn" :color="rule.status === 'Active' ? 'error' : 'warning'" flat
-          :text="rule.status === 'Active' ? t('deactivate') : t('activate')" @click="handleStatusChange(rule)" />
+        <v-btn
+          class="rule-btn"
+          color="primary"
+          flat
+          :text="t('edit')"
+          @click="handleEditRule(rule)"
+        />
+        <v-btn
+          class="rule-btn"
+          :color="rule.status === 'Active' ? 'error' : 'warning'"
+          flat
+          :text="rule.status === 'Active' ? t('deactivate') : t('activate')"
+          @click="handleStatusChange(rule)"
+        />
       </div>
     </div>
 

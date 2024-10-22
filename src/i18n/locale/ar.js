@@ -937,5 +937,9 @@ export default {
   orderSuccess: 'تم الطلب بنجاح!',
   ourTeamWillAnswerSoon: 'سيقوم فريقنا المختص بالرد على الاستشارة بأسرع وقت ممكن',
   done: 'تم',
-  campaign_rule_updated_successfully: "تم تحديث قاعدة الحملة بنجاح"
+  campaign_rule_updated_successfully: 'تم تحديث قاعدة الحملة بنجاح',
+  the_control_base_has_been_created: 'تم إنشاء قاعدة الحملة',
+  the_connection_rule_has_been_created: 'تم إنشاء قاعدة الاتصال',
+  the_connection_rule_has_been_updated: 'تم تحديث قاعدة الاتصال',
+
 }
