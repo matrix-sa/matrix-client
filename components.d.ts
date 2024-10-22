@@ -21,7 +21,7 @@ declare module 'vue' {
     DesktopLayout: typeof import('./src/components/shared/DesktopLayout.vue')['default']
     DialogSuccess: typeof import('./src/components/dialogs/DialogSuccess.vue')['default']
     EmptyContent: typeof import('./src/components/EmptyContent.vue')['default']
-    EmptyState: typeof import('./src/components/EmptyState.vue')['default']
+    EmptyState: typeof import('./src/components/core/EmptyState.vue')['default']
     GoogleAdsCampaignForm: typeof import('./src/components/forms/campaigns/GoogleAdsCampaignForm.vue')['default']
     Header: typeof import('./src/components/digital-writer/Header.vue')['default']
     HomeAdsStatistics: typeof import('./src/components/home/HomeAdsStatistics.vue')['default']
