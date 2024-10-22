@@ -135,7 +135,11 @@
     </div>
 
     <v-dialog v-model="openControlRuleDialog" max-width="500">
-      <CampaignRuleModal v-model:is-dialog-visible="openControlRuleDialog" :rule="ruleToEdit" />
+      <CampaignRuleModal
+        v-model:is-dialog-visible="openControlRuleDialog"
+        :rule="ruleToEdit"
+        @saved="fetchRules"
+      />
     </v-dialog>
   </div>
 </template>

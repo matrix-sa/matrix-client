@@ -148,6 +148,7 @@
       <ConnectionRuleModal
         v-model:is-dialog-visible="openCommunicationRuleDialog"
         :rule="ruleToEdit"
+        @saved="fetchRules"
       />
     </v-dialog>
   </div>
