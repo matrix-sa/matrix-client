@@ -18,11 +18,11 @@
 
     return {
       chart: {
-        type: 'line',
+        type: 'area',
         parentHeightOffset: 0,
         toolbar: { show: false },
         zoom: {
-          enabled: false,
+          enabled: true,
         },
       },
       grid: {
@@ -43,11 +43,14 @@
       },
       colors: [currentTheme.primary],
       stroke: { width: 2 },
-      tooltip: {
+      dataLabels: {
         enabled: false,
-        shared: false,
-        intersect: true,
-        x: { show: false },
+      },
+      tooltip: {
+        enabled: true,
+        x: {
+          format: 'd/M',
+        },
       },
     }
   })
