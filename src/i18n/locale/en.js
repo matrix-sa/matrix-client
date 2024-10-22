@@ -902,6 +902,7 @@ export default {
   rule: 'Rule',
   requestConsult: 'Request Consult',
   add_communication_rule: 'Add Communication Rule',
+  no_communication_rules: 'No Communication Rules yet',
   communication_rules: 'Communication Rules',
   in_case_indicator: 'In Case Of Indicator',
   communication_rule_card_value: 'Value',

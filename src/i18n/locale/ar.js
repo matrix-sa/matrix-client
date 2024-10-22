@@ -900,6 +900,7 @@ export default {
   rule: 'قاعدة',
   requestConsult: 'طلب استشارة',
   add_communication_rule: 'أضف قاعدة اتصال',
+  no_communication_rules: 'ليس لديك قواعد اتصال بعد',
   communication_rules: 'قواعد الاتصال',
   in_case_indicator: 'في حال مؤشر',
   communication_rule_card_value: 'عن قيمة',
