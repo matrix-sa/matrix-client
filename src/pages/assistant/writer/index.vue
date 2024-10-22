@@ -1,23 +1,31 @@
-<script>
-  import Header from '@/components/digital-writer/Header.vue'
-  import Tabs from '@/components/digital-writer/Tabs.vue'
+<script setup>
   import { ref } from 'vue'
-  import Questions from '@/components/digital-writer/Questions.vue'
-  export default {
-    setup () {
-      const activeItem = ref(0) // Reactive state for the active item
+  import { useI18n } from 'vue-i18n'
+  import { useBreadcrumbsStore } from '@/stores/useBreadcrumbsStore'
 
-      // Correct the method name
-      const updateActiveTab = itemValue => {
-        activeItem.value = itemValue
-      }
+  const { t, locale } = useI18n()
+  const { update } = useBreadcrumbsStore()
 
-      return {
-        activeItem,
-        updateActiveTab, // Use the corrected method name
-      }
-    },
+  const activeItem = ref(0) // Reactive state for the active item
+
+  // Correct the method name
+  const updateActiveTab = itemValue => {
+    activeItem.value = itemValue
   }
+
+  watch(
+    locale,
+    () => {
+      update([
+        {
+          title: t('digital_writer'),
+          active: false,
+          to: '/assistant/writer/',
+        },
+      ])
+    },
+    { immediate: true }
+  )
 </script>
 
 <template>
@@ -45,13 +53,12 @@ $borderColor: rgba(31, 22, 37, 0.1);
 
 .writer-wrapper {
   gap: 16px;
-  background-color: #FFF;
+  background-color: #fff;
   padding: 24px;
   border-radius: 16px;
 
   .separator {
     border-color: $borderColor;
   }
-
 }
 </style>
