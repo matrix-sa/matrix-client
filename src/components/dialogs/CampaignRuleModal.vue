@@ -6,6 +6,7 @@
   import ruleIcon from '@/assets/rule-icon.svg'
   import AppChipSelect from '../core/AppChipSelect.vue'
   import CampaignRuleService from '@/services/campaign-rule-service'
+  import AppTextField from '../core/ApptextField.vue'
 
   const props = defineProps({
     rule: {
@@ -30,8 +31,21 @@
     emit('update:isDialogVisible', false)
   }
 
+  if (props.rule) {
+    form.value = props.rule
+  }
   const submit = () => {
-    create({ ...form.value })
+    if (!props.rule) {
+      create({ ...form.value })
+    } else {
+      runUpdate({
+        id: props.rule.id,
+        increment_type: form.value.increment_type,
+        increment_value: form.value.increment_value,
+        roas_comparing_value: form.value.roas_comparing_value,
+        roas_condition: form.value.roas_condition,
+      })
+    }
   }
 
   const { run: create, loading: startLoading } = useRequest(
@@ -42,12 +56,29 @@
         const { error, data, messages, code } = res.data
 
         if (error) {
-          // show(messages[0], "error")
-
-          if (data) {
-          //
-          }
+          show(messages[0], 'error')
+          return
         }
+        show(t('the_control_base_has_been_created'), 'success')
+        emit('update:isDialogVisible', false)
+        emit('saved', true)
+      },
+    },
+  )
+
+  const { run: runUpdate, loading: loadingRunUpdate } = useRequest(
+    data => CampaignRuleService.update(data),
+    {
+      manual: true,
+      onSuccess: response => {
+        const { error, messages } = response.data
+        if (error) {
+          show(messages[0], 'error')
+          return
+        }
+        show(t('campaign_rule_updated_successfully'), 'success')
+        emit('update:isDialogVisible', false)
+        emit('saved', true)
       },
     }
   )
@@ -61,15 +92,20 @@
       default: () => form.value.roas_condition,
     }
 
-    return !!requirements.default()
+    return !!(requirements.default)()
   })
+
+  watch(
+    () => props.rule,
+    newRule => {
+      Object.assign(form.value, newRule)
+    },
+    { immediate: true }
+  )
 </script>
+
 <template>
-  <v-card
-    class="connect-platform px-6 rounded-xl"
-    min-width="40vw"
-    rounded="lg"
-  >
+  <v-card class="connect-platform px-6 rounded-xl" min-width="40vw" rounded="lg">
     <v-card-title class="d-flex justify-space-between align-center px-0">
       <div class="text-h5 text-medium-emphasis text-tajawal">
         <div class="d-flex align-center ga-2">
@@ -82,16 +118,10 @@
         </div>
       </div>
 
-      <v-btn
-        class="close-btn"
-        icon="mdi-close"
-        variant="text"
-        @click="handleClose"
-      />
+      <v-btn class="close-btn" icon="mdi-close" variant="text" @click="handleClose" />
     </v-card-title>
 
     <v-divider class="mb-4" />
-
     <div class="camp-rule-text pa-4">
       <p>
         {{ t("camaign_rule_modal_text") }}
@@ -105,7 +135,7 @@
             v-model="form.roas_condition"
             :items="[
               { id: 'BiggerThan', title: t('greater_than') },
-              { id: 'LessThan ', title: t('less_than') },
+              { id: 'LessThan', title: t('less_than') },
             ]"
             :label="t('if_the_return_on_spending')"
           />
@@ -120,6 +150,7 @@
         </v-col>
 
         <v-col cols="12" sm="6">
+
           <AppChipSelect
             v-model="form.increment_type"
             :items="[
@@ -143,19 +174,14 @@
     <v-divider class="mt-2" />
 
     <v-card-actions class="my-2 d-flex justify-end">
-      <v-btn
-        class="text-none"
-        rounded="xl"
-        :text="t('cancel')"
-        @click="handleClose"
-      />
+      <v-btn class="text-none" rounded="xl" :text="t('cancel')" @click="handleClose" />
 
       <v-btn
         append-icon="mdi-check"
         class="text-none save-btn"
         color="success"
         :disabled="!isFormValid"
-        :loading="startLoading"
+        :loading="startLoading || loadingRunUpdate"
         rounded="xl"
         :text="t('save')"
         variant="flat"

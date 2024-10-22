@@ -939,4 +939,9 @@ export default {
   orderSuccess: 'Order completed successfully!',
   ourTeamWillAnswerSoon: 'Our specialized team will respond to your consultation as soon as possible.',
   done: 'done',
+  campaign_rule_updated_successfully: 'campaign rule updated successfully',
+  the_control_base_has_been_created: 'campaign rule has been created',
+  the_connection_rule_has_been_created: 'The connection rule has been created',
+  the_connection_rule_has_been_updated: 'The connection rule has been updated',
+
 }

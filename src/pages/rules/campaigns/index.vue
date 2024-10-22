@@ -138,6 +138,7 @@
       <CampaignRuleModal
         v-model:is-dialog-visible="openControlRuleDialog"
         :rule="ruleToEdit"
+        @saved="fetchRules"
       />
     </v-dialog>
   </div>

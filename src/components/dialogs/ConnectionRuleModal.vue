@@ -12,6 +12,7 @@
   import sms from '@/assets/email.svg'
   import thread from '@/assets/thread.svg'
   import ConnectionRuleService from '@/services/connection-rule-service'
+  import AppTextField from '../core/ApptextField.vue'
 
   const props = defineProps({
     rule: {
@@ -44,7 +45,17 @@
       .filter(([key, value]) => value)
       .map(([key]) => key.charAt(0).toUpperCase() + key.slice(1))
 
-    create({ ...form.value, channels: truthyKeys })
+    if (!props.rule) {
+      create({ ...form.value, channels: truthyKeys })
+    } else {
+      runUpdate({
+        id: props.rule.id,
+        indicator: form.value.indicator,
+        comparison_type: form.value.comparison_type,
+        target_value: form.value.target_value,
+        channels: truthyKeys,
+      })
+    }
   }
 
   const { run: create, loading: startLoading } = useRequest(
@@ -55,16 +66,32 @@
         const { error, data, messages, code } = res.data
 
         if (error) {
-          // show(messages[0], "error")
-
-          if (data) {
-          //
-          }
+          show(messages[0], 'error')
         }
+
+        emit('saved', true)
+        show(t('the_connection_rule_has_been_created'), 'success')
+        emit('update:isDialogVisible', false)
       },
     }
   )
 
+  const { run: runUpdate, loading: loadingRunUpdate } = useRequest(
+    data => ConnectionRuleService.update(data),
+    {
+      manual: true,
+      onSuccess: response => {
+        const { error, messages } = response.data
+        if (error) {
+          show(messages[0], 'error')
+          return
+        }
+        emit('saved', true)
+        show(t('the_connection_rule_has_been_updated'), 'success')
+        emit('update:isDialogVisible', false)
+      },
+    }
+  )
   const isFormValid = computed(() => {
     const requirements = {
       indicator: () => form.value.indicator,
@@ -77,13 +104,29 @@
 
     return !!requirements.default()
   })
+
+  watch(
+    () => props.rule,
+    newRule => {
+      if (newRule) {
+        const predefinedKeys = ['whatsApp', 'sms', 'email']
+        const channelsMap = predefinedKeys.reduce((acc, key) => {
+          // Check if the key (case-insensitive) exists in the input array
+          const exists = props.rule.channels.some(item => item.toLowerCase() === key.toLowerCase())
+          acc[key] = exists // Set to true if it exists, otherwise false
+          return acc
+        }, {})
+        Object.assign(form.value, {
+          ...newRule,
+          channels: channelsMap,
+        })
+      }
+    },
+    { immediate: true }
+  )
 </script>
 <template>
-  <v-card
-    class="connect-platform px-6 rounded-xl"
-    min-width="40vw"
-    rounded="lg"
-  >
+  <v-card class="connect-platform px-6 rounded-xl" min-width="40vw" rounded="lg">
     <v-card-title class="d-flex justify-space-between align-center px-0">
       <div class="text-h5 text-medium-emphasis text-tajawal">
         <div class="d-flex align-center ga-2">
@@ -95,13 +138,7 @@
           </p>
         </div>
       </div>
-
-      <v-btn
-        class="close-btn"
-        icon="mdi-close"
-        variant="text"
-        @click="handleClose"
-      />
+      <v-btn class="close-btn" icon="mdi-close" variant="text" @click="handleClose" />
     </v-card-title>
 
     <v-divider class="mb-4" />
@@ -134,11 +171,7 @@
         </v-col>
 
         <v-col cols="12" sm="6">
-          <AppTextField
-            v-model="form.target_value"
-            :label="t('specify_the_value')"
-            :placeholder="t('enter_value')"
-          />
+          <AppTextField v-model="form.target_value" :label="t('specify_the_value')" :placeholder="t('enter_value')" />
         </v-col>
         <v-col cols="12" sm="6">
           <AppTextField
@@ -152,10 +185,7 @@
         <span>{{ t("send_a_notification_via") }}:</span>
 
         <div class="d-flex align-center justify-space-between w-100">
-          <AppCheckBox
-            v-model="form.channels.whatsApp"
-            :label="t('whatsapp')"
-          />
+          <AppCheckBox v-model="form.channels.whatsApp" :label="t('whatsapp')" />
           <img class="whatsapp" :src="whatsApp">
         </div>
 
@@ -174,19 +204,14 @@
     <v-divider class="mt-2" />
 
     <v-card-actions class="my-2 d-flex justify-end">
-      <v-btn
-        class="text-none"
-        rounded="xl"
-        :text="t('cancel')"
-        @click="handleClose"
-      />
+      <v-btn class="text-none" rounded="xl" :text="t('cancel')" @click="handleClose" />
 
       <v-btn
         append-icon="mdi-check"
         class="text-none save-btn"
         color="success"
         :disabled="!isFormValid"
-        :loading="startLoading"
+        :loading="startLoading || loadingRunUpdate"
         rounded="xl"
         :text="t('save')"
         variant="flat"

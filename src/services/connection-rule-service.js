@@ -11,6 +11,10 @@ const ConnectionRuleService = (function () {
     return API.post(`${prefix}/CreateCommunicationRule`, data)
   }
 
+  const update = data => {
+    return API.put(`${prefix}/UpdateCommunicationRule`, data)
+  }
+
   const changeStatus = data => {
     return API.put(`${prefix}/ChangeCommunicationRuleStatus`, data)
   }
@@ -19,6 +23,7 @@ const ConnectionRuleService = (function () {
     run,
     getAll,
     changeStatus,
+    update,
   }
 })()
 
