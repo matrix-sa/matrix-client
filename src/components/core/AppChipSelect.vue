@@ -8,13 +8,23 @@
       type: String,
       required: true,
     },
+    modelValue: {
+      type: [String, Number],
+      required: false,
+    },
   })
 
   const emits = defineEmits(['update:modelValue'])
-  const selected = ref(null)
+  const selected = ref(props.modelValue)
+
   watch(selected, newValue => {
     emits('update:modelValue', newValue)
   })
+
+  watch(
+    () => props.modelValue,
+    newValue => selected.value = newValue
+  )
 
   const elementId = computed(() => {
     const _elementIdToken = props.label
