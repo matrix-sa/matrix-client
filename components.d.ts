@@ -7,13 +7,17 @@ export {}
 /* prettier-ignore */
 declare module 'vue' {
   export interface GlobalComponents {
+    AdsGroupTiktokForm: typeof import('./src/components/forms/AdsGroupTiktokForm.vue')['default']
+    AppAutocomplete: typeof import('./src/components/core/AppAutocomplete.vue')['default']
     AppBar: typeof import('./src/components/shared/AppBar.vue')['default']
     AppCheckBox: typeof import('./src/components/core/AppCheckBox.vue')['default']
     AppChipSelect: typeof import('./src/components/core/AppChipSelect.vue')['default']
+    AppDateField: typeof import('./src/components/core/AppDateField.vue')['default']
     AppFileInput: typeof import('./src/components/core/AppFileInput.vue')['default']
     AppNumberField: typeof import('./src/components/core/AppNumberField.vue')['default']
     AppSelect: typeof import('./src/components/core/AppSelect.vue')['default']
-    ApptextField: typeof import('./src/components/core/ApptextField.vue')['default']
+    AppTextField: typeof import('./src/components/core/AppTextField.vue')['default']
+    AppTimeField: typeof import('./src/components/core/AppTimeField.vue')['default']
     CampaignRuleModal: typeof import('./src/components/dialogs/CampaignRuleModal.vue')['default']
     ConnectionConfirmationDialog: typeof import('./src/components/dialogs/ConnectionConfirmationDialog.vue')['default']
     ConnectionRuleModal: typeof import('./src/components/dialogs/ConnectionRuleModal.vue')['default']
@@ -60,6 +64,7 @@ declare module 'vue' {
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     Tabs: typeof import('./src/components/digital-writer/Tabs.vue')['default']
+    TiktokCampaignForm: typeof import('./src/components/forms/campaigns/TiktokCampaignForm.vue')['default']
     VerticalNavMenu: typeof import('./src/components/shared/VerticalNavMenu.vue')['default']
   }
 }

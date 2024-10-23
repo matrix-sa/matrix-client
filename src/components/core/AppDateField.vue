@@ -1,15 +1,12 @@
 <script setup>
+  import { VDateInput } from 'vuetify/labs/VDateInput'
   defineOptions({
-    name: 'AppTextField',
+    name: 'AppDateField',
     inheritAttrs: false,
     appendText: '',
   })
 
   defineProps({
-    appendText: {
-      type: String,
-      default: '',
-    },
     bordered: {
       type: Boolean,
       default: false,
@@ -21,7 +18,7 @@
     const _elementIdToken = attrs.id || attrs.label
 
     return _elementIdToken
-      ? `app-text-field-${_elementIdToken}-${Math.random()
+      ? `app-date-field-${_elementIdToken}-${Math.random()
         .toString(36)
         .slice(2, 7)}`
       : undefined
@@ -31,7 +28,7 @@
 </script>
 
 <template>
-  <div class="app-text-field flex-grow-1" :class="$attrs.class">
+  <div class="app-date-field flex-grow-1" :class="$attrs.class">
     <VLabel
       v-if="label"
       class="mb-1 text-body-2 text-dark-1"
@@ -39,32 +36,30 @@
       persistent-placeholder
       :text="label"
     />
-    <VTextField
-      class="text-input"
+    <VDateInput
+      class="date-input"
       :class="bordered ? 'input-bordered' : ''"
-      height="40"
       v-bind="{
         ...$attrs,
         class: null,
         label: undefined,
         variant: 'solo-filled',
+        prependIcon: null,
         id: elementId,
         'bg-color': 'background',
         flat: true,
+        'ok-text': 'agree',
+        'cancel-text': 'cancel',
       }"
     >
       <template v-for="(_, name) in $slots" #[name]="slotProps">
         <slot :name="name" v-bind="slotProps || {}" />
       </template>
-
-      <template v-if="appendText" #append-inner>
-        <span class="append-text" @click="onClick">{{ appendText }}</span>
-      </template>
-    </VTextField>
+    </VDateInput>
   </div>
 </template>
 <style lang="scss">
-.app-text-field {
+.app-date-field {
   .v-field {
     border-radius: 0.75rem;
     height: 48px;
@@ -74,7 +69,7 @@
   }
 }
 
-.text-input.input-bordered {
+.date-input.input-bordered {
   .v-input__control {
     .v-field {
       border: 1px solid #1f162526;
@@ -90,13 +85,13 @@
       background: unset;
     }
   }
-}
 
-.app-select .v-field__input {
-  line-height: 48px;
-}
+  .v-field__input {
+    line-height: 48px;
+  }
 
-.v-field__append-inner {
-  padding-left: 5px;
+  .v-field__append-inner {
+    padding-left: 5px;
+  }
 }
 </style>

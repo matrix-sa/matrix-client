@@ -1,12 +1,16 @@
 <script setup>
-  const handleAddButtonClicked = () => {
-    console.log('Add button clicked')
-  }
+  // const handleAddButtonClicked = () => {
+  //   console.log('Add button clicked')
+  // }
+
 </script>
 <template>
-  <EmptyState
+  <!-- <EmptyState
     add-button-text="add_communication_rule"
     message="no_communication_rules"
     @add-button-clicked="handleAddButtonClicked"
+  /> -->
+  <AdsGroupTiktokForm
+    campaign-id="55"
   />
 </template>

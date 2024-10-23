@@ -1,6 +1,6 @@
 <script setup>
   defineOptions({
-    name: 'AppSelect',
+    name: 'AppAutocomplete',
     inheritAttrs: false,
   })
 
@@ -8,26 +8,25 @@
     const attrs = useAttrs()
     const _elementIdToken = attrs.id || attrs.label
 
-    return _elementIdToken
-      ? `app-select-${_elementIdToken}-${Math.random()
-        .toString(36)
-        .slice(2, 7)}`
-      : undefined
+    return _elementIdToken ? `app-autocomplete-${_elementIdToken}-${Math.random().toString(36).slice(2, 7)}` : undefined
   })
 
   const label = computed(() => useAttrs().label)
 </script>
 
 <template>
-  <div class="app-select flex-grow-1" :class="$attrs.class">
+  <div
+    class="app-autocomplete flex-grow-1"
+    :class="$attrs.class"
+  >
     <VLabel
       v-if="label"
       class="mb-1 text-body-2 text-dark-1"
       :for="elementId"
-      persistent-placeholder
+      :style="{ color: 'black' }"
       :text="label"
     />
-    <v-select
+    <VAutocomplete
       v-bind="{
         ...$attrs,
         class: null,
@@ -40,15 +39,20 @@
         height: '48'
       }"
     >
-      <template v-for="(_, name) in $slots" #[name]="slotProps">
-        <slot :name="name" v-bind="slotProps || {}" />
+      <template
+        v-for="(_, name) in $slots"
+        #[name]="slotProps"
+      >
+        <slot
+          :name="name"
+          v-bind="slotProps || {}"
+        />
       </template>
-    </v-select>
+    </VAutocomplete>
   </div>
 </template>
-
 <style lang="scss">
-.app-select {
+.app-autocomplete {
   .v-field {
     border-radius: 0.75rem;
     height: 48px !important;

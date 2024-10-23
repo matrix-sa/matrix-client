@@ -1,27 +1,43 @@
 <script setup>
+  import { VTimePicker } from 'vuetify/labs/VTimePicker'
+
   defineOptions({
-    name: 'AppTextField',
+    name: 'AppTimeField',
     inheritAttrs: false,
     appendText: '',
   })
 
-  defineProps({
-    appendText: {
-      type: String,
-      default: '',
-    },
+  const props = defineProps({
     bordered: {
       type: Boolean,
       default: false,
     },
+    modelValue: {
+      type: [String, Number],
+      required: false,
+    },
   })
+
+  const emits = defineEmits(['update:modelValue'])
+
+  const time = ref(null)
+  const modal = ref(false)
+
+  watch(time, newValue => {
+    emits('update:modelValue', newValue)
+  })
+
+  watch(
+    () => props.modelValue,
+    newValue => time.value = newValue
+  )
 
   const elementId = computed(() => {
     const attrs = useAttrs()
     const _elementIdToken = attrs.id || attrs.label
 
     return _elementIdToken
-      ? `app-text-field-${_elementIdToken}-${Math.random()
+      ? `app-time-field-${_elementIdToken}-${Math.random()
         .toString(36)
         .slice(2, 7)}`
       : undefined
@@ -31,7 +47,7 @@
 </script>
 
 <template>
-  <div class="app-text-field flex-grow-1" :class="$attrs.class">
+  <div class="app-time-field flex-grow-1" :class="$attrs.class">
     <VLabel
       v-if="label"
       class="mb-1 text-body-2 text-dark-1"
@@ -39,32 +55,42 @@
       persistent-placeholder
       :text="label"
     />
-    <VTextField
-      class="text-input"
-      :class="bordered ? 'input-bordered' : ''"
-      height="40"
+    <v-text-field
       v-bind="{
         ...$attrs,
         class: null,
         label: undefined,
         variant: 'solo-filled',
+        prependIcon: null,
         id: elementId,
         'bg-color': 'background',
         flat: true,
+        'ok-text': 'agree',
+        'cancel-text': 'cancel',
       }"
+      v-model="time"
+      :active="modal"
+      :focused="modal"
+      prepend-inner-icon="mdi-clock-time-four-outline"
+      readonly
     >
-      <template v-for="(_, name) in $slots" #[name]="slotProps">
-        <slot :name="name" v-bind="slotProps || {}" />
+      <template #default>
+        <v-dialog
+          v-model="modal"
+          activator="parent"
+          width="auto"
+        >
+          <v-time-picker
+            v-if="modal"
+            v-model="time"
+          />
+        </v-dialog>
       </template>
-
-      <template v-if="appendText" #append-inner>
-        <span class="append-text" @click="onClick">{{ appendText }}</span>
-      </template>
-    </VTextField>
+    </v-text-field>
   </div>
 </template>
 <style lang="scss">
-.app-text-field {
+.app-time-field {
   .v-field {
     border-radius: 0.75rem;
     height: 48px;
@@ -74,7 +100,7 @@
   }
 }
 
-.text-input.input-bordered {
+.time-input.input-bordered {
   .v-input__control {
     .v-field {
       border: 1px solid #1f162526;
@@ -90,13 +116,13 @@
       background: unset;
     }
   }
-}
 
-.app-select .v-field__input {
-  line-height: 48px;
-}
+  .v-field__input {
+    line-height: 48px;
+  }
 
-.v-field__append-inner {
-  padding-left: 5px;
+  .v-field__append-inner {
+    padding-left: 5px;
+  }
 }
 </style>
