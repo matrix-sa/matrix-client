@@ -12,7 +12,7 @@
   import sms from '@/assets/email.svg'
   import thread from '@/assets/thread.svg'
   import ConnectionRuleService from '@/services/connection-rule-service'
-  import AppTextField from '../core/ApptextField.vue'
+  import AppTextField from '../core/AppTextField.vue'
 
   const props = defineProps({
     rule: {
