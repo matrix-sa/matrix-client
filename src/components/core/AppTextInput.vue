@@ -1,6 +1,6 @@
 <script setup>
   defineOptions({
-    name: 'AppTextField',
+    name: 'AppTextInput',
     inheritAttrs: false,
     appendText: '',
   })

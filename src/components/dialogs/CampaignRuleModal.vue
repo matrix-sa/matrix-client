@@ -6,7 +6,6 @@
   import ruleIcon from '@/assets/rule-icon.svg'
   import AppChipSelect from '../core/AppChipSelect.vue'
   import CampaignRuleService from '@/services/campaign-rule-service'
-  import AppTextField from '../core/AppTextField.vue'
 
   const props = defineProps({
     rule: {
@@ -141,7 +140,7 @@
           />
         </v-col>
         <v-col cols="12" sm="6">
-          <AppTextField
+          <AppTextInput
             v-model="form.roas_comparing_value"
             :append-text="t('SAR')"
             :label="t('the_value_of_return_on_spending')"
@@ -161,7 +160,7 @@
           />
         </v-col>
         <v-col cols="12" sm="6">
-          <AppTextField
+          <AppTextInput
             v-model="form.increment_value"
             :append-text="t('SAR')"
             :label="t('increase_your_budget_by')"

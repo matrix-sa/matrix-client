@@ -201,14 +201,14 @@
 <template>
   <VForm ref="refVForm" @submit.prevent="onSubmit">
     <VCol cols="12">
-      <AppTextField
+      <AppTextInput
         v-model="form.name"
         :label="$t('campaign_name')"
         :rules="rules.name"
       />
     </VCol>
     <VCol cols="12">
-      <AppTextField
+      <AppTextInput
         v-model="form.name"
         :label="$t('campaign_name')"
         :rules="rules.name"

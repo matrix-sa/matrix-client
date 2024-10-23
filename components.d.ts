@@ -16,7 +16,7 @@ declare module 'vue' {
     AppFileInput: typeof import('./src/components/core/AppFileInput.vue')['default']
     AppNumberField: typeof import('./src/components/core/AppNumberField.vue')['default']
     AppSelect: typeof import('./src/components/core/AppSelect.vue')['default']
-    AppTextField: typeof import('./src/components/core/AppTextField.vue')['default']
+    AppTextInput: typeof import('./src/components/core/AppTextInput.vue')['default']
     AppTimeField: typeof import('./src/components/core/AppTimeField.vue')['default']
     CampaignRuleModal: typeof import('./src/components/dialogs/CampaignRuleModal.vue')['default']
     ConnectionConfirmationDialog: typeof import('./src/components/dialogs/ConnectionConfirmationDialog.vue')['default']

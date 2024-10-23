@@ -126,7 +126,7 @@
                     v-for="(question, i) in selected?.questions"
                     :key="i"
                   >
-                    <AppTextField
+                    <AppTextInput
                       v-if="question.type === 'Text'"
                       v-model="answers[i].answer_text"
                       bordered

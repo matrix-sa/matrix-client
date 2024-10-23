@@ -2,7 +2,7 @@
   const gender = ref(null)
 </script>
 <template>
-  <AppTextField label="Enter your name" placeholder="Name" />
+  <AppTextInput label="Enter your name" placeholder="Name" />
 
   <AppNumberField label="Enter your value" placeholder="150" />
 

@@ -223,7 +223,7 @@
     <VRow>
       <!-- Common fields -->
       <VCol cols="12">
-        <AppTextField
+        <AppTextInput
           v-model="form.name"
           autofocus
           :label="$t('ad_group_name')"
