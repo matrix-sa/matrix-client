@@ -40,7 +40,7 @@
   <div class="app-chip-select flex-grow-1">
     <VLabel
       v-if="label"
-      class="mb-1 text-body-2 text-high-emphasis"
+      class="mb-1 text-body-2 text-dark-1"
       :for="elementId"
       persistent-placeholder
       :text="label"

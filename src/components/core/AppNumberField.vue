@@ -24,7 +24,7 @@
   <div class="app-number-field flex-grow-1" :class="$attrs.class">
     <VLabel
       v-if="label"
-      class="mb-1 text-body-2 text-high-emphasis"
+      class="mb-1 text-body-2 text-dark-1"
       :for="elementId"
       persistent-placeholder
       :text="label"

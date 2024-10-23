@@ -12,7 +12,7 @@
   import sms from '@/assets/email.svg'
   import thread from '@/assets/thread.svg'
   import ConnectionRuleService from '@/services/connection-rule-service'
-  import AppTextField from '../core/ApptextField.vue'
+  import AppTextInput from '../core/AppTextInput.vue'
 
   const props = defineProps({
     rule: {
@@ -171,10 +171,10 @@
         </v-col>
 
         <v-col cols="12" sm="6">
-          <AppTextField v-model="form.target_value" :label="t('specify_the_value')" :placeholder="t('enter_value')" />
+          <AppTextInput v-model="form.target_value" :label="t('specify_the_value')" :placeholder="t('enter_value')" />
         </v-col>
         <v-col cols="12" sm="6">
-          <AppTextField
+          <AppTextInput
             v-model="form.days_ago"
             :append-text="t('day')"
             :label="t('during_another')"

@@ -1,7 +1,7 @@
-import API from "./api"
+import API from './api'
 
 const AdsGroupsService = (function () {
-  const prefix = "Clients/AdsGroups"
+  const prefix = 'Clients/AdsGroups'
   const prefixFormat = platform => `${platform}/AdsGroups`
 
   // const prefix = "https://test.matrix.sa/Demo/Clients/AdsGroups"
@@ -24,7 +24,7 @@ const AdsGroupsService = (function () {
   }
 
   const update = (platform, params) => {
-    return API.put(`${prefixFormat(platform)}/UpdateAdGroup`,  params)
+    return API.put(`${prefixFormat(platform)}/UpdateAdGroup`, params)
   }
 
   const activate = (platform, data) => {
