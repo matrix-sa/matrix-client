@@ -7,6 +7,7 @@ export {}
 /* prettier-ignore */
 declare module 'vue' {
   export interface GlobalComponents {
+    AdsGroupGoogleForm: typeof import('./src/components/forms/campaigns/AdsGroupGoogleForm.vue')['default']
     AdsGroupTiktokForm: typeof import('./src/components/forms/AdsGroupTiktokForm.vue')['default']
     AppAutocomplete: typeof import('./src/components/core/AppAutocomplete.vue')['default']
     AppBar: typeof import('./src/components/shared/AppBar.vue')['default']

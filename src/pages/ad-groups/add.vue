@@ -42,6 +42,7 @@
     </header>
     <v-divider class="mb-4 mt-6" />
     <AdsGroupTiktokForm v-if="route.query.platform === 'tiktok'" />
+    <AdsGroupGoogleForm v-if="route.query.platform === 'google'" />
   </div>
 </template>
 
@@ -63,6 +64,7 @@
       font-weight: 700;
       font-size: 1.25rem;
     }
+
     p {
       font-weight: 400;
       color: rgb(var(--v-dark-1));

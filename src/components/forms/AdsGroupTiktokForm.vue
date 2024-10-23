@@ -118,7 +118,7 @@
       onSuccess: () => {
         show(t('created_message'), 'success')
         console.log('success')
-        // router.push({ name: 'campaigns' })
+      // router.push({ name: 'campaigns' })
       },
     }
   )
@@ -129,7 +129,7 @@
       manual: true,
       onSuccess: () => {
         show(t('updated_message'), 'success')
-        // router.push({ name: 'campaigns' })
+      // router.push({ name: 'campaigns' })
       },
     }
   )
@@ -223,28 +223,13 @@
     <VRow>
       <!-- Common fields -->
       <VCol cols="12">
-        <AppTextInput
-          v-model="form.name"
-          autofocus
-          :label="$t('ad_group_name')"
-          :rules="rules.name"
-        />
+        <AppTextInput v-model="form.name" autofocus :label="$t('ad_group_name')" :rules="rules.name" />
       </VCol>
       <VCol cols="12">
-        <AppChipSelect
-          v-model="form.language_code"
-          hide-no-data
-          :items="processedLanguages"
-          :label="$t('language')"
-        />
+        <AppChipSelect v-model="form.language_code" hide-no-data :items="processedLanguages" :label="$t('language')" />
       </VCol>
       <VCol cols="12">
-        <AppChipSelect
-          v-model="form.gender"
-          hide-no-data
-          :items="processedGenders"
-          :label="$t('gender')"
-        />
+        <AppChipSelect v-model="form.gender" hide-no-data :items="processedGenders" :label="$t('gender')" />
       </VCol>
       <VCol cols="12">
         <AppChipSelect
@@ -330,5 +315,4 @@
 .fade-leave-to {
   opacity: 0;
 }
-
 </style>
