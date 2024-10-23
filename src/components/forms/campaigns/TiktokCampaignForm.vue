@@ -2,6 +2,14 @@
   import { useI18n } from 'vue-i18n'
   import { useSnackbarStore } from '@/stores/useSnackBarStore'
   import { useAuthStore } from '@/stores/useAuthStore'
+  import { storeToRefs } from 'pinia'
+  import {
+    integerValidator,
+    minIntValidator,
+    requiredValidator,
+  } from '@/utilities/validators'
+  import { useRequest } from 'vue-request'
+  import moment from 'moment'
 
   const props = defineProps({
     campaign: {
@@ -31,9 +39,9 @@
   })
 
   const dateTimes = ref({
-    startDate: '',
+    startDate: null,
     startTime: '00:00',
-    endDate: '',
+    endDate: null,
     endTime: '00:00',
   })
 
@@ -41,18 +49,11 @@
     name: [requiredValidator],
     start_time: [requiredValidator],
     end_time: [requiredValidator],
-    daily_budget: computed(() => {
-      const baseRules = [integerValidator, requiredValidator]
-      if (selectedPlatform.value === 'Snapchat') {
-        baseRules.push(minIntValidator(form.value.daily_budget, 80))
-      }
-
-      if (selectedPlatform.value === 'Tiktok') {
-        baseRules.push(minIntValidator(form.value.daily_budget, 50))
-      }
-
-      return baseRules
-    }),
+    daily_budget: [
+      integerValidator,
+      requiredValidator,
+      minIntValidator(form.value.daily_budget, 50),
+    ],
   })
 
   const generateDateTime = (date, time) => {
@@ -116,7 +117,7 @@
       if (!isValid) return
       if (!campaign.value) {
         runAdd({
-          platform: selectedPlatform.value,
+          platform: 'tiktok',
           name: form.value.name,
           start_time: new Date(form.value.start_time).toISOString(),
           end_time: new Date(form.value.end_time).toISOString(),
@@ -124,7 +125,7 @@
         })
       } else {
         runUpdate({
-          platform: selectedPlatform.value,
+          platform: 'tiktok',
           id: form.value.id,
           name: form.value.name,
           start_time: new Date(form.value.start_time).toISOString(),
@@ -136,9 +137,9 @@
   }
 
   const initializeFormValues = () => {
-    campaign.value = props.campaign
+    if (!props.isEditMode) return
 
-    selectedPlatform.value = campaign.value?.ad_platform
+    campaign.value = props.campaign
 
     form.value.id = campaign.value?.id
     form.value.name = campaign.value?.name
@@ -185,27 +186,23 @@
     () => {
       form.value.start_time = generateDateTime(
         dateTimes.value.startDate,
-        dateTimes.value.startTime,
+        dateTimes.value.startTime
       )
       form.value.end_time = generateDateTime(
         dateTimes.value.endDate,
-        dateTimes.value.endTime,
+        dateTimes.value.endTime
       )
     },
-    { deep: true },
+    { deep: true }
   )
 
   const loading = computed(() => loadingAdd.value || loadingUpdate.value)
 </script>
 <template>
-  <VForm
-    ref="refVForm"
-    @submit.prevent="onSubmit"
-  >
+  <VForm ref="refVForm" @submit.prevent="onSubmit">
     <VCol cols="12">
       <AppTextField
         v-model="form.name"
-        autofocus
         :label="$t('campaign_name')"
         :rules="rules.name"
       />
@@ -213,25 +210,29 @@
     <VCol cols="12">
       <AppTextField
         v-model="form.name"
-        autofocus
         :label="$t('campaign_name')"
         :rules="rules.name"
       />
     </VCol>
     <VCol cols="12">
-      <VDateInput
+      <AppDateField
         v-model="dateTimes.startDate"
-        :config="{ enableTime: false }"
         :label="$t('campaign_start_date')"
-        :rules="rules.start_time"
+        :placeholder="null"
       />
     </VCol>
     <VCol cols="12">
-      <VDateInput
+      <AppTimeField
         v-model="dateTimes.startTime"
-        :config="{ enableTime: true, noCalendar: true }"
         :label="$t('campaign_start_time')"
-        :rules="rules.end_time"
+        :placeholder="null"
+      />
+    </VCol>
+    <VCol cols="12">
+      <AppDateField
+        v-model="dateTimes.endDate"
+        :label="$t('campaign_end_date')"
+        :placeholder="null"
       />
     </VCol>
   </VForm>

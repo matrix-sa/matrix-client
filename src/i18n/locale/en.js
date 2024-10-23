@@ -923,7 +923,8 @@ export default {
   back: 'Back',
   sendOrder: 'Send Order',
   connection_rule: 'Connection Rule',
-  connection_rule_text: 'Specify the type of indicator that will be used if (decreased or increased) in order to notify you, specifying the value and time period.',
+  connection_rule_text:
+    'Specify the type of indicator that will be used if (decreased or increased) in order to notify you, specifying the value and time period.',
   in_case: 'in case',
   decreased: 'decreased',
   increased: 'increased',
@@ -937,11 +938,12 @@ export default {
   sms: 'SMS',
   writeYourAnswer: 'Write your answer',
   orderSuccess: 'Order completed successfully!',
-  ourTeamWillAnswerSoon: 'Our specialized team will respond to your consultation as soon as possible.',
+  ourTeamWillAnswerSoon:
+    'Our specialized team will respond to your consultation as soon as possible.',
   done: 'done',
   campaign_rule_updated_successfully: 'campaign rule updated successfully',
   the_control_base_has_been_created: 'campaign rule has been created',
   the_connection_rule_has_been_created: 'The connection rule has been created',
   the_connection_rule_has_been_updated: 'The connection rule has been updated',
-
+  select_date: 'Select Date',
 }

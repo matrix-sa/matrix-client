@@ -2,7 +2,7 @@
   import { requiredValidator } from '@/utilities/validators'
   import AdsGroupsService from '@/services/ads-groups-service'
   import TargetingService from '@/services/targeting-service'
-  import useSnackbar from '@/composable/useSnackbar.js'
+  import { useSnackbarStore } from '@/stores/useSnackBarStore'
   import { computed, reactive, ref, watch } from 'vue'
   import { useRequest } from 'vue-request'
   import { useI18n } from 'vue-i18n'
@@ -50,7 +50,7 @@
     { code: 'en', name: t('english') },
   ])
   // Snackbar handler
-  const { show } = useSnackbar()
+  const { show } = useSnackbarStore()
 
   // Form setup
   const form = ref({

@@ -10,7 +10,7 @@
   const { update } = useBreadcrumbsStore()
   const { t, locale } = useI18n()
 
-  const selectedPlatform = ref('')
+  const selectedPlatform = ref(null)
   const platforms = ref([])
   const { loading: loadingPlatforms } = useRequest(
     platformsStore.getActivePlatforms,
@@ -51,16 +51,18 @@
       </div>
     </header>
     <v-divider class="mb-4 mt-6" />
-    <AppSelect
-      v-model="selectedPlatform"
-      hide-no-data
-      :item-title="(item) => item.title"
-      :item-value="(item) => item.code"
-      :items="platforms"
-      :label="$t('platform')"
-      :loading="loadingPlatforms"
-      :rules="[requiredValidator]"
-    />
+    <VCol cols="12">
+      <AppSelect
+        v-model="selectedPlatform"
+        hide-no-data
+        :item-title="(item) => item.title"
+        :item-value="(item) => item.code"
+        :items="platforms"
+        :label="t('platform')"
+        :loading="loadingPlatforms"
+        :rules="[requiredValidator]"
+      />
+    </VCol>
     <GoogleAdsCampaignForm v-if="selectedPlatform === 'googleads'" />
     <TiktokCampaignForm v-if="selectedPlatform === 'tiktok'" />
   </div>

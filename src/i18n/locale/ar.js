@@ -922,7 +922,8 @@ export default {
   back: 'عودة',
   sendOrder: 'إرسل الطلب',
   connection_rule: 'قاعدة اتصال',
-  connection_rule_text: 'قم بتحديد نوع المؤشر الذي سيتم استخدامه في حال (قل أو زاد) من أجل إشعاركم مع تحديد القيمة والمدة الزمنية.',
+  connection_rule_text:
+    'قم بتحديد نوع المؤشر الذي سيتم استخدامه في حال (قل أو زاد) من أجل إشعاركم مع تحديد القيمة والمدة الزمنية.',
   in_case: 'في حال',
   decreased: 'قل',
   increased: 'زاد',
@@ -936,11 +937,12 @@ export default {
   sms: 'رسالة نصية',
   writeYourAnswer: 'اكتب إجابتك',
   orderSuccess: 'تم الطلب بنجاح!',
-  ourTeamWillAnswerSoon: 'سيقوم فريقنا المختص بالرد على الاستشارة بأسرع وقت ممكن',
+  ourTeamWillAnswerSoon:
+    'سيقوم فريقنا المختص بالرد على الاستشارة بأسرع وقت ممكن',
   done: 'تم',
   campaign_rule_updated_successfully: 'تم تحديث قاعدة الحملة بنجاح',
   the_control_base_has_been_created: 'تم إنشاء قاعدة الحملة',
   the_connection_rule_has_been_created: 'تم إنشاء قاعدة الاتصال',
   the_connection_rule_has_been_updated: 'تم تحديث قاعدة الاتصال',
-
+  select_date: 'حدد التاريخ',
 }
