@@ -5,7 +5,9 @@ const { t } = i18n.global
 
 // 👉 Required Validator
 export const requiredValidator = value => {
-  if (isNullOrUndefined(value) || isEmptyArray(value) || value === false) { return t('validation.required') }
+  if (isNullOrUndefined(value) || isEmptyArray(value) || value === false) {
+    return t('validation.required')
+  }
 
   return !!String(value).trim().length || t('validation.required')
 }
@@ -80,7 +82,9 @@ export const regexValidator = (value, regex, message) => {
   if (isEmpty(value)) return true
   let regeX = regex
   if (typeof regeX === 'string') regeX = new RegExp(regeX)
-  if (Array.isArray(value)) { return value.every(val => regexValidator(val, regeX)) }
+  if (Array.isArray(value)) {
+    return value.every(val => regexValidator(val, regeX))
+  }
 
   return regeX.test(String(value)) || message
 }

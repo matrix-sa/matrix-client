@@ -202,6 +202,10 @@ export default {
     phone: {
       valid: 'Please enter a valid mobile number',
     },
+    low_daily_budget: {
+      valid: 'The minimum daily budget for the campaign is {min}',
+    },
+    future_date: 'Please enter a future date',
   },
   setup: {
     title: 'God bless you, we are excited to launch your store with us',

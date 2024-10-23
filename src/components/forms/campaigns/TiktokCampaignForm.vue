@@ -10,6 +10,7 @@
   } from '@/utilities/validators'
   import { useRequest } from 'vue-request'
   import moment from 'moment'
+  import CampaignsService from '@/services/campaigns-service'
 
   const props = defineProps({
     campaign: {
@@ -40,9 +41,9 @@
 
   const dateTimes = ref({
     startDate: null,
-    startTime: '00:00',
+    startTime: null,
     endDate: null,
-    endTime: '00:00',
+    endTime: null,
   })
 
   const rules = reactive({
@@ -52,7 +53,7 @@
     daily_budget: [
       integerValidator,
       requiredValidator,
-      minIntValidator(form.value.daily_budget, 50),
+      () => minIntValidator(form.value.daily_budget, 50),
     ],
   })
 
@@ -209,15 +210,18 @@
     </VCol>
     <VCol cols="12">
       <AppTextInput
-        v-model="form.name"
-        :label="$t('campaign_name')"
-        :rules="rules.name"
+        v-model="form.daily_budget"
+        :append-text="t(user.currency)"
+        :label="$t('campaign_daily_budget')"
+        :rules="rules.daily_budget"
       />
     </VCol>
+
     <VCol cols="12">
       <AppDateField
         v-model="dateTimes.startDate"
         :label="$t('campaign_start_date')"
+        :min="new Date()"
         :placeholder="null"
       />
     </VCol>
@@ -232,7 +236,26 @@
       <AppDateField
         v-model="dateTimes.endDate"
         :label="$t('campaign_end_date')"
+        :min="new Date()"
         :placeholder="null"
+      />
+    </VCol>
+    <VCol cols="12">
+      <AppTimeField
+        v-model="dateTimes.endTime"
+        :label="$t('campaign_end_time')"
+        :placeholder="null"
+      />
+    </VCol>
+    <VCol cols="12">
+      <VBtn
+        color="primary"
+        :disabled="loading"
+        :loading="loading"
+        :loading-text="$t('loading')"
+        :text="$t('save')"
+        type="submit"
+        @click="onSubmit"
       />
     </VCol>
   </VForm>

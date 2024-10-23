@@ -195,9 +195,9 @@
       <VCol cols="12">
         <AppSelect
           v-model="form.excluded_age_ranges"
+          hide-no-data
           :item-title="item => item.title"
           :item-value="item => item.id"
-          hide-no-data
           :items="excludedAgeRanges"
           :label="$t('excluded_age_ranges')"
           multiple
