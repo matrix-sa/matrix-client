@@ -24,6 +24,7 @@
       v-if="label"
       class="mb-1 text-body-2 text-high-emphasis"
       :for="elementId"
+      :style="{ color: 'black' }"
       :text="label"
     />
     <VAutocomplete
@@ -32,7 +33,7 @@
         class: null,
         label: undefined,
         id: elementId,
-        variant: 'outlined',
+        variant: 'flat',
         menuProps: {
           contentClass: [
             'app-inner-list',
@@ -41,6 +42,8 @@
           ],
         },
       }"
+      bg-color="#eeedf0"
+      rounded="lg"
     >
       <template
         v-for="(_, name) in $slots"
