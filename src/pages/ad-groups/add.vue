@@ -1,55 +1,57 @@
 <script setup>
   import { useBreadcrumbsStore } from '@/stores/useBreadcrumbsStore'
   import { useI18n } from 'vue-i18n'
-  import campaignHeaderLogo from '@/assets/images/campaign-header.svg'
 
   const route = useRoute()
-  const { update } = useBreadcrumbsStore()
   const { t, locale } = useI18n()
-
-  const platform = route.params.platform.toLowerCase()
+  const { update } = useBreadcrumbsStore()
 
   watch(
     locale,
     () => {
       update([
         {
-          title: t('campaigns'),
+          title: t('ad_groups'),
           active: false,
           to: '/campaigns/',
         },
         {
-          title: t('add_campaign'),
+          title: t('add_ad_group'),
           active: true,
           disabled: true,
-          to: `/campaigns/${platform}/add`,
+          to: `/campaigns/add`,
         },
       ])
     },
     { immediate: true }
   )
 </script>
+
 <template>
-  <div class="campaign-form-container">
-    <header class="campaign-form-header">
-      <img alt="" :src="campaignHeaderLogo">
+  <div class="ad-group-form-container">
+    <header class="ad-group-form-header">
+      <img alt="" src="https://picsum.photos/100">
       <div class="deascription">
-        <h3 class="text-black">{{ t("campaign_settings") }} ({{ t('platforms.googleads.title') }})</h3>
-        <p>{{ t("how_to_edit_campaign") }} </p>
+        <h3 class="text-black">
+          {{ t("ad_group_settings") }} ({{
+            t(`platforms.${route.query.platform}.title`)
+          }})
+        </h3>
+        <p>{{ t("how_to_edit_ad_group") }}</p>
       </div>
     </header>
     <v-divider class="mb-4 mt-6" />
-    <GoogleAdsCampaignForm v-if="platform === 'googleads'" />
+    <AdsGroupTiktokForm v-if="route.query.platform === 'tiktok'" />
   </div>
 </template>
 
 <style lang="scss">
-.campaign-form-container {
+.ad-group-form-container {
   background-color: white;
   padding: 1rem;
   border-radius: 1rem;
 
-  .campaign-form-header {
+  .ad-group-form-header {
     display: flex;
     gap: 1rem;
 
