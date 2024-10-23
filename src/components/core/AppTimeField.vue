@@ -71,7 +71,6 @@
       v-model="time"
       :active="modal"
       :focused="modal"
-      prepend-inner-icon="mdi-clock-time-four-outline"
       readonly
     >
       <template #default>
