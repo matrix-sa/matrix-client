@@ -6,7 +6,7 @@
   import ruleIcon from '@/assets/rule-icon.svg'
   import AppChipSelect from '../core/AppChipSelect.vue'
   import CampaignRuleService from '@/services/campaign-rule-service'
-  import AppTextField from '../core/ApptextField.vue'
+  import AppTextField from '../core/AppTextField.vue'
 
   const props = defineProps({
     rule: {

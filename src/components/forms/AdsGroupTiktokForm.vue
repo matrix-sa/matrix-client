@@ -226,7 +226,6 @@
         <AppTextField
           v-model="form.name"
           autofocus
-          class="v-field__input"
           :label="$t('ad_group_name')"
           :rules="rules.name"
         />
