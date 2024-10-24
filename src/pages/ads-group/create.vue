@@ -2,7 +2,7 @@
 // import AdsGroupForm from '@/components/AdsGroupForm.vue'
   import i18n from '@/i18n'
   import { useRoute } from 'vue-router'
-  import AdsGroupGoogleForm from '@/components/forms/campaigns/AdsGroupGoogleForm.vue'
+  import AdsGroupGoogleForm from '@/components/forms/ad-groups/AdsGroupGoogleForm.vue'
   const route = useRoute()
   const { t } = i18n.global
 </script>

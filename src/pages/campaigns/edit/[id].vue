@@ -68,8 +68,8 @@
       </header>
       <v-divider class="mb-4 mt-6" />
       <GoogleAdsCampaignForm v-if="campaign?.ad_platform.toLowerCase() === 'googleads'" />
-      <TiktokCampaignForm
-        v-if="campaign?.ad_platform.toLowerCase() === 'tiktok'"
+      <CampaignForm
+        v-else
         :campaign="campaign"
         :is-edit-mode="true"
       />
