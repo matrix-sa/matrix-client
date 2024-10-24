@@ -228,10 +228,6 @@
     )
   })
 
-  watch(selectedCampaigns, newValue => {
-    console.log(newValue)
-  })
-
   const addAdGroupRoute = computed(() =>
     selectedCampaigns.value.length === 1
       ? {
@@ -240,7 +236,9 @@
           campaignId: selectedCampaigns.value[0] ?? '',
         },
         query: {
-          platfomr: selectedCampaigns.value[0].ad_platform,
+          platform: campaigns.value.find(
+            c => c.id === selectedCampaigns.value[0]
+          )?.ad_platform,
         },
       }
       : null

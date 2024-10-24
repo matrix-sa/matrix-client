@@ -6,6 +6,8 @@
   const { t, locale } = useI18n()
   const { update } = useBreadcrumbsStore()
 
+  const platform = route.query.platform?.toLocaleLowerCase()
+
   watch(
     locale,
     () => {
@@ -34,15 +36,16 @@
       <div class="deascription">
         <h3 class="text-black">
           {{ t("ad_group_settings") }} ({{
-            t(`platforms.${route.query.platform}.title`)
+            t(`platforms.${platform}.title`)
           }})
         </h3>
         <p>{{ t("how_to_edit_ad_group") }}</p>
       </div>
     </header>
     <v-divider class="mb-4 mt-6" />
-    <AdsGroupTiktokForm v-if="route.query.platform === 'tiktok'" />
-    <AdsGroupGoogleForm v-if="route.query.platform === 'google'" />
+    <AdsGroupTiktokForm v-if="platform === 'tiktok'" />
+    <AdsGroupXForm v-if="platform === 'twitter'" />
+    <AdsGroupGoogleForm v-if="platform === 'google'" />
   </div>
 </template>
 

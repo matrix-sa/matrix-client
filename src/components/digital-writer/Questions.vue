@@ -244,7 +244,6 @@
       requestData[item?.key] = item?.value
     })
 
-    console.log({ service_type, ...requestData })
     create({ service_type, ...requestData })
   }
 

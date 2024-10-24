@@ -8,7 +8,6 @@ const AdsGroupsService = (function () {
   // const prefixFormat = platform => `https://test.matrix.sa/Demo/${platform}/AdsGroups`
 
   const get = params => {
-    console.log(params)
     return API.get(`${prefix}/GetAdsGroupsV2`, params)
   }
 

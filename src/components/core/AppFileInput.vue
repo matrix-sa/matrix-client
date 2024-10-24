@@ -2,7 +2,6 @@
   import uploadIcon from '@/assets/upload_icon.svg'
 
   const attrs = useAttrs()
-  console.log(attrs)
   document.documentElement.style.setProperty('--hint-content', `"${attrs['label-hint']}"`)
 </script>
 <template>
