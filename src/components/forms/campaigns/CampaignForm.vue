@@ -75,7 +75,7 @@
     {
       manual: true,
       onSuccess: res => {
-        const { error, data, messages, code } = res.data
+        const { error, messages } = res.data
 
         if (error) {
           show(messages[0], 'error')
@@ -92,7 +92,7 @@
     {
       manual: true,
       onSuccess: res => {
-        const { error, data, messages, code } = res.data
+        const { error, messages } = res.data
 
         if (error) {
           show(messages[0], 'error')
@@ -103,15 +103,6 @@
       },
     }
   )
-
-  const checkFormValid = () => {
-    let isValid = false
-    refVForm.value?.validate().then(({ valid }) => {
-      isValid = valid
-    })
-
-    return isValid
-  }
 
   const onSubmit = () => {
     refVForm.value?.validate().then(({ valid: isValid }) => {
@@ -146,29 +137,29 @@
     form.value.name = campaign.value?.name
     form.value.start_time = campaign.value?.start_time
       ? new Date(campaign.value?.start_time)
-      : ''
+      : null
     form.value.end_time = campaign.value?.end_time
       ? new Date(campaign.value?.end_time)
-      : ''
+      : null
     form.value.daily_budget = campaign.value?.daily_budget
 
     const startMoment = moment(campaign.value?.start_time).locale('en')
 
     dateTimes.value.startDate = campaign.value?.start_time
-      ? startMoment.format('YYYY-MM-DD')
-      : ''
+      ? new Date(campaign.value?.start_time)
+      : null
     dateTimes.value.startTime = campaign.value?.start_time
       ? startMoment.format('HH:mm')
-      : ''
+      : null
 
     const endMoment = moment(campaign.value?.end_time).locale('en')
 
     dateTimes.value.endDate = campaign.value?.end_time
-      ? endMoment.format('YYYY-MM-DD')
-      : ''
+      ? new Date(campaign.value?.end_time)
+      : null
     dateTimes.value.endTime = campaign.value?.end_time
       ? endMoment.format('HH:mm')
-      : ''
+      : null
   }
 
   watch(

@@ -245,7 +245,7 @@
       <VCardTitle class="font-weight-medium text-surface-variant pa-0">
         {{ $t("campaigns") }}
       </VCardTitle>
-      <VBtn color="warning" rounded :to="{ name: '/marketing-consultations-orders/' }">
+      <VBtn color="warning" rounded :to="{ name: '/campaigns/add' }">
         <VIcon icon="tabler-circle-plus-filled" />
         {{ $t("add_campaign") }}
       </VBtn>

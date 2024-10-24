@@ -950,4 +950,5 @@ export default {
   the_connection_rule_has_been_created: 'The connection rule has been created',
   the_connection_rule_has_been_updated: 'The connection rule has been updated',
   select_date: 'Select Date',
+  select_time: 'Select Time',
 }

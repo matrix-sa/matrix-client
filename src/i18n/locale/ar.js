@@ -949,4 +949,5 @@ export default {
   the_connection_rule_has_been_created: 'تم إنشاء قاعدة الاتصال',
   the_connection_rule_has_been_updated: 'تم تحديث قاعدة الاتصال',
   select_date: 'حدد التاريخ',
+  select_time: 'حدد الوقت',
 }

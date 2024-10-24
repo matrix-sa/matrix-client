@@ -62,12 +62,12 @@
       <header class="campaign-form-header">
         <img alt="" :src="campaignHeaderLogo">
         <div class="deascription">
-          <h3 class="text-black">{{ t("campaign_settings") }} ({{ t('platforms.googleads.title') }})</h3>
+          <h3 class="text-black">{{ t("campaign_settings") }} ({{ t(`platforms.${campaign?.ad_platform.toLowerCase()}.title`) }})</h3>
           <p>{{ t("how_to_edit_campaign") }} </p>
         </div>
       </header>
       <v-divider class="mb-4 mt-6" />
-      <GoogleAdsCampaignForm v-if="campaign?.ad_platform.toLowerCase() === 'googleads'" />
+      <p v-if="campaign?.ad_platform.toLowerCase() === 'googleads'">Google Ads</p>
       <CampaignForm
         v-else
         :campaign="campaign"

@@ -21,6 +21,12 @@
     }
   )
 
+  const campaignTitle = computed(() => {
+    return selectedPlatform.value
+      ? '(' + t(`platforms.${selectedPlatform.value.toLowerCase()}.title`) + ')'
+      : ''
+  })
+
   watch(
     locale,
     () => {
@@ -46,7 +52,7 @@
     <header class="campaign-form-header">
       <img alt="" :src="campaignHeaderLogo">
       <div class="deascription">
-        <h3 class="text-black">{{ t("campaign_settings") }} ({{ t('platforms.googleads.title') }})</h3>
+        <h3 class="text-black">{{ t("campaign_settings") }} {{ campaignTitle }}</h3>
         <p>{{ t("how_to_edit_campaign") }} </p>
       </div>
     </header>
@@ -63,8 +69,8 @@
         :rules="[requiredValidator]"
       />
     </VCol>
-    <GoogleAdsCampaignForm v-if="selectedPlatform === 'googleads'" />
-    <TiktokCampaignForm v-if="selectedPlatform === 'tiktok'" />
+    <p v-if="selectedPlatform === 'googleads'">Google</p>
+    <CampaignForm v-else />
   </div>
 </template>
 

@@ -82,6 +82,7 @@
           <v-time-picker
             v-if="modal"
             v-model="time"
+            :title="'select_time'"
           />
         </v-dialog>
       </template>
