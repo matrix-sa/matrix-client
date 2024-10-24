@@ -212,6 +212,20 @@
   const selectedItemId = ref(null)
   const selectedPlatform = ref(null)
 
+  const goToEdit = item => {
+    console.log(item)
+    router.push({
+      name: '/ad-groups/[campaignId]/edit/',
+      params: {
+        campaignId: item.client_campaign_id,
+      },
+      query: {
+        platform: item.ad_platform,
+        id: item.id,
+      },
+    })
+  }
+
   const deleteConfirmed = confirmed => {
     if (!confirmed) return
     runDeleteAdGroup(selectedPlatform.value, { id: selectedItemId.value })
@@ -315,6 +329,7 @@
         <template #activator="{ props: toolTipProps }">
           <VBtn
             v-bind="toolTipProps"
+            @click="goToEdit(item)"
           >
             <VIcon icon="tabler-edit" />
           </VBtn>
