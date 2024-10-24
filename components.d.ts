@@ -8,8 +8,10 @@ export {}
 declare module 'vue' {
   export interface GlobalComponents {
     AdsGroupGoogleForm: typeof import('./src/components/forms/ad-groups/AdsGroupGoogleForm.vue')['default']
+    AdsGroupSnapchatForm: typeof import('./src/components/forms/AdsGroupSnapchatForm.vue')['default']
     AdsGroupsTable: typeof import('./src/components/tables/AdsGroupsTable.vue')['default']
     AdsGroupTiktokForm: typeof import('./src/components/forms/ad-groups/AdsGroupTiktokForm.vue')['default']
+    AdsGroupXForm: typeof import('./src/components/forms/AdsGroupXForm.vue')['default']
     AppAutocomplete: typeof import('./src/components/core/AppAutocomplete.vue')['default']
     AppBar: typeof import('./src/components/shared/AppBar.vue')['default']
     AppCheckBox: typeof import('./src/components/core/AppCheckBox.vue')['default']
@@ -30,7 +32,6 @@ declare module 'vue' {
     DialogSuccess: typeof import('./src/components/dialogs/DialogSuccess.vue')['default']
     EmptyContent: typeof import('./src/components/EmptyContent.vue')['default']
     EmptyState: typeof import('./src/components/core/EmptyState.vue')['default']
-    GoogleAdsCampaignForm: typeof import('./src/components/forms/campaigns/GoogleAdsCampaignForm.vue')['default']
     Header: typeof import('./src/components/digital-writer/Header.vue')['default']
     HomeAdsStatistics: typeof import('./src/components/home/HomeAdsStatistics.vue')['default']
     HomeCardFooter: typeof import('./src/components/home/partials/HomeCardFooter.vue')['default']
@@ -69,7 +70,6 @@ declare module 'vue' {
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     Tabs: typeof import('./src/components/digital-writer/Tabs.vue')['default']
-    TiktokCampaignForm: typeof import('./src/components/forms/campaigns/CampaignForm.vue')['default']
     VerticalNavMenu: typeof import('./src/components/shared/VerticalNavMenu.vue')['default']
   }
 }
