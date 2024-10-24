@@ -4,21 +4,19 @@
   import { useSnackbarStore } from '@/stores/useSnackBarStore'
   import { useI18n } from 'vue-i18n'
   import { useBreadcrumbsStore } from '@/stores/useBreadcrumbsStore'
-  import { usePlatformsStore } from '@/stores/usePlatformsStore'
-  import { useAuthStore } from '@/stores/useAuthStore'
-  import { storeToRefs } from 'pinia'
   import { paginationMeta } from '@/composable/utils'
   import moment from 'moment'
 
   const { show } = useSnackbarStore()
   const { t, locale } = useI18n()
   const { update } = useBreadcrumbsStore()
-  const { user } = storeToRefs(useAuthStore())
   const router = useRouter()
 
   const totalCampaigns = ref(0)
   const campaigns = ref([])
   const totalPage = ref()
+
+  const selectedCampaigns = ref([])
 
   const options = ref({
     page: 1,
@@ -60,27 +58,27 @@
     },
   ]
 
-  const { run, loading } = usePagination(
+  const { run, loading: loadingFetchingData } = usePagination(
     params => CampaignsService.get(params),
     {
       manual: true,
       onSuccess: res => {
-        const { data, error, message } = res.data
+        const { data } = res.data
 
         campaigns.value = data.items
         options.value.page = data.current_page
         totalPage.value = data.page_size
         totalCampaigns.value = data.total_count
       },
-    },
+    }
   )
 
-  const { run: runStartCampaign } = useRequest(
+  const { run: runStartCampaign, loading: loadingStart } = useRequest(
     data => CampaignsService.startCampaign(data),
     {
       manual: true,
       onSuccess: res => {
-        const { error, data, messages, code } = res.data
+        const { error, messages } = res.data
 
         run({ PageSize: options.value.itemsPerPage, Page: options.value.page })
 
@@ -90,15 +88,15 @@
           show(t('updated_message'), 'success')
         }
       },
-    },
+    }
   )
 
-  const { run: runPauseCampaign } = useRequest(
+  const { run: runPauseCampaign, loading: loadingPause } = useRequest(
     data => CampaignsService.pauseCampaign(data),
     {
       manual: true,
       onSuccess: res => {
-        const { error, data, messages, code } = res.data
+        const { error, messages } = res.data
 
         run({ PageSize: options.value.itemsPerPage, Page: options.value.page })
 
@@ -108,15 +106,15 @@
           show(t('updated_message'), 'success')
         }
       },
-    },
+    }
   )
 
-  const { run: runDeleteCampaign } = useRequest(
+  const { run: runDeleteCampaign, loading: loadingDelete } = useRequest(
     params => CampaignsService.deleteCampaign(params),
     {
       manual: true,
       onSuccess: res => {
-        const { error, data, messages, code } = res.data
+        const { error, messages } = res.data
 
         if (error) {
           show(messages[0], 'error')
@@ -125,7 +123,7 @@
           run({ PageSize: options.value.itemsPerPage, Page: options.value.page })
         }
       },
-    },
+    }
   )
 
   watch(
@@ -133,7 +131,7 @@
     () => {
       run({ PageSize: options.value.itemsPerPage, Page: options.value.page })
     },
-    { deep: true },
+    { deep: true }
   )
 
   const resolveUserStatusVariant = stat => {
@@ -149,10 +147,6 @@
       default:
         return 'primary'
     }
-  }
-
-  const addNewCampaign = userData => {
-    router.push({ name: 'campaigns-create' })
   }
 
   const isActivateConfirmDialogVisible = ref(false)
@@ -225,6 +219,33 @@
     return moment(date).format('D/M/YYYY')
   }
 
+  const loading = computed(() => {
+    return (
+      loadingFetchingData.value ||
+      loadingStart.value ||
+      loadingPause.value ||
+      loadingDelete.value
+    )
+  })
+
+  watch(selectedCampaigns, newValue => {
+    console.log(newValue)
+  })
+
+  const addAdGroupRoute = computed(() =>
+    selectedCampaigns.value.length === 1
+      ? {
+        name: '/ad-groups/[campaignId]/add/',
+        params: {
+          campaignId: selectedCampaigns.value[0] ?? '',
+        },
+        query: {
+          platfomr: selectedCampaigns.value[0].ad_platform,
+        },
+      }
+      : null
+  )
+
   watch(
     locale,
     () => {
@@ -240,151 +261,180 @@
   )
 </script>
 <template>
-  <VCard>
-    <div class="d-flex align-center justify-space-between ga-4 pa-4">
-      <VCardTitle class="font-weight-medium text-surface-variant pa-0">
-        {{ $t("campaigns") }}
-      </VCardTitle>
-      <VBtn color="warning" rounded :to="{ name: '/campaigns/add' }">
-        <VIcon icon="tabler-circle-plus-filled" />
-        {{ $t("add_campaign") }}
-      </VBtn>
-    </div>
+  <div class="container">
+    <VCard>
+      <div class="d-flex align-center justify-space-between ga-4 pa-4">
+        <VCardTitle class="font-weight-medium text-surface-variant pa-0">
+          {{ $t("campaigns") }}
+        </VCardTitle>
+        <VBtn color="warning" rounded :to="{ name: '/campaigns/add' }">
+          <VIcon icon="tabler-circle-plus-filled" />
+          {{ $t("add_campaign") }}
+        </VBtn>
+      </div>
 
-    <VCardText class="pa-4 pt-0">
-      <VDivider />
-      <VDataTableServer
-        v-model:items-per-page="options.itemsPerPage"
-        v-model:page="options.page"
-        class="text-no-wrap"
-        :headers="headers"
-        :items="campaigns"
-        :items-length="totalCampaigns"
-        :loading="loading"
-        :no-data-text="'no_data_text'"
-        @update:options="options = $event"
-      >
-        <!-- Start Time -->
-        <template #item.start_time="{ item }">
-          <td class="d-flex flex-column">
+      <VCardText class="pa-4 pt-0">
+        <VDivider />
+        <VDataTableServer
+          v-model="selectedCampaigns"
+          v-model:items-per-page="options.itemsPerPage"
+          v-model:page="options.page"
+          class="text-no-wrap"
+          :headers="headers"
+          :items="campaigns"
+          :items-length="totalCampaigns"
+          :loading="loading"
+          :no-data-text="'no_data_text'"
+          select-strategy="all"
+          show-select
+          @update:options="options = $event"
+        >
+          <!-- Start Time -->
+          <template #item.start_time="{ item }">
+            <td class="d-flex flex-column">
+              <span class="font-weight-medium">
+                {{ handleDate(item.start_time) }}
+              </span>
+            </td>
+          </template>
+
+          <!-- End Time -->
+          <template #item.end_time="{ item }">
+            <td class="d-flex flex-column">
+              <span class="font-weight-medium">
+                {{ handleDate(item.end_time) }}
+              </span>
+            </td>
+          </template>
+
+          <!-- Platform -->
+          <template #item.ad_platform="{ item }">
             <span class="font-weight-medium">
-              {{ handleDate(item.start_time) }}
+              {{ t(`platforms.${item.ad_platform.toLowerCase()}.title`) }}
             </span>
-          </td>
-        </template>
+          </template>
 
-        <!-- End Time -->
-        <template #item.end_time="{ item }">
-          <td class="d-flex flex-column">
-            <span class="font-weight-medium">
-              {{ handleDate(item.end_time) }}
-            </span>
-          </td>
-        </template>
+          <!-- Status -->
+          <template #item.status="{ item }">
+            <VChip
+              class="text-capitalize"
+              :color="resolveUserStatusVariant(item.status)"
+              label
+              size="small"
+            >
+              {{ getStatus(item.status) }}
+            </VChip>
+          </template>
 
-        <!-- Platform -->
-        <template #item.ad_platform="{ item }">
-          <span class="font-weight-medium">
-            {{ t(`platforms.${item.ad_platform.toLowerCase()}.title`) }}
-          </span>
-        </template>
+          <!-- Actions -->
+          <template #item.actions="{ item }">
+            <VTooltip :text="t('delete')">
+              <template #activator="{ props: toolTipProps }">
+                <VBtn
+                  v-bind="toolTipProps"
+                  @click="toggleDialog('delete', item.id, item.ad_platform)"
+                >
+                  <VIcon color="error" icon="tabler-trash" />
+                </VBtn>
+              </template>
+            </VTooltip>
+            <VTooltip :text="t('edit')">
+              <template #activator="{ props: toolTipProps }">
+                <VBtn
+                  v-bind="toolTipProps"
+                  @click="editCampaign(item.id, item.ad_platform)"
+                >
+                  <VIcon icon="tabler-edit" />
+                </VBtn>
+              </template>
+            </VTooltip>
 
-        <!-- Status -->
-        <template #item.status="{ item }">
-          <VChip
-            class="text-capitalize"
-            :color="resolveUserStatusVariant(item.status)"
-            label
-            size="small"
-          >
-            {{ getStatus(item.status) }}
-          </VChip>
-        </template>
+            <VBtn
+              v-if="
+                ['Paused', 'Created', 'Started', 'Active'].includes(item.status)
+              "
+              size="x-small"
+              variant="outlined"
+              @click="
+                toggleDialog(
+                  getStatusAction(item.status),
+                  item.id,
+                  item.ad_platform
+                )
+              "
+            >
+              {{ getPlayButtonText(item.status) }}
+            </VBtn>
+          </template>
 
-        <!-- Actions -->
-        <template #item.actions="{ item }">
-          <VTooltip :text="t('delete')">
-            <template #activator="{ props: toolTipProps }">
-              <VBtn
-                v-bind="toolTipProps"
-                @click="
-                  toggleDialog('delete', item.id, item.ad_platform)
-                "
-              >
-                <VIcon
-                  color="error"
-                  icon="tabler-trash"
-                />
-              </VBtn>
-            </template>
-          </VTooltip>
-          <VTooltip :text="t('edit')">
-            <template #activator="{ props: toolTipProps }">
-              <VBtn
-                v-bind="toolTipProps"
-                @click="editCampaign(item.id, item.ad_platform)"
-              >
-                <VIcon icon="tabler-edit" />
-              </VBtn>
-            </template>
-          </VTooltip>
+          <!-- pagination -->
+          <template #bottom>
+            <VDivider />
+            <div
+              class="d-flex align-center justify-sm-space-between justify-center flex-wrap gap-3 pa-5 pt-3"
+            >
+              <p class="text-sm text-disabled mb-0">
+                {{ paginationMeta(options, totalCampaigns) }}
+              </p>
 
-          <VBtn
-            v-if="
-              ['Paused', 'Created', 'Started', 'Active'].includes(
-                item.status
-              )
-            "
-            size="x-small"
-            variant="outlined"
-            @click="
-              toggleDialog(
-                getStatusAction(item.status),
-                item.id,
-                item.ad_platform
-              )
-            "
-          >
-            {{ getPlayButtonText(item.status) }}
-          </VBtn>
-        </template>
+              <VPagination
+                v-model="options.page"
+                :length="Math.ceil(totalCampaigns / options.itemsPerPage)"
+                total-visible="3"
+              />
+            </div>
+          </template>
+        </VDataTableServer>
+        <!-- 👉 Delete Confirm Dialog -->
+        <ConfirmDialog
+          v-model:is-dialog-visible="isDeleteConfirmDialogVisible"
+          :confirmation-question="t('dialog_question')"
+          @confirm="deleteConfirmed"
+        />
 
-        <!-- pagination -->
-        <template #bottom>
-          <VDivider />
-          <div class="d-flex align-center justify-sm-space-between justify-center flex-wrap gap-3 pa-5 pt-3">
-            <p class="text-sm text-disabled mb-0">
-              {{ paginationMeta(options, totalCampaigns) }}
-            </p>
+        <!-- 👉 Activate Confirm Dialog -->
+        <ConfirmDialog
+          v-model:is-dialog-visible="isActivateConfirmDialogVisible"
+          :confirmation-question="t('dialog_question')"
+          @confirm="activateConfirmed"
+        />
 
-            <VPagination
-              v-model="options.page"
-              :length="Math.ceil(totalCampaigns / options.itemsPerPage)"
-              total-visible="3"
-            />
-          </div>
-        </template>
-      </VDataTableServer>
-      <!-- 👉 Delete Confirm Dialog -->
-      <ConfirmDialog
-        v-model:is-dialog-visible="isDeleteConfirmDialogVisible"
-        :confirmation-question="t('dialog_question')"
-        @confirm="deleteConfirmed"
-      />
+        <!-- 👉 Deactivate Confirm Dialog -->
+        <ConfirmDialog
+          v-model:is-dialog-visible="isPauseConfirmDialogVisible"
+          :confirmation-question="t('dialog_question')"
+          @confirm="pauseConfirmed"
+        />
+      </VCardText>
+    </VCard>
 
-      <!-- 👉 Activate Confirm Dialog -->
-      <ConfirmDialog
-        v-model:is-dialog-visible="isActivateConfirmDialogVisible"
-        :confirmation-question="t('dialog_question')"
-        @confirm="activateConfirmed"
-      />
+    <VCard>
+      <div class="d-flex align-center justify-space-between ga-4 pa-4">
+        <VCardTitle class="font-weight-medium text-surface-variant pa-0">
+          {{ $t("ad_groups") }}
+        </VCardTitle>
+        <VBtn
+          color="warning"
+          :disabled="selectedCampaigns.length !== 1"
+          rounded
+          :to="addAdGroupRoute"
+        >
+          <VIcon icon="tabler-circle-plus-filled" />
+          {{ $t("add_ad_group") }}
+        </VBtn>
+      </div>
 
-      <!-- 👉 Deactivate Confirm Dialog -->
-      <ConfirmDialog
-        v-model:is-dialog-visible="isPauseConfirmDialogVisible"
-        :confirmation-question="t('dialog_question')"
-        @confirm="pauseConfirmed"
-      />
-    </VCardText>
-  </VCard>
+      <VCardText class="pa-4 pt-0">
+        <VDivider />
+        <AdsGroupsTable :campaigns-ids="selectedCampaigns" />
+      </VCardText>
+    </VCard>
+  </div>
 </template>
+<style lang="scss" scoped>
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+</style>

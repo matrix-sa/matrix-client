@@ -98,7 +98,7 @@
           show(messages[0], 'error')
         } else {
           show(t('updated_message'), 'success')
-          router.push({ name: 'campaigns' })
+          router.push({ name: '/campaigns/' })
         }
       },
     }

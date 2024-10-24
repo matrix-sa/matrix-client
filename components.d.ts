@@ -8,6 +8,7 @@ export {}
 declare module 'vue' {
   export interface GlobalComponents {
     AdsGroupGoogleForm: typeof import('./src/components/forms/ad-groups/AdsGroupGoogleForm.vue')['default']
+    AdsGroupsTable: typeof import('./src/components/tables/AdsGroupsTable.vue')['default']
     AdsGroupTiktokForm: typeof import('./src/components/forms/ad-groups/AdsGroupTiktokForm.vue')['default']
     AppAutocomplete: typeof import('./src/components/core/AppAutocomplete.vue')['default']
     AppBar: typeof import('./src/components/shared/AppBar.vue')['default']
