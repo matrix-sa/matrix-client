@@ -11,6 +11,9 @@
   import { useRequest } from 'vue-request'
   import moment from 'moment'
   import CampaignsService from '@/services/campaigns-service'
+  import { usePlatformsStore } from '@/stores/usePlatformsStore'
+  import campaignHeaderLogo from '@/assets/images/campaign-header.svg'
+  import { useRouter } from 'vue-router'
 
   const props = defineProps({
     campaign: {
@@ -30,6 +33,19 @@
 
   const refVForm = ref('')
   const campaign = ref(props.campaign)
+  const selectedPlatform = ref(null)
+
+  const platformsStore = usePlatformsStore()
+
+  const platforms = ref([])
+  const { loading: loadingPlatforms } = useRequest(
+    platformsStore.getActivePlatforms,
+    {
+      onSuccess: res => {
+        platforms.value = res
+      },
+    }
+  )
 
   const form = ref({
     id: null,
@@ -81,7 +97,7 @@
           show(messages[0], 'error')
         } else {
           show(t('created_message'), 'success')
-          router.push({ name: 'campaigns' })
+          router.push({ name: '/campaigns/' })
         }
       },
     }
@@ -103,6 +119,15 @@
       },
     }
   )
+
+  const checkFormValid = () => {
+    let isValid = false
+    refVForm.value?.validate().then(({ valid }) => {
+      isValid = valid
+    })
+
+    return isValid
+  }
 
   const onSubmit = () => {
     refVForm.value?.validate().then(({ valid: isValid }) => {
@@ -189,66 +214,97 @@
   )
 
   const loading = computed(() => loadingAdd.value || loadingUpdate.value)
+
+  const campaignTitle = computed(() => {
+    return selectedPlatform.value
+      ? '(' + t(`platforms.${selectedPlatform.value.toLowerCase()}.title`) + ')'
+      : ''
+  })
+
 </script>
 <template>
-  <VForm ref="refVForm" @submit.prevent="onSubmit">
-    <VCol cols="12">
-      <AppTextInput
-        v-model="form.name"
-        :label="$t('campaign_name')"
-        :rules="rules.name"
-      />
-    </VCol>
-    <VCol cols="12">
-      <AppTextInput
-        v-model="form.daily_budget"
-        :append-text="t(user.currency)"
-        :label="$t('campaign_daily_budget')"
-        :rules="rules.daily_budget"
-      />
-    </VCol>
 
-    <VCol cols="12">
-      <AppDateField
-        v-model="dateTimes.startDate"
-        :label="$t('campaign_start_date')"
-        :min="new Date()"
-        :placeholder="null"
+  <div class="campaign-form-container">
+    <header class="campaign-form-header">
+      <img alt="" :src="campaignHeaderLogo">
+      <div class="deascription">
+        <h3 class="text-black">{{ t("campaign_settings") }} {{ campaignTitle }}</h3>
+        <p>{{ t("how_to_edit_campaign") }} </p>
+      </div>
+    </header>
+    <v-divider class="mb-4 mt-6" />
+    <VForm ref="refVForm" @submit.prevent="onSubmit">
+      <VCol cols="12">
+        <AppSelect
+          v-model="selectedPlatform"
+          hide-no-data
+          :item-title="(item) => item.title"
+          :item-value="(item) => item.code"
+          :items="platforms"
+          :label="t('platform')"
+          :loading="loadingPlatforms"
+          :rules="[requiredValidator]"
+        />
+      </VCol>
+      <VCol cols="12">
+        <AppTextInput v-model="form.name" :label="$t('campaign_name')" :rules="rules.name" />
+      </VCol>
+      <VCol cols="12">
+        <AppTextInput
+          v-model="form.daily_budget"
+          :append-text="t(user.currency)"
+          :label="$t('campaign_daily_budget')"
+          :rules="rules.daily_budget"
+        />
+      </VCol>
+
+      <VCol cols="12">
+        <AppDateField
+          v-model="dateTimes.startDate"
+          :label="$t('campaign_start_date')"
+          :min="new Date()"
+          :placeholder="null"
+        />
+      </VCol>
+      <VCol cols="12">
+        <AppTimeField v-model="dateTimes.startTime" :label="$t('campaign_start_time')" :placeholder="null" />
+      </VCol>
+      <VCol cols="12">
+        <AppDateField
+          v-model="dateTimes.endDate"
+          :label="$t('campaign_end_date')"
+          :min="new Date()"
+          :placeholder="null"
+        />
+      </VCol>
+      <VCol cols="12">
+        <AppTimeField v-model="dateTimes.endTime" :label="$t('campaign_end_time')" :placeholder="null" />
+      </VCol>
+      <!-- Google Ads Slot Form -->
+      <slot
+        v-if="selectedPlatform == 'googleads'"
+        :data="{
+          ...form,
+          checkFormValid: checkFormValid,
+          refVForm: $refs.refVForm,
+          campaign,
+        }"
       />
-    </VCol>
-    <VCol cols="12">
-      <AppTimeField
-        v-model="dateTimes.startTime"
-        :label="$t('campaign_start_time')"
-        :placeholder="null"
-      />
-    </VCol>
-    <VCol cols="12">
-      <AppDateField
-        v-model="dateTimes.endDate"
-        :label="$t('campaign_end_date')"
-        :min="new Date()"
-        :placeholder="null"
-      />
-    </VCol>
-    <VCol cols="12">
-      <AppTimeField
-        v-model="dateTimes.endTime"
-        :label="$t('campaign_end_time')"
-        :placeholder="null"
-      />
-    </VCol>
-    <VCol cols="12">
-      <VBtn
-        color="primary"
-        :disabled="loading"
-        :loading="loading"
-        :loading-text="$t('loading')"
-        :text="$t('save')"
-        type="submit"
-        @click="onSubmit"
-      />
-    </VCol>
-  </VForm>
+      <!-- Google Ads Slot Form -->
+
+      <VCol v-if="selectedPlatform != 'googleads'" cols="12">
+        <VBtn
+          color="primary"
+          :disabled="loading"
+          :loading="loading"
+          :loading-text="$t('loading')"
+          :text="$t('save')"
+          type="submit"
+          @click="onSubmit"
+        />
+      </VCol>
+    </VForm>
+  </div>
+
 </template>
 <style lang="scss"></style>
