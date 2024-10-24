@@ -7,9 +7,12 @@ export {}
 /* prettier-ignore */
 declare module 'vue' {
   export interface GlobalComponents {
+    AdsFormTwitter: typeof import('./src/components/forms/AdsGroupXForm.vue')['default']
     AdsGroupGoogleForm: typeof import('./src/components/forms/campaigns/AdsGroupGoogleForm.vue')['default']
     AdsGroupSnapchatForm: typeof import('./src/components/forms/AdsGroupSnapchatForm.vue')['default']
     AdsGroupTiktokForm: typeof import('./src/components/forms/AdsGroupTiktokForm.vue')['default']
+    AdsGroupTwitterForm: typeof import('./src/components/forms/AdsGroupXForm.vue')['default']
+    AdsGroupXForm: typeof import('./src/components/forms/AdsGroupXForm.vue')['default']
     AppAutocomplete: typeof import('./src/components/core/AppAutocomplete.vue')['default']
     AppBar: typeof import('./src/components/shared/AppBar.vue')['default']
     AppCheckBox: typeof import('./src/components/core/AppCheckBox.vue')['default']
