@@ -6,7 +6,7 @@ const AdsService = (function () {
   // const prefix = "https://test.matrix.sa/Demo/Ads"
 
   const get = params => {
-    return API.get(`${prefix}/GetAds`, params)
+    return API.get(`${prefix}/GetAdsV2`, params)
   }
 
   const getById = async (platform, params) => {

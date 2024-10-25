@@ -23,6 +23,7 @@ declare module 'vue-router/auto-routes' {
     '/account-setup/': RouteRecordInfo<'/account-setup/', '/account-setup', Record<never, never>, Record<never, never>>,
     '/ad-groups/[campaignId]/add/': RouteRecordInfo<'/ad-groups/[campaignId]/add/', '/ad-groups/:campaignId/add', { campaignId: ParamValue<true> }, { campaignId: ParamValue<false> }>,
     '/ad-groups/[campaignId]/edit/': RouteRecordInfo<'/ad-groups/[campaignId]/edit/', '/ad-groups/:campaignId/edit', { campaignId: ParamValue<true> }, { campaignId: ParamValue<false> }>,
+    '/ads/[adGroupId]/add/': RouteRecordInfo<'/ads/[adGroupId]/add/', '/ads/:adGroupId/add', { adGroupId: ParamValue<true> }, { adGroupId: ParamValue<false> }>,
     '/assistant/': RouteRecordInfo<'/assistant/', '/assistant', Record<never, never>, Record<never, never>>,
     '/assistant/designer/': RouteRecordInfo<'/assistant/designer/', '/assistant/designer', Record<never, never>, Record<never, never>>,
     '/assistant/writer/': RouteRecordInfo<'/assistant/writer/', '/assistant/writer', Record<never, never>, Record<never, never>>,
