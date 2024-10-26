@@ -2,7 +2,8 @@ import i18n from '@/i18n'
 
 const { t, locale } = i18n.global
 
-export const paginateArray = (array, perPage, page) => array.slice((page - 1) * perPage, page * perPage)
+export const paginateArray = (array, perPage, page) =>
+  array.slice((page - 1) * perPage, page * perPage)
 
 // pagination meta
 export const paginationMeta = computed(() => {
@@ -16,9 +17,11 @@ export const paginationMeta = computed(() => {
 export const genId = array => {
   const { length } = array
   let lastIndex = 0
-  if (length) { lastIndex = Number(array[length - 1]?.id) + 1 }
+  if (length) {
+    lastIndex = Number(array[length - 1]?.id) + 1
+  }
 
-  return lastIndex || (length + 1)
+  return lastIndex || length + 1
 }
 
 export const localeTitle = computed(() => {

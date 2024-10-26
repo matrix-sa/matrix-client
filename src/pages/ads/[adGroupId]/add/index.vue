@@ -1,7 +1,12 @@
 <script setup>
   const route = useRoute()
+  const adGroupId = route.params.adGroupId
+  const platform = route.query.platform
 </script>
 <template>
-  <h1>Create Ad for ad group {{ route.params.adGroupId }}
-    for platform {{ route.query.platform }}</h1>
+  <AdFormTiktok
+    v-if="platform === 'tiktok'"
+    :ad-group-id="adGroupId"
+    :platform="platform"
+  />
 </template>
