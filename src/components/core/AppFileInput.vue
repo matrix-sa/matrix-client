@@ -2,7 +2,21 @@
   import uploadIcon from '@/assets/upload_icon.svg'
 
   const attrs = useAttrs()
-  document.documentElement.style.setProperty('--hint-content', `"${attrs['label-hint']}"`)
+  document.documentElement.style.setProperty(
+    '--hint-content',
+    `"${attrs['label-hint']}"`
+  )
+
+  const elementId = computed(() => {
+    const attrs = useAttrs()
+    const _elementIdToken = attrs.id || attrs.label
+
+    return _elementIdToken
+      ? `app-file-input-${_elementIdToken}-${Math.random()
+        .toString(36)
+        .slice(2, 7)}`
+      : undefined
+  })
 </script>
 <template>
   <div class="app-select flex-grow-1" :class="$attrs.class">
