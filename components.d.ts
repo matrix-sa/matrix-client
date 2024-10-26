@@ -7,6 +7,7 @@ export {}
 /* prettier-ignore */
 declare module 'vue' {
   export interface GlobalComponents {
+    AdsGoogleForm: typeof import('./src/components/forms/ads/AdsGoogleForm.vue')['default']
     AdsGroupGoogleForm: typeof import('./src/components/forms/ad-groups/AdsGroupGoogleForm.vue')['default']
     AdsGroupSnapchatForm: typeof import('./src/components/forms/AdsGroupSnapchatForm.vue')['default']
     AdsGroupsTable: typeof import('./src/components/tables/AdsGroupsTable.vue')['default']
@@ -21,6 +22,7 @@ declare module 'vue' {
     AppFileInput: typeof import('./src/components/core/AppFileInput.vue')['default']
     AppNumberField: typeof import('./src/components/core/AppNumberField.vue')['default']
     AppSelect: typeof import('./src/components/core/AppSelect.vue')['default']
+    AppTextarea: typeof import('./src/components/core/AppTextarea.vue')['default']
     AppTextInput: typeof import('./src/components/core/AppTextInput.vue')['default']
     AppTimeField: typeof import('./src/components/core/AppTimeField.vue')['default']
     CampaignForm: typeof import('./src/components/forms/campaigns/CampaignForm.vue')['default']
@@ -65,6 +67,7 @@ declare module 'vue' {
     HomeSpendingReturnLine: typeof import('./src/components/home/HomeSpendingReturnLine.vue')['default']
     HomeViews: typeof import('./src/components/home/HomeViews.vue')['default']
     LanguageSwitch: typeof import('./src/components/shared/LanguageSwitch.vue')['default']
+    MediaFileUpload: typeof import('./src/components/core/MediaFileUpload.vue')['default']
     MetaButton: typeof import('./src/components/platforms/meta/MetaButton.vue')['default']
     MobileLayout: typeof import('./src/components/shared/MobileLayout.vue')['default']
     PlatformCampaignsTable: typeof import('./src/components/campaigns/PlatformCampaignsTable.vue')['default']
