@@ -218,3 +218,30 @@ export const isVideoFile = file => {
     .toLowerCase()
   return videoExtensions.includes(fileExtension)
 }
+
+export const isImageFile = file => {
+  // List of accepted image file extensions
+  const imageExtensions = [
+    '.jpg',
+    '.jpeg',
+    '.png',
+    '.gif',
+    '.bmp',
+    '.tiff',
+    '.svg',
+    '.webp',
+  ]
+
+  if (!file || !file.name) {
+    return false
+  }
+
+  const fileExtension = file.name
+    .slice(file.name.lastIndexOf('.'))
+    .toLowerCase()
+
+  console.log(
+    imageExtensions.includes(fileExtension) || t('extension_not_allowed')
+  )
+  return imageExtensions.includes(fileExtension) || t('extension_not_allowed')
+}

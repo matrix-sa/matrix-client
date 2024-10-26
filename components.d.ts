@@ -7,12 +7,15 @@ export {}
 /* prettier-ignore */
 declare module 'vue' {
   export interface GlobalComponents {
-    AdFormTiktok: typeof import('./src/components/forms/ads/AdFormTiktok.vue')['default']
+    AdFormFieldsSnapchat: typeof import('./src/components/forms/ads/AdFormFieldsSnapchat.vue')['default']
+    AdFormFieldsTiktok: typeof import('./src/components/forms/ads/AdFormFieldsTiktok.vue')['default']
+    AdFormTiktok: typeof import('./src/components/forms/ads/AdFormFieldsTiktok.vue')['default']
     AdsGroupGoogleForm: typeof import('./src/components/forms/ad-groups/AdsGroupGoogleForm.vue')['default']
     AdsGroupSnapchatForm: typeof import('./src/components/forms/ad-groups/AdsGroupSnapchatForm.vue')['default']
     AdsGroupsTable: typeof import('./src/components/tables/AdsGroupsTable.vue')['default']
     AdsGroupTiktokForm: typeof import('./src/components/forms/ad-groups/AdsGroupTiktokForm.vue')['default']
     AdsGroupXForm: typeof import('./src/components/forms/ad-groups/AdsGroupXForm.vue')['default']
+    AdSnapchat: typeof import('./src/components/forms/ads/AdFormFieldsSnapchat.vue')['default']
     AdsTable: typeof import('./src/components/tables/AdsTable.vue')['default']
     AppAutocomplete: typeof import('./src/components/core/AppAutocomplete.vue')['default']
     AppBar: typeof import('./src/components/shared/AppBar.vue')['default']
