@@ -9,6 +9,7 @@ declare module 'vue' {
   export interface GlobalComponents {
     AdFormFieldsSnapchat: typeof import('./src/components/forms/ads/AdFormFieldsSnapchat.vue')['default']
     AdFormFieldsTiktok: typeof import('./src/components/forms/ads/AdFormFieldsTiktok.vue')['default']
+    AdFormFieldsX: typeof import('./src/components/forms/ads/AdFormFieldsX.vue')['default']
     AdFormTiktok: typeof import('./src/components/forms/ads/AdFormFieldsTiktok.vue')['default']
     AdsGroupGoogleForm: typeof import('./src/components/forms/ad-groups/AdsGroupGoogleForm.vue')['default']
     AdsGroupSnapchatForm: typeof import('./src/components/forms/ad-groups/AdsGroupSnapchatForm.vue')['default']

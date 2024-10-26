@@ -14,4 +14,9 @@
     :ad-group-id="adGroupId"
     :platform="platform"
   />
+  <AdFormFieldsX
+    v-if="platform === 'twitter'"
+    :ad-group-id="adGroupId"
+    :platform="platform"
+  />
 </template>
