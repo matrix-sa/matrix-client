@@ -950,4 +950,12 @@ export default {
   the_connection_rule_has_been_updated: 'تم تحديث قاعدة الاتصال',
   select_date: 'حدد التاريخ',
   select_time: 'حدد الوقت',
+  a_conversation_about_advertising_texts: 'محادثة تخص النصوص الإعلانية',
+  result_text: 'عند حصولك على ماتحتاج يمكنك انهاء المحادثة وسيتم حفظ المحادثة مع المحادثات السبقة',
+  finish_chat: 'انهاء المحادثة',
+  my_answers_title: 'إجاباتي على الأسئلة',
+  matrix_digital_writer: 'كاتب مايتركس الرقمي',
+  dummy: 'هذا نص إجابة يتم توليده من الذكاء الصناعي بناءً على أجوبة المستخدم ... هذا نص إجابة يتم توليده من الذكاء الصناعي بناءً على أجوبة المستخدم ... ',
+  enter_text_here: 'أدخل نص هنا ...',
+
 }

@@ -7,10 +7,15 @@
   const { update } = useBreadcrumbsStore()
 
   const activeItem = ref(0) // Reactive state for the active item
-
+  const isShowAnswers = ref(false)
   // Correct the method name
   const updateActiveTab = itemValue => {
     activeItem.value = itemValue
+  }
+
+  const showAnswers = () => {
+    activeItem.value = 0
+    isShowAnswers.value = true
   }
 
   watch(
@@ -40,7 +45,8 @@
             <Tabs @update-active-tab="updateActiveTab" />
           </v-col>
           <v-col cols="9">
-            <Questions :active-item="activeItem" />
+            <ChatResult v-if="isShowAnswers" />
+            <Questions v-else :active-item="activeItem" @show-answers="showAnswers" />
           </v-col>
         </v-row>
       </v-container>

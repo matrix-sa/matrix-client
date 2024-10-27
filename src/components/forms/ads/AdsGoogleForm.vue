@@ -49,9 +49,9 @@
 
   const mediaTypes = ref([
     /* {
-    id: "Video",
-    name: t("video"),
-  }, */
+  id: "Video",
+  name: t("video"),
+}, */
     {
       id: 'Image',
       name: t('image'),
@@ -88,29 +88,6 @@
       },
     },
   )
-
-  /* const { run: update, loading: updateLoading } = useRequest(
-  data => AdsService.relaunch(props.platform, data),
-  {
-    manual: true,
-    onSuccess: res => {
-      const { error, data, messages, code } = res.data
-
-      if (error) {
-        data.show(messages[0], "error")
-
-        return
-      }
-
-      data.show(t("updated_message"), "success")
-
-      router.push({
-        name: "ads-campaign-id",
-        params: { id: props.campaignId },
-      })
-    },
-  },
-) */
 
   const form = ref({
     /* id: null, */
@@ -153,7 +130,6 @@
   }
 
   const validateMedia = media => {
-    console.log(media)
     return new Promise((resolve, reject) => {
       const img = new Image()
       img.src = window.URL.createObjectURL(media)
@@ -215,12 +191,7 @@
         alert(1)
         // If media is valid, proceed with update or create
         if (isMediaValid) {
-          alert(2)
-          /*  if (isEditMode.value) {
-           update({ ...data });
-         } else { */
           create({ ...data })
-        // }
         }
       } catch (error) {
         alert(3)
@@ -228,12 +199,6 @@
       }
     } else {
       show(t('media_img_empty'), 'error')
-
-    /* if (isEditMode.value) {
-      update({ ...data });
-    } else { */
-    // create({ ...data });
-    // }
     }
   }
 

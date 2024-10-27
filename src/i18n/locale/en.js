@@ -951,4 +951,12 @@ export default {
   the_connection_rule_has_been_updated: 'The connection rule has been updated',
   select_date: 'Select Date',
   select_time: 'Select Time',
+  a_conversation_about_advertising_texts: 'A conversation about advertising texts',
+  result_text: 'When you get what you need, you can end the conversation and the conversation will be saved with the previous conversations',
+  finish_chat: 'End conversation',
+  my_answers_title: 'My answers to the questions',
+  matrix_digital_writer: 'Matrix Digital Writer',
+  dummy: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley",
+  enter_text_here: 'Enter Text Here...',
+
 }

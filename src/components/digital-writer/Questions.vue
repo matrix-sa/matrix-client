@@ -7,7 +7,7 @@
 
   // Define props directly in script setup
   const props = defineProps(['activeItem'])
-
+  const emit = defineEmits()
   const { t } = useI18n()
 
   const questions = ref([
@@ -253,13 +253,12 @@
       manual: true,
       onSuccess: res => {
         const { error, data, messages, code } = res.data
-
         if (error) {
-          // show(messages[0], "error")
+        // show(messages[0], "error")
+        }
 
-          if (data) {
-          //
-          }
+        if (data) {
+          emit('showAnswers')
         }
       },
     },
@@ -275,7 +274,13 @@
     </div>
 
     <div class="btn-container d-flex justify-end">
-      <VBtn class="d-flex align-center" color="#FB813E" @click="logQuestions">
+      <VBtn
+        class="d-flex align-center"
+        color="#FB813E"
+        :disabled="startLoading"
+        :loading="startLoading"
+        @click="logQuestions"
+      >
         <svg
           class="icon"
           fill="none"
