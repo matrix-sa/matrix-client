@@ -69,6 +69,7 @@ declare module 'vue' {
     HomeSpendingReturn: typeof import('./src/components/home/HomeSpendingReturn.vue')['default']
     HomeSpendingReturnLine: typeof import('./src/components/home/HomeSpendingReturnLine.vue')['default']
     HomeViews: typeof import('./src/components/home/HomeViews.vue')['default']
+    KhuzamaConnectionDialog: typeof import('./src/components/dialogs/KhuzamaConnectionDialog.vue')['default']
     LanguageSwitch: typeof import('./src/components/shared/LanguageSwitch.vue')['default']
     MediaFileUpload: typeof import('./src/components/core/MediaFileUpload.vue')['default']
     MetaButton: typeof import('./src/components/platforms/meta/MetaButton.vue')['default']

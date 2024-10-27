@@ -5,6 +5,7 @@
   import { storeToRefs } from 'pinia'
   import sallaLogo from '@/assets/salla.svg'
   import zidLogo from '@/assets/zid.svg'
+  import Khuzami from '@/assets/Khuzami.svg'
   import storesLogo from '@/assets/stores.svg'
   import { useRequest } from 'vue-request'
   import StoresService from '@/services/stores-service'
@@ -23,7 +24,10 @@
     stores.value.map(store => ({
       title: store.title,
       code: store.code,
-      icon: store.code === 'salla' ? sallaLogo : zidLogo,
+      icon: store.code === 'salla' ? sallaLogo
+        : store.code === 'zid' ? zidLogo
+          : store.code === 'Khuzami' ? Khuzami
+            : storesLogo,
       status: store.status,
     }))
   )
@@ -73,8 +77,20 @@
     }
   )
 
+  // Khuzami dialog logic
+  const showDialog = ref(false)
+
   const startConnectingStore = store => {
+    if (store === 'Khuzami') {
+      showDialog.value = true
+      return
+    }
     startAuthentication(store)
+  }
+
+  const handleSubmit = inputValue => {
+    console.log('Input from dialog:', inputValue)
+    showDialog.value = false
   }
 
   const loading = computed(() => loadingAuthentication.value)
@@ -176,6 +192,12 @@
         </div>
       </div>
     </div>
+    <!-- dialog for Khuzami -->
+    <KhuzamaConnectionDialog
+      v-model="showDialog"
+      @close="showDialog = false"
+      @submit="handleSubmit"
+    />
   </div>
 </template>
 
