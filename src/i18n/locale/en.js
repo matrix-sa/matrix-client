@@ -452,6 +452,7 @@ export default {
   provinces: 'Provinces',
   publishing_platform: ' Publishing platform ',
   account_connect: 'Account setup',
+  store_connect: 'Store_connect',
   last_day: 'Yesterday',
   last_week: 'Last week',
   last_thirty_days: 'Last Month',
@@ -951,4 +952,7 @@ export default {
   the_connection_rule_has_been_updated: 'The connection rule has been updated',
   select_date: 'Select Date',
   select_time: 'Select Time',
+  Khuzami: 'Khuzami',
+  connect_to: 'Connect to',
+  paste_code: 'Paste the code',
 }

@@ -445,6 +445,7 @@ export default {
   provinces: 'المناطق ',
   publishing_platform: ' منصة النشر ',
   account_connect: 'توصيل حساب',
+  store_connect: 'توصيل متجر',
   last_day: 'اليوم السابق',
   last_week: 'الأسبوع السابق',
   last_thirty_days: 'الشهر السابق',
@@ -950,4 +951,7 @@ export default {
   the_connection_rule_has_been_updated: 'تم تحديث قاعدة الاتصال',
   select_date: 'حدد التاريخ',
   select_time: 'حدد الوقت',
+  Khuzami: 'خزامى',
+  connect_to: 'الاتصال ب',
+  paste_code: 'الصق الكود',
 }
