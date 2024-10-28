@@ -37,7 +37,6 @@ declare module 'vue' {
     ConnectionConfirmationDialog: typeof import('./src/components/dialogs/ConnectionConfirmationDialog.vue')['default']
     ConnectionRuleModal: typeof import('./src/components/dialogs/ConnectionRuleModal.vue')['default']
     ConnectPlatformAccountDialog: typeof import('./src/components/dialogs/ConnectPlatformAccountDialog.vue')['default']
-    copy: typeof import('./src/components/digital-writer/chatbot/ChatHeader copy.vue')['default']
     DesktopLayout: typeof import('./src/components/shared/DesktopLayout.vue')['default']
     DialogSuccess: typeof import('./src/components/dialogs/DialogSuccess.vue')['default']
     EmptyContent: typeof import('./src/components/EmptyContent.vue')['default']
