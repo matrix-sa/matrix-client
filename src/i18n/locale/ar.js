@@ -445,6 +445,7 @@ export default {
   provinces: 'المناطق ',
   publishing_platform: ' منصة النشر ',
   account_connect: 'توصيل حساب',
+  store_connect: 'توصيل متجر',
   last_day: 'اليوم السابق',
   last_week: 'الأسبوع السابق',
   last_thirty_days: 'الشهر السابق',
@@ -957,5 +958,7 @@ export default {
   matrix_digital_writer: 'كاتب مايتركس الرقمي',
   dummy: 'هذا نص إجابة يتم توليده من الذكاء الصناعي بناءً على أجوبة المستخدم ... هذا نص إجابة يتم توليده من الذكاء الصناعي بناءً على أجوبة المستخدم ... ',
   enter_text_here: 'أدخل نص هنا ...',
-
+  Khuzama: 'خزامى',
+  connect_to: 'الاتصال ب',
+  paste_code: 'الصق الكود',
 }

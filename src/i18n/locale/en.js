@@ -452,6 +452,7 @@ export default {
   provinces: 'Provinces',
   publishing_platform: ' Publishing platform ',
   account_connect: 'Account setup',
+  store_connect: 'Store_connect',
   last_day: 'Yesterday',
   last_week: 'Last week',
   last_thirty_days: 'Last Month',
@@ -958,5 +959,7 @@ export default {
   matrix_digital_writer: 'Matrix Digital Writer',
   dummy: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley",
   enter_text_here: 'Enter Text Here...',
-
+  Khuzama: 'Khuzama',
+  connect_to: 'Connect to',
+  paste_code: 'Paste the code',
 }
