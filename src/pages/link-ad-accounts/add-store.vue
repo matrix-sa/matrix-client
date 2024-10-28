@@ -5,7 +5,7 @@
   import { storeToRefs } from 'pinia'
   import sallaLogo from '@/assets/salla.svg'
   import zidLogo from '@/assets/zid.svg'
-  import Khuzami from '@/assets/Khuzami.svg'
+  import Khuzama from '@/assets/Khuzama.svg'
   import storesLogo from '@/assets/stores.svg'
   import { useRequest } from 'vue-request'
   import StoresService from '@/services/stores-service'
@@ -26,7 +26,7 @@
       code: store.code,
       icon: store.code === 'salla' ? sallaLogo
         : store.code === 'zid' ? zidLogo
-          : store.code === 'Khuzami' ? Khuzami
+          : store.code === 'Khuzama' ? Khuzama
             : storesLogo,
       status: store.status,
     }))
@@ -77,21 +77,36 @@
     }
   )
 
-  // Khuzami dialog logic
+  // Khuzama dialog logic
   const showDialog = ref(false)
 
   const startConnectingStore = store => {
-    if (store === 'Khuzami') {
+    if (store === 'Khuzama') {
       showDialog.value = true
       return
     }
     startAuthentication(store)
   }
 
-  const handleSubmit = inputValue => {
+  const handleSubmit = async inputValue => {
     console.log('Input from dialog:', inputValue)
     showDialog.value = false
+
+    ///   Activate store in frontend  ////
+    const storeToActivate = storesStore.stores.find(store => store.code === 'Khuzama')
+
+    if (storeToActivate) {
+      storeToActivate.status = 'Success'
+      show(t('connected_successfully'), 'success')
+    } else {
+      console.error('Store not found to activate.')
+    }
   }
+
+  // Computed property to determine if any store is connected
+  const isAnyStoreConnected = computed(() => {
+    return storesStore.stores.some(store => store.status === 'Success')
+  })
 
   const loading = computed(() => loadingAuthentication.value)
 
@@ -181,6 +196,7 @@
           <VBtn
             v-else
             color="warning"
+            :disabled="isAnyStoreConnected"
             flat
             height="40px"
             rounded
@@ -192,7 +208,7 @@
         </div>
       </div>
     </div>
-    <!-- dialog for Khuzami -->
+    <!-- dialog for Khuzama -->
     <KhuzamaConnectionDialog
       v-model="showDialog"
       @close="showDialog = false"

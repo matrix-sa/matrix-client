@@ -952,7 +952,7 @@ export default {
   the_connection_rule_has_been_updated: 'The connection rule has been updated',
   select_date: 'Select Date',
   select_time: 'Select Time',
-  Khuzami: 'Khuzami',
+  Khuzama: 'Khuzama',
   connect_to: 'Connect to',
   paste_code: 'Paste the code',
 }

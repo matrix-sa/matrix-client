@@ -3,10 +3,10 @@
     <v-card class="px-6 rounded-xl" min-width="40vw" rounded="lg">
       <v-card-title class="d-flex justify-space-between align-center px-0">
         <div class="d-flex align-center">
-          <img alt="Khuzami logo" class="mx-2" :src="KhuzamiLogo" width="40px">
+          <img alt="Khuzama logo" class="mx-2" :src="KhuzamaLogo" width="40px">
           <span class="text-h5 text-medium-emphasis">
             {{ t("store_connect") }}
-            <span class="text-warning">( {{ t("Khuzami") }} )</span>
+            <span class="text-warning">( {{ t("Khuzama") }} )</span>
           </span>
         </div>
         <v-btn icon="mdi-close" variant="text" @click.stop="handleClose" />
@@ -42,7 +42,7 @@
 <script setup>
   import { ref } from 'vue'
   import { useI18n } from 'vue-i18n'
-  import KhuzamiLogo from '@/assets/Khuzami2.svg'
+  import KhuzamaLogo from '@/assets/Khuzama2.svg'
 
   const { t } = useI18n()
 

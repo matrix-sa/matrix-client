@@ -18,8 +18,8 @@ export const useStoresStore = defineStore('stores-store', {
         status: 'Inactive',
       },
       {
-        code: 'Khuzami',
-        title: t('Khuzami'),
+        code: 'Khuzama',
+        title: t('Khuzama'),
         status: 'Inactive',
       },
     ],

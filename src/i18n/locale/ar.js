@@ -951,7 +951,7 @@ export default {
   the_connection_rule_has_been_updated: 'تم تحديث قاعدة الاتصال',
   select_date: 'حدد التاريخ',
   select_time: 'حدد الوقت',
-  Khuzami: 'خزامى',
+  Khuzama: 'خزامى',
   connect_to: 'الاتصال ب',
   paste_code: 'الصق الكود',
 }
