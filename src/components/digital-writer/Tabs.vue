@@ -1,10 +1,18 @@
 <script>
   import { ref } from 'vue'
   import { useI18n } from 'vue-i18n'
+  import DigitalWriterService from '@/services/digital-writer-service'
+  import { useRequest } from 'vue-request'
 
   export default {
     setup (props, { emit }) {
       const { t } = useI18n() // use useI18n inside setup
+
+      const options = ref({
+        page: 1,
+        itemsPerPage: 10,
+
+      })
 
       // Reactive data
       const items = ref([
@@ -15,39 +23,48 @@
         { title: t('landing_pages'), value: 4 },
       ])
 
-      const items2 = ref([
-        { title: t('text'), value: 5 },
-        { title: t('text'), value: 6 },
-        { title: t('text'), value: 7 },
-        { title: t('text'), value: 8 },
-        { title: t('text'), value: 9 },
-        { title: t('text'), value: 10 },
-        { title: t('text'), value: 11 },
-        { title: t('text'), value: 12 },
-        { title: t('text'), value: 13 },
-        { title: t('text'), value: 14 },
-        { title: t('text'), value: 15 },
-        { title: t('text'), value: 16 },
-        { title: t('text'), value: 17 },
-        { title: t('text'), value: 18 },
-        { title: t('text'), value: 19 },
-        { title: t('text'), value: 20 },
-        { title: t('text'), value: 21 },
-        { title: t('text'), value: 22 },
-      ])
-
-      const activeItem = ref(0) // Reactive state for the active item
+      const activeItem = ref(0)
+      const conversations = ref(0)
+      const totalPage = ref()
 
       const setActive = itemValue => {
         activeItem.value = itemValue
         emit('updateActiveTab', itemValue) // Emit event to the parent
       }
 
+      const handleChangeHistoryTab = id => {
+        setActive(id)
+        fetchConversationById(id)
+      }
+
+      const { run, loading: loadingConversations } = useRequest(
+        params => DigitalWriterService.getConversations(params),
+        {
+          onSuccess: res => {
+            const { data } = res.data
+            options.value.page = data.current_page
+            totalPage.value = data.page_size
+            conversations.value = data?.items
+          },
+        }
+      )
+
+      const { run: fetchConversationById, loading: loadConversation } = useRequest(
+        () => DigitalWriterService.getConversationById({ id: activeItem.value }),
+        {
+          onSuccess: res => {
+            emit('updateMessagesHistory', res.data.data) // Emit event to the parent
+          },
+        }
+      )
+
+      run()
       return {
         items,
-        items2,
         activeItem,
         setActive,
+        conversations,
+        handleChangeHistoryTab,
         t,
       }
     },
@@ -90,13 +107,13 @@
         </v-subheader>
 
         <v-list-item
-          v-for="(item, index) in items2"
+          v-for="(item, index) in conversations"
           :key="index"
-          :class="{ 'v-list-item--active': item.value === activeItem }"
-          @click="setActive(item.value)"
+          :class="{ 'v-list-item--active': item.id === activeItem }"
+          @click="handleChangeHistoryTab(item.id)"
         >
           <v-list-item-content>
-            <v-list-item-title>{{ item.title }}</v-list-item-title>
+            <v-list-item-title>{{ item?.title }}</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
       </v-list>

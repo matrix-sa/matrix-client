@@ -149,12 +149,7 @@
       </v-app-bar>
 
       <v-navigation-drawer v-model="drawer" temporary>
-        <v-img
-          aspect-ratio="1/1"
-          src="@/assets/logo.svg"
-          style="margin: auto"
-          width="70%"
-        />
+        <v-img aspect-ratio="1/1" src="@/assets/logo.svg" style="margin: auto" width="70%" />
         <v-divider />
         <h4 class="text-black">{{ t("username") }}</h4>
         <h5>{{ user.name }}</h5>

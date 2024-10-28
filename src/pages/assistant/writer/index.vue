@@ -8,9 +8,15 @@
 
   const activeItem = ref(0) // Reactive state for the active item
   const isShowAnswers = ref(false)
+  const messagesHistory = ref([])
   // Correct the method name
   const updateActiveTab = itemValue => {
     activeItem.value = itemValue
+    isShowAnswers.value = true
+  }
+
+  const updateMessagesHistory = data => {
+    messagesHistory.value = data
   }
 
   const showAnswers = () => {
@@ -42,10 +48,10 @@
         <v-row class="row" gap="16px">
           <v-col cols="3">
             <!-- Use the corrected event name -->
-            <Tabs @update-active-tab="updateActiveTab" />
+            <Tabs @update-active-tab="updateActiveTab" @update-messages-history="updateMessagesHistory" />
           </v-col>
           <v-col cols="9">
-            <ChatResult v-if="isShowAnswers" />
+            <ChatResult v-if="isShowAnswers" :messages-history="messagesHistory" />
             <Questions v-else :active-item="activeItem" @show-answers="showAnswers" />
           </v-col>
         </v-row>

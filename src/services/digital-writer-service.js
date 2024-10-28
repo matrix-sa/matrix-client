@@ -5,8 +5,18 @@ const DigitalWriterService = (function () {
     return API.post(`/Clients/DigitalWriter/RequestService`, data)
   }
 
+  const getConversations = () => {
+    return API.get(`/Clients/DigitalWriter/GetConversations`)
+  }
+
+  const getConversationById = async params => {
+    return API.get(`/Clients/DigitalWriter/GetConversation`, params)
+  }
+
   return {
     run,
+    getConversations,
+    getConversationById,
   }
 })()
 
