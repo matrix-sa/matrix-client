@@ -91,7 +91,7 @@
   </v-container>
 </template>
 
-<style lang="scss" scoped>
+<style lang="scss">
 .header {
   color: #706D79;
   font-size: 14px;
@@ -108,6 +108,7 @@ th{
 }
 th:first-child {
   text-align: start !important;
+  padding: 0 15px 0 15px !important;
 }
 .order_text {
   color: #1F1625;
@@ -118,5 +119,15 @@ th:first-child {
 }
 .v-table--density-default{
     --v-table-header-height:41px;
+}
+tr {
+  clip-path: xywh(0 0 100% 100% round 30px);
+  margin-right: 10px;
+}
+.v-table .v-table__wrapper > table > tbody > tr:not(:last-child) > td{
+  border-bottom: none;
+}
+.v-table__wrapper > table > tfoot > tr > th{
+  padding: 0;
 }
 </style>

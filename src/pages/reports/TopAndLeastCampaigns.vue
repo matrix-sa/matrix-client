@@ -69,7 +69,7 @@
             :class="{ 'highlight-row': index % 2 === 1 }"
           >
             <td class="text-start">
-              <div class="d-flex">
+              <div class="d-flex ">
                 <v-avatar class="platform_icon" left>
                   <v-img :src="getPlatformIcon(campaign.publishing_platform)" />
                 </v-avatar>
@@ -131,7 +131,7 @@
   </div>
 </template>
 
-<style lang="scss" scoped>
+<style lang="scss">
 
 .header {
   color: #706D79;
@@ -148,6 +148,8 @@ th{
 }
 th:first-child {
   text-align: start !important;
+  padding: 0 15px 0 15px !important;
+
 }
 .order_text {
   font-size: 16px;
@@ -179,4 +181,11 @@ th:first-child {
 .v-table--density-default{
     --v-table-header-height:41px;
 }
+.v-table .v-table__wrapper > table > tbody > tr:not(:last-child) > td, .v-table .v-table__wrapper > table > tbody > tr:not(:last-child) > th {
+  border-bottom: none;
+}
+tr {
+    clip-path: xywh(0 0 100% 100% round 30px)
+}
+
 </style>
