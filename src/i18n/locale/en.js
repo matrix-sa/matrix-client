@@ -961,5 +961,9 @@ export default {
   enter_text_here: 'Enter Text Here...',
   rank: 'Rank',
   platforms_order: 'Order Platforms by Performance',
-
+  campaign_and_platform: 'Campaign and Platform',
+  you_have: 'You have',
+  ad_campaign: 'Ad Campaigning',
+  top_adds_ad_campaigns: 'Top Adds Ad Campaigns Performance',
+  least_adds_ad_campaigns: 'Least Adds Ad Campaigns Performance',
 }

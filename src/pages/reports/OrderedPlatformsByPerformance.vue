@@ -1,45 +1,43 @@
 <script setup>
   import i18n from '@/i18n'
-  import { onMounted, ref } from 'vue'
-  import axios from '@/plugins/axious'
+  import { computed, defineProps } from 'vue'
 
   const { t } = i18n.global
 
-  const headers = ref([
+  const props = defineProps({
+    platformsData: {
+      type: Array,
+      required: true,
+    },
+  })
+
+  const headers = [
     { text: t('platform'), value: 'platform' },
     { text: t('active_compaigns'), value: 'campaigns' },
     { text: t('spendings'), value: 'spending' },
     { text: t('views'), value: 'view' },
     { text: t('return_on_spending'), value: 'roas' },
     { text: t('rank'), value: 'order' },
-  ])
+  ]
 
-  const platforms = ref([])
+  const platforms = computed(() => {
+    return props.platformsData.map(item => ({
+      platform: item.platform,
+      campaigns: item.campaigns,
+      view: item.view,
+      spending: item.spending,
+      roas: item.roas,
+      order: item.order,
+    }))
+  })
 
-  const fetchData = async () => {
-    try {
-      const response = await axios.get('https://matrix.sa/Clients/Statistics/GetReportsStatistics')
-      const sortedPlatforms = response.data.data.platforms_performance_records
-        .map(item => ({
-          platform: t(`platforms.${item.platform.toLowerCase()}.title`),
-          icon: getPlatformIcon(item.platform),
-          campaigns: item.campaigns,
-          view: item.view,
-          spending: item.spending,
-          roas: item.roas,
-          order: item.order,
-        }))
-        .sort((a, b) => b.order - a.order)
-
-      platforms.value = sortedPlatforms.map((platform, index) => ({
-        ...platform,
-        rank: index + 1,
-        rankColor: index === 0 ? 'orange' : 'purple',
-      }))
-    } catch (error) {
-      console.error('Error fetching data:', error)
-    }
-  }
+  const rankedPlatforms = computed(() => {
+    return platforms.value.map((platform, index) => ({
+      ...platform,
+      rank: index + 1,
+      rankColor: index === 0 ? 'orange' : 'purple',
+    }))
+  })
 
   const getPlatformIcon = platformName => {
     const icons = {
@@ -53,10 +51,6 @@
     }
     return icons[platformName] || 'https://cdn-icons-png.flaticon.com/512/6415/6415824.png'
   }
-
-  onMounted(() => {
-    fetchData()
-  })
 </script>
 
 <template>
@@ -64,7 +58,6 @@
     <div class="order_text">
       {{ t('platforms_order') }}
     </div>
-    <!-- <hr> -->
     <v-table>
       <thead>
         <tr>
@@ -75,13 +68,13 @@
       </thead>
       <tbody class="text-center">
         <tr
-          v-for="(platform, index) in platforms"
+          v-for="(platform, index) in rankedPlatforms"
           :key="index"
           :class="{ 'highlight-row': index % 2 === 1 }"
         >
           <td class="text-start">
             <v-avatar class="mx-2" left>
-              <v-img :src="platform.icon" />
+              <v-img :src="getPlatformIcon(platform.platform)" />
             </v-avatar>
             {{ platform.platform }}
           </td>
@@ -98,7 +91,7 @@
   </v-container>
 </template>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .header {
   color: #706D79;
   font-size: 14px;
@@ -110,14 +103,20 @@
   background-color: #f8f7fa;
 }
 
+th{
+    border-top: 1px solid #f0f0f1;
+}
 th:first-child {
   text-align: start !important;
 }
-.order_text{
+.order_text {
+  color: #1F1625;
+  margin: 12px 12px 30px 12px !important;
   font-size: 16px;
   font-weight: 500;
   line-height: 19.2px;
-  color: #1F1625;
-  margin: 0 10px 10px 0;
+}
+.v-table--density-default{
+    --v-table-header-height:41px;
 }
 </style>

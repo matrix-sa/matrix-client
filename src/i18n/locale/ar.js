@@ -960,5 +960,9 @@ export default {
   enter_text_here: 'أدخل نص هنا ...',
   rank: 'الترتيب',
   platforms_order: 'ترتيب المنصات الإعلانية حسب الأداء',
-
+  campaign_and_platform: 'الحملة والمنصة',
+  you_have: 'لديك',
+  ad_campaign: 'حملة إعلانية',
+  top_adds_ad_campaigns: 'أفضل الحملات الإعلانية أداء',
+  least_adds_ad_campaigns: 'أضعف الحملات الإعلانية أداء',
 }
