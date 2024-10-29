@@ -29,7 +29,9 @@
     }))
   }
 
-  const leastCampaigns = computed(() => getTopFiveCampaigns(props.leastCampaigns))
+  const leastCampaigns = computed(() =>
+    getTopFiveCampaigns(props.leastCampaigns)
+  )
   const topCampaigns = computed(() => getTopFiveCampaigns(props.topCampaigns))
   const numOfAddsTop = computed(() => props.topCampaigns.length)
   const numOfAddsLeast = computed(() => props.leastCampaigns.length)
@@ -44,20 +46,28 @@
       Youtube: 'src/assets/images/logos/icons-youtube-96.svg',
       Twitter: 'src/assets/images/logos/icons-twitterx-96.svg',
     }
-    return icons[platformName] || 'https://cdn-icons-png.flaticon.com/512/6415/6415824.png'
+    return (
+      icons[platformName] ||
+      'https://cdn-icons-png.flaticon.com/512/6415/6415824.png'
+    )
   }
 </script>
 
 <template>
   <div class="d-flex ga-5 my-10">
     <div class="rounded-lg bg-white pa-4">
-      <div class="campaigns_title">{{ t('top_adds_ad_campaigns') }}</div>
-      <div class="campaigns_number">{{ t('you_have') }} {{ numOfAddsTop }} {{ t('ad_campaign') }}</div>
-      <v-table class="rounded-lg ">
+      <div class="campaigns_title">{{ t("top_adds_ad_campaigns") }}</div>
+      <div class="campaigns_number">
+        {{ t("you_have") }} {{ numOfAddsTop }} {{ t("ad_campaign") }}
+      </div>
+      <v-table class="rounded-lg">
         <thead>
           <tr>
-            <th v-for="header in headers" :key="header.value" class="header text-center text-no-wrap">
-
+            <th
+              v-for="header in headers"
+              :key="header.value"
+              class="header text-center text-no-wrap"
+            >
               {{ header.text }}
             </th>
           </tr>
@@ -69,13 +79,20 @@
             :class="{ 'highlight-row': index % 2 === 1 }"
           >
             <td class="text-start">
-              <div class="d-flex ">
+              <div class="d-flex">
                 <v-avatar class="platform_icon" left>
                   <v-img :src="getPlatformIcon(campaign.publishing_platform)" />
                 </v-avatar>
                 <div>
                   {{ t("campaign") }} {{ campaign.name }}
-                  <div class="platform_text">{{ t('platform') }}: {{ t(`platforms.${campaign.publishing_platform.toLowerCase()}.title`) }}</div>
+                  <div class="platform_text">
+                    {{ t("platform") }}:
+                    {{
+                      t(
+                        `platforms.${campaign.publishing_platform.toLowerCase()}.title`
+                      )
+                    }}
+                  </div>
                 </div>
               </div>
             </td>
@@ -83,20 +100,27 @@
             <td>{{ campaign.sales }}</td>
             <td>{{ campaign.roas }}</td>
             <td>
-              <v-chip :color="campaign.rankColor" dark>{{ campaign.rank }}</v-chip>
+              <v-chip :color="campaign.rankColor" dark>{{
+                campaign.rank
+              }}</v-chip>
             </td>
           </tr>
         </tbody>
       </v-table>
     </div>
     <div class="rounded-lg bg-white pa-4">
-      <div class="campaigns_title">{{ t('least_adds_ad_campaigns') }}</div>
-      <div class="campaigns_number">{{ t('you_have') }} {{ numOfAddsLeast }} {{ t('ad_campaign') }}</div>
-      <v-table class="rounded-lg ">
+      <div class="campaigns_title">{{ t("least_adds_ad_campaigns") }}</div>
+      <div class="campaigns_number">
+        {{ t("you_have") }} {{ numOfAddsLeast }} {{ t("ad_campaign") }}
+      </div>
+      <v-table class="rounded-lg">
         <thead>
           <tr>
-            <th v-for="header in headers" :key="header.value" class="header text-center text-no-wrap">
-
+            <th
+              v-for="header in headers"
+              :key="header.value"
+              class="header text-center text-no-wrap"
+            >
               {{ header.text }}
             </th>
           </tr>
@@ -114,7 +138,14 @@
                 </v-avatar>
                 <div>
                   {{ t("campaign") }} {{ campaign.name }}
-                  <div class="platform_text">{{ t('platform') }}: {{ t(`platforms.${campaign.publishing_platform.toLowerCase()}.title`) }}</div>
+                  <div class="platform_text">
+                    {{ t("platform") }}:
+                    {{
+                      t(
+                        `platforms.${campaign.publishing_platform.toLowerCase()}.title`
+                      )
+                    }}
+                  </div>
                 </div>
               </div>
             </td>
@@ -122,7 +153,9 @@
             <td>{{ campaign.sales }}</td>
             <td>{{ campaign.roas }}</td>
             <td>
-              <v-chip :color="campaign.rankColor" dark>{{ campaign.rank }}</v-chip>
+              <v-chip :color="campaign.rankColor" dark>{{
+                campaign.rank
+              }}</v-chip>
             </td>
           </tr>
         </tbody>
@@ -132,9 +165,8 @@
 </template>
 
 <style lang="scss">
-
 .header {
-  color: #706D79;
+  color: #706d79;
   font-size: 14px;
   font-weight: 400;
   line-height: 16.8px;
@@ -143,49 +175,47 @@
 .highlight-row {
   background-color: #f8f7fa;
 }
-th{
-    border-top: 1px solid #f0f0f1;
+th {
+  border-top: 1px solid #f0f0f1;
 }
 th:first-child {
   text-align: start !important;
   padding: 0 15px 0 15px !important;
-
 }
 .order_text {
   font-size: 16px;
   font-weight: 500;
   line-height: 19.2px;
-  color: #1F1625;
+  color: #1f1625;
   margin: 0 10px 10px 0;
 }
-.platform_text{
-    font-size: 10px;
-    font-weight: 400;
-    line-height: 12px;
-    color: #706D79;
+.platform_text {
+  font-size: 10px;
+  font-weight: 400;
+  line-height: 12px;
+  color: #706d79;
 }
-.campaigns_number{
-    margin: 0 1rem;
-    font-size: 12px;
-    font-weight: 400;
-    line-height: 14.4px;
-    color: #706D79;
-    margin: 8px 0 16px 0;
+.campaigns_number {
+  margin: 0 1rem;
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 14.4px;
+  color: #706d79;
+  margin: 8px 0 16px 0;
 }
-.campaigns_title{
-    font-size: 16px;
-    font-weight: 500;
-    line-height: 19.2px;
-
+.campaigns_title {
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 19.2px;
 }
-.v-table--density-default{
-    --v-table-header-height:41px;
+.v-table--density-default {
+  --v-table-header-height: 41px;
 }
-.v-table .v-table__wrapper > table > tbody > tr:not(:last-child) > td, .v-table .v-table__wrapper > table > tbody > tr:not(:last-child) > th {
+.v-table .v-table__wrapper > table > tbody > tr:not(:last-child) > td,
+.v-table .v-table__wrapper > table > tbody > tr:not(:last-child) > th {
   border-bottom: none;
 }
 tr {
-    clip-path: xywh(0 0 100% 100% round 30px)
+  clip-path: xywh(0 0 100% 100% round 30px);
 }
-
 </style>
