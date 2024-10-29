@@ -1,47 +1,53 @@
 <script setup>
-  const emit = defineEmits(['updateMessageHistory', 'pushInFront'])
+const emit = defineEmits(['updateMessageHistory', 'pushInFront'])
 
-  const props = defineProps({
-    messagesHistory: {
-      type: Object,
-      default: {},
-    },
-    activeItem: {
-      type: String,
-      required: true,
-    },
-  })
+const props = defineProps({
+  messagesHistory: {
+    type: Object,
+    default: {},
+  },
+  activeItem: {
+    type: String,
+    required: true,
+  },
+})
 
-  const writerWrapper = ref(null)
+const writerWrapper = ref(null)
 
-  const emitUpdateMessagesHistory = newMessageHistory => {
-    emit('updateMessagesHistory', newMessageHistory)
-    setTimeout(() => {
-      scrollToBottom()
-    }, 10)
-  }
+const emitUpdateMessagesHistory = newMessageHistory => {
+  emit('updateMessagesHistory', newMessageHistory)
+  setTimeout(() => {
+    scrollToBottom()
+  }, 10)
+}
 
-  const emitPushInFront = newMessageHistory => {
-    emit('pushInFront', newMessageHistory)
-    setTimeout(() => {
-      scrollToBottom()
-    }, 10)
-  }
+const emitPushInFront = newMessageHistory => {
+  emit('pushInFront', newMessageHistory)
+  setTimeout(() => {
+    scrollToBottom()
+  }, 10)
+}
 
-  const scrollToBottom = () => {
-    writerWrapper.value.scrollTop = writerWrapper.value.scrollHeight + 1000
-  }
+const scrollToBottom = () => {
+  writerWrapper.value.scrollTop = writerWrapper.value.scrollHeight + 1000
+}
 
-  defineExpose({
-    scrollToBottom,
-  })
+defineExpose({
+  scrollToBottom,
+})
+
+const conditionalStyle = computed(() => ({
+  ...((props.messagesHistory?.messages?.length > 0
+    || !props.messagesHistory?.messages ||
+    props.messagesHistory?.messages == 0) && { top: '100%' }),
+}));
 
 </script>
 
 <template>
   <div ref="writerWrapper" class="chat-container pa-4 d-flex flex-column g-6">
     <ChatHeader />
-    <div class="chat-inner  d-flex flex-column g-6">
+    <div class="chat-inner  d-flex flex-column g-6" v-if="messagesHistory?.request_questions">
       <ExpansionPanel :messages="messagesHistory?.request_questions" />
     </div>
 
@@ -50,14 +56,11 @@
       <UserCard v-if="message.role == 'User'" :message="message.content" />
     </div>
 
-    <div class="form-wrapper">
-      <Form
-        :active-item="activeItem"
-        :chat-id="messagesHistory?.id"
-        @emit-push-in-front="emitPushInFront"
-        @scroll-to-bottom="scrollToBottom"
-        @update-messages-history="emitUpdateMessagesHistory"
-      />
+    <div class="form-wrapper" :style="conditionalStyle">
+      <Form :active-item="activeItem"
+        :chat-id="messagesHistory?.conversation_id ? messagesHistory?.conversation_id : messagesHistory?.id"
+        @emit-push-in-front="emitPushInFront" @scroll-to-bottom="scrollToBottom"
+        @update-messages-history="emitUpdateMessagesHistory" />
     </div>
   </div>
 </template>
@@ -69,6 +72,7 @@
   gap: 24px;
   position: relative;
   height: calc(95vh);
+  min-height: 100%;
   overflow-y: scroll;
 
   &::-webkit-scrollbar {
@@ -94,7 +98,6 @@
 
   .form-wrapper {
     position: sticky;
-    bottom: 0;
     transform: translateY(20px);
     width: 100%;
     left: 0;
