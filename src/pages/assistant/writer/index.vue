@@ -10,6 +10,12 @@
   const isShowAnswers = ref(false)
   const messagesHistory = ref([])
 
+  const chatResult = ref(null)
+
+  const callScrollChatToTop = () => {
+    chatResult?.value?.scrollToBottom() // Call the child method
+  }
+
   // Correct the method name
   const updateActiveTab = itemValue => {
     activeItem.value = itemValue
@@ -18,6 +24,7 @@
 
   const updateMessagesHistory = data => {
     messagesHistory.value = data
+    setTimeout(() => callScrollChatToTop(), 100)
   }
 
   const pushInFront = data => {
@@ -60,6 +67,7 @@
           <v-col cols="9">
             <ChatResult
               v-if="isShowAnswers"
+              ref="chatResult"
               :active-item="activeItem"
               :messages-history="messagesHistory"
               @push-in-front="pushInFront"

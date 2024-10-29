@@ -136,6 +136,29 @@ $borderColor: rgba(31, 22, 37, 0.1);
   overflow-y: scroll;
   height: 620px;
   min-height: 100%;
+
+  &::-webkit-scrollbar {
+    width: 1px;
+    /* Set scrollbar width to 1px */
+  }
+
+  &::-webkit-scrollbar-track {
+    background-color: #f0f0f0;
+    border-radius: 8px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: #c0c0c0;
+    border-radius: 8px;
+
+    &:hover {
+      background-color: #a0a0a0;
+    }
+  }
+
+  scrollbar-width: thin;
+  /* Keep thin */
+  scrollbar-color: #c0c0c0 #f0f0f0;
 }
 
 .writer-sidebar::-webkit-scrollbar {

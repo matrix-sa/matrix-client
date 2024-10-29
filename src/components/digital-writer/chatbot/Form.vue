@@ -3,7 +3,7 @@
   import DigitalWriterService from '@/services/digital-writer-service'
   import { useRequest } from 'vue-request'
 
-  const emit = defineEmits(['emitPushInFront', 'updateMessagesHistory'])
+  const emit = defineEmits(['emitPushInFront', 'updateMessagesHistory', 'scrollToBottom'])
 
   // Define props using defineProps
   const props = defineProps({
@@ -34,6 +34,7 @@
       manual: true,
       onSuccess: res => {
         emit('updateMessagesHistory', res.data.data)
+        emit('scrollToBottom')
       },
     }
   )
@@ -46,6 +47,7 @@
     emit('emitPushInFront', { id: Math.random(), content: message.value, role: 'User' })
     message.value = ''
     sendMessage(messageVal)
+    emit('scrollToBottom')
   }
 </script>
 <template>
