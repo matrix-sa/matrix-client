@@ -1,76 +1,76 @@
 <script>
-import { ref } from 'vue'
-import { useI18n } from 'vue-i18n'
-import DigitalWriterService from '@/services/digital-writer-service'
-import { useRequest } from 'vue-request'
+  import { ref } from 'vue'
+  import { useI18n } from 'vue-i18n'
+  import DigitalWriterService from '@/services/digital-writer-service'
+  import { useRequest } from 'vue-request'
 
-export default {
-  setup(props, { emit }) {
-    const { t } = useI18n() // use useI18n inside setup
+  export default {
+    setup (props, { emit }) {
+      const { t } = useI18n() // use useI18n inside setup
 
-    const options = ref({
-      page: 1,
-      itemsPerPage: 10,
-    })
+      const options = ref({
+        page: 1,
+        itemsPerPage: 10,
+      })
 
-    // Reactive data
-    const items = ref([
-      { title: t('advertising_texts'), value: '0' },
-      { title: t('description_of_products'), value: '1' },
-      { title: t('advertising_scenarios'), value: '2' },
-      { title: t('content_designs'), value: '3' },
-      { title: t('landing_pages'), value: '4' },
-    ])
+      // Reactive data
+      const items = ref([
+        { title: t('advertising_texts'), value: '0' },
+        { title: t('description_of_products'), value: '1' },
+        { title: t('advertising_scenarios'), value: '2' },
+        { title: t('content_designs'), value: '3' },
+        { title: t('landing_pages'), value: '4' },
+      ])
 
-    const activeItem = ref(0)
-    const conversations = ref(0)
-    const totalPage = ref()
+      const activeItem = ref(0)
+      const conversations = ref(0)
+      const totalPage = ref()
 
-    const setActive = (itemValue, isHistory) => {
-      activeItem.value = itemValue
-      emit('updateActiveTab', itemValue, isHistory)
-    }
-
-    const handleChangeHistoryTab = id => {
-      setActive(id)
-      fetchConversationById(id)
-    }
-
-    const { run, loading: loadingConversations } = useRequest(
-      params => DigitalWriterService.getConversations(params),
-      {
-        onSuccess: res => {
-          const { data } = res.data
-          options.value.page = data.current_page
-          totalPage.value = data.page_size
-          conversations.value = data?.items
-        },
+      const setActive = (itemValue, isHistory) => {
+        activeItem.value = itemValue
+        emit('updateActiveTab', itemValue, isHistory)
       }
-    )
 
-    const { run: fetchConversationById, loading: loadConversation } = useRequest(
-      () => DigitalWriterService.getConversationById({ id: activeItem.value }),
-      {
-        onSuccess: res => {
-          emit('updateMessagesHistory', res.data.data)
-        },
+      const handleChangeHistoryTab = id => {
+        setActive(id)
+        fetchConversationById(id)
       }
-    )
 
-    const isLoading = computed(() => loadConversation.value)
+      const { run, loading: loadingConversations } = useRequest(
+        params => DigitalWriterService.getConversations(params),
+        {
+          onSuccess: res => {
+            const { data } = res.data
+            options.value.page = data.current_page
+            totalPage.value = data.page_size
+            conversations.value = data?.items
+          },
+        }
+      )
 
-    run()
-    return {
-      items,
-      activeItem,
-      setActive,
-      conversations,
-      handleChangeHistoryTab,
-      t,
-      isLoading,
-    }
-  },
-}
+      const { run: fetchConversationById, loading: loadConversation } = useRequest(
+        () => DigitalWriterService.getConversationById({ id: activeItem.value }),
+        {
+          onSuccess: res => {
+            emit('updateMessagesHistory', res.data.data)
+          },
+        }
+      )
+
+      const isLoading = computed(() => loadConversation.value)
+
+      run()
+      return {
+        items,
+        activeItem,
+        setActive,
+        conversations,
+        handleChangeHistoryTab,
+        t,
+        isLoading,
+      }
+    },
+  }
 </script>
 
 <template>
@@ -80,8 +80,12 @@ export default {
     </v-overlay>
     <v-card class="mx-auto" max-width="300">
       <v-list>
-        <v-list-item v-for="(item, index) in items" :key="index"
-          :class="{ 'v-list-item--active': item.value === activeItem }" @click="setActive(item.value, true)">
+        <v-list-item
+          v-for="(item, index) in items"
+          :key="index"
+          :class="{ 'v-list-item--active': item.value === activeItem }"
+          @click="setActive(item.value, true)"
+        >
           <div>
             <v-list-item-title>{{ item.title }}</v-list-item-title>
           </div>
@@ -91,17 +95,28 @@ export default {
           <hr class="separator">
 
           <div class="d-flex align-center sep-container">
-            <svg fill="none" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+            <svg
+              fill="none"
+              height="24"
+              viewBox="0 0 24 24"
+              width="24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
               <path
                 d="M12 4C16.4184 4 20 7.5816 20 12C20 16.4184 16.4184 20 12 20C10.6384 20 9.356 19.66 8.2336 19.06L4 20L4.9408 15.768C4.3408 14.6448 4 13.3624 4 12C4 7.5816 7.5816 4 12 4ZM12.8 8H11.2V13.6H16V12H12.8V8Z"
-                fill="#1F1625" />
+                fill="#1F1625"
+              />
             </svg>
             {{ t('previous_conversations') }}
           </div>
         </div>
 
-        <v-list-item v-for="(item, index) in conversations" :key="index"
-          :class="{ 'v-list-item--active': item.id === activeItem }" @click="handleChangeHistoryTab(item.id)">
+        <v-list-item
+          v-for="(item, index) in conversations"
+          :key="index"
+          :class="{ 'v-list-item--active': item.id === activeItem }"
+          @click="handleChangeHistoryTab(item.id)"
+        >
           <div>
             <v-list-item-title>{{ item?.title }}</v-list-item-title>
           </div>
