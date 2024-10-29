@@ -1,46 +1,57 @@
 <script setup>
-  import { ref } from 'vue'
-  import { useI18n } from 'vue-i18n'
-  import { useBreadcrumbsStore } from '@/stores/useBreadcrumbsStore'
+import { ref } from 'vue'
+import { useI18n } from 'vue-i18n'
+import { useBreadcrumbsStore } from '@/stores/useBreadcrumbsStore'
 
-  const { t, locale } = useI18n()
-  const { update } = useBreadcrumbsStore()
+const { t, locale } = useI18n()
+const { update } = useBreadcrumbsStore()
 
-  const activeItem = ref(0) // Reactive state for the active item
-  const isShowAnswers = ref(false)
-  const messagesHistory = ref([])
-  // Correct the method name
-  const updateActiveTab = itemValue => {
-    activeItem.value = itemValue
-    isShowAnswers.value = true
-  }
+const activeItem = ref(0) // Reactive state for the active item
+const isShowAnswers = ref(false)
+const messagesHistory = ref([])
 
-  const updateMessagesHistory = data => {
-    messagesHistory.value = data
-  }
 
-  const showAnswers = () => {
-    activeItem.value = 0
-    isShowAnswers.value = true
-  }
+// Correct the method name
+const updateActiveTab = itemValue => {
+  activeItem.value = itemValue
+  isShowAnswers.value = true
+}
 
-  watch(
-    locale,
-    () => {
-      update([
-        {
-          title: t('digital_writer'),
-          active: false,
-          to: '/assistant/writer/',
-        },
-      ])
-    },
-    { immediate: true }
-  )
+const updateMessagesHistory = data => {
+  messagesHistory.value = data
+}
+
+const pushInFront = data => {
+  messagesHistory.value.messages.push(data)
+}
+
+const showAnswers = () => {
+  activeItem.value = 0
+  isShowAnswers.value = true
+}
+
+watch(
+  locale,
+  () => {
+    update([
+      {
+        title: t('digital_writer'),
+        active: false,
+        to: '/assistant/writer/',
+      },
+    ])
+  },
+  { immediate: true }
+)
+
+
+
 </script>
 
 <template>
   <div class="d-flex flex-column writer-wrapper">
+
+
     <Header />
     <hr class="separator">
     <div class="writter-section-wrapper d-flex">
@@ -51,7 +62,8 @@
             <Tabs @update-active-tab="updateActiveTab" @update-messages-history="updateMessagesHistory" />
           </v-col>
           <v-col cols="9">
-            <ChatResult v-if="isShowAnswers" :messages-history="messagesHistory" />
+            <ChatResult v-if="isShowAnswers" :messages-history="messagesHistory" :active-item="activeItem"
+              @update-messages-history="updateMessagesHistory" @push-in-front="pushInFront" />
             <Questions v-else :active-item="activeItem" @show-answers="showAnswers" />
           </v-col>
         </v-row>
