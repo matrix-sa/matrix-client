@@ -9,6 +9,7 @@
   const activeItem = ref(0) // Reactive state for the active item
   const isShowAnswers = ref(false)
   const messagesHistory = ref([])
+
   // Correct the method name
   const updateActiveTab = itemValue => {
     activeItem.value = itemValue
@@ -17,6 +18,10 @@
 
   const updateMessagesHistory = data => {
     messagesHistory.value = data
+  }
+
+  const pushInFront = data => {
+    messagesHistory.value.messages.push(data)
   }
 
   const showAnswers = () => {
@@ -37,10 +42,12 @@
     },
     { immediate: true }
   )
+
 </script>
 
 <template>
   <div class="d-flex flex-column writer-wrapper">
+
     <Header />
     <hr class="separator">
     <div class="writter-section-wrapper d-flex">
@@ -51,7 +58,13 @@
             <Tabs @update-active-tab="updateActiveTab" @update-messages-history="updateMessagesHistory" />
           </v-col>
           <v-col cols="9">
-            <ChatResult v-if="isShowAnswers" :messages-history="messagesHistory" />
+            <ChatResult
+              v-if="isShowAnswers"
+              :active-item="activeItem"
+              :messages-history="messagesHistory"
+              @push-in-front="pushInFront"
+              @update-messages-history="updateMessagesHistory"
+            />
             <Questions v-else :active-item="activeItem" @show-answers="showAnswers" />
           </v-col>
         </v-row>

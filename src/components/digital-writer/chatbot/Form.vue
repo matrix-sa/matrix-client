@@ -1,6 +1,57 @@
+<script setup>
+  import { ref } from 'vue'
+  import DigitalWriterService from '@/services/digital-writer-service'
+  import { useRequest } from 'vue-request'
+
+  const emit = defineEmits(['emitPushInFront', 'updateMessagesHistory'])
+
+  // Define props using defineProps
+  const props = defineProps({
+    chatId: {
+      type: String || undefined,
+      required: false,
+    },
+    activeItem: {
+      type: String,
+      required: true,
+    },
+  })
+
+  const message = ref('')
+  const { run: sendMessage, loading } = useRequest(
+    data => DigitalWriterService.askQuestion(data),
+    {
+      manual: true,
+      onSuccess: response => {
+        fetchConversationById()
+      },
+    }
+  )
+
+  const { run: fetchConversationById, loading: loadConversation } = useRequest(
+    () => DigitalWriterService.getConversationById({ id: props.activeItem }),
+    {
+      manual: true,
+      onSuccess: res => {
+        emit('updateMessagesHistory', res.data.data)
+      },
+    }
+  )
+
+  const handleSendMessage = () => {
+    const messageVal = {
+      message: message.value,
+      id: props.chatId,
+    }
+    emit('emitPushInFront', { id: Math.random(), content: message.value, role: 'User' })
+    message.value = ''
+    sendMessage(messageVal)
+  }
+</script>
 <template>
   <div class="main-container">
     <VTextField
+      v-model="message"
       class="text-input chat elevated-input"
       :placeholder="$t('enter_text_here')"
       v-bind="{
@@ -9,9 +60,10 @@
         variant: 'plain',
         rounded: true
       }"
+      @keyup.enter="handleSendMessage"
     />
     <div class="btn-con">
-      <VBtn class="custom-btn" color="orange">
+      <VBtn class="custom-btn" color="orange" :loading="loading" @click="handleSendMessage">
         {{ $t('chat_message_send_btn') }}
         <VIcon class="icon-send" icon="tabler-send-2" />
       </VBtn>

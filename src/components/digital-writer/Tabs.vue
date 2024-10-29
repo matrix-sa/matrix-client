@@ -11,7 +11,6 @@
       const options = ref({
         page: 1,
         itemsPerPage: 10,
-
       })
 
       // Reactive data
@@ -29,7 +28,7 @@
 
       const setActive = itemValue => {
         activeItem.value = itemValue
-        emit('updateActiveTab', itemValue) // Emit event to the parent
+        emit('updateActiveTab', itemValue)
       }
 
       const handleChangeHistoryTab = id => {
@@ -53,10 +52,12 @@
         () => DigitalWriterService.getConversationById({ id: activeItem.value }),
         {
           onSuccess: res => {
-            emit('updateMessagesHistory', res.data.data) // Emit event to the parent
+            emit('updateMessagesHistory', res.data.data)
           },
         }
       )
+
+      const isLoading = computed(() => loadConversation.value)
 
       run()
       return {
@@ -66,6 +67,7 @@
         conversations,
         handleChangeHistoryTab,
         t,
+        isLoading,
       }
     },
   }
@@ -73,6 +75,9 @@
 
 <template>
   <div class="writer-sidebar pa-4">
+    <v-overlay v-model="isLoading" class="align-center justify-center" persistent>
+      <v-progress-circular color="primary" indeterminate size="50" :width="7" />
+    </v-overlay>
     <v-card class="mx-auto" max-width="300">
       <v-list>
         <v-list-item
@@ -81,12 +86,12 @@
           :class="{ 'v-list-item--active': item.value === activeItem }"
           @click="setActive(item.value)"
         >
-          <v-list-item-content>
+          <div>
             <v-list-item-title>{{ item.title }}</v-list-item-title>
-          </v-list-item-content>
+          </div>
         </v-list-item>
 
-        <v-subheader>
+        <div>
           <hr class="separator">
 
           <div class="d-flex align-center sep-container">
@@ -104,7 +109,7 @@
             </svg>
             {{ t('previous_conversations') }}
           </div>
-        </v-subheader>
+        </div>
 
         <v-list-item
           v-for="(item, index) in conversations"
@@ -112,9 +117,9 @@
           :class="{ 'v-list-item--active': item.id === activeItem }"
           @click="handleChangeHistoryTab(item.id)"
         >
-          <v-list-item-content>
+          <div>
             <v-list-item-title>{{ item?.title }}</v-list-item-title>
-          </v-list-item-content>
+          </div>
         </v-list-item>
       </v-list>
     </v-card>
