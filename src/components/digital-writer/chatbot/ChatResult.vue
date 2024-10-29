@@ -1,24 +1,24 @@
 <script setup>
-const emit = defineEmits(['updateMessageHistory', 'pushInFront'])
+  const emit = defineEmits(['updateMessageHistory', 'pushInFront'])
 
-const props = defineProps({
-  messagesHistory: {
-    type: Object,
-    default: {},
-  },
-  activeItem: {
-    type: String,
-    required: true,
+  const props = defineProps({
+    messagesHistory: {
+      type: Object,
+      default: {},
+    },
+    activeItem: {
+      type: String,
+      required: true,
+    },
+  })
+
+  const emitUpdateMessagesHistory = newMessageHistory => {
+    emit('updateMessagesHistory', newMessageHistory)
   }
-})
 
-const emitUpdateMessagesHistory = (newMessageHistory) => {
-  emit('updateMessagesHistory', newMessageHistory)
-}
-
-const emitPushInFront = (newMessageHistory) => {
-  emit('pushInFront', newMessageHistory)
-}
+  const emitPushInFront = newMessageHistory => {
+    emit('pushInFront', newMessageHistory)
+  }
 </script>
 
 <template>
@@ -33,8 +33,12 @@ const emitPushInFront = (newMessageHistory) => {
       <UserCard v-if="message.role == 'User'" :message="message.content" />
     </div>
 
-    <Form :chat-id="messagesHistory?.id" :active-item="activeItem" @updateMessagesHistory="emitUpdateMessagesHistory"
-      @emit-push-in-front="emitPushInFront" />
+    <Form
+      :active-item="activeItem"
+      :chat-id="messagesHistory?.id"
+      @emit-push-in-front="emitPushInFront"
+      @update-messages-history="emitUpdateMessagesHistory"
+    />
   </div>
 </template>
 

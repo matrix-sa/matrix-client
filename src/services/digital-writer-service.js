@@ -13,8 +13,7 @@ const DigitalWriterService = (function () {
     return API.get(`/Clients/DigitalWriter/GetConversation`, params)
   }
 
-
-    const askQuestion = async data => {
+  const askQuestion = async data => {
     return API.put(`/Clients/DigitalWriter/Ask`, data, {
       headers: {
         'Content-Type': 'application/json',
@@ -25,7 +24,7 @@ const DigitalWriterService = (function () {
     run,
     getConversations,
     getConversationById,
-    askQuestion
+    askQuestion,
   }
 })()
 
