@@ -36,13 +36,13 @@
 
   const getPlatformIcon = platformName => {
     const icons = {
-      Snapchat: 'src/assets/images/logos/icons-snapchat-96.svg',
-      TikTok: 'src/assets/images/logos/icons-tiktok-96.svg',
-      Facebook: 'src/assets/images/logos/icons-facebook-96.svg',
-      Instagram: 'src/assets/images/logos/icons-instagram-96.svg',
-      GoogleAds: 'src/assets/images/logos/icons-google-96.svg',
-      Youtube: 'src/assets/images/logos/icons-youtube-96.svg',
-      Twitter: 'src/assets/images/logos/icons-twitterx-96.svg',
+      Snapchat: 'src/assets/images/logos/reports/snap.svg',
+      TikTok: 'src/assets/images/logos/reports/tiktok.svg',
+      Facebook: 'src/assets/images/logos/reports/meta.svg',
+      Instagram: 'src/assets/images/logos/reports/instagram.svg',
+      GoogleAds: 'src/assets/images/logos/reports/google.svg',
+      Youtube: 'src/assets/images/logos/reports/youtube.svg',
+      Twitter: 'src/assets/images/logos/reports/x.svg',
     }
     return icons[platformName] || 'https://cdn-icons-png.flaticon.com/512/6415/6415824.png'
   }
@@ -70,10 +70,10 @@
           >
             <td class="text-start">
               <div class="d-flex ">
-                <v-avatar class="platform_icon" left>
+                <v-avatar class="ml-1" left>
                   <v-img :src="getPlatformIcon(campaign.publishing_platform)" />
                 </v-avatar>
-                <div>
+                <div class="campaign_name">
                   {{ t("campaign") }} {{ campaign.name }}
                   <div class="platform_text">{{ t('platform') }}: {{ t(`platforms.${campaign.publishing_platform.toLowerCase()}.title`) }}</div>
                 </div>
@@ -109,7 +109,7 @@
           >
             <td class="text-start">
               <div class="d-flex">
-                <v-avatar class="platform_icon" left>
+                <v-avatar class="ml-2 " left>
                   <v-img :src="getPlatformIcon(campaign.publishing_platform)" />
                 </v-avatar>
                 <div>
@@ -177,6 +177,10 @@ th:first-child {
     font-weight: 500;
     line-height: 19.2px;
 
+}
+.campaign_name{
+    font-size: 13px;
+    line-height: 14px;
 }
 .v-table--density-default{
     --v-table-header-height:41px;

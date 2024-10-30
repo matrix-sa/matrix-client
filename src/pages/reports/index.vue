@@ -8,7 +8,7 @@
 
 <script setup>
   import OrderedPlatformsByPerformance from './OrderedPlatformsByPerformance.vue'
-  import TopAndLeastCampaigns from './TopandLeastCampaigns.vue'
+  import TopAndLeastCampaigns from './TopAndLeastCampaigns.vue'
   import ReportsService from '@/services/reports-service'
   import { ref } from 'vue'
   import { useRequest } from 'vue-request'
