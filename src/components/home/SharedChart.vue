@@ -5,6 +5,9 @@ import { isRtl } from '.'
 
 const props = defineProps({
   rate: Array,
+  title: String,
+  subTitle: String,
+  variant: String
 })
 
 const vuetifyTheme = useTheme()
@@ -44,7 +47,7 @@ const chartOptions = computed(() => {
     dataLabels: {
       enabled: false,
     },
-    colors: [currentTheme.warning],
+    colors: [currentTheme[props.variant]],
     stroke: { width: 2 },
     tooltip: {
       enabled: true,
@@ -57,7 +60,7 @@ const chartOptions = computed(() => {
 </script>
 
 <template>
-  <VCard :subtitle="$t('explore-last-90-days')" :title="$t('click-rate')">
+  <VCard :subtitle="$t(props?.subTitle)" :title="$t(props?.title)">
     <VCardText>
       <VueApexCharts v-if="props.rate !== null" :options="chartOptions" :series="series" />
       <HomeEmptyState v-else />

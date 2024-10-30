@@ -1,46 +1,47 @@
 <script setup>
-  import { useI18n } from 'vue-i18n'
-  // import i18n from "@/i18n"
-  import { useBreadcrumbsStore } from '@/stores/useBreadcrumbsStore'
-  import DashboardGraphsService from '@/services/dashboard-service'
+import { useI18n } from 'vue-i18n'
+// import i18n from "@/i18n"
+import { useBreadcrumbsStore } from '@/stores/useBreadcrumbsStore'
+import DashboardGraphsService from '@/services/dashboard-service'
 
-  import { useRequest } from 'vue-request'
-  const { update } = useBreadcrumbsStore()
-  const { t, locale } = useI18n()
+import { useRequest } from 'vue-request'
+import SharedChart from '@/components/home/SharedChart.vue';
+const { update } = useBreadcrumbsStore()
+const { t, locale } = useI18n()
 
-  watch(
-    locale,
-    () => {
-      update([
-        {
-          title: t('dashboard'),
-          disabled: true,
-          active: true,
-          to: '/',
-        },
-      ])
-    },
-    { immediate: true }
-  )
+watch(
+  locale,
+  () => {
+    update([
+      {
+        title: t('dashboard'),
+        disabled: true,
+        active: true,
+        to: '/',
+      },
+    ])
+  },
+  { immediate: true }
+)
 
-  const statistics = ref({})
+const statistics = ref({})
 
-  const { run, loading } = useRequest(() => DashboardGraphsService.get(), {
-    manual: true,
-    onSuccess: res => {
-      const { data } = res.data
+const { run, loading } = useRequest(() => DashboardGraphsService.get(), {
+  manual: true,
+  onSuccess: res => {
+    const { data } = res.data
 
-      statistics.value = data
-    },
-  })
+    statistics.value = data
+  },
+})
 
-  run()
+run()
 
-  const currency = computed(() => {
-    return t(statistics?.value.currency)
-  })
+const currency = computed(() => {
+  return t(statistics?.value.currency)
+})
 
-  provide('currency', currency)
+provide('currency', currency)
 </script>
 
 <template>
@@ -124,7 +125,8 @@
       </VCol>
 
       <VCol cols="12" md="6">
-        <HomeClickRate :rate="statistics.ctr_statistics" />
+        <SharedChart :rate="statistics.ctr_statistics" title="click-rate" subTitle="explore-last-90-days"
+          variant="warning" />
       </VCol>
 
       <VCol cols="12" md="6">
