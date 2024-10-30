@@ -966,4 +966,8 @@ export default {
   ad_campaign: 'Ad Campaigning',
   top_adds_ad_campaigns: 'Top Adds Ad Campaigns Performance',
   least_adds_ad_campaigns: 'Least Adds Ad Campaigns Performance',
+  show_all_reports: 'Show All Reports',
+  marketing_performance: 'Marketing Performance',
+  sales_performance: 'Sales Performance',
+  select_range: 'Select Range',
 }

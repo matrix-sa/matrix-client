@@ -965,4 +965,8 @@ export default {
   ad_campaign: 'حملة إعلانية',
   top_adds_ad_campaigns: 'أفضل الحملات الإعلانية أداء',
   least_adds_ad_campaigns: 'أضعف الحملات الإعلانية أداء',
+  show_all_reports: 'عرض كل التقارير',
+  marketing_performance: 'أداء التسويق',
+  sales_performance: 'أداء المبيعات',
+  select_range: 'حدد النطاق',
 }

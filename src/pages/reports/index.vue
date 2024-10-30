@@ -1,4 +1,5 @@
 <template>
+  <ReportsNavBar />
   <OrderedPlatformsByPerformance :platforms-data="platformsData" />
   <TopAndLeastCampaigns :least-campaigns="leastCampaigns" :top-campaigns="topCampaigns" />
   <v-overlay v-model="loading" class="align-center justify-center" persistent>
