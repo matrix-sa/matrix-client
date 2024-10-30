@@ -1,6 +1,13 @@
 <script setup>
   import i18n from '@/i18n'
-  import { computed, defineProps } from 'vue'
+  import { computed } from 'vue'
+  import snapchat from '@/assets/images/logos/reports/snap.svg'
+  import tiktok from '@/assets/images/logos/reports/tiktok.svg'
+  import facebook from '@/assets/images/logos/reports/meta.svg'
+  import instagram from '@/assets/images/logos/reports/instagram.svg'
+  import googleads from '@/assets/images/logos/reports/google.svg'
+  import youtube from '@/assets/images/logos/reports/youtube.svg'
+  import twitter from '@/assets/images/logos/reports/x.svg'
 
   const { t } = i18n.global
 
@@ -41,13 +48,13 @@
 
   const getPlatformIcon = platformName => {
     const icons = {
-      Snapchat: 'src/assets/images/logos/reports/snap.svg',
-      TikTok: 'src/assets/images/logos/reports/tiktok.svg',
-      Facebook: 'src/assets/images/logos/reports/meta.svg',
-      Instagram: 'src/assets/images/logos/reports/instagram.svg',
-      GoogleAds: 'src/assets/images/logos/reports/google.svg',
-      Youtube: 'src/assets/images/logos/reports/youtube.svg',
-      Twitter: 'src/assets/images/logos/reports/x.svg',
+      snapchat,
+      tiktok,
+      facebook,
+      instagram,
+      googleads,
+      youtube,
+      twitter,
     }
     return icons[platformName] || 'https://cdn-icons-png.flaticon.com/512/6415/6415824.png'
   }
@@ -61,11 +68,7 @@
     <v-table>
       <thead>
         <tr>
-          <th
-            v-for="header in headers"
-            :key="header.value"
-            class="header text-center"
-          >
+          <th v-for="header in headers" :key="header.value" class="header text-center">
             {{ header.text }}
           </th>
         </tr>
@@ -78,7 +81,7 @@
         >
           <td class="text-start">
             <v-avatar class="mx-2" left>
-              <v-img :src="getPlatformIcon(platform.platform)" />
+              <v-img :src="getPlatformIcon(`${platform.platform}`.toLowerCase())" />
             </v-avatar>
             {{ t(`platforms.${platform.platform.toLowerCase()}.title`) }}
           </td>
@@ -87,10 +90,7 @@
           <td>{{ platform.view }}</td>
           <td>{{ platform.roas }}</td>
           <td>
-            <v-chip
-              :color="platform.rankColor"
-              dark
-            >{{ platform.rank }}</v-chip>
+            <v-chip :color="platform.rankColor" dark>{{ platform.rank }}</v-chip>
           </td>
         </tr>
       </tbody>
