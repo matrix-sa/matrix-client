@@ -79,9 +79,12 @@
             :class="{ 'highlight-row': index % 2 === 1 }"
           >
             <td class="text-start">
-              <div class="d-flex">
+              <div class="d-flex align-center">
                 <v-avatar class="platform_icon" left>
-                  <v-img :src="getPlatformIcon(campaign.publishing_platform)" />
+                  <v-img
+                    rounded="10"
+                    :src="getPlatformIcon(campaign.publishing_platform)"
+                  />
                 </v-avatar>
                 <div>
                   {{ t("campaign") }} {{ campaign.name }}

@@ -61,7 +61,11 @@
     <v-table>
       <thead>
         <tr>
-          <th v-for="header in headers" :key="header.value" class="header text-center">
+          <th
+            v-for="header in headers"
+            :key="header.value"
+            class="header text-center"
+          >
             {{ header.text }}
           </th>
         </tr>
@@ -83,7 +87,10 @@
           <td>{{ platform.view }}</td>
           <td>{{ platform.roas }}</td>
           <td>
-            <v-chip :color="platform.rankColor" dark>{{ platform.rank }}</v-chip>
+            <v-chip
+              :color="platform.rankColor"
+              dark
+            >{{ platform.rank }}</v-chip>
           </td>
         </tr>
       </tbody>
