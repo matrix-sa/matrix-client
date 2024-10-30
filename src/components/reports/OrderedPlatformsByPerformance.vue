@@ -41,13 +41,13 @@
 
   const getPlatformIcon = platformName => {
     const icons = {
-      Snapchat: 'src/assets/images/logos/icons-snapchat-96.svg',
-      TikTok: 'src/assets/images/logos/icons-tiktok-96.svg',
-      Facebook: 'src/assets/images/logos/icons-facebook-96.svg',
-      Instagram: 'src/assets/images/logos/icons-instagram-96.svg',
-      GoogleAds: 'src/assets/images/logos/icons-google-96.svg',
-      Youtube: 'src/assets/images/logos/icons-youtube-96.svg',
-      Twitter: 'src/assets/images/logos/icons-twitterx-96.svg',
+      Snapchat: 'src/assets/images/logos/reports/snap.svg',
+      TikTok: 'src/assets/images/logos/reports/tiktok.svg',
+      Facebook: 'src/assets/images/logos/reports/meta.svg',
+      Instagram: 'src/assets/images/logos/reports/instagram.svg',
+      GoogleAds: 'src/assets/images/logos/reports/google.svg',
+      Youtube: 'src/assets/images/logos/reports/youtube.svg',
+      Twitter: 'src/assets/images/logos/reports/x.svg',
     }
     return icons[platformName] || 'https://cdn-icons-png.flaticon.com/512/6415/6415824.png'
   }
@@ -80,7 +80,7 @@
             <v-avatar class="mx-2" left>
               <v-img :src="getPlatformIcon(platform.platform)" />
             </v-avatar>
-            {{ platform.platform }}
+            {{ t(`platforms.${platform.platform.toLowerCase()}.title`) }}
           </td>
           <td>{{ platform.campaigns }}</td>
           <td>{{ platform.spending }}</td>
