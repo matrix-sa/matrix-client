@@ -969,4 +969,7 @@ export default {
   ad_campaign: 'حملة إعلانية',
   top_adds_ad_campaigns: 'أفضل الحملات الإعلانية أداء',
   least_adds_ad_campaigns: 'أضعف الحملات الإعلانية أداء',
+  select_range_date: 'حدد الزمن',
+  ok: 'موافق',
+  look_for_campaign: 'ابحث عن حملة',
 }

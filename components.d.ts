@@ -22,6 +22,7 @@ declare module 'vue' {
     AppCheckBox: typeof import('./src/components/core/AppCheckBox.vue')['default']
     AppChipSelect: typeof import('./src/components/core/AppChipSelect.vue')['default']
     AppDateField: typeof import('./src/components/core/AppDateField.vue')['default']
+    AppDateRangeInput: typeof import('./src/components/core/AppDateRangeInput.vue')['default']
     AppFileInput: typeof import('./src/components/core/AppFileInput.vue')['default']
     AppNumberField: typeof import('./src/components/core/AppNumberField.vue')['default']
     AppSelect: typeof import('./src/components/core/AppSelect.vue')['default']

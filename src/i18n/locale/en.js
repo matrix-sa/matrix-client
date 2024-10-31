@@ -970,4 +970,6 @@ export default {
   ad_campaign: 'Ad Campaigning',
   top_adds_ad_campaigns: 'Top Adds Ad Campaigns Performance',
   least_adds_ad_campaigns: 'Least Adds Ad Campaigns Performance',
+  select_range_date: 'Select Date',
+  look_for_campaign: 'Look for Campaign',
 }
