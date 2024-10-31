@@ -17,6 +17,11 @@ export const useStoresStore = defineStore('stores-store', {
         title: t('zid'),
         status: 'Inactive',
       },
+      {
+        code: 'Khuzama',
+        title: t('Khuzama'),
+        status: 'Inactive',
+      },
     ],
     chosenStoreFromAddStoreForm: null,
   }),

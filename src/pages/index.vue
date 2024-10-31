@@ -5,6 +5,7 @@
   import DashboardGraphsService from '@/services/dashboard-service'
 
   import { useRequest } from 'vue-request'
+  import SharedChart from '@/components/home/SharedChart.vue'
   const { update } = useBreadcrumbsStore()
   const { t, locale } = useI18n()
 
@@ -124,7 +125,12 @@
       </VCol>
 
       <VCol cols="12" md="6">
-        <HomeClickRate :rate="statistics.ctr_statistics" />
+        <SharedChart
+          :rate="statistics.ctr_statistics"
+          sub-title="explore-last-90-days"
+          title="click-rate"
+          variant="warning"
+        />
       </VCol>
 
       <VCol cols="12" md="6">

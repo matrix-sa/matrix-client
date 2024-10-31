@@ -258,11 +258,19 @@
         }
 
         if (data) {
-          emit('showAnswers')
+          emit('showAnswers', data)
         }
       },
     },
   )
+
+  const isAllQuestionsAnswered = computed(() => {
+    const activeQuestions = questions.value[props.activeItem]
+    return activeQuestions.every(
+      obj => obj.hasOwnProperty('value') && obj.value && obj.value.trim() !== ''
+    )
+  })
+
 </script>
 
 <template>
@@ -277,7 +285,7 @@
       <VBtn
         class="d-flex align-center"
         color="#FB813E"
-        :disabled="startLoading"
+        :disabled="startLoading || !isAllQuestionsAnswered"
         :loading="startLoading"
         @click="logQuestions"
       >

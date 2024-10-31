@@ -4,39 +4,16 @@
   import { ref } from 'vue'
   import { useI18n } from 'vue-i18n'
 
+  defineProps({
+    messages: {
+      type: Array,
+      default: [],
+    },
+  })
+
   const isExpanded = ref(false)
 
   const { t } = useI18n()
-
-  const questions = ref([
-
-    {
-      id: 1,
-      key: 'product_or_service',
-      question: t('what_is_the_product_or_service_provided'),
-    },
-    {
-      id: 2,
-      key: 'problem_solved',
-      question: t('what_problem_does_the_product_or_service_solve'),
-    },
-    {
-      id: 3,
-      key: 'target_audience',
-      question: t('who_is_the_target_audience'),
-    },
-    {
-      id: 4,
-      key: 'promotional_offer',
-      question: t('what_is_a_special_promotion'),
-    },
-    {
-      id: 5,
-      key: 'specific_message',
-      question: t('is_there_a_specific_message_you_want_to_convey_to_the_audience'),
-    },
-
-  ])
 
 </script>
 <template>
@@ -53,14 +30,14 @@
       </v-expansion-panel-title>
       <v-expansion-panel-text>
         <ul class="q-and-a d-flex flex-column">
-          <li v-for="q in questions" key="q.id">
+          <li v-for="(q, index) in messages" key="q.id">
             <div class="d-flex q-wrapper">
               <span class="q-num">
-                {{ q.id }}
+                {{ index + 1 }}
               </span>
               <div class="d-flex flex-column text-wrapper">
-                <h6>ما هي المشكلة التي يحلها المنتج أو الخدمة؟</h6>
-                <p>توفير مياه الشرب لسكان منطقة الحي</p>
+                <h6>{{ q.question }}</h6>
+                <p>{{ q.answer }}</p>
               </div>
             </div>
           </li>

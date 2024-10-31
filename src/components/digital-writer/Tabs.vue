@@ -1,54 +1,73 @@
 <script>
   import { ref } from 'vue'
   import { useI18n } from 'vue-i18n'
+  import DigitalWriterService from '@/services/digital-writer-service'
+  import { useRequest } from 'vue-request'
 
   export default {
     setup (props, { emit }) {
       const { t } = useI18n() // use useI18n inside setup
 
+      const options = ref({
+        page: 1,
+        itemsPerPage: 10,
+      })
+
       // Reactive data
       const items = ref([
-        { title: t('advertising_texts'), value: 0 },
-        { title: t('description_of_products'), value: 1 },
-        { title: t('advertising_scenarios'), value: 2 },
-        { title: t('content_designs'), value: 3 },
-        { title: t('landing_pages'), value: 4 },
+        { title: t('advertising_texts'), value: '0' },
+        { title: t('description_of_products'), value: '1' },
+        { title: t('advertising_scenarios'), value: '2' },
+        { title: t('content_designs'), value: '3' },
+        { title: t('landing_pages'), value: '4' },
       ])
 
-      const items2 = ref([
-        { title: t('text'), value: 5 },
-        { title: t('text'), value: 6 },
-        { title: t('text'), value: 7 },
-        { title: t('text'), value: 8 },
-        { title: t('text'), value: 9 },
-        { title: t('text'), value: 10 },
-        { title: t('text'), value: 11 },
-        { title: t('text'), value: 12 },
-        { title: t('text'), value: 13 },
-        { title: t('text'), value: 14 },
-        { title: t('text'), value: 15 },
-        { title: t('text'), value: 16 },
-        { title: t('text'), value: 17 },
-        { title: t('text'), value: 18 },
-        { title: t('text'), value: 19 },
-        { title: t('text'), value: 20 },
-        { title: t('text'), value: 21 },
-        { title: t('text'), value: 22 },
-      ])
+      const activeItem = ref(0)
+      const conversations = ref(0)
+      const totalPage = ref()
 
-      const activeItem = ref(0) // Reactive state for the active item
-
-      const setActive = itemValue => {
+      const setActive = (itemValue, isHistory) => {
         activeItem.value = itemValue
-        emit('updateActiveTab', itemValue) // Emit event to the parent
+        emit('updateActiveTab', itemValue, isHistory)
       }
 
+      const handleChangeHistoryTab = id => {
+        setActive(id)
+        fetchConversationById(id)
+      }
+
+      const { run, loading: loadingConversations } = useRequest(
+        params => DigitalWriterService.getConversations(params),
+        {
+          onSuccess: res => {
+            const { data } = res.data
+            options.value.page = data.current_page
+            totalPage.value = data.page_size
+            conversations.value = data?.items
+          },
+        }
+      )
+
+      const { run: fetchConversationById, loading: loadConversation } = useRequest(
+        () => DigitalWriterService.getConversationById({ id: activeItem.value }),
+        {
+          onSuccess: res => {
+            emit('updateMessagesHistory', res.data.data)
+          },
+        }
+      )
+
+      const isLoading = computed(() => loadConversation.value)
+
+      run()
       return {
         items,
-        items2,
         activeItem,
         setActive,
+        conversations,
+        handleChangeHistoryTab,
         t,
+        isLoading,
       }
     },
   }
@@ -56,20 +75,23 @@
 
 <template>
   <div class="writer-sidebar pa-4">
+    <v-overlay v-model="isLoading" class="align-center justify-center" persistent>
+      <v-progress-circular color="primary" indeterminate size="50" :width="7" />
+    </v-overlay>
     <v-card class="mx-auto" max-width="300">
       <v-list>
         <v-list-item
           v-for="(item, index) in items"
           :key="index"
           :class="{ 'v-list-item--active': item.value === activeItem }"
-          @click="setActive(item.value)"
+          @click="setActive(item.value, true)"
         >
-          <v-list-item-content>
+          <div>
             <v-list-item-title>{{ item.title }}</v-list-item-title>
-          </v-list-item-content>
+          </div>
         </v-list-item>
 
-        <v-subheader>
+        <div>
           <hr class="separator">
 
           <div class="d-flex align-center sep-container">
@@ -87,17 +109,17 @@
             </svg>
             {{ t('previous_conversations') }}
           </div>
-        </v-subheader>
+        </div>
 
         <v-list-item
-          v-for="(item, index) in items2"
+          v-for="(item, index) in conversations"
           :key="index"
-          :class="{ 'v-list-item--active': item.value === activeItem }"
-          @click="setActive(item.value)"
+          :class="{ 'v-list-item--active': item.id === activeItem }"
+          @click="handleChangeHistoryTab(item.id)"
         >
-          <v-list-item-content>
-            <v-list-item-title>{{ item.title }}</v-list-item-title>
-          </v-list-item-content>
+          <div>
+            <v-list-item-title>{{ item?.title }}</v-list-item-title>
+          </div>
         </v-list-item>
       </v-list>
     </v-card>
@@ -114,6 +136,29 @@ $borderColor: rgba(31, 22, 37, 0.1);
   overflow-y: scroll;
   height: 620px;
   min-height: 100%;
+
+  &::-webkit-scrollbar {
+    width: 1px;
+    /* Set scrollbar width to 1px */
+  }
+
+  &::-webkit-scrollbar-track {
+    background-color: #f0f0f0;
+    border-radius: 8px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: #c0c0c0;
+    border-radius: 8px;
+
+    &:hover {
+      background-color: #a0a0a0;
+    }
+  }
+
+  scrollbar-width: thin;
+  /* Keep thin */
+  scrollbar-color: #c0c0c0 #f0f0f0;
 }
 
 .writer-sidebar::-webkit-scrollbar {

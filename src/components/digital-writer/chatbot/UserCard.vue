@@ -1,9 +1,18 @@
 <script setup>
   import { useI18n } from 'vue-i18n'
   import userImg from '@/assets/digital-writer/user.svg'
+  import { storeToRefs } from 'pinia'
+  import { useAuthStore } from '@/stores/useAuthStore'
 
-  const { t } = useI18n()
+  defineProps({
+    message: {
+      type: String,
+      default: '',
+    },
+  })
 
+  const authStore = useAuthStore()
+  const { user } = storeToRefs(authStore)
 </script>
 
 <template>
@@ -11,11 +20,12 @@
     <div class="d-flex flex-column wrapper">
       <div class="d-flex user-wrapper align-center">
         <img alt="user" :src="userImg">
-        <span>اسم المستخدم</span>
+        <span> {{ user.name }}</span>
       </div>
 
       <div class="d-flex text-wrapper align-center">
-        <span>اسم المستخدم</span>
+        <span>{{ message }} </span>
+
       </div>
     </div>
 

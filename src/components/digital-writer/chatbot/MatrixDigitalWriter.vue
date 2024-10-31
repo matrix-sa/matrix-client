@@ -2,6 +2,13 @@
   import { useI18n } from 'vue-i18n'
   import matrixBot from '@/assets/digital-writer/Matrux_bot.svg'
 
+  defineProps({
+    message: {
+      type: String,
+      default: '',
+    },
+  })
+
   const { t } = useI18n()
 
 </script>
@@ -14,7 +21,7 @@
         {{ t('matrix_digital_writer') }}</span>
     </div>
     <div class="content-wrapper">
-      {{ t('dummy') }}
+      {{ message }}
     </div>
   </div>
 </template>
