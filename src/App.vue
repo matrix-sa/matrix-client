@@ -18,7 +18,7 @@
 
   const route = useRoute()
   const isLoginPage = ref(route.path === '/login')
-  console.log(route.path)
+
   watch(route, newRoute => {
     isLoginPage.value = newRoute.path === '/login'
   })
