@@ -5,7 +5,10 @@
   import { storeToRefs } from 'pinia'
   import { useI18n } from 'vue-i18n'
   import { useRoute } from 'vue-router'
+  import { useLoadingStore } from './stores/useLoadingStore'
 
+  const { isLoading: isLoadingRoute } = storeToRefs(useLoadingStore())
+  console.log(isLoadingRoute.value)
   const { locale } = useI18n()
   const snackBarStore = useSnackbarStore()
   const { isShown, message, type } = storeToRefs(snackBarStore)
@@ -31,6 +34,7 @@
 <template>
   <v-app>
     <v-overlay
+      v-if="isLoadingRoute"
       v-model="loadingUser"
       class="align-center justify-center"
       persistent
