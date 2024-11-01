@@ -175,29 +175,21 @@
 </template>
 
 <style scoped>
-.loader-spinner {
-  margin-left: 8px;
-  display: inline-block;
-  width: 16px;
-  height: 16px;
-  border: 2px solid #ffffff;
-  border-radius: 50%;
-  border-top-color: transparent;
-  animation: spinner 0.6s linear infinite;
-}
+.login-sec {
+  height: 100%;
+  display: grid;
+  place-items: center;
 
-@keyframes spinner {
-  to {
-    transform: rotate(360deg);
+  .login{
+    display: flex;
+    justify-content: space-between;
   }
-}
 
-label {
-  text-align: right !important;
-}
-</style>
+  .cta{
+    display: flex;
+  }
 
-<style>
+}
 :deep(.login-sec) {
   @import url("https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css");
   @import url("https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick-theme.min.css");

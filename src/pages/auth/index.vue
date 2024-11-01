@@ -16,3 +16,7 @@
   <LoginEn v-if="isEnglish" />
   <LoginAr v-else />
 </template>
+<route lang="yaml">
+  meta:
+    layout: empty
+  </route>
