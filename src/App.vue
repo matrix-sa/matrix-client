@@ -18,7 +18,7 @@
 
   const route = useRoute()
   const isLoginPage = ref(route.path === '/login')
-
+  console.log(route.path)
   watch(route, newRoute => {
     isLoginPage.value = newRoute.path === '/login'
   })
@@ -37,11 +37,7 @@
     >
       <v-progress-circular color="primary" indeterminate size="50" :width="7" />
     </v-overlay>
-    <div v-if="!isLoginPage">
-      <DesktopLayout v-if="!loadingUser && $vuetify.display.mdAndUp" />
-      <MobileLayout v-if="!loadingUser && !$vuetify.display.mdAndUp" class="mobile-layout" />
-    </div>
-    <router-view v-else />
+    <router-view v-if="!loadingUser" />
     <v-snackbar v-model="isShown" :color="type" elevation="24" :timeout="2000">
       {{ message }}
     </v-snackbar>

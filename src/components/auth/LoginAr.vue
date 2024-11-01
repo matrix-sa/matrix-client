@@ -46,16 +46,17 @@
       if (index < scripts.length) {
         const script = document.createElement('script')
         script.src = scripts[index]
-        script.onload = index + 1 === scripts.length
-          ? () => {
-            const _script = document.createElement('script')
-            _script.innerHTML = `
+        script.onload =
+          index + 1 === scripts.length
+            ? () => {
+              const _script = document.createElement('script')
+              _script.innerHTML = `
               $(function () {
                   AOS.init();
               });`
-            document.body.appendChild(_script)
-          }
-          : () => loadScript(index + 1)
+              document.body.appendChild(_script)
+            }
+            : () => loadScript(index + 1)
         document.body.appendChild(script)
       }
     }
@@ -76,13 +77,14 @@
     'https://unpkg.com/aos@2.3.1/dist/aos.js',
     'https://matrix.sa/website/ar/js/custom.js',
   ])
-
 </script>
 
 <template>
   <section
     class="login-sec"
-    style="background-image: url('https://matrix.sa/website/ar/images/login-bg.png')"
+    style="
+      background-image: url('https://matrix.sa/website/ar/images/login-bg.png');
+    "
   >
     <div class="login-container">
       <div class="login">
@@ -117,7 +119,12 @@
                 <form>
                   <div class="form-group">
                     <label>بريد إلكتروني *</label>
-                    <input v-model="email" placeholder="أدخل هنا" required type="email">
+                    <input
+                      v-model="email"
+                      placeholder="أدخل هنا"
+                      required
+                      type="email"
+                    >
                   </div>
 
                   <div class="form-group">
@@ -146,7 +153,10 @@
                   <div class="form-group password">
                     <label>كلمة المرور *</label>
                     <input placeholder="أدخل هنا" type="password">
-                    <img alt="" src="https://matrix.sa/website/ar/images/eyes.png">
+                    <img
+                      alt=""
+                      src="https://matrix.sa/website/ar/images/eyes.png"
+                    >
                   </div>
 
                   <div class="form-group">
@@ -188,13 +198,15 @@ label {
 </style>
 
 <style>
-@import url("https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css");
-@import url("https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick-theme.min.css");
-@import url("https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick.css");
-@import url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css");
-@import url("https://unpkg.com/aos@2.3.1/dist/aos.css");
-@import url("https://matrix.sa/website/ar/css/style.css");
-@import url("https://matrix.sa/website/ar/css/custom.css");
-@import url("https://matrix.sa/website/ar/css/animations.css");
-@import url("https://matrix.sa/website/ar/css/responsive.css");
+:deep(.login-sec) {
+  @import url("https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css");
+  @import url("https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick-theme.min.css");
+  @import url("https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick.css");
+  @import url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css");
+  @import url("https://unpkg.com/aos@2.3.1/dist/aos.css");
+  @import url("https://matrix.sa/website/ar/css/style.css");
+  @import url("https://matrix.sa/website/ar/css/custom.css");
+  @import url("https://matrix.sa/website/ar/css/animations.css");
+  @import url("https://matrix.sa/website/ar/css/responsive.css");
+}
 </style>
