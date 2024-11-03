@@ -970,4 +970,10 @@ export default {
   ad_campaign: 'Ad Campaigning',
   top_adds_ad_campaigns: 'Top Adds Ad Campaigns Performance',
   least_adds_ad_campaigns: 'Least Adds Ad Campaigns Performance',
+  create_account: 'Create Account for Free',
+  welcome_back_to_matrix: 'Welcome back to Matrix',
+  login_message: 'Log in to your Matrix account and control your product sales and marketing campaigns',
+  add_here: 'Add Here',
+  send_code_verification: 'Send Code Verification',
+  choose_currency: 'Choose Currency',
 }

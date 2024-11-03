@@ -3,6 +3,9 @@
   import { useAuthStore } from '@/stores/useAuthStore'
   import { useRequest } from 'vue-request'
   import CurrenciesService from '@/services/currencies-service'
+  import i18n from '@/i18n'
+
+  const { t } = i18n.global
 
   const authStore = useAuthStore()
 
@@ -122,7 +125,7 @@
       background-image: url('https://matrix.sa/website/ar/images/login-bg.png');
     "
   >
-    <p v-if="loadingCurrencies">Loading...</p>
+    <p v-if="loadingCurrencies">{{ t('loading') }}...</p>
     <div
       class="login-container"
       :style="{
@@ -146,21 +149,18 @@
       </div>
       <div class="tabs">
         <ul class="tabs-login">
-          <li><a href="#tab-111">تسجيل الدخول</a></li>
-          <li><a href="#tab-112">قم بإنشاء حسابك مجانا</a></li>
+          <li><a href="#tab-111">{{ t('Login') }}</a></li>
+          <li><a href="#tab-112">{{ t('create_account') }}</a></li>
         </ul>
         <div class="tabs-stage">
           <div id="tab-111">
             <div class="login_content">
-              <h4>مرحبًا بك مرة أخرى في ماتريكس!</h4>
-              <p>
-                قم بتسجيل الدخول إلى حساب Matrix الخاص بك وتحكم في مبيعات
-                منتجاتك وحملاتك التسويقية.
-              </p>
+              <h4> {{ t('welcome_back_to_matrix') }}</h4>
+              <p> {{ t('login_message') }}</p>
               <div class="signup-form-text">
                 <form @submit.prevent="onLoginSubmit">
                   <div class="form-group">
-                    <label>رقم الهاتف *</label>
+                    <label>{{ t(`${'auth.phone'}`) }} *</label>
                     <input
                       v-model="phoneNumber"
                       dir="rtl"
@@ -170,11 +170,11 @@
                   </div>
 
                   <div class="form-group">
-                    <label>الرمز السري *</label>
+                    <label>{{ t(`${'auth.password'}`) }} *</label>
                     <input
                       v-model="otp"
                       :disabled="otpDisabled"
-                      placeholder="أدخل هنا"
+                      :placeholder="t('add_here')"
                       type="number"
                     >
                   </div>
@@ -188,7 +188,7 @@
                         size="25"
                         :width="3"
                       />
-                      <span v-else> أرسل الرمز </span>
+                      <span v-else>{{ t(`${'send_code_verification'}`) }}</span>
                     </button>
                     <button
                       v-if="!otpDisabled"
@@ -202,7 +202,7 @@
                         size="25"
                         :width="3"
                       />
-                      <span v-else> تسجيل الدخول </span>
+                      <span v-else>{{ t('Login') }}</span>
                     </button>
                   </div>
                 </form>
@@ -211,33 +211,30 @@
           </div>
           <div id="tab-112">
             <div class="login_content">
-              <h4>مرحبًا بك مرة أخرى في ماتريكس!</h4>
-              <p>
-                قم بتسجيل الدخول إلى حساب Matrix الخاص بك وتحكم في مبيعات
-                منتجاتك وحملاتك التسويقية.
-              </p>
+              <h4>{{ t('welcome_back_to_matrix') }} !</h4>
+              <p>{{ t('login_message') }}</p>
               <div class="signup-form-text">
                 <form @submit.prevent="onRegisterSubmit">
                   <div class="form-group">
-                    <label>الاسم *</label>
+                    <label>{{ t('auth.username') }} *</label>
                     <input
                       v-model="registerForm.name"
-                      placeholder="أدخل هنا "
+                      :placeholder="t('add_here')"
                       type="text"
                     >
                   </div>
 
                   <div class="form-group">
-                    <label>البريد الإلكتروني *</label>
+                    <label>{{ t('auth.email') }} *</label>
                     <input
                       v-model="registerForm.email"
-                      placeholder="أدخل هنا "
+                      :placeholder="t('add_here')"
                       type="email"
                     >
                   </div>
 
                   <div class="form-group">
-                    <label>رقم الهاتف *</label>
+                    <label>{{ t('auth.phone') }} *</label>
                     <input
                       v-model="registerForm.mobile_number"
                       dir="rtl"
@@ -248,10 +245,10 @@
                   </div>
 
                   <div class="form-group">
-                    <label>العملة *</label>
+                    <label>{{ t('currency') }} *</label>
                     <select
                       v-model="registerForm.currency"
-                      placeholder="اختر العملة"
+                      :placeholder="t('choose_currency')"
                     >
                       <option
                         v-for="currency in currencies"
@@ -263,7 +260,7 @@
 
                   <div class="form-group">
                     <button class="signup-btn" type="submit">
-                      تسجيل الدخول
+                      {{ t('Login') }}
                     </button>
                   </div>
                 </form>

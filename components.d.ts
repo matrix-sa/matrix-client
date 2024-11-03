@@ -76,7 +76,6 @@ declare module 'vue' {
     HomeViews: typeof import('./src/components/home/HomeViews.vue')['default']
     KhuzamaConnectionDialog: typeof import('./src/components/dialogs/KhuzamaConnectionDialog.vue')['default']
     LanguageSwitch: typeof import('./src/components/shared/LanguageSwitch.vue')['default']
-    Login: typeof import('./src/components/auth/Login.vue')['default']
     MatrixDigitalWriter: typeof import('./src/components/digital-writer/chatbot/MatrixDigitalWriter.vue')['default']
     MediaFileUpload: typeof import('./src/components/core/MediaFileUpload.vue')['default']
     MetaButton: typeof import('./src/components/platforms/meta/MetaButton.vue')['default']
