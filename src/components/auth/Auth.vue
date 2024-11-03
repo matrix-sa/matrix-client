@@ -165,7 +165,6 @@
                       v-model="phoneNumber"
                       dir="rtl"
                       placeholder="56xxxxxxxx"
-                      required
                       type="tel"
                     >
                   </div>
@@ -176,7 +175,6 @@
                       v-model="otp"
                       :disabled="otpDisabled"
                       placeholder="أدخل هنا"
-                      required
                       type="number"
                     >
                   </div>
@@ -321,6 +319,10 @@
     color: #000;
     outline: none;
     font-size: 16px;
+}
+
+label {
+  text-align: right !important;
 }
 
 }
