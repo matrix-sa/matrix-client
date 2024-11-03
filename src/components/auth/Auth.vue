@@ -1,4 +1,3 @@
-
 <script setup>
   import { computed, ref } from 'vue'
   import { useAuthStore } from '@/stores/useAuthStore'
@@ -12,7 +11,9 @@
 
   // common
   const loading = computed(() => authStore.loading)
-  const language = computed(() => locale.value === 'ar' ? 'English' : 'العربية')
+  const language = computed(() =>
+    locale.value === 'ar' ? 'English' : 'العربية'
+  )
   const switchLanguage = () => {
     const value = locale.value === 'ar' ? 'en' : 'ar'
     localStorage.setItem('lang', value)
@@ -172,20 +173,30 @@
               <div class="signup-form-text">
                 <form @submit.prevent="onLoginSubmit">
                   <div class="form-group">
-                    <label :dir="language === 'English'? 'rtl':'ltr'" :style="{textAlign:language === 'English'?'right':'left'}">{{ t(`${"auth.phone"}`) }} *</label>
+                    <label
+                      :dir="language === 'English' ? 'rtl' : 'ltr'"
+                      :style="{
+                        textAlign: language === 'English' ? 'right' : 'left',
+                      }"
+                    >{{ t(`${"auth.phone"}`) }} *</label>
                     <input
                       v-model="phoneNumber"
-                      :dir="language === 'English'? 'rtl':'ltr'"
+                      :dir="language === 'English' ? 'rtl' : 'ltr'"
                       placeholder="56xxxxxxxx"
                       type="tel"
                     >
                   </div>
 
                   <div class="form-group">
-                    <label :dir="language === 'English'? 'rtl':'ltr'" :style="{textAlign:language === 'English'?'right':'left'}">{{ t(`${"auth.password"}`) }} *</label>
+                    <label
+                      :dir="language === 'English' ? 'rtl' : 'ltr'"
+                      :style="{
+                        textAlign: language === 'English' ? 'right' : 'left',
+                      }"
+                    >{{ t(`${"auth.password"}`) }} *</label>
                     <input
                       v-model="otp"
-                      :dir="language === 'English'? 'rtl':'ltr'"
+                      :dir="language === 'English' ? 'rtl' : 'ltr'"
                       :disabled="otpDisabled"
                       :placeholder="t('add_here')"
                       type="number"
@@ -229,30 +240,42 @@
               <div class="signup-form-text">
                 <form @submit.prevent="onRegisterSubmit">
                   <div class="form-group">
-                    <label :style="{textAlign:language === 'English'?'right':'left'}">{{ t("auth.username") }} *</label>
+                    <label
+                      :style="{
+                        textAlign: language === 'English' ? 'right' : 'left',
+                      }"
+                    >{{ t("auth.username") }} *</label>
                     <input
                       v-model="registerForm.name"
-                      :dir="language === 'English'? 'rtl':'ltr'"
+                      :dir="language === 'English' ? 'rtl' : 'ltr'"
                       :placeholder="t('add_here')"
                       type="text"
                     >
                   </div>
 
                   <div class="form-group">
-                    <label :style="{textAlign:language === 'English'?'right':'left'}">{{ t("auth.email") }} *</label>
+                    <label
+                      :style="{
+                        textAlign: language === 'English' ? 'right' : 'left',
+                      }"
+                    >{{ t("auth.email") }} *</label>
                     <input
                       v-model="registerForm.email"
-                      :dir="language === 'English'? 'rtl':'ltr'"
+                      :dir="language === 'English' ? 'rtl' : 'ltr'"
                       :placeholder="t('add_here')"
                       type="email"
                     >
                   </div>
 
                   <div class="form-group">
-                    <label :style="{textAlign:language === 'English'?'right':'left'}">{{ t("auth.phone") }} *</label>
+                    <label
+                      :style="{
+                        textAlign: language === 'English' ? 'right' : 'left',
+                      }"
+                    >{{ t("auth.phone") }} *</label>
                     <input
                       v-model="registerForm.mobile_number"
-                      :dir="language === 'English'? 'rtl':'ltr'"
+                      :dir="language === 'English' ? 'rtl' : 'ltr'"
                       placeholder="56xxxxxxxx"
                       required
                       type="tel"
@@ -260,7 +283,11 @@
                   </div>
 
                   <div class="form-group">
-                    <label :style="{textAlign:language === 'English'?'right':'left'}">{{ t("currency") }} *</label>
+                    <label
+                      :style="{
+                        textAlign: language === 'English' ? 'right' : 'left',
+                      }"
+                    >{{ t("currency") }} *</label>
                     <select
                       v-model="registerForm.currency"
                       :placeholder="t('choose_currency')"
@@ -323,7 +350,7 @@
     line-height: 1.5;
     color: #ffffff;
   }
-.cta:hover {
+  .cta:hover {
     background-color: #342592;
     color: #fff;
   }
@@ -346,7 +373,5 @@
     outline: none;
     font-size: 16px;
   }
-
 }
 </style>
-
