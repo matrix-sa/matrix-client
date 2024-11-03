@@ -45,7 +45,7 @@
     <v-divider class="mb-4 mt-6" />
     <AdsGroupTiktokForm v-if="platform === 'tiktok'" />
     <AdsGroupXForm v-if="platform === 'twitter'" />
-    <AdsGroupGoogleForm v-if="platform === 'google'" />
+    <AdsGroupGoogleForm v-if="platform === 'googleads'" />
   </div>
 </template>
 
