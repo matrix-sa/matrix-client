@@ -279,6 +279,16 @@
 </template>
 
 <style scoped>
+  @import url("https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css");
+  @import url("https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick-theme.min.css");
+  @import url("https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick.css");
+  @import url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css");
+  @import url("https://unpkg.com/aos@2.3.1/dist/aos.css");
+  @import url("https://matrix.sa/website/ar/css/style.css");
+  @import url("https://matrix.sa/website/ar/css/custom.css");
+  @import url("https://matrix.sa/website/ar/css/animations.css");
+  @import url("https://matrix.sa/website/ar/css/responsive.css");
+
 .login-sec {
   height: 100%;
   display: grid;
@@ -313,16 +323,5 @@
     font-size: 16px;
 }
 
-}
-:deep(.login-sec) {
-  @import url("https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css");
-  @import url("https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick-theme.min.css");
-  @import url("https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick.css");
-  @import url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css");
-  @import url("https://unpkg.com/aos@2.3.1/dist/aos.css");
-  @import url("https://matrix.sa/website/ar/css/style.css");
-  @import url("https://matrix.sa/website/ar/css/custom.css");
-  @import url("https://matrix.sa/website/ar/css/animations.css");
-  @import url("https://matrix.sa/website/ar/css/responsive.css");
 }
 </style>

@@ -13,8 +13,7 @@
 </script>
 
 <template>
-  <LoginEn v-if="isEnglish" />
-  <LoginAr v-else />
+  <Auth />
 </template>
 <route lang="yaml">
   meta:

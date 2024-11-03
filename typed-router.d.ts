@@ -36,7 +36,6 @@ declare module 'vue-router/auto-routes' {
     '/link-ad-accounts/': RouteRecordInfo<'/link-ad-accounts/', '/link-ad-accounts', Record<never, never>, Record<never, never>>,
     '/link-ad-accounts/add-store': RouteRecordInfo<'/link-ad-accounts/add-store', '/link-ad-accounts/add-store', Record<never, never>, Record<never, never>>,
     '/link-ad-accounts/connect-platform': RouteRecordInfo<'/link-ad-accounts/connect-platform', '/link-ad-accounts/connect-platform', Record<never, never>, Record<never, never>>,
-    '/login/': RouteRecordInfo<'/login/', '/login', Record<never, never>, Record<never, never>>,
     '/marketing-consultations/': RouteRecordInfo<'/marketing-consultations/', '/marketing-consultations', Record<never, never>, Record<never, never>>,
     '/marketing-consultations-orders/': RouteRecordInfo<'/marketing-consultations-orders/', '/marketing-consultations-orders', Record<never, never>, Record<never, never>>,
     '/reports/': RouteRecordInfo<'/reports/', '/reports', Record<never, never>, Record<never, never>>,
