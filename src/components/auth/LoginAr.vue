@@ -1,67 +1,103 @@
 <script setup>
   import { computed, ref } from 'vue'
   import { useAuthStore } from '@/stores/useAuthStore'
+  import { useRequest } from 'vue-request'
+  import CurrenciesService from '@/services/currencies-service'
 
-  const email = ref('')
-  const password = ref('')
-  const rememberMe = ref(false)
-  const registerEmail = ref('')
-  const registerPassword = ref('')
-  const phoneNumber = ref('')
-  const acceptTerms = ref(false)
   const authStore = useAuthStore()
 
+  // common
   const loading = computed(() => authStore.loading)
 
+  // login
+  const phoneNumber = ref(null)
+  const otp = ref(null)
+  const otpDisabled = ref(true)
+  const loadingScripts = ref(true)
+  const loginDisplay = computed(() => (loadingScripts.value ? 'none' : 'block'))
   const onLoginSubmit = async () => {
     try {
-      await authStore.login({
-        // email: email.value,
-        // password: password.value,
-        // remember_me: rememberMe.value,
-        mobile_number: '+966556782748',
+      if (otpDisabled.value) {
+        await authStore.login({
+          mobile_number: `+966${phoneNumber.value}`,
+        })
+        otpDisabled.value = false
+        return
+      }
+
+      await authStore.verify({
+        mobile_number: `+966${phoneNumber.value}`,
+        verification_code: otp.value.toString(),
       })
     } catch (error) {
       console.error('Login failed:', error)
     }
   }
 
+  // register
+  const registerForm = ref({
+    name: null,
+    email: null,
+    mobile_number: null,
+    currency: null,
+    accept_terms: null,
+  })
+
+  const currencies = ref([])
+
+  const { loading: loadingCurrencies } = useRequest(
+    () => CurrenciesService.getSupportedCurrencies(),
+    {
+      onSuccess: res => {
+        currencies.value = res.data?.data
+        registerForm.value.currency = 'SAR'
+      },
+    }
+  )
+
   const onRegisterSubmit = async () => {
     try {
-      await authStore.register({
-        email: registerEmail.value,
-        password: registerPassword.value,
-        accept_terms: acceptTerms.value,
-        // static data for mobile number,name and currency for now
-        mobile_number: '+966556782747',
-        currency: 'USD',
-        name: 'hello',
-      })
+      registerForm.value.mobile_number = `+966${registerForm.value.mobile_number}`
+      await authStore.register(registerForm.value)
+      if (authStore.otp) {
+        document.querySelector('.tabs-login li:nth-child(1) a').click()
+      }
     } catch (error) {
       console.error('Registration failed:', error)
     }
   }
-  function appendScripts (scripts) {
-    function loadScript (index) {
-      if (index < scripts.length) {
-        const script = document.createElement('script')
-        script.src = scripts[index]
-        script.onload =
-          index + 1 === scripts.length
+
+  // scripts
+  const createScript = ({ src, onload, content }) => {
+    const script = document.createElement('script')
+    script.src = src
+    script.innerHTML = content
+    script.onload = onload
+    document.body.appendChild(script)
+  }
+
+  const appendScripts = scripts => {
+    const loadScript = index => {
+      createScript({
+        src: scripts[index],
+        onload:
+          index === scripts.length - 1
             ? () => {
-              const _script = document.createElement('script')
-              _script.innerHTML = `
-              $(function () {
-                  AOS.init();
-              });`
-              document.body.appendChild(_script)
+              createScript({
+                content: `
+                  $(function () {
+                    AOS.init();
+                  });`,
+              })
+
+              loadingScripts.value = false
             }
-            : () => loadScript(index + 1)
-        document.body.appendChild(script)
-      }
+            : () => loadScript(index + 1),
+      })
     }
     loadScript(0)
   }
+
   appendScripts([
     'https://code.jquery.com/jquery-3.6.0.min.js',
     'https://code.jquery.com/jquery-3.2.1.slim.min.js',
@@ -86,7 +122,13 @@
       background-image: url('https://matrix.sa/website/ar/images/login-bg.png');
     "
   >
-    <div class="login-container">
+    <p v-if="loadingCurrencies">Loading...</p>
+    <div
+      class="login-container"
+      :style="{
+        display: loginDisplay,
+      }"
+    >
       <div class="login">
         <div class="login-logo">
           <img alt="" src="https://matrix.sa/website/ar/images/signup.png">
@@ -116,20 +158,53 @@
                 منتجاتك وحملاتك التسويقية.
               </p>
               <div class="signup-form-text">
-                <form>
+                <form @submit.prevent="onLoginSubmit">
                   <div class="form-group">
-                    <label>بريد إلكتروني *</label>
+                    <label>رقم الهاتف *</label>
                     <input
-                      v-model="email"
+                      v-model="phoneNumber"
+                      dir="rtl"
+                      placeholder="56xxxxxxxx"
+                      required
+                      type="tel"
+                    >
+                  </div>
+
+                  <div class="form-group">
+                    <label>الرمز السري *</label>
+                    <input
+                      v-model="otp"
+                      :disabled="otpDisabled"
                       placeholder="أدخل هنا"
                       required
-                      type="email"
+                      type="number"
                     >
                   </div>
 
                   <div class="form-group">
                     <button class="signup-btn" type="submit">
-                      تسجيل الدخول
+                      <v-progress-circular
+                        v-if="loading"
+                        color="secondary"
+                        indeterminate
+                        size="25"
+                        :width="3"
+                      />
+                      <span v-else> أرسل الرمز </span>
+                    </button>
+                    <button
+                      v-if="!otpDisabled"
+                      class="signup-btn"
+                      type="submit"
+                    >
+                      <v-progress-circular
+                        v-if="loading"
+                        color="secondary"
+                        indeterminate
+                        size="25"
+                        :width="3"
+                      />
+                      <span v-else> تسجيل الدخول </span>
                     </button>
                   </div>
                 </form>
@@ -144,19 +219,48 @@
                 منتجاتك وحملاتك التسويقية.
               </p>
               <div class="signup-form-text">
-                <form>
+                <form @submit.prevent="onRegisterSubmit">
                   <div class="form-group">
-                    <label>بريد إلكتروني *</label>
-                    <input placeholder="أدخل هنا " type="email">
+                    <label>الاسم *</label>
+                    <input
+                      v-model="registerForm.name"
+                      placeholder="أدخل هنا "
+                      type="text"
+                    >
                   </div>
 
-                  <div class="form-group password">
-                    <label>كلمة المرور *</label>
-                    <input placeholder="أدخل هنا" type="password">
-                    <img
-                      alt=""
-                      src="https://matrix.sa/website/ar/images/eyes.png"
+                  <div class="form-group">
+                    <label>البريد الإلكتروني *</label>
+                    <input
+                      v-model="registerForm.email"
+                      placeholder="أدخل هنا "
+                      type="email"
                     >
+                  </div>
+
+                  <div class="form-group">
+                    <label>رقم الهاتف *</label>
+                    <input
+                      v-model="registerForm.mobile_number"
+                      dir="rtl"
+                      placeholder="56xxxxxxxx"
+                      required
+                      type="tel"
+                    >
+                  </div>
+
+                  <div class="form-group">
+                    <label>العملة *</label>
+                    <select
+                      v-model="registerForm.currency"
+                      placeholder="اختر العملة"
+                    >
+                      <option
+                        v-for="currency in currencies"
+                        :key="currency.code"
+                        :value="currency.code"
+                      > {{ currency.name }} </option>
+                    </select>
                   </div>
 
                   <div class="form-group">
@@ -180,14 +284,34 @@
   display: grid;
   place-items: center;
 
-  .login{
+  .login {
     display: flex;
     justify-content: space-between;
   }
 
-  .cta{
+  .cta {
     display: flex;
   }
+
+  input:disabled {
+    background-color: #f5f5f5; /* Light gray background */
+    color: #a9a9a9; /* Gray text color */
+    border: 1px solid #dcdcdc; /* Light gray border */
+    cursor: not-allowed; /* Not-allowed cursor */
+    opacity: 0.6; /* Slightly transparent */
+  }
+
+  select {
+    height: 100%;
+    width: 100%;
+    padding: 15px 20px;
+    border: 1px solid #34259233;
+    border-radius: 10px;
+    background-color: #fff;
+    color: #000;
+    outline: none;
+    font-size: 16px;
+}
 
 }
 :deep(.login-sec) {
