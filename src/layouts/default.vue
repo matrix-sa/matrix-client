@@ -1,16 +1,11 @@
 <script setup>
-//
 </script>
 <template>
   <div class="router-container">
-    <router-view />
+    <DesktopLayout v-if="$vuetify.display.mdAndUp" />
+    <MobileLayout v-if="!$vuetify.display.mdAndUp" class="mobile-layout" />
   </div>
 </template>
 
 <style lang="scss" scoped>
-.router-container {
-  margin-inline: 1.5em;
-  border-radius: 1.5em;
-  /* padding: 1em; */
-}
 </style>

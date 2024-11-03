@@ -89,7 +89,6 @@
   }
 
   const handleSubmit = async inputValue => {
-    console.log('Input from dialog:', inputValue)
     showDialog.value = false
 
     ///   Activate store in frontend  ////
@@ -122,7 +121,7 @@
         {
           title: t('account_connect'),
           active: false,
-          to: '/link-ad-accounts/',
+          to: '/link-ad-accounts',
         },
         {
           title: t('add_store'),

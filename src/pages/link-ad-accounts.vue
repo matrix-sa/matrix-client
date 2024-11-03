@@ -25,7 +25,7 @@
     onSuccess: () => {
       if (isConnectPlatformStep.value && !userHasConnectedStore.value) {
         show(t('connect_store_first'), 'warning')
-        router.push({ name: '/link-ad-accounts/' })
+        router.push({ name: '/link-ad-accounts' })
       }
     },
   })
@@ -40,6 +40,8 @@
     flat: true,
     variant: 'outlined',
   })
+
+  router.push({ name: '/link-ad-accounts/add-store' })
 </script>
 
 <template>

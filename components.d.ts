@@ -28,6 +28,7 @@ declare module 'vue' {
     AppTextarea: typeof import('./src/components/core/AppTextarea.vue')['default']
     AppTextInput: typeof import('./src/components/core/AppTextInput.vue')['default']
     AppTimeField: typeof import('./src/components/core/AppTimeField.vue')['default']
+    Auth: typeof import('./src/components/auth/Auth.vue')['default']
     CampaignForm: typeof import('./src/components/forms/campaigns/CampaignForm.vue')['default']
     CampaignRuleModal: typeof import('./src/components/dialogs/CampaignRuleModal.vue')['default']
     CampaignsTable: typeof import('./src/components/tables/CampaignsTable.vue')['default']

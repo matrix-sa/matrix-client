@@ -30,8 +30,6 @@ export const useAuthStore = defineStore('auth-store', () => {
         countDown: data,
         mobileNumber: payload.mobile_number,
       }
-
-      router.push({ name: 'auth-mobile-otp' })
     })
   }
   async function login (payload) {
@@ -49,7 +47,7 @@ export const useAuthStore = defineStore('auth-store', () => {
         mobileNumber: payload.mobile_number,
       }
 
-      router.push({ name: 'auth-mobile-otp' })
+      //router.push({ name: 'auth-mobile-otp' })
     })
   }
 
@@ -61,7 +59,7 @@ export const useAuthStore = defineStore('auth-store', () => {
 
       updateUserAndToken(res.data.data)
 
-      router.push({ name: 'dashboards' })
+      router.push({ name: '/' })
     })
   }
 

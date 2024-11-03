@@ -976,7 +976,6 @@ export default {
   for_the_last_30_days: 'لآخر 30 يوم',
   frequency: ' معدل تكرار الوصول',
   average_access_cost: 'متوسط تكلفة الوصول',
-  targeting_quality: 'جودة الاستهداف',
   average_cost_per_customer: 'متوسط تكلفة العميل',
   overall_performance: 'الأداء العام',
   snap_platform_performance: 'أداء منصة سناب',
@@ -992,4 +991,10 @@ export default {
   select_range_date: 'حدد الزمن',
   ok: 'موافق',
   look_for_campaign: 'ابحث عن حملة',
+  create_account: 'قم بإنشاء حسابك مجانا',
+  welcome_back_to_matrix: 'مرحبا بك مرة أخري في ماتريكس',
+  login_message: 'قم بتسجيل الدخول إلي حساب ماتريكس الخاص بك وتحكم في مبيعات منتجاتك وحملاتك التسويقية',
+  add_here: 'أدخل هنا',
+  send_code_verification: 'أرسل الرمز',
+  choose_currency: 'اختر العملة',
 }

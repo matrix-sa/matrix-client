@@ -66,7 +66,7 @@
         {
           title: t('campaign_rules'),
           active: false,
-          to: '/rules/',
+          to: '/rules',
         },
         {
           title: t('control_rules'),

@@ -977,7 +977,6 @@ export default {
   for_the_last_30_days: 'For the last 30 days',
   frequency: 'Access frequency',
   average_access_cost: 'Average access cost',
-  targeting_quality: 'Targeting quality',
   average_cost_per_customer: 'Average cost per customer',
   overall_performance: 'Overall performance',
   snap_platform_performance: 'Snap platform performance',
@@ -992,4 +991,10 @@ export default {
   percentage_of_new_customers: 'Percentage of new customers',
   select_range_date: 'Select Date',
   look_for_campaign: 'Look for Campaign',
+  create_account: 'Create Account for Free',
+  welcome_back_to_matrix: 'Welcome back to Matrix',
+  login_message: 'Log in to your Matrix account and control your product sales and marketing campaigns',
+  add_here: 'Add Here',
+  send_code_verification: 'Send Code Verification',
+  choose_currency: 'Choose Currency',
 }

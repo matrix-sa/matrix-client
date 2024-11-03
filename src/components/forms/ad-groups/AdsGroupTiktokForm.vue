@@ -106,7 +106,6 @@
         return
       }
       runCreate({ ...data })
-      console.log(data)
     })
   }
 
@@ -117,7 +116,6 @@
       manual: true,
       onSuccess: () => {
         show(t('created_message'), 'success')
-        console.log('success')
       // router.push({ name: 'campaigns' })
       },
     }

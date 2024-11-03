@@ -240,8 +240,5 @@ export const isImageFile = file => {
     .slice(file.name.lastIndexOf('.'))
     .toLowerCase()
 
-  console.log(
-    imageExtensions.includes(fileExtension) || t('extension_not_allowed')
-  )
   return imageExtensions.includes(fileExtension) || t('extension_not_allowed')
 }
