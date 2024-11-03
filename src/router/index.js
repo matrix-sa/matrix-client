@@ -12,9 +12,7 @@ import { useAuthStore } from '@/stores/useAuthStore'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
-  routes: [
-    ...setupLayouts(routes),
-  ],
+  routes: [...setupLayouts(routes)],
 })
 
 // Workaround for https://github.com/vitejs/vite/issues/11804
@@ -36,8 +34,9 @@ const isLoggedIn = authStore => !!authStore.token
 
 const needsToLinkAccounts = authStore => {
   return (
-    !authStore.user?.has_linked_ad_account ||
-    !authStore.user?.has_linked_website
+    authStore.user &&
+    (!authStore.user?.has_linked_ad_account ||
+      !authStore.user?.has_linked_website)
   )
 }
 
