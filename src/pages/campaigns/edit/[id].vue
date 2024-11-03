@@ -1,78 +1,61 @@
 <script setup>
-  import { useBreadcrumbsStore } from '@/stores/useBreadcrumbsStore'
-  import { useI18n } from 'vue-i18n'
-  import campaignHeaderLogo from '@/assets/images/campaign-header.svg'
-  import { useRequest } from 'vue-request'
-  import CampaignsService from '@/services/campaigns-service'
+import { useBreadcrumbsStore } from '@/stores/useBreadcrumbsStore'
+import { useI18n } from 'vue-i18n'
+import campaignHeaderLogo from '@/assets/images/campaign-header.svg'
+import { useRequest } from 'vue-request'
+import CampaignsService from '@/services/campaigns-service'
 
-  const { update } = useBreadcrumbsStore()
-  const { t, locale } = useI18n()
-  const route = useRoute()
+const { update } = useBreadcrumbsStore()
+const { t, locale } = useI18n()
+const route = useRoute()
 
-  const campaign = ref(null)
+const campaign = ref(null)
 
-  const { loadingCampaign } = useRequest(
-    () =>
-      CampaignsService.getById(
-        { id: route.params.id },
-        useRoute().query.platform,
-      ),
-    {
-      onSuccess: res => {
-        campaign.value = res?.data?.data
+const { loadingCampaign } = useRequest(
+  () =>
+    CampaignsService.getById(
+      { id: route.params.id },
+      useRoute().query.platform,
+    ),
+  {
+    onSuccess: res => {
+      campaign.value = res?.data?.data
+    },
+  },
+)
+
+watch(
+  locale,
+  () => {
+    update([
+      {
+        title: t('campaigns'),
+        active: false,
+        to: '/campaigns/',
       },
-    },
-  )
-
-  watch(
-    locale,
-    () => {
-      update([
-        {
-          title: t('campaigns'),
-          active: false,
-          to: '/campaigns/',
-        },
-        {
-          title: t('edit_campaign'),
-          active: true,
-          disabled: true,
-          to: `/campaigns/edit/[id]`,
-        },
-      ])
-    },
-    { immediate: true }
-  )
+      {
+        title: t('edit_campaign'),
+        active: true,
+        disabled: true,
+        to: `/campaigns/edit/[id]`,
+      },
+    ])
+  },
+  { immediate: true }
+)
 </script>
 <template>
   <div class="campaign-form-container">
-    <v-overlay
-      v-model="loadingCampaign"
-      class="align-center justify-center"
-      persistent
-    >
-      <v-progress-circular
-        color="primary"
-        indeterminate
-        size="50"
-        :width="7"
-      />
+    <v-overlay v-model="loadingCampaign" class="align-center justify-center" persistent>
+      <v-progress-circular color="primary" indeterminate size="50" :width="7" />
     </v-overlay>
     <template v-if="!loadingCampaign">
-      <header class="campaign-form-header">
-        <img alt="" :src="campaignHeaderLogo">
-        <div class="deascription">
-          <h3 class="text-black">{{ t("campaign_settings") }} ({{ t(`platforms.${campaign?.ad_platform.toLowerCase()}.title`) }})</h3>
-          <p>{{ t("how_to_edit_campaign") }} </p>
-        </div>
-      </header>
-      <v-divider class="mb-4 mt-6" />
-      <p v-if="campaign?.ad_platform.toLowerCase() === 'googleads'">Google Ads</p>
-      <CampaignForm
-        v-else
-        :campaign="campaign"
-        :is-edit-mode="true"
-      />
+
+      <CampaignForm :campaign="campaign" :is-edit-mode="true">
+        <template v-if="campaign?.ad_platform.toLowerCase() === 'googleads'" #default="{ data }">
+          <GoogleCampaignForm :data="data" :campaign="campaign" />
+        </template>
+      </CampaignForm>
     </template>
   </div>
 </template>
@@ -95,6 +78,7 @@
       font-weight: 700;
       font-size: 1.25rem;
     }
+
     p {
       font-weight: 400;
       color: rgb(var(--v-dark-1));
