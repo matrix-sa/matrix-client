@@ -293,7 +293,9 @@
       </VCol>
 
       <VCol cols="12">
-        <AppSelect
+
+        <AppAutocomplete
+          :id="`country-${form.id}`"
           v-model="selectedCountry"
           hide-no-data
           :item-title="(item) => item.name"

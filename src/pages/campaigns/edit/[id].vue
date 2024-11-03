@@ -46,33 +46,16 @@
 </script>
 <template>
   <div class="campaign-form-container">
-    <v-overlay
-      v-model="loadingCampaign"
-      class="align-center justify-center"
-      persistent
-    >
-      <v-progress-circular
-        color="primary"
-        indeterminate
-        size="50"
-        :width="7"
-      />
+    <v-overlay v-model="loadingCampaign" class="align-center justify-center" persistent>
+      <v-progress-circular color="primary" indeterminate size="50" :width="7" />
     </v-overlay>
     <template v-if="!loadingCampaign">
-      <header class="campaign-form-header">
-        <img alt="" :src="campaignHeaderLogo">
-        <div class="deascription">
-          <h3 class="text-black">{{ t("campaign_settings") }} ({{ t(`platforms.${campaign?.ad_platform.toLowerCase()}.title`) }})</h3>
-          <p>{{ t("how_to_edit_campaign") }} </p>
-        </div>
-      </header>
-      <v-divider class="mb-4 mt-6" />
-      <p v-if="campaign?.ad_platform.toLowerCase() === 'googleads'">Google Ads</p>
-      <CampaignForm
-        v-else
-        :campaign="campaign"
-        :is-edit-mode="true"
-      />
+
+      <CampaignForm :campaign="campaign" :is-edit-mode="true">
+        <template v-if="campaign?.ad_platform.toLowerCase() === 'googleads'" #default="{ data }">
+          <GoogleCampaignForm :campaign="campaign" :data="data" />
+        </template>
+      </CampaignForm>
     </template>
   </div>
 </template>
@@ -95,6 +78,7 @@
       font-weight: 700;
       font-size: 1.25rem;
     }
+
     p {
       font-weight: 400;
       color: rgb(var(--v-dark-1));
