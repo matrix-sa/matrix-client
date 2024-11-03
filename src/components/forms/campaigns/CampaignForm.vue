@@ -157,7 +157,7 @@
     if (!props.isEditMode) return
 
     campaign.value = props.campaign
-    selectedPlatform.value = props?.campaign?.ad_platform
+    selectedPlatform.value = props?.campaign?.ad_platform.toLowerCase()
 
     form.value.id = campaign.value?.id
     form.value.name = campaign.value?.name
