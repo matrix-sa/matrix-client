@@ -969,4 +969,10 @@ export default {
   ad_campaign: 'حملة إعلانية',
   top_adds_ad_campaigns: 'أفضل الحملات الإعلانية أداء',
   least_adds_ad_campaigns: 'أضعف الحملات الإعلانية أداء',
+  create_account: 'قم بإنشاء حسابك مجانا',
+  welcome_back_to_matrix: 'مرحبا بك مرة أخري في ماتريكس',
+  login_message: 'قم بتسجيل الدخول إلي حساب ماتريكس الخاص بك وتحكم في مبيعات منتجاتك وحملاتك التسويقية',
+  add_here: 'أدخل هنا',
+  send_code_verification: 'أرسل الرمز',
+  choose_currency: 'اختر العملة',
 }
