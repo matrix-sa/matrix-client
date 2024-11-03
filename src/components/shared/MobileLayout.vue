@@ -36,8 +36,8 @@
           title: t('account_connect'),
           props: {
             prependIcon: 'tabler-link',
-            active: isActive('/link-ad-accounts/', true),
-            to: { name: '/link-ad-accounts/' },
+            active: isActive('/link-ad-accounts', true),
+            to: { name: '/link-ad-accounts' },
             disabled: false,
           },
         },

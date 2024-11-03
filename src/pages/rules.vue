@@ -7,6 +7,7 @@
 
   const { t } = useI18n()
   const route = useRoute()
+  const router = useRouter()
 
   const openControlRuleDialog = ref(false)
   const openCommunicationRuleDialog = ref(false)
@@ -50,6 +51,8 @@
       ? () => (openControlRuleDialog.value = true)
       : () => (openCommunicationRuleDialog.value = true)
   )
+
+  router.push({ name: '/rules/campaigns/' })
 </script>
 
 <template>
@@ -223,7 +226,3 @@
   }
 }
 </style>
-<route lang="yaml">
-  meta:
-    layout: empty
-  </route>

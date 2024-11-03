@@ -122,7 +122,7 @@
         {
           title: t('account_connect'),
           active: false,
-          to: '/link-ad-accounts/',
+          to: '/link-ad-accounts',
         },
         {
           title: t('add_store'),
