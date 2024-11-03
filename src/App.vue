@@ -8,7 +8,7 @@
   import { useLoadingStore } from './stores/useLoadingStore'
 
   const { isLoading: isLoadingRoute } = storeToRefs(useLoadingStore())
-  console.log(isLoadingRoute.value)
+
   const { locale } = useI18n()
   const snackBarStore = useSnackbarStore()
   const { isShown, message, type } = storeToRefs(snackBarStore)
@@ -21,7 +21,7 @@
 
   const route = useRoute()
   const isLoginPage = ref(route.path === '/login')
-  console.log(route.path)
+
   watch(route, newRoute => {
     isLoginPage.value = newRoute.path === '/login'
   })

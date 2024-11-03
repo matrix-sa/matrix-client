@@ -43,12 +43,12 @@ const needsToLinkAccounts = authStore => {
 
 router.beforeEach((to, from, next) => {
   const authStore = useAuthStore()
-  console.log(to)
+
   if (to.name === '/auth/' && isLoggedIn(authStore)) {
     return next({ name: '/' })
   }
 
-  if (to.name === '/auth/' && !isLoggedIn(authStore)) {
+  if (to.name === '/auth/') {
     return next()
   }
 

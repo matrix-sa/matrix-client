@@ -3,14 +3,21 @@
   import { useAuthStore } from '@/stores/useAuthStore'
   import { useRequest } from 'vue-request'
   import CurrenciesService from '@/services/currencies-service'
-  import i18n from '@/i18n'
+  import { useI18n } from 'vue-i18n'
 
-  const { t } = i18n.global
+  const { locale, t } = useI18n()
 
   const authStore = useAuthStore()
 
   // common
   const loading = computed(() => authStore.loading)
+
+  const switchLanguage = () => {
+    const value = locale.value === 'ar' ? 'en' : 'ar'
+    localStorage.setItem('lang', value)
+    locale.value = value
+    window.location.reload()
+  }
 
   // login
   const phoneNumber = ref(null)
@@ -119,13 +126,14 @@
 </script>
 
 <template>
+  <v-btn text="yes" @click="switchLanguage" />
   <section
     class="login-sec"
     style="
       background-image: url('https://matrix.sa/website/ar/images/login-bg.png');
     "
   >
-    <p v-if="loadingCurrencies">{{ t('loading') }}...</p>
+    <p v-if="loadingCurrencies">{{ t("loading") }}...</p>
     <div
       class="login-container"
       :style="{
@@ -149,18 +157,22 @@
       </div>
       <div class="tabs">
         <ul class="tabs-login">
-          <li><a href="#tab-111">{{ t('Login') }}</a></li>
-          <li><a href="#tab-112">{{ t('create_account') }}</a></li>
+          <li>
+            <a href="#tab-111">{{ t("Login") }}</a>
+          </li>
+          <li>
+            <a href="#tab-112">{{ t("create_account") }}</a>
+          </li>
         </ul>
         <div class="tabs-stage">
           <div id="tab-111">
             <div class="login_content">
-              <h4> {{ t('welcome_back_to_matrix') }}</h4>
-              <p> {{ t('login_message') }}</p>
+              <h4>{{ t("welcome_back_to_matrix") }}</h4>
+              <p>{{ t("login_message") }}</p>
               <div class="signup-form-text">
                 <form @submit.prevent="onLoginSubmit">
                   <div class="form-group">
-                    <label>{{ t(`${'auth.phone'}`) }} *</label>
+                    <label>{{ t(`${"auth.phone"}`) }} *</label>
                     <input
                       v-model="phoneNumber"
                       dir="rtl"
@@ -170,7 +182,7 @@
                   </div>
 
                   <div class="form-group">
-                    <label>{{ t(`${'auth.password'}`) }} *</label>
+                    <label>{{ t(`${"auth.password"}`) }} *</label>
                     <input
                       v-model="otp"
                       :disabled="otpDisabled"
@@ -188,7 +200,7 @@
                         size="25"
                         :width="3"
                       />
-                      <span v-else>{{ t(`${'send_code_verification'}`) }}</span>
+                      <span v-else>{{ t(`${"send_code_verification"}`) }}</span>
                     </button>
                     <button
                       v-if="!otpDisabled"
@@ -202,7 +214,7 @@
                         size="25"
                         :width="3"
                       />
-                      <span v-else>{{ t('Login') }}</span>
+                      <span v-else>{{ t("Login") }}</span>
                     </button>
                   </div>
                 </form>
@@ -211,12 +223,12 @@
           </div>
           <div id="tab-112">
             <div class="login_content">
-              <h4>{{ t('welcome_back_to_matrix') }} !</h4>
-              <p>{{ t('login_message') }}</p>
+              <h4>{{ t("welcome_back_to_matrix") }} !</h4>
+              <p>{{ t("login_message") }}</p>
               <div class="signup-form-text">
                 <form @submit.prevent="onRegisterSubmit">
                   <div class="form-group">
-                    <label>{{ t('auth.username') }} *</label>
+                    <label>{{ t("auth.username") }} *</label>
                     <input
                       v-model="registerForm.name"
                       :placeholder="t('add_here')"
@@ -225,7 +237,7 @@
                   </div>
 
                   <div class="form-group">
-                    <label>{{ t('auth.email') }} *</label>
+                    <label>{{ t("auth.email") }} *</label>
                     <input
                       v-model="registerForm.email"
                       :placeholder="t('add_here')"
@@ -234,7 +246,7 @@
                   </div>
 
                   <div class="form-group">
-                    <label>{{ t('auth.phone') }} *</label>
+                    <label>{{ t("auth.phone") }} *</label>
                     <input
                       v-model="registerForm.mobile_number"
                       dir="rtl"
@@ -245,7 +257,7 @@
                   </div>
 
                   <div class="form-group">
-                    <label>{{ t('currency') }} *</label>
+                    <label>{{ t("currency") }} *</label>
                     <select
                       v-model="registerForm.currency"
                       :placeholder="t('choose_currency')"
@@ -254,13 +266,15 @@
                         v-for="currency in currencies"
                         :key="currency.code"
                         :value="currency.code"
-                      > {{ currency.name }} </option>
+                      >
+                        {{ currency.name }}
+                      </option>
                     </select>
                   </div>
 
                   <div class="form-group">
                     <button class="signup-btn" type="submit">
-                      {{ t('Login') }}
+                      {{ t("Login") }}
                     </button>
                   </div>
                 </form>
@@ -274,15 +288,15 @@
 </template>
 
 <style scoped>
-  @import url("https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css");
-  @import url("https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick-theme.min.css");
-  @import url("https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick.css");
-  @import url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css");
-  @import url("https://unpkg.com/aos@2.3.1/dist/aos.css");
-  @import url("https://matrix.sa/website/ar/css/style.css");
-  @import url("https://matrix.sa/website/ar/css/custom.css");
-  @import url("https://matrix.sa/website/ar/css/animations.css");
-  @import url("https://matrix.sa/website/ar/css/responsive.css");
+@import url("https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css");
+@import url("https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick-theme.min.css");
+@import url("https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick.css");
+@import url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css");
+@import url("https://unpkg.com/aos@2.3.1/dist/aos.css");
+@import url("https://matrix.sa/website/ar/css/style.css");
+@import url("https://matrix.sa/website/ar/css/custom.css");
+@import url("https://matrix.sa/website/ar/css/animations.css");
+@import url("https://matrix.sa/website/ar/css/responsive.css");
 
 .login-sec {
   height: 100%;
@@ -316,11 +330,10 @@
     color: #000;
     outline: none;
     font-size: 16px;
-}
+  }
 
-label {
-  text-align: right !important;
-}
-
+  label {
+    text-align: right !important;
+  }
 }
 </style>

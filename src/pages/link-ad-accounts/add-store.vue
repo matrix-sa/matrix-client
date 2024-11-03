@@ -89,7 +89,6 @@
   }
 
   const handleSubmit = async inputValue => {
-    console.log('Input from dialog:', inputValue)
     showDialog.value = false
 
     ///   Activate store in frontend  ////
