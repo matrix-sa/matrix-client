@@ -12,7 +12,17 @@ import { useAuthStore } from '@/stores/useAuthStore'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
-  routes: [...setupLayouts(routes)],
+  routes: [
+    {
+      path: '/link-ad-accounts',
+      redirect: '/link-ad-accounts/add-store',
+    },
+    {
+      path: '/rules',
+      redirect: '/rules/campaigns',
+    },
+    ...setupLayouts(routes),
+  ],
 })
 
 // Workaround for https://github.com/vitejs/vite/issues/11804
