@@ -1,6 +1,7 @@
 <script setup>
   import { useI18n } from 'vue-i18n'
   import { useBreadcrumbsStore } from '@/stores/useBreadcrumbsStore'
+  import { VDateInput } from 'vuetify/labs/VDateInput'
 
   const { t, locale } = useI18n()
   const { update } = useBreadcrumbsStore()
@@ -11,6 +12,8 @@
   const selectedCampaignsIds = computed(() =>
     selectedCampaigns.value.map(c => c.id)
   )
+  const dateRange = ref(null)
+  const search = ref(null)
 
   const selectedAdGroups = ref([])
   const selectedAdGroupsIds = computed(() =>
@@ -60,7 +63,44 @@
   )
 </script>
 <template>
+  <div class="filters-container">
+    <div>
+      <v-date-input
+        v-model="dateRange"
+        bg-color="secondary"
+        cancel-text="cancel"
+        class="date-range-input"
+        clearable
+        density="comfortable"
+        flat
+        hide-details
+        :label="t('select_range_date')"
+        multiple="range"
+        ok-text="ok"
+        persistent-clear
+        :prepend-icon="null"
+        prepend-inner-icon="tabler-calendar"
+        variant="solo-filled"
+        @click:clear="dateRange = null"
+      />
+    </div>
+    <div>
+      <v-text-field
+        v-model="search"
+        class="search-campaign-input"
+        clearable
+        density="comfortable"
+        height="48px"
+        hide-details
+        :label="t('look_for_campaign')"
+        prepend-inner-icon="tabler-search"
+        variant="outlined"
+        @click:clear="search = null"
+      />
+    </div>
+  </div>
   <v-card>
+
     <v-tabs v-model="tab" bg-color="secondary" color="warning" :grow="true">
       <v-tab
         base-color="secondary"
@@ -98,7 +138,11 @@
 
             <VCardText class="pa-4 pt-0">
               <VDivider />
-              <CampaignsTable @selection-updated="selectedCampaigns = $event" />
+              <CampaignsTable
+                :date-range="dateRange"
+                :search="search"
+                @selection-updated="selectedCampaigns = $event"
+              />
             </VCardText>
           </VCard>
         </v-tabs-window-item>
@@ -162,5 +206,37 @@
   display: flex;
   flex-direction: column;
   gap: 2rem;
+}
+.filters-container {
+  padding: 1rem;
+  margin-bottom: 1rem;
+  display: grid;
+  grid-template-columns: 370px 1fr;
+  gap: 1rem;
+  background-color: white;
+  border-radius: 1rem;
+}
+</style>
+<style lang="scss">
+.filters-container {
+  .date-range-input {
+    .v-field {
+      border-radius: 0.75rem;
+    }
+    .v-field__overlay {
+      background: unset;
+      display: none;
+    }
+  }
+
+  .search-campaign-input {
+    .v-field {
+      border-radius: 0.75rem;
+    }
+    .v-field__overlay {
+      background: unset;
+      display: none;
+    }
+  }
 }
 </style>

@@ -990,5 +990,6 @@ export default {
   average_basket_value: 'Average basket value',
   request_frequency: 'Request frequency',
   percentage_of_new_customers: 'Percentage of new customers',
-
+  select_range_date: 'Select Date',
+  look_for_campaign: 'Look for Campaign',
 }

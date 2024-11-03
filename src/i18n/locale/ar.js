@@ -989,5 +989,7 @@ export default {
   average_basket_value: 'متوسط قيمة السلة',
   request_frequency: 'معدل تكرار الطلب',
   percentage_of_new_customers: 'نسبة العملاء الجدد',
-
+  select_range_date: 'حدد الزمن',
+  ok: 'موافق',
+  look_for_campaign: 'ابحث عن حملة',
 }
