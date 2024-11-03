@@ -170,8 +170,8 @@
   const isPauseConfirmDialogVisible = ref(false)
   const isDeleteConfirmDialogVisible = ref(false)
 
-  const getPlayButtonText = status => {
-    return status === 'Paused' ? t('start_campaign') : t('pause_campaign')
+  const getPlayButtonIcon = status => {
+    return status === 'Paused' ? 'tabler-player-play' : 'tabler-player-pause'
   }
 
   const getStatusAction = status => {
@@ -323,8 +323,32 @@
           </VBtn>
         </template>
       </VTooltip>
+      <VTooltip
+        v-if="
+          ['Paused', 'Created', 'Started', 'Active'].includes(item.status)
+        "
+        :text="item.status === 'Paused' ? t('start_campaign'): t('pause_campaign')"
+      >
+        <template #activator="{ props: toolTipProps }">
+          <VBtn
+            v-if="
+              ['Paused', 'Created', 'Started', 'Active'].includes(item.status)
+            "
+            v-bind="toolTipProps"
+            @click="
+              toggleDialog(
+                getStatusAction(item.status),
+                item.id,
+                item.ad_platform
+              )
+            "
+          >
+            <VIcon :icon="getPlayButtonIcon(item.status)" />
+          </VBtn>
+        </template>
+      </VTooltip>
 
-      <VBtn
+      <!-- <VBtn
         v-if="
           ['Paused', 'Created', 'Started', 'Active'].includes(item.status)
         "
@@ -338,8 +362,8 @@
           )
         "
       >
-        {{ getPlayButtonText(item.status) }}
-      </VBtn>
+        {{ getPlayButtonIcon(item.status) }}
+      </VBtn> -->
     </template>
 
     <!-- pagination -->
