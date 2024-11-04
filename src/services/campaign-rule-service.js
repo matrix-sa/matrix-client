@@ -27,12 +27,17 @@ const CampaignRuleService = (function () {
     return API.put(`${prefix}/ChangeCampaignRuleStatusV2`, data)
   }
 
+  const deleteRule = data => {
+    return API.delete(`${prefix}/DeleteCampaignRuleV2`, data)
+  }
+
   return {
     run,
     getAll,
     changeStatus,
     getById,
     update,
+    deleteRule,
   }
 })()
 
