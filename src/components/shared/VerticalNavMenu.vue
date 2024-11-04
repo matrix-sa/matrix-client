@@ -56,7 +56,7 @@
           title: t('campaign_rules'),
           props: {
             prependIcon: 'tabler-list',
-            active: isActive('/rules'),
+            active: isActive('/rules', true),
             to: { name: '/rules' },
             disabled: userShouldLink.value,
           },
