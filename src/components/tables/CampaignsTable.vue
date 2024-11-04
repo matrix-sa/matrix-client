@@ -348,22 +348,6 @@
         </template>
       </VTooltip>
 
-      <!-- <VBtn
-        v-if="
-          ['Paused', 'Created', 'Started', 'Active'].includes(item.status)
-        "
-        size="x-small"
-        variant="outlined"
-        @click="
-          toggleDialog(
-            getStatusAction(item.status),
-            item.id,
-            item.ad_platform
-          )
-        "
-      >
-        {{ getPlayButtonIcon(item.status) }}
-      </VBtn> -->
     </template>
 
     <!-- pagination -->

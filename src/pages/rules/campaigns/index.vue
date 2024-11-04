@@ -1,4 +1,5 @@
 <script setup>
+  import { computed, ref, watch } from 'vue'
   import { useRequest } from 'vue-request'
   import CampaignsRulesService from '@/services/campaign-rule-service'
   import { useSnackbarStore } from '@/stores/useSnackBarStore'
@@ -11,6 +12,27 @@
   const { t, locale } = useI18n()
   const { update } = useBreadcrumbsStore()
   const { user } = storeToRefs(useAuthStore())
+
+  const isActivateDialogVisible = ref(false)
+  const isPauseDialogVisible = ref(false)
+  const isDeleteDialogVisible = ref(false)
+  const selectedItemId = ref(null)
+
+  const toggleDialog = (type, id) => {
+    selectedItemId.value = id
+
+    switch (type) {
+      case 'activate':
+        isActivateDialogVisible.value = true
+        break
+      case 'deactivate':
+        isPauseDialogVisible.value = true
+        break
+      case 'delete':
+        isDeleteDialogVisible.value = true
+        break
+    }
+  }
 
   const openControlRuleDialog = ref(false)
   const ruleToEdit = ref(null)
@@ -45,7 +67,23 @@
     }
   )
 
-  const loading = computed(() => loadingRules.value || loadingChangeStatus.value)
+  const { run: deleteRule, loading: loadingDeleteRule } = useRequest(
+    CampaignsRulesService.deleteRule,
+    {
+      manual: true,
+      onSuccess: response => {
+        const { error, messages } = response.data
+        if (error) {
+          show(messages[0], 'error')
+          return
+        }
+        show(t('rule_deleted_successfully'), 'success')
+        fetchRules()
+      },
+    }
+  )
+
+  const loading = computed(() => loadingRules.value || loadingChangeStatus.value || loadingDeleteRule.value)
 
   const handleEditRule = rule => {
     openControlRuleDialog.value = true
@@ -53,10 +91,36 @@
   }
 
   const handleStatusChange = rule => {
+    toggleDialog(rule.status === 'Active' ? 'deactivate' : 'activate', rule.id)
+  }
+  const handleDeleteRule = rule => {
+    toggleDialog('delete', rule.id)
+  }
+  const activateConfirmed = confirmed => {
+    if (!confirmed) return
     changeStatus({
-      id: rule.id,
-      status: rule.status === 'Active' ? 'Inactive' : 'Active',
+      id: selectedItemId.value,
+      status: 'Active',
     })
+    isActivateDialogVisible.value = false
+  }
+
+  const pauseConfirmed = confirmed => {
+    if (!confirmed) return
+    changeStatus({
+      id: selectedItemId.value,
+      status: 'Inactive',
+    })
+    isPauseDialogVisible.value = false
+  }
+
+  const deleteConfirmed = confirmed => {
+    if (!confirmed) return
+    deleteRule({
+      id: selectedItemId.value,
+    })
+    console.log('deleted')
+    isDeleteDialogVisible.value = false
   }
 
   watch(
@@ -79,6 +143,7 @@
     { immediate: true }
   )
 </script>
+
 <template>
   <div class="rules-container">
     <v-overlay v-model="loading" class="align-center justify-center" persistent>
@@ -87,14 +152,18 @@
     <div v-for="(rule, index) in rules" :key="rule.id" class="rule-card">
       <div class="row">
         <p class="order">{{ index + 1 }}</p>
-        <p>
-          {{ t("rule") }}
-        </p>
-        <v-icon
-          class="check-icon"
-          :color="rule.status === 'Active' ? 'primary' : 'surface-variant'"
-          icon="fluent:checkbox-checked-20-filled"
-        />
+        <p>{{ t("rule") }}</p>
+        <VTooltip :text="t('delete')">
+          <template #activator="{ props: toolTipProps }">
+            <VBtn
+              class="check-icon"
+              v-bind="toolTipProps"
+              @click="handleDeleteRule(rule)"
+            >
+              <v-icon class="delete-icon" color="error" icon="tabler-x" />
+            </VBtn>
+          </template>
+        </VTooltip>
       </div>
       <v-divider class="divider" />
       <div class="data-row">
@@ -142,6 +211,31 @@
       />
     </v-dialog>
   </div>
+  <!-- Activate Dialog -->
+  <ConfirmDialog
+    v-model:is-dialog-visible="isActivateDialogVisible"
+    :confirmation-question="t('dialog_question')"
+    @confirm="activateConfirmed"
+  />
+
+  <!-- Deactivate Dialog -->
+  <ConfirmDialog
+    v-model:is-dialog-visible="isPauseDialogVisible"
+    :confirmation-question="t('dialog_question')"
+    @confirm="pauseConfirmed"
+  />
+  <!-- Delete Dialog -->
+  <ConfirmDialog
+    v-model:is-dialog-visible="isDeleteDialogVisible"
+    :confirmation-question="t('dialog_question')"
+    @confirm="deleteConfirmed"
+  />
 </template>
 
-<style lang="scss"></style>
+<style lang="scss" scoped>
+.v-btn--variant-elevated {
+  background-color: transparent;
+  box-shadow: none;
+}
+
+</style>
