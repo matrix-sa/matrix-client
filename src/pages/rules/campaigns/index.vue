@@ -119,7 +119,6 @@
     deleteRule({
       id: selectedItemId.value,
     })
-    console.log('deleted')
     isDeleteDialogVisible.value = false
   }
 
@@ -210,26 +209,27 @@
         @saved="fetchRules"
       />
     </v-dialog>
-  </div>
-  <!-- Activate Dialog -->
-  <ConfirmDialog
-    v-model:is-dialog-visible="isActivateDialogVisible"
-    :confirmation-question="t('dialog_question')"
-    @confirm="activateConfirmed"
-  />
+    <!-- Activate Dialog -->
+    <ConfirmDialog
+      v-model:is-dialog-visible="isActivateDialogVisible"
+      :confirmation-question="t('dialog_question')"
+      @confirm="activateConfirmed"
+    />
 
-  <!-- Deactivate Dialog -->
-  <ConfirmDialog
-    v-model:is-dialog-visible="isPauseDialogVisible"
-    :confirmation-question="t('dialog_question')"
-    @confirm="pauseConfirmed"
-  />
-  <!-- Delete Dialog -->
-  <ConfirmDialog
-    v-model:is-dialog-visible="isDeleteDialogVisible"
-    :confirmation-question="t('dialog_question')"
-    @confirm="deleteConfirmed"
-  />
+    <!-- Deactivate Dialog -->
+    <ConfirmDialog
+      v-model:is-dialog-visible="isPauseDialogVisible"
+      :confirmation-question="t('dialog_question')"
+      @confirm="pauseConfirmed"
+    />
+    <!-- Delete Dialog -->
+    <ConfirmDialog
+      v-model:is-dialog-visible="isDeleteDialogVisible"
+      :confirmation-question="t('dialog_question')"
+      @confirm="deleteConfirmed"
+    />
+  </div>
+
 </template>
 
 <style lang="scss" scoped>
