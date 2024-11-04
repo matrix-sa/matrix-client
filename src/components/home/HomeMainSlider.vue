@@ -1,5 +1,4 @@
 <script setup>
-  import slideImg from '@images/svg/analytics-graph.svg'
   import { VIcon } from 'vuetify/components/VIcon'
 
   import { computed } from 'vue'
@@ -104,7 +103,6 @@
               order-sm="2"
               sm="3"
             >
-              <img class="card-website-analytics-img" :src="slideImg">
             </VCol>
           </VRow>
         </VCardText>
