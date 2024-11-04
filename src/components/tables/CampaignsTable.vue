@@ -4,13 +4,27 @@
   import { useSnackbarStore } from '@/stores/useSnackBarStore'
   import { useI18n } from 'vue-i18n'
   import { paginationMeta } from '@/composable/utils'
+  import debounce from 'lodash/debounce'
   import moment from 'moment'
+
+  const props = defineProps({
+    dateRange: {
+      type: Array,
+      default: null,
+    },
+    search: {
+      type: String,
+      default: null,
+    },
+  })
 
   const emits = defineEmits(['selectionUpdated'])
 
   const { show } = useSnackbarStore()
   const { t } = useI18n()
   const router = useRouter()
+
+  const { dateRange, search } = toRefs(props)
 
   const totalCampaigns = ref(0)
   const campaigns = ref([])
@@ -59,7 +73,13 @@
   ]
 
   const { run, loading: loadingFetchingData } = usePagination(
-    params => CampaignsService.get(params),
+    () => CampaignsService.get({
+      PageSize: options.value.itemsPerPage,
+      Page: options.value.page,
+      StartDate: dateRange.value?.[0],
+      EndDate: dateRange.value?.[dateRange.value.length - 1],
+      Search: search.value,
+    }),
     {
       manual: true,
       onSuccess: res => {
@@ -72,6 +92,7 @@
       },
     }
   )
+  const debouncedRun = debounce(run, 1000)
 
   const { run: runStartCampaign, loading: loadingStart } = useRequest(
     data => CampaignsService.startCampaign(data),
@@ -80,7 +101,7 @@
       onSuccess: res => {
         const { error, messages } = res.data
 
-        run({ PageSize: options.value.itemsPerPage, Page: options.value.page })
+        run()
 
         if (error) {
           show(messages[0], 'error')
@@ -98,7 +119,7 @@
       onSuccess: res => {
         const { error, messages } = res.data
 
-        run({ PageSize: options.value.itemsPerPage, Page: options.value.page })
+        run()
 
         if (error) {
           show(messages[0], 'error')
@@ -120,19 +141,15 @@
           show(messages[0], 'error')
         } else {
           show(t('deleted_message'), 'success')
-          run({ PageSize: options.value.itemsPerPage, Page: options.value.page })
+          run()
         }
       },
     }
   )
 
-  watch(
-    options,
-    () => {
-      run({ PageSize: options.value.itemsPerPage, Page: options.value.page })
-    },
-    { deep: true }
-  )
+  watch(options, run, { deep: true })
+  watch(search, debouncedRun)
+  watch(dateRange, run)
 
   const resolveUserStatusVariant = stat => {
     const statLowerCase = stat.toLowerCase()
