@@ -4,11 +4,11 @@ const CampaignRuleService = (function () {
   const prefix = 'Clients/CampaignsRules'
 
   const getAll = () => {
-    return API.get(`${prefix}/GetCampaignsRulesV2`)
+    return API.get(`${prefix}/GetControlRules`)
   }
 
   const getById = params => {
-    return API.get(`${prefix}/GetCampaignRuleV2`, params, {
+    return API.get(`${prefix}/GetControlRule`, params, {
       headers: {
         'Content-Type': 'application/json',
       },
@@ -16,19 +16,19 @@ const CampaignRuleService = (function () {
   }
 
   const run = data => {
-    return API.post(`${prefix}/CreateCampaignRuleV2`, data)
+    return API.post(`${prefix}/CreateControlRule`, data)
   }
 
   const update = data => {
-    return API.put(`${prefix}/UpdateCampaignRuleV2`, data)
+    return API.put(`${prefix}/UpdateControlRule`, data)
   }
 
   const changeStatus = data => {
-    return API.put(`${prefix}/ChangeCampaignRuleStatusV2`, data)
+    return API.put(`${prefix}/ChangeControlRule`, data)
   }
 
   const deleteRule = data => {
-    return API.delete(`${prefix}/DeleteCampaignRuleV2`, data)
+    return API.delete(`${prefix}/DeleteControlRule`, data)
   }
 
   return {
