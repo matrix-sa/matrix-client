@@ -19,11 +19,16 @@ const ConnectionRuleService = (function () {
     return API.put(`${prefix}/ChangeCommunicationRuleStatus`, data)
   }
 
+  const deleteRule = data => {
+    return API.delete(`${prefix}/DeleteCommunicationRule`, data)
+  }
+
   return {
     run,
     getAll,
     changeStatus,
     update,
+    deleteRule,
   }
 })()
 
