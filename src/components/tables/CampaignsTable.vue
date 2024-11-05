@@ -6,6 +6,13 @@
   import { paginationMeta } from '@/composable/utils'
   import debounce from 'lodash/debounce'
   import moment from 'moment'
+  import snapchat from '@/assets/images/logos/reports/snap.svg'
+  import tiktok from '@/assets/images/logos/reports/tiktok.svg'
+  import facebook from '@/assets/images/logos/reports/meta.svg'
+  import instagram from '@/assets/images/logos/reports/instagram.svg'
+  import googleads from '@/assets/images/logos/reports/google.svg'
+  import youtube from '@/assets/images/logos/reports/youtube.svg'
+  import twitter from '@/assets/images/logos/reports/x.svg'
 
   const props = defineProps({
     dateRange: {
@@ -17,6 +24,19 @@
       default: null,
     },
   })
+
+  const getPlatformIcon = platformName => {
+    const icons = {
+      snapchat,
+      tiktok,
+      facebook,
+      instagram,
+      googleads,
+      youtube,
+      twitter,
+    }
+    return icons[platformName] || 'https://cdn-icons-png.flaticon.com/512/6415/6415824.png'
+  }
 
   const emits = defineEmits(['selectionUpdated'])
 
@@ -284,9 +304,9 @@
 
     <!-- Platform -->
     <template #item.ad_platform="{ item }">
-      <span class="font-weight-medium">
-        {{ t(`platforms.${item.ad_platform.toLowerCase()}.title`) }}
-      </span>
+      <v-avatar class="mx-4">
+        <v-img :src="getPlatformIcon(`${item.ad_platform}`.toLowerCase())" />
+      </v-avatar>
     </template>
 
     <!-- Status -->
