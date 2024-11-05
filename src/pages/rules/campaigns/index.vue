@@ -187,8 +187,8 @@
       <div class="data-row">
         <p>{{ t("rule_increase_by") }}</p>
         <v-chip class="font-weight-bold" color="primary" label>
-          {{ rule.increment_value }}
-          {{ rule.increment_type === "Percentage" ? "%" : t(user.currency) }}
+          {{ rule.value }}
+          {{ rule.value_type === "Percentage" ? "%" : t(user.currency) }}
         </v-chip>
       </div>
       <div class="data-row">
