@@ -1,147 +1,147 @@
 <script setup>
-import { computed, ref, watch } from 'vue'
-import { useRequest } from 'vue-request'
-import CampaignsRulesService from '@/services/campaign-rule-service'
-import { useSnackbarStore } from '@/stores/useSnackBarStore'
-import { useI18n } from 'vue-i18n'
-import { useBreadcrumbsStore } from '@/stores/useBreadcrumbsStore'
-import { useAuthStore } from '@/stores/useAuthStore'
-import { storeToRefs } from 'pinia'
+  import { computed, ref, watch } from 'vue'
+  import { useRequest } from 'vue-request'
+  import CampaignsRulesService from '@/services/campaign-rule-service'
+  import { useSnackbarStore } from '@/stores/useSnackBarStore'
+  import { useI18n } from 'vue-i18n'
+  import { useBreadcrumbsStore } from '@/stores/useBreadcrumbsStore'
+  import { useAuthStore } from '@/stores/useAuthStore'
+  import { storeToRefs } from 'pinia'
 
-const { show } = useSnackbarStore()
-const { t, locale } = useI18n()
-const { update } = useBreadcrumbsStore()
-const { user } = storeToRefs(useAuthStore())
+  const { show } = useSnackbarStore()
+  const { t, locale } = useI18n()
+  const { update } = useBreadcrumbsStore()
+  const { user } = storeToRefs(useAuthStore())
 
-const isActivateDialogVisible = ref(false)
-const isPauseDialogVisible = ref(false)
-const isDeleteDialogVisible = ref(false)
-const selectedItemId = ref(null)
+  const isActivateDialogVisible = ref(false)
+  const isPauseDialogVisible = ref(false)
+  const isDeleteDialogVisible = ref(false)
+  const selectedItemId = ref(null)
 
-const toggleDialog = (type, id) => {
-  selectedItemId.value = id
+  const toggleDialog = (type, id) => {
+    selectedItemId.value = id
 
-  switch (type) {
-    case 'activate':
-      isActivateDialogVisible.value = true
-      break
-    case 'deactivate':
-      isPauseDialogVisible.value = true
-      break
-    case 'delete':
-      isDeleteDialogVisible.value = true
-      break
+    switch (type) {
+      case 'activate':
+        isActivateDialogVisible.value = true
+        break
+      case 'deactivate':
+        isPauseDialogVisible.value = true
+        break
+      case 'delete':
+        isDeleteDialogVisible.value = true
+        break
+    }
   }
-}
 
-const openControlRuleDialog = ref(false)
-const ruleToEdit = ref(null)
-const rules = ref([])
-const { run: fetchRules, loading: loadingRules } = useRequest(
-  CampaignsRulesService.getAll,
-  {
-    onSuccess: response => {
-      const { data, error, messages } = response.data
-      if (error) {
-        show(messages, 'error')
-        return
-      }
-      rules.value = data
-    },
-  }
-)
-
-const { run: changeStatus, loading: loadingChangeStatus } = useRequest(
-  CampaignsRulesService.changeStatus,
-  {
-    manual: true,
-    onSuccess: response => {
-      const { error, messages } = response.data
-      if (error) {
-        show(messages[0], 'error')
-        return
-      }
-      show(t('status_changed_successfully'), 'success')
-      fetchRules()
-    },
-  }
-)
-
-const { run: deleteRule, loading: loadingDeleteRule } = useRequest(
-  CampaignsRulesService.deleteRule,
-  {
-    manual: true,
-    onSuccess: response => {
-      const { error, messages } = response.data
-      if (error) {
-        show(messages[0], 'error')
-        return
-      }
-      show(t('rule_deleted_successfully'), 'success')
-      fetchRules()
-    },
-  }
-)
-
-const loading = computed(() => loadingRules.value || loadingChangeStatus.value || loadingDeleteRule.value)
-
-const handleEditRule = rule => {
-  openControlRuleDialog.value = true
-  ruleToEdit.value = rule
-}
-
-const handleStatusChange = rule => {
-  toggleDialog(rule.status === 'Active' ? 'deactivate' : 'activate', rule.id)
-}
-const handleDeleteRule = rule => {
-  toggleDialog('delete', rule.id)
-}
-const activateConfirmed = confirmed => {
-  if (!confirmed) return
-  changeStatus({
-    id: selectedItemId.value,
-    status: 'Active',
-  })
-  isActivateDialogVisible.value = false
-}
-
-const pauseConfirmed = confirmed => {
-  if (!confirmed) return
-  changeStatus({
-    id: selectedItemId.value,
-    status: 'Inactive',
-  })
-  isPauseDialogVisible.value = false
-}
-
-const deleteConfirmed = confirmed => {
-  if (!confirmed) return
-  deleteRule({
-    id: selectedItemId.value,
-  })
-  console.log('deleted')
-  isDeleteDialogVisible.value = false
-}
-
-watch(
-  locale,
-  () => {
-    update([
-      {
-        title: t('campaign_rules'),
-        active: false,
-        to: '/rules',
+  const openControlRuleDialog = ref(false)
+  const ruleToEdit = ref(null)
+  const rules = ref([])
+  const { run: fetchRules, loading: loadingRules } = useRequest(
+    CampaignsRulesService.getAll,
+    {
+      onSuccess: response => {
+        const { data, error, messages } = response.data
+        if (error) {
+          show(messages, 'error')
+          return
+        }
+        rules.value = data
       },
-      {
-        title: t('control_rules'),
-        active: true,
-        disabled: true,
-        to: '/rules/campaigns/',
+    }
+  )
+
+  const { run: changeStatus, loading: loadingChangeStatus } = useRequest(
+    CampaignsRulesService.changeStatus,
+    {
+      manual: true,
+      onSuccess: response => {
+        const { error, messages } = response.data
+        if (error) {
+          show(messages[0], 'error')
+          return
+        }
+        show(t('status_changed_successfully'), 'success')
+        fetchRules()
       },
-    ])
-  },
-  { immediate: true }
-)
+    }
+  )
+
+  const { run: deleteRule, loading: loadingDeleteRule } = useRequest(
+    CampaignsRulesService.deleteRule,
+    {
+      manual: true,
+      onSuccess: response => {
+        const { error, messages } = response.data
+        if (error) {
+          show(messages[0], 'error')
+          return
+        }
+        show(t('rule_deleted_successfully'), 'success')
+        fetchRules()
+      },
+    }
+  )
+
+  const loading = computed(() => loadingRules.value || loadingChangeStatus.value || loadingDeleteRule.value)
+
+  const handleEditRule = rule => {
+    openControlRuleDialog.value = true
+    ruleToEdit.value = rule
+  }
+
+  const handleStatusChange = rule => {
+    toggleDialog(rule.status === 'Active' ? 'deactivate' : 'activate', rule.id)
+  }
+  const handleDeleteRule = rule => {
+    toggleDialog('delete', rule.id)
+  }
+  const activateConfirmed = confirmed => {
+    if (!confirmed) return
+    changeStatus({
+      id: selectedItemId.value,
+      status: 'Active',
+    })
+    isActivateDialogVisible.value = false
+  }
+
+  const pauseConfirmed = confirmed => {
+    if (!confirmed) return
+    changeStatus({
+      id: selectedItemId.value,
+      status: 'Inactive',
+    })
+    isPauseDialogVisible.value = false
+  }
+
+  const deleteConfirmed = confirmed => {
+    if (!confirmed) return
+    deleteRule({
+      id: selectedItemId.value,
+    })
+    console.log('deleted')
+    isDeleteDialogVisible.value = false
+  }
+
+  watch(
+    locale,
+    () => {
+      update([
+        {
+          title: t('campaign_rules'),
+          active: false,
+          to: '/rules',
+        },
+        {
+          title: t('control_rules'),
+          active: true,
+          disabled: true,
+          to: '/rules/campaigns/',
+        },
+      ])
+    },
+    { immediate: true }
+  )
 </script>
 
 <template>
@@ -182,9 +182,20 @@ watch(
         </v-chip>
       </div>
       <div class="data-row">
-        <v-btn class="rule-btn" color="primary" flat :text="t('edit')" @click="handleEditRule(rule)" />
-        <v-btn class="rule-btn" :color="rule.status === 'Active' ? 'error' : 'warning'" flat
-          :text="rule.status === 'Active' ? t('deactivate') : t('activate')" @click="handleStatusChange(rule)" />
+        <v-btn
+          class="rule-btn"
+          color="primary"
+          flat
+          :text="t('edit')"
+          @click="handleEditRule(rule)"
+        />
+        <v-btn
+          class="rule-btn"
+          :color="rule.status === 'Active' ? 'error' : 'warning'"
+          flat
+          :text="rule.status === 'Active' ? t('deactivate') : t('activate')"
+          @click="handleStatusChange(rule)"
+        />
       </div>
     </div>
 
@@ -193,15 +204,24 @@ watch(
     </v-dialog>
   </div>
   <!-- Activate Dialog -->
-  <ConfirmDialog v-model:is-dialog-visible="isActivateDialogVisible" :confirmation-question="t('dialog_question')"
-    @confirm="activateConfirmed" />
+  <ConfirmDialog
+    v-model:is-dialog-visible="isActivateDialogVisible"
+    :confirmation-question="t('dialog_question')"
+    @confirm="activateConfirmed"
+  />
 
   <!-- Deactivate Dialog -->
-  <ConfirmDialog v-model:is-dialog-visible="isPauseDialogVisible" :confirmation-question="t('dialog_question')"
-    @confirm="pauseConfirmed" />
+  <ConfirmDialog
+    v-model:is-dialog-visible="isPauseDialogVisible"
+    :confirmation-question="t('dialog_question')"
+    @confirm="pauseConfirmed"
+  />
   <!-- Delete Dialog -->
-  <ConfirmDialog v-model:is-dialog-visible="isDeleteDialogVisible" :confirmation-question="t('dialog_question')"
-    @confirm="deleteConfirmed" />
+  <ConfirmDialog
+    v-model:is-dialog-visible="isDeleteDialogVisible"
+    :confirmation-question="t('dialog_question')"
+    @confirm="deleteConfirmed"
+  />
 </template>
 
 <style lang="scss" scoped>
