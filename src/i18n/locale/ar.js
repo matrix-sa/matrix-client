@@ -997,4 +997,15 @@ export default {
   add_here: 'أدخل هنا',
   send_code_verification: 'أرسل الرمز',
   choose_currency: 'اختر العملة',
+  at_end: "فى أخر",
+  stopCampaign: "ايقاف الحملة",
+  rule_increase_by_percentage: "قم بزيادة الميزانية بنسبة",
+  rule_decrease_by_percentage: "قم بتقليل الميزانية بنسبة",
+  rule_decrease_by_value: "قم بتقليل الميزانية بقيمة",
+  enter_percentage: 'أدخل النسبة',
+  reduce_the_value_Select_the_type_of_reduction: "قم بتقليل القيمة حدد نوع التقليل",
+  stop_campaign_msg: " يمكنك تفعيل نفس الحملة مرة أخرى بشكل سريع عن طريق صفحة الحملات"
+
+
+
 }

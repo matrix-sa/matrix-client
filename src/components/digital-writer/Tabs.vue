@@ -83,7 +83,7 @@
         <v-list-item
           v-for="(item, index) in items"
           :key="index"
-          :class="{ 'v-list-item--active': item.value === activeItem }"
+          :class="{ 'v-list-item--active': item.value == activeItem }"
           @click="setActive(item.value, true)"
         >
           <div>

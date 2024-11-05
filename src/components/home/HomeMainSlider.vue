@@ -102,8 +102,7 @@
               order="1"
               order-sm="2"
               sm="3"
-            >
-            </VCol>
+            />
           </VRow>
         </VCardText>
       </VCarouselItem>

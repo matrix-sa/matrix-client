@@ -47,7 +47,7 @@ export const useAuthStore = defineStore('auth-store', () => {
         mobileNumber: payload.mobile_number,
       }
 
-      //router.push({ name: 'auth-mobile-otp' })
+      // router.push({ name: 'auth-mobile-otp' })
     })
   }
 

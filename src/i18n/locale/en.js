@@ -997,4 +997,15 @@ export default {
   add_here: 'Add Here',
   send_code_verification: 'Send Code Verification',
   choose_currency: 'Choose Currency',
+  at_end: "At End Of",
+  stopCampaign: "Stop Campaign",
+  rule_increase_by_percentage: "Increase budget by percentage",
+
+rule_decrease_by_percentage: "Reduce budget by percentage",
+  rule_decrease_by_value: "Decrease the budget by value",
+  enter_percentage: 'Enter percentage',
+  reduce_the_value_Select_the_type_of_reduction: "Reduce the value Select the type of reduction",
+stop_campaign_msg: "You can quickly activate the same campaign again through the campaigns page"
+
+
 }

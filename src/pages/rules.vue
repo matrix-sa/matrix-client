@@ -1,58 +1,58 @@
 <script setup>
-  import { useI18n } from 'vue-i18n'
-  import controlRulesIcon from '@/assets/control_rule_icon.svg'
-  import controlRulesIconInActive from '@/assets/control_rule_icon_inactive.svg'
-  import communicationRulesIcon from '@/assets/communication_rule_icon.svg'
-  import communicationRulesIconInActive from '@/assets/communication_rule_icon_inactive.svg'
+import { useI18n } from 'vue-i18n'
+import controlRulesIcon from '@/assets/control_rule_icon.svg'
+import controlRulesIconInActive from '@/assets/control_rule_icon_inactive.svg'
+import communicationRulesIcon from '@/assets/communication_rule_icon.svg'
+import communicationRulesIconInActive from '@/assets/communication_rule_icon_inactive.svg'
 
-  const { t } = useI18n()
-  const route = useRoute()
-  const router = useRouter()
+const { t } = useI18n()
+const route = useRoute()
+const router = useRouter()
 
-  const openControlRuleDialog = ref(false)
-  const openCommunicationRuleDialog = ref(false)
+const openControlRuleDialog = ref(false)
+const openCommunicationRuleDialog = ref(false)
 
-  const activeBtnProps = ref({
-    color: 'warning',
-    flat: true,
-  })
+const activeBtnProps = ref({
+  color: 'warning',
+  flat: true,
+})
 
-  const inActiveBtnProps = ref({
-    color: 'surface-variant',
-    flat: true,
-    variant: 'outlined',
-  })
+const inActiveBtnProps = ref({
+  color: 'surface-variant',
+  flat: true,
+  variant: 'outlined',
+})
 
-  const loading = computed(() => false)
-  const isCampaignsRulesTab = computed(() =>
-    route.name.toLowerCase().includes('campaigns')
-  )
-  const usedControlIcon = computed(() =>
-    isCampaignsRulesTab.value ? controlRulesIcon : controlRulesIconInActive
-  )
-  const usedCoomunicationIcon = computed(() =>
-    isCampaignsRulesTab.value
-      ? communicationRulesIconInActive
-      : communicationRulesIcon
-  )
-  const addButtonText = computed(() =>
-    isCampaignsRulesTab.value
-      ? t('add_control_rule')
-      : t('add_communication_rule')
-  )
-  const instructionsText = computed(() =>
-    isCampaignsRulesTab.value
-      ? t('control_rules_instructions')
-      : t('communication_rules_instructions')
-  )
+const loading = computed(() => false)
+const isCampaignsRulesTab = computed(() =>
+  route.name.toLowerCase().includes('campaigns')
+)
+const usedControlIcon = computed(() =>
+  isCampaignsRulesTab.value ? controlRulesIcon : controlRulesIconInActive
+)
+const usedCoomunicationIcon = computed(() =>
+  isCampaignsRulesTab.value
+    ? communicationRulesIconInActive
+    : communicationRulesIcon
+)
+const addButtonText = computed(() =>
+  isCampaignsRulesTab.value
+    ? t('add_control_rule')
+    : t('add_communication_rule')
+)
+const instructionsText = computed(() =>
+  isCampaignsRulesTab.value
+    ? t('control_rules_instructions')
+    : t('communication_rules_instructions')
+)
 
-  const addButtonClickHandler = computed(() =>
-    isCampaignsRulesTab.value
-      ? () => (openControlRuleDialog.value = true)
-      : () => (openCommunicationRuleDialog.value = true)
-  )
+const addButtonClickHandler = computed(() =>
+  isCampaignsRulesTab.value
+    ? () => (openControlRuleDialog.value = true)
+    : () => (openCommunicationRuleDialog.value = true)
+)
 
-  router.push({ name: '/rules/campaigns/' })
+router.push({ name: '/rules/campaigns/' })
 </script>
 
 <template>
@@ -62,12 +62,8 @@
     </v-overlay>
     <div class="main">
       <div class="buttons-container">
-        <v-btn
-          v-bind="isCampaignsRulesTab ? activeBtnProps : inActiveBtnProps"
-          height="40px"
-          rounded
-          :to="{ name: '/rules/campaigns/' }"
-        >
+        <v-btn v-bind="isCampaignsRulesTab ? activeBtnProps : inActiveBtnProps" height="40px" rounded
+          :to="{ name: '/rules/campaigns/' }">
           {{ t("control_rules") }}
           <template #prepend>
             <v-icon>
@@ -75,12 +71,8 @@
             </v-icon>
           </template>
         </v-btn>
-        <v-btn
-          v-bind="isCampaignsRulesTab ? inActiveBtnProps : activeBtnProps"
-          height="40px"
-          rounded
-          :to="{ name: '/rules/communication/' }"
-        >
+        <v-btn v-bind="isCampaignsRulesTab ? inActiveBtnProps : activeBtnProps" height="40px" rounded
+          :to="{ name: '/rules/communication/' }">
           {{ t("communication_rules") }}
           <template #prepend>
             <v-icon>
@@ -89,15 +81,8 @@
           </template>
         </v-btn>
 
-        <v-btn
-          v-bind="activeBtnProps"
-          class="margin-start-auto"
-          height="40px"
-          prepend-icon="gridicons:add"
-          rounded
-          :text="addButtonText"
-          @click="addButtonClickHandler"
-        />
+        <v-btn v-bind="activeBtnProps" class="margin-start-auto" height="40px" prepend-icon="gridicons:add" rounded
+          :text="addButtonText" @click="addButtonClickHandler" />
       </div>
 
       <p class="instructions">{{ instructionsText }}</p>
@@ -170,6 +155,7 @@
 .fade-enter-active {
   transition: all 0.3s ease-out;
 }
+
 .fade-enter-from,
 .fade-leave-to {
   transform: translateX(2em);
@@ -181,20 +167,23 @@
   display: grid;
   grid-template-columns: repeat(3, minmax(300px, 1fr));
   gap: 20px;
+
   .rule-card {
     background-color: rgb(var(--v-theme-background));
     border-radius: 1rem;
     padding: 1rem;
 
-    .v-chip{
+    .v-chip {
       justify-content: center;
       width: 4rem;
       border-radius: 0.25rem;
     }
+
     .row {
       display: flex;
       align-items: center;
       gap: 8px;
+
       .order {
         width: 20px;
         height: 20px;
@@ -204,6 +193,7 @@
         clip-path: circle(50%);
         line-height: 20px;
       }
+
       .check-icon {
         margin-inline-start: auto;
       }
@@ -218,6 +208,7 @@
       justify-content: space-between;
       align-items: center;
       margin-block-end: 0.75rem;
+
       .rule-btn {
         width: 45%;
         border-radius: 12px;

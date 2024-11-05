@@ -20,9 +20,7 @@
       <span>
         {{ t('matrix_digital_writer') }}</span>
     </div>
-    <div class="content-wrapper">
-      {{ message }}
-    </div>
+    <div class="content-wrapper" v-html="message.replace(/\n/g, '<br>')" />
   </div>
 </template>
 
