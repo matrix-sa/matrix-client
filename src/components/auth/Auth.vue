@@ -132,6 +132,8 @@
     class="login-sec"
     style="
       background-image: url('https://matrix.sa/website/ar/images/login-bg.png');
+      font-family: 'Tajawal' !important;
+
     "
   >
     <p v-if="loadingCurrencies">{{ t("loading") }}...</p>
@@ -327,6 +329,10 @@
 @import url("https://matrix.sa/website/ar/css/custom.css");
 @import url("https://matrix.sa/website/ar/css/animations.css");
 @import url("https://matrix.sa/website/ar/css/responsive.css");
+
+ .login-sec * {
+  font-family: "Tajawal", sans-serif !important;
+}
 
 .login-sec {
   height: 100%;
