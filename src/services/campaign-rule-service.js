@@ -24,7 +24,7 @@ const CampaignRuleService = (function () {
   }
 
   const changeStatus = data => {
-    return API.put(`${prefix}/ChangeControlRule`, data)
+    return API.put(`${prefix}/ChangeControlRuleStatus`, data)
   }
 
   const deleteRule = data => {
