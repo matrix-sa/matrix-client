@@ -12,8 +12,6 @@
 
   const items1 = ref([])
 
-  const items2 = ref([])
-
   const isActive = (to, partial) =>
     partial ? route.name?.includes(to) : route.name === to
 
@@ -35,12 +33,12 @@
           },
         },
         {
-          title: t('account_connect'),
+          title: t('reports'),
           props: {
-            prependIcon: 'tabler-link',
-            active: isActive('/link-ad-accounts', true),
-            to: { name: '/link-ad-accounts' },
-            disabled: false,
+            prependIcon: 'tabler-report',
+            active: isActive('/reports/'),
+            to: { name: '/reports/', params: { tab: 'campaigns' } },
+            disabled: userShouldLink.value,
           },
         },
         {
@@ -61,18 +59,6 @@
             disabled: userShouldLink.value,
           },
         },
-        {
-          title: t('reports'),
-          props: {
-            prependIcon: 'tabler-report',
-            active: isActive('/reports/'),
-            to: { name: '/reports/', params: { tab: 'campaigns' } },
-            disabled: userShouldLink.value,
-          },
-        },
-      ]
-
-      items2.value = [
         {
           title: t('digital_writer'),
           props: {
@@ -101,21 +87,21 @@
           },
         },
         {
-          title: t('marketing-consultation-order.name'),
+          title: t('account_connect'),
           props: {
-            prependIcon: 'lets-icons:order',
-            active: isActive('/marketing-consultations-orders/'),
-            to: { name: '/marketing-consultations-orders/' },
-            disabled: userShouldLink.value,
+            prependIcon: 'tabler-link',
+            active: isActive('/link-ad-accounts', true),
+            to: { name: '/link-ad-accounts' },
+            disabled: false,
           },
         },
         {
-          title: t('dashboard'),
+          title: t('account_settings'),
           props: {
-            prependIcon: 'tabler-dashboard',
-            active: isActive('/'),
-            to: { name: '/' },
-            disabled: userShouldLink.value,
+            prependIcon: 'tabler-link',
+            active: isActive('/account-settings', true),
+            to: { name: '/account-settings/' },
+            disabled: false,
           },
         },
       ]
@@ -142,21 +128,6 @@
         class="nav-item"
         :class="{
           active: item.props.active,
-        }"
-        :to="item.props.to"
-      >
-        <p><v-icon :icon="item.props.prependIcon" /></p>
-        <p>{{ item.title }}</p>
-      </RouterLink>
-
-      <v-divider class="mx-5 my-3" :thickness="2" />
-
-      <RouterLink
-        v-for="(item, index) in items2"
-        :key="index"
-        class="nav-item"
-        :class="{
-          active: isActive(item.props.to),
         }"
         :to="item.props.to"
       >

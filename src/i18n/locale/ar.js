@@ -445,7 +445,7 @@ export default {
   city: ' المدينة ',
   provinces: 'المناطق ',
   publishing_platform: ' منصة النشر ',
-  account_connect: 'توصيل حساب',
+  account_connect: 'إعدادات الخدمات',
   store_connect: 'توصيل متجر',
   last_day: 'اليوم السابق',
   last_week: 'الأسبوع السابق',
