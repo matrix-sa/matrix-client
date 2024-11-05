@@ -7,6 +7,7 @@
   import connectionRuleIcon from '@/assets/doc.svg'
   import AppSelect from '../core/AppSelect.vue'
   import AppCheckBox from '../core/AppCheckBox.vue'
+  import { useRulesModalsStore } from '@/stores/rulesModalsStore'
 
   import whatsApp from '@/assets/whats.svg'
   import sms from '@/assets/email.svg'
@@ -33,6 +34,7 @@
 
   const { t } = useI18n()
   const { show } = useSnackbarStore()
+  const rulesModalsStore = useRulesModalsStore()
 
   const handleClose = () => {
     emit('update:isDialogVisible', false)
@@ -70,6 +72,7 @@
         }
 
         emit('saved', true)
+        rulesModalsStore.modalSaved()
         show(t('the_connection_rule_has_been_created'), 'success')
         emit('update:isDialogVisible', false)
       },
@@ -87,6 +90,7 @@
           return
         }
         emit('saved', true)
+        rulesModalsStore.modalSaved()
         show(t('the_connection_rule_has_been_updated'), 'success')
         emit('update:isDialogVisible', false)
       },

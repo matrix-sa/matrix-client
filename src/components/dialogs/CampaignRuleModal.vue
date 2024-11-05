@@ -7,6 +7,7 @@
   import ruleIcon from '@/assets/rule-icon.svg'
   import AppChipSelect from '../core/AppChipSelect.vue'
   import CampaignRuleService from '@/services/campaign-rule-service'
+  import { useRulesModalsStore } from '@/stores/rulesModalsStore'
 
   const props = defineProps({
     rule: {
@@ -29,6 +30,7 @@
 
   const { t } = useI18n()
   const { show } = useSnackbarStore()
+  const rulesModalsStore = useRulesModalsStore()
 
   const handleClose = () => emit('update:isDialogVisible', false)
 
@@ -45,7 +47,7 @@
       form.value.roas_condition &&
       form.value.roas_comparing_value != null &&
       form.value.value_type &&
-      ((form.value.value != null && form.value.value != '') && !isValueTypeStopCampaign.value) &&
+      ((form.value.value != null && form.value.value !== '') && !isValueTypeStopCampaign.value) &&
       form.value.last_days != null
     )
   })
@@ -85,6 +87,7 @@
         show(t(error ? messages[0] : 'the_control_base_has_been_created'), error ? 'error' : 'success')
         if (!error) emit('update:isDialogVisible', false)
         emit('saved', !error)
+        rulesModalsStore.modalSaved()
       },
     },
   )
@@ -98,6 +101,7 @@
         show(t(error ? messages[0] : 'campaign_rule_updated_successfully'), error ? 'error' : 'success')
         if (!error) emit('update:isDialogVisible', false)
         emit('saved', !error)
+        rulesModalsStore.modalSaved()
       },
     }
   )

@@ -7,11 +7,13 @@
   import { useBreadcrumbsStore } from '@/stores/useBreadcrumbsStore'
   import { useAuthStore } from '@/stores/useAuthStore'
   import { storeToRefs } from 'pinia'
+  import { useRulesModalsStore } from '@/stores/rulesModalsStore'
 
   const { show } = useSnackbarStore()
   const { t, locale } = useI18n()
   const { update } = useBreadcrumbsStore()
   const { user } = storeToRefs(useAuthStore())
+  const rulesModalsStore = useRulesModalsStore()
 
   const isActivateDialogVisible = ref(false)
   const isPauseDialogVisible = ref(false)
@@ -122,6 +124,15 @@
     isDeleteDialogVisible.value = false
   }
 
+  rulesModalsStore.$onAction(
+    ({
+      name,
+    }) => {
+      if (name !== 'modalSaved') return
+      fetchRules()
+    }
+  )
+
   watch(
     locale,
     () => {
@@ -199,7 +210,11 @@
     </div>
 
     <v-dialog v-model="openControlRuleDialog" max-width="500">
-      <CampaignRuleModal v-model:is-dialog-visible="openControlRuleDialog" :rule="ruleToEdit" @saved="fetchRules" />
+      <CampaignRuleModal
+        v-model:is-dialog-visible="openControlRuleDialog"
+        :rule="ruleToEdit"
+        @saved="fetchRules"
+      />
     </v-dialog>
     <!-- Activate Dialog -->
     <ConfirmDialog

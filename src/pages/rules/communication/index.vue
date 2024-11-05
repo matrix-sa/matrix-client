@@ -8,10 +8,12 @@
   import mailIcon from '@/assets/mail.svg'
   import whatsappIcon from '@/assets/whatsapp.svg'
   import smsIcon from '@/assets/sms.svg'
+  import { useRulesModalsStore } from '@/stores/rulesModalsStore'
 
   const { show } = useSnackbarStore()
   const { t, locale } = useI18n()
   const { update } = useBreadcrumbsStore()
+  const rulesModalsStore = useRulesModalsStore()
 
   const openCommunicationRuleDialog = ref(false)
   const openDeleteDialog = ref(false)
@@ -98,6 +100,15 @@
     })
     openStatusChangeDialog.value = false
   }
+
+  rulesModalsStore.$onAction(
+    ({
+      name,
+    }) => {
+      if (name !== 'modalSaved') return
+      fetchRules()
+    }
+  )
 
   watch(
     locale,
