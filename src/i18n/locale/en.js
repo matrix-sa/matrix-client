@@ -1016,4 +1016,5 @@ export default {
   my_notifications_desc:
     'You can modify the type of notifications you receive from the notification settings.',
   ctr: 'CTR',
+  customers_count: 'Customers Count',
 }

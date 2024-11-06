@@ -1014,4 +1014,5 @@ export default {
   my_notifications_desc:
     'يمكنك تعديل نوع الإ‘شعارات التي تصلك من إعدادات الإشعارات.',
   ctr: 'معدل النقر',
+  customers_count: 'عدد العملاء',
 }
