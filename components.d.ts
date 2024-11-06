@@ -85,7 +85,6 @@ declare module 'vue' {
     PlatformCampaignsTable: typeof import('./src/components/campaigns/PlatformCampaignsTable.vue')['default']
     Question: typeof import('./src/components/digital-writer/Question.vue')['default']
     Questions: typeof import('./src/components/digital-writer/Questions.vue')['default']
-    Recommendation: typeof import('./src/components/Recommendation/RecommendationList.vue')['default']
     RecommendationList: typeof import('./src/components/Recommendation/RecommendationList.vue')['default']
     ReportCharts: typeof import('./src/components/reports/ReportCharts.vue')['default']
     ReportsNavBar: typeof import('./src/components/reports/ReportsNavBar.vue')['default']

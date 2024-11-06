@@ -1007,4 +1007,6 @@ export default {
   stop_campaign_msg: ' يمكنك تفعيل نفس الحملة مرة أخرى بشكل سريع عن طريق صفحة الحملات',
   useful: 'مفيدة',
   useful_recommendations: 'توصيات مفيدة',
+  add_ad: 'أضف إعلان',
+  add_ad_group: 'أضف مجموعة إعلانية',
 }
