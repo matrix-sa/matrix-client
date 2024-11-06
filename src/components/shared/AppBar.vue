@@ -9,6 +9,10 @@
   const breadcrumbsStore = useBreadcrumbsStore()
   const { items } = storeToRefs(breadcrumbsStore)
   const prependColor = computed(() => items.value.length === 1 ? 'orange' : '')
+  const router = useRouter()
+  const redirectionToNotifications = () => {
+    router.push({ name: '/notifications/' })
+  }
 </script>
 
 <template>
@@ -20,11 +24,7 @@
             <v-icon icon="mdi:dot" />
           </template>
           <template #prepend>
-            <v-icon
-              :color="prependColor"
-              icon="mdi:dot"
-              size="24"
-            />
+            <v-icon :color="prependColor" icon="mdi:dot" size="24" />
           </template>
         </VBreadcrumbs>
       </div>
@@ -49,7 +49,13 @@
 
         </VBtn>
 
-        <VBtn base-color="black" class="notification-btn" stacked variant="plain">
+        <VBtn
+          base-color="black"
+          class="notification-btn"
+          stacked
+          variant="plain"
+          @click="redirectionToNotifications"
+        >
           <VBadge color="orange" dot>
             <svg
               fill="none"
@@ -182,7 +188,7 @@
     color: rgb(var(--v-theme-primary)) !important;
   }
 
-  li:has(.v-breadcrumbs__prepend){
+  li:has(.v-breadcrumbs__prepend) {
     display: inline-block;
     vertical-align: middle;
     padding: 0;
@@ -193,7 +199,7 @@
     color: rgb(var(--v-theme-primary)) !important;
   }
 
-  .v-breadcrumbs-divider{
+  .v-breadcrumbs-divider {
     padding: 0;
   }
 }
