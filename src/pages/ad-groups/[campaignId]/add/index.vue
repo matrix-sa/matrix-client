@@ -7,6 +7,7 @@
   const { update } = useBreadcrumbsStore()
 
   const platform = route.query.platform?.toLocaleLowerCase()
+  const campaignId = route.params.campaignId
 
   watch(
     locale,
@@ -43,9 +44,10 @@
       </div>
     </header>
     <v-divider class="mb-4 mt-6" />
-    <AdsGroupTiktokForm v-if="platform === 'tiktok'" />
-    <AdsGroupXForm v-if="platform === 'twitter'" />
-    <AdsGroupGoogleForm v-if="platform === 'googleads'" />
+    <AdsGroupTiktokForm v-if="platform === 'tiktok'" :campaign-id="campaignId" />
+    <AdsGroupSnapchatForm v-if="platform === 'snapchat'" :campaign-id="campaignId" />
+    <AdsGroupXForm v-if="platform === 'twitter'" :campaign-id="campaignId" />
+    <AdsGroupGoogleForm v-if="platform === 'googleads'" :campaign-id="campaignId" />
   </div>
 </template>
 

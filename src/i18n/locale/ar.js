@@ -953,11 +953,13 @@ export default {
   select_date: 'حدد التاريخ',
   select_time: 'حدد الوقت',
   a_conversation_about_advertising_texts: 'محادثة تخص النصوص الإعلانية',
-  result_text: 'عند حصولك على ماتحتاج يمكنك انهاء المحادثة وسيتم حفظ المحادثة مع المحادثات السبقة',
+  result_text:
+    'عند حصولك على ماتحتاج يمكنك انهاء المحادثة وسيتم حفظ المحادثة مع المحادثات السبقة',
   finish_chat: 'انهاء المحادثة',
   my_answers_title: 'إجاباتي على الأسئلة',
   matrix_digital_writer: 'كاتب مايتركس الرقمي',
-  dummy: 'هذا نص إجابة يتم توليده من الذكاء الصناعي بناءً على أجوبة المستخدم ... هذا نص إجابة يتم توليده من الذكاء الصناعي بناءً على أجوبة المستخدم ... ',
+  dummy:
+    'هذا نص إجابة يتم توليده من الذكاء الصناعي بناءً على أجوبة المستخدم ... هذا نص إجابة يتم توليده من الذكاء الصناعي بناءً على أجوبة المستخدم ... ',
   enter_text_here: 'أدخل نص هنا ...',
   Khuzama: 'خزامى',
   connect_to: 'الاتصال ب',
@@ -974,7 +976,7 @@ export default {
   sales_performance: 'أداء المبيعات',
   select_range: 'حدد النطاق',
   for_the_last_30_days: 'لآخر 30 يوم',
-  frequency: ' معدل تكرار الوصول',
+  frequency: ' معدل التكرار',
   average_access_cost: 'متوسط تكلفة الوصول',
   average_cost_per_customer: 'متوسط تكلفة العميل',
   overall_performance: 'الأداء العام',
@@ -993,7 +995,8 @@ export default {
   look_for_campaign: 'ابحث عن حملة',
   create_account: 'قم بإنشاء حسابك مجانا',
   welcome_back_to_matrix: 'مرحبا بك مرة أخري في ماتريكس',
-  login_message: 'قم بتسجيل الدخول إلي حساب ماتريكس الخاص بك وتحكم في مبيعات منتجاتك وحملاتك التسويقية',
+  login_message:
+    'قم بتسجيل الدخول إلي حساب ماتريكس الخاص بك وتحكم في مبيعات منتجاتك وحملاتك التسويقية',
   add_here: 'أدخل هنا',
   send_code_verification: 'أرسل الرمز',
   choose_currency: 'اختر العملة',
@@ -1003,13 +1006,16 @@ export default {
   rule_decrease_by_percentage: 'قم بتقليل الميزانية بنسبة',
   rule_decrease_by_value: 'قم بتقليل الميزانية بقيمة',
   enter_percentage: 'أدخل النسبة',
-  reduce_the_value_Select_the_type_of_reduction: 'قم بتقليل القيمة حدد نوع التقليل',
-  stop_campaign_msg: ' يمكنك تفعيل نفس الحملة مرة أخرى بشكل سريع عن طريق صفحة الحملات',
+  reduce_the_value_Select_the_type_of_reduction:
+    'قم بتقليل القيمة حدد نوع التقليل',
+  stop_campaign_msg:
+    ' يمكنك تفعيل نفس الحملة مرة أخرى بشكل سريع عن طريق صفحة الحملات',
   my_notifications: 'إشعاراتي',
   my_notifications_desc: 'يمكنك تعديل نوع الإ‘شعارات التي تصلك من',
   not_settings: 'إعدادات الإشعارات',
   you_have: 'لديك',
   new_notifications: 'اشعارات جديدة',
   show_all: 'عرض الكل',
-
+  ctr: 'معدل النقر',
+  customers_count: 'عدد العملاء',
 }

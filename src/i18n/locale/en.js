@@ -953,12 +953,15 @@ export default {
   the_connection_rule_has_been_updated: 'The connection rule has been updated',
   select_date: 'Select Date',
   select_time: 'Select Time',
-  a_conversation_about_advertising_texts: 'A conversation about advertising texts',
-  result_text: 'When you get what you need, you can end the conversation and the conversation will be saved with the previous conversations',
+  a_conversation_about_advertising_texts:
+    'A conversation about advertising texts',
+  result_text:
+    'When you get what you need, you can end the conversation and the conversation will be saved with the previous conversations',
   finish_chat: 'End conversation',
   my_answers_title: 'My answers to the questions',
   matrix_digital_writer: 'Matrix Digital Writer',
-  dummy: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley",
+  dummy:
+    "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley",
   enter_text_here: 'Enter Text Here...',
   Khuzama: 'Khuzama',
   connect_to: 'Connect to',
@@ -993,7 +996,8 @@ export default {
   look_for_campaign: 'Look for Campaign',
   create_account: 'Create Account for Free',
   welcome_back_to_matrix: 'Welcome back to Matrix',
-  login_message: 'Log in to your Matrix account and control your product sales and marketing campaigns',
+  login_message:
+    'Log in to your Matrix account and control your product sales and marketing campaigns',
   add_here: 'Add Here',
   send_code_verification: 'Send Code Verification',
   choose_currency: 'Choose Currency',
@@ -1004,13 +1008,16 @@ export default {
   rule_decrease_by_percentage: 'Reduce budget by percentage',
   rule_decrease_by_value: 'Decrease the budget by value',
   enter_percentage: 'Enter percentage',
-  reduce_the_value_Select_the_type_of_reduction: 'Reduce the value Select the type of reduction',
-  stop_campaign_msg: 'You can quickly activate the same campaign again through the campaigns page',
+  reduce_the_value_Select_the_type_of_reduction:
+    'Reduce the value Select the type of reduction',
+  stop_campaign_msg:
+    'You can quickly activate the same campaign again through the campaigns page',
   my_notifications: 'notifications',
   my_notifications_desc: 'You can modify the type of notifications you receive from the',
   not_settings: ' notification settings.',
   you_have: 'You Have',
   new_notifications: 'New Notifications',
   show_all: 'Show All',
-
+  ctr: 'CTR',
+  customers_count: 'Customers Count',
 }

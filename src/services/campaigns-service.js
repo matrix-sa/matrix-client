@@ -6,16 +6,14 @@ const CampaignsService = (function () {
 
   const prefixFormat = platform =>
     platform
-      ? platform == 'Google'
-        ? 'GoogleAds/Campaigns'
-        : `${platform}/Campaigns`
+      ? `${platform}/Campaigns`
       : 'Clients/Campaigns'
 
   // const prefix = "https://test.matrix.sa/Demo/Clients/Campaigns"
   // const prefixFormat = platform => platform ?  `https://test.matrix.sa/Demo/${platform}/Campaigns` : "https://test.matrix.sa/Demo/Clients/Campaigns"
 
   const get = params => {
-    return API.get(`${prefix}/GetCampaigns`, params)
+    return API.get(`${prefix}/GetCampaignsV2`, params)
   }
 
   const getAll = () => {
@@ -23,7 +21,7 @@ const CampaignsService = (function () {
   }
 
   const getById = params => {
-    if (useRoute().query.platform == 'GoogleAds') {
+    if (useRoute().query.platform === 'GoogleAds') {
       params.isGoogleAds = true
     }
 
