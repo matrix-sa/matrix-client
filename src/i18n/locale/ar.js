@@ -1005,5 +1005,6 @@ export default {
   enter_percentage: 'أدخل النسبة',
   reduce_the_value_Select_the_type_of_reduction: 'قم بتقليل القيمة حدد نوع التقليل',
   stop_campaign_msg: ' يمكنك تفعيل نفس الحملة مرة أخرى بشكل سريع عن طريق صفحة الحملات',
-
+  useful: 'مفيدة',
+  useful_recommendations: 'توصيات مفيدة',
 }
