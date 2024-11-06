@@ -81,8 +81,6 @@ declare module 'vue' {
     MediaFileUpload: typeof import('./src/components/core/MediaFileUpload.vue')['default']
     MetaButton: typeof import('./src/components/platforms/meta/MetaButton.vue')['default']
     MobileLayout: typeof import('./src/components/shared/MobileLayout.vue')['default']
-    Notification: typeof import('./src/components/notifications/NotificationItem.vue')['default']
-    Notificationdd: typeof import('./src/components/notifications/NotificationItem.vue')['default']
     NotificationItem: typeof import('./src/components/notifications/NotificationItem.vue')['default']
     Notifications: typeof import('./src/components/notifications/Notifications.vue')['default']
     OrderedPlatformsByPerformance: typeof import('./src/components/reports/OrderedPlatformsByPerformance.vue')['default']

@@ -5,7 +5,6 @@
   import { useI18n } from 'vue-i18n'
   import { paginationMeta } from '@/composable/utils'
   import debounce from 'lodash/debounce'
-  import moment from 'moment'
   import snapchat from '@/assets/images/logos/reports/snap.svg'
   import tiktok from '@/assets/images/logos/reports/tiktok.svg'
   import facebook from '@/assets/images/logos/reports/meta.svg'
@@ -35,7 +34,10 @@
       youtube,
       twitter,
     }
-    return icons[platformName] || 'https://cdn-icons-png.flaticon.com/512/6415/6415824.png'
+    return (
+      icons[platformName] ||
+      'https://cdn-icons-png.flaticon.com/512/6415/6415824.png'
+    )
   }
 
   const emits = defineEmits(['selectionUpdated'])
@@ -66,24 +68,44 @@
       key: 'name',
     },
     {
-      title: t('ad_platform'),
-      key: 'ad_platform',
+      title: t('platform'),
+      key: 'platform',
     },
     {
       title: t('status'),
       key: 'status',
     },
     {
-      title: t('start_time'),
-      key: 'start_time',
+      title: t('spending'),
+      key: 'spending',
     },
     {
-      title: t('end_time'),
-      key: 'end_time',
+      title: t('reach'),
+      key: 'reach',
     },
     {
-      title: t('daily_budget'),
-      key: 'daily_budget',
+      title: t('views'),
+      key: 'views',
+    },
+    {
+      title: t('frequency'),
+      key: 'frequency',
+    },
+    {
+      title: t('ctr'),
+      key: 'ctr',
+    },
+    {
+      title: t('orders_count'),
+      key: 'sales',
+    },
+    {
+      title: t('total_sales'),
+      key: 'total_sales',
+    },
+    {
+      title: t('customers_count'),
+      key: 'customers_count',
     },
     {
       title: '',
@@ -92,14 +114,17 @@
     },
   ]
 
+  const statuses = ['Paused', 'Created', 'Started', 'Active']
+
   const { run, loading: loadingFetchingData } = usePagination(
-    () => CampaignsService.get({
-      PageSize: options.value.itemsPerPage,
-      Page: options.value.page,
-      StartDate: dateRange.value?.[0],
-      EndDate: dateRange.value?.[dateRange.value.length - 1],
-      Search: search.value,
-    }),
+    () =>
+      CampaignsService.get({
+        PageSize: options.value.itemsPerPage,
+        Page: options.value.page,
+        StartDate: dateRange.value?.[0],
+        EndDate: dateRange.value?.[dateRange.value.length - 1],
+        Search: search.value,
+      }),
     {
       manual: true,
       onSuccess: res => {
@@ -250,12 +275,6 @@
     return t(`campaign_status_${loweredStatus}`)
   }
 
-  const handleDate = date => {
-    if (!date) return t('no_date')
-
-    return moment(date).format('D/M/YYYY')
-  }
-
   const loading = computed(() => {
     return (
       loadingFetchingData.value ||
@@ -266,7 +285,10 @@
   })
 
   watch(selectedItems, newValue => {
-    emits('selectionUpdated', campaigns.value.filter(c => newValue.includes(c.id)))
+    emits(
+      'selectionUpdated',
+      campaigns.value.filter(c => newValue.includes(c.id))
+    )
   })
 </script>
 <template>
@@ -284,28 +306,10 @@
     show-select
     @update:options="options = $event"
   >
-    <!-- Start Time -->
-    <template #item.start_time="{ item }">
-      <td class="d-flex flex-column">
-        <span class="font-weight-medium">
-          {{ handleDate(item.start_time) }}
-        </span>
-      </td>
-    </template>
-
-    <!-- End Time -->
-    <template #item.end_time="{ item }">
-      <td class="d-flex flex-column">
-        <span class="font-weight-medium">
-          {{ handleDate(item.end_time) }}
-        </span>
-      </td>
-    </template>
-
     <!-- Platform -->
-    <template #item.ad_platform="{ item }">
+    <template #item.platform="{ item }">
       <v-avatar class="mx-4">
-        <v-img :src="getPlatformIcon(`${item.ad_platform}`.toLowerCase())" />
+        <v-img :src="getPlatformIcon(`${item.platform}`.toLowerCase())" />
       </v-avatar>
     </template>
 
@@ -327,7 +331,7 @@
         <template #activator="{ props: toolTipProps }">
           <VBtn
             v-bind="toolTipProps"
-            @click="toggleDialog('delete', item.id, item.ad_platform)"
+            @click="toggleDialog('delete', item.id, item.platform)"
           >
             <VIcon color="error" icon="tabler-trash" />
           </VBtn>
@@ -337,37 +341,30 @@
         <template #activator="{ props: toolTipProps }">
           <VBtn
             v-bind="toolTipProps"
-            @click="editCampaign(item.id, item.ad_platform)"
+            @click="editCampaign(item.id, item.platform)"
           >
             <VIcon icon="tabler-edit" />
           </VBtn>
         </template>
       </VTooltip>
       <VTooltip
-        v-if="
-          ['Paused', 'Created', 'Started', 'Active'].includes(item.status)
+        v-if="statuses.includes(item.status)"
+        :text="
+          item.status === 'Paused' ? t('start_campaign') : t('pause_campaign')
         "
-        :text="item.status === 'Paused' ? t('start_campaign'): t('pause_campaign')"
       >
         <template #activator="{ props: toolTipProps }">
           <VBtn
-            v-if="
-              ['Paused', 'Created', 'Started', 'Active'].includes(item.status)
-            "
+            v-if="statuses.includes(item.status)"
             v-bind="toolTipProps"
             @click="
-              toggleDialog(
-                getStatusAction(item.status),
-                item.id,
-                item.ad_platform
-              )
+              toggleDialog(getStatusAction(item.status), item.id, item.platform)
             "
           >
             <VIcon :icon="getPlayButtonIcon(item.status)" />
           </VBtn>
         </template>
       </VTooltip>
-
     </template>
 
     <!-- pagination -->
