@@ -1017,4 +1017,5 @@ export default {
     'You can modify the type of notifications you receive from the notification settings.',
   ctr: 'CTR',
   customers_count: 'Customers Count',
+  location_modal: 'Targeted Location',
 }

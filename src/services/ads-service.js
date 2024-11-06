@@ -43,10 +43,6 @@ const AdsService = (function () {
     return API.delete(`${platform}/Ads/DeleteAd`, params)
   }
 
-  const getSupportedCountries = platform => {
-    return API.get(`${platform}/Targeting/GetCountries`)
-  }
-
   const getSupportedRegions = (platform, CountryCode) => {
     return API.get(`${platform}/Targeting/GetRegions`, { CountryCode })
   }
@@ -69,7 +65,6 @@ const AdsService = (function () {
     relaunch,
     pause,
     deleteAd,
-    getSupportedCountries,
     getSupportedRegions,
     getSupportedCities,
     getSupportedProvinces,

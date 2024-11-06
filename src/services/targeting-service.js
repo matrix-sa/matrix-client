@@ -35,6 +35,10 @@ const TargetingService = (function () {
     return API.get(`${prefix}/Meta/Targeting/GetCities`, params)
   }
 
+  const getSupportedCountries = platform => {
+    return API.get(`${platform}/Targeting/GetCountries`)
+  }
+
   const getGoogleSuggestedLocations = params => {
     return API.get(
       `${prefix}/GoogleAds/Targeting/GetSuggestedLocations`,
@@ -51,6 +55,7 @@ const TargetingService = (function () {
     getMetaCountries,
     getMetaRegions,
     getMetaCities,
+    getSupportedCountries,
     getGoogleSuggestedLocations,
   }
 })()

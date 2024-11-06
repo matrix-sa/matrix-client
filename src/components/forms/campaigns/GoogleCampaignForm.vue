@@ -1,11 +1,8 @@
 <script setup>
   import i18n from '@/i18n'
-  import AdsService from '@/services/ads-service'
   import CampaignsService from '@/services/campaigns-service'
-  import TargetingService from '@/services/targeting-service'
   import useSnackbar from '@/composable/useSnackbar'
   import { requiredValidator } from '@/utilities/validators'
-  import { debounce } from 'lodash'
   import { watch } from 'vue'
   import { useRequest } from 'vue-request'
   import { useRouter } from 'vue-router'
@@ -27,9 +24,6 @@
 
   const { t } = i18n.global
 
-  const selectedCountry = ref(null)
-  const suggestedLocations = ref([])
-  const countries = ref([])
   const campaign = ref(props.campaign)
 
   const languages = ref([
@@ -53,6 +47,8 @@
     language_code: '',
   })
 
+  const openLocationModal = ref(false)
+
   const router = useRouter()
 
   const userData = JSON.parse(localStorage.getItem('userData') || 'null')
@@ -70,32 +66,6 @@
       code: 'MaximizeConversionValue',
     },
   ]
-
-  const { run: getSupportedCountries, loading: loadingCountries } = useRequest(
-    data => AdsService.getSupportedCountries('GoogleAds'),
-    {
-      onSuccess: res => {
-        const { error, data, messages, code } = res.data
-
-        if (error) {
-          show(messages[0], 'error')
-        }
-        countries.value = data ?? []
-      },
-    },
-  )
-
-  if (!props.isEditMode) {
-    getSupportedCountries()
-  }
-
-  const rules = reactive({
-    // daily_budget: [integerValidator],
-    target_roas: [],
-    target_cps: [],
-    city: [],
-    country_id: [],
-  })
 
   const onSubmit = () => {
     props.data.refVForm?.validate().then(({ valid }) => {
@@ -137,27 +107,6 @@
     })
   }
 
-  const { run: getSuggestedLocations, loading: loadingSuggestedLocations } =
-    useRequest(
-      props =>
-        TargetingService.getGoogleSuggestedLocations({
-          countryCode: props ? props.country_code : selectedCountry.value,
-          name: props ? props.name_ar : form.value.city,
-        }),
-      {
-        manual: true,
-        onSuccess: res => {
-          const { error, data, messages } = res.data
-
-          if (error) {
-            show(messages[0], 'error')
-          }
-
-          suggestedLocations.value = data ?? []
-        },
-      },
-    )
-
   const { run: runAdd, loading: loadingAdd } = useRequest(
     data => CampaignsService.create(data),
     {
@@ -172,7 +121,7 @@
           router.push({ name: '/campaigns/' })
         }
       },
-    },
+    }
   )
 
   const { run: runUpdate, loading: loadingUpdate } = useRequest(
@@ -189,40 +138,10 @@
           router.push({ name: 'campaigns' })
         }
       },
-    },
-  )
-
-  const handleDebounceLocation = debounce(() => {
-    form.value.location = ''
-
-    getSuggestedLocations()
-  }, 1000)
-
-  watch(
-    props,
-    () => {
-    },
-    { deep: true },
-  )
-
-  watch(selectedCountry, val => {
-    if (val && form.value.city) {
-      form.value.location = ''
-
-      getSuggestedLocations()
     }
-  })
-
-  watch(
-    () => form.value.city,
-    city => {
-      if (city && selectedCountry?.value) {
-        form.value.location = ''
-
-        handleDebounceLocation()
-      }
-    },
   )
+
+  watch(props, () => {}, { deep: true })
 
   const initializeFormValues = () => {
     campaign.value = props?.data?.campaign
@@ -243,10 +162,6 @@
 
       if (target_cpa) form.value.target_cpa = target_cpa
       if (target_roas) form.value.target_roas = target_roas
-
-      selectedCountry.value = country_code
-      getSuggestedLocations({ country_code, name_ar })
-      form.value.location = code
     }
   }
 
@@ -270,7 +185,10 @@
           :rules="[requiredValidator]"
         />
       </VCol>
-      <VCol v-if="form.selectedBiddingStrategy == 'MaximizeConversions'" cols="12">
+      <VCol
+        v-if="form.selectedBiddingStrategy == 'MaximizeConversions'"
+        cols="12"
+      >
         <AppTextInput
           v-model="form.target_cpa"
           autofocus
@@ -281,7 +199,10 @@
         />
       </VCol>
 
-      <VCol v-if="form.selectedBiddingStrategy == 'MaximizeConversionValue'" cols="12">
+      <VCol
+        v-if="form.selectedBiddingStrategy == 'MaximizeConversionValue'"
+        cols="12"
+      >
         <AppTextInput
           v-model="form.target_roas"
           autofocus
@@ -292,44 +213,7 @@
         />
       </VCol>
 
-      <VCol cols="12">
-
-        <AppAutocomplete
-          :id="`country-${form.id}`"
-          v-model="selectedCountry"
-          hide-no-data
-          :item-title="(item) => item.name"
-          :item-value="(item) => item.id"
-          :items="countries"
-          :label="$t('country')"
-          :loading="loadingCountries"
-          :rules="[requiredValidator]"
-        />
-      </VCol>
-
-      <VCol cols="12">
-        <AppTextInput
-          v-model="form.city"
-          autofocus
-          :disabled="!selectedCountry"
-          :label="$t('city')"
-          :rules="[requiredValidator]"
-        />
-      </VCol>
-
-      <VCol cols="12">
-        <AppSelect
-          v-if="!props.isEditMode"
-          v-model="form.location"
-          hide-no-data
-          :item-title="(item) => item.name"
-          :item-value="(item) => item.id"
-          :items="suggestedLocations"
-          :label="$t('location')"
-          :loading="loadingSuggestedLocations"
-          :rules="[requiredValidator]"
-        />
-      </VCol>
+      <v-btn :text="$t('country')" @click="() => (openLocationModal = true)" />
 
       <VCol cols="12">
         <AppSelect
@@ -355,5 +239,8 @@
         />
       </VCol>
     </VRow>
+    <v-dialog v-model="openLocationModal" max-width="500">
+      <GoogleAdsLocationModal v-model:is-dialog-visible="openLocationModal" />
+    </v-dialog>
   </VCol>
 </template>

@@ -45,6 +45,7 @@ declare module 'vue' {
     EmptyState: typeof import('./src/components/core/EmptyState.vue')['default']
     ExpansionPanel: typeof import('./src/components/digital-writer/chatbot/ExpansionPanel.vue')['default']
     Form: typeof import('./src/components/digital-writer/chatbot/Form.vue')['default']
+    GoogleAdsLocationModal: typeof import('./src/components/dialogs/location/GoogleAdsLocationModal.vue')['default']
     GoogleCampaignForm: typeof import('./src/components/forms/campaigns/GoogleCampaignForm.vue')['default']
     Header: typeof import('./src/components/digital-writer/Header.vue')['default']
     HomeAdsStatistics: typeof import('./src/components/home/HomeAdsStatistics.vue')['default']
