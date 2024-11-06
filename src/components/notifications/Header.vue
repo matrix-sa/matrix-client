@@ -9,7 +9,7 @@
 
     <div class="text-wrapper d-flex flex-column">
       <span>{{ t("my_notifications") }}</span>
-      <p>{{ t("my_notifications_desc") }}</p>
+      <p>{{ t("my_notifications_desc") }} <a class="not-settings text-primary" href="#">{{ t('not_settings') }}</a></p>
     </div>
   </div>
 </template>
@@ -33,7 +33,13 @@
 
     p {
       color: rgb(var(--v-dark-1));
+
+      .not-settings {
+        color: red;
+        text-decoration: none
+      }
     }
   }
+
 }
 </style>

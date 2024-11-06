@@ -1011,8 +1011,11 @@ export default {
   stop_campaign_msg:
     ' يمكنك تفعيل نفس الحملة مرة أخرى بشكل سريع عن طريق صفحة الحملات',
   my_notifications: 'إشعاراتي',
-  my_notifications_desc:
-    'يمكنك تعديل نوع الإ‘شعارات التي تصلك من إعدادات الإشعارات.',
+  my_notifications_desc: 'يمكنك تعديل نوع الإ‘شعارات التي تصلك من',
+  not_settings: 'إعدادات الإشعارات',
+  you_have: 'لديك',
+  new_notifications: 'اشعارات جديدة',
+  show_all: 'عرض الكل',
   ctr: 'معدل النقر',
   customers_count: 'عدد العملاء',
 }
