@@ -1,6 +1,7 @@
 <script setup>
   import { useBreadcrumbsStore } from '@/stores/useBreadcrumbsStore'
   import { useI18n } from 'vue-i18n'
+  import campaignHeaderLogo from '@/assets/images/campaign-header.svg'
 
   const route = useRoute()
   const { t, locale } = useI18n()
@@ -32,7 +33,7 @@
 <template>
   <div class="ad-group-form-container">
     <header class="ad-group-form-header">
-      <img alt="" src="https://picsum.photos/100">
+      <img alt="" height="45" :src="campaignHeaderLogo">
       <div class="deascription">
         <h3 class="text-black">
           {{ t("ad_group_settings") }} ({{
