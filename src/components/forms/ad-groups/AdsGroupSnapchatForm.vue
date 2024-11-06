@@ -99,7 +99,10 @@
     data => AdsGroupsService.create(props.platform, data),
     {
       manual: true,
-      onSuccess: () => show(t('created_message'), 'success'),
+      onSuccess: () => {
+        show(t('created_message'), 'success')
+        router.push(`/campaigns/`)
+      },
     }
   )
 
@@ -107,7 +110,10 @@
     data => AdsGroupsService.update(props.platform, data),
     {
       manual: true,
-      onSuccess: () => show(t('updated_message'), 'success'),
+      onSuccess: () => {
+        show(t('updated_message'), 'success')
+        router.push(`/campaigns/`)
+      },
     }
   )
 
