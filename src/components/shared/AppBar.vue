@@ -1,15 +1,19 @@
 <script setup>
   import { useBreadcrumbsStore } from '@/stores/useBreadcrumbsStore'
   import { storeToRefs } from 'pinia'
-
   import { useI18n } from 'vue-i18n'
+  import { useAuthStore } from '@/stores/useAuthStore'
 
   const { t } = useI18n()
+  const authStore = useAuthStore()
 
   const breadcrumbsStore = useBreadcrumbsStore()
   const { items } = storeToRefs(breadcrumbsStore)
   const prependColor = computed(() => items.value.length === 1 ? 'orange' : '')
 
+  const logOut = () => {
+    authStore.logout()
+  }
 </script>
 
 <template>
@@ -40,11 +44,6 @@
           variant="solo"
           width="150"
         />
-
-        <VBtn base-color="black" class="notification-btn" stacked variant="plain">
-          <VIcon icon="tabler-sun-filled" size="26" />
-
-        </VBtn>
 
         <v-menu transition="slide-y-transition">
           <template #activator="{ props }">
@@ -108,6 +107,19 @@
             </template>
           </VTextField>
         </div>
+
+        <VBtn
+          base-color="black"
+          class="notification-btn"
+          stacked
+          variant="plain"
+          @click="logOut"
+        >
+          <VIcon
+            icon="mdi:logout"
+            size="26"
+          />
+        </VBtn>
       </div>
     </div>
   </div>
