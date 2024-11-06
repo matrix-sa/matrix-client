@@ -1006,5 +1006,7 @@ export default {
   enter_percentage: 'Enter percentage',
   reduce_the_value_Select_the_type_of_reduction: 'Reduce the value Select the type of reduction',
   stop_campaign_msg: 'You can quickly activate the same campaign again through the campaigns page',
+  my_notifications: 'notifications',
+  my_notifications_desc: 'You can modify the type of notifications you receive from the notification settings.',
 
 }

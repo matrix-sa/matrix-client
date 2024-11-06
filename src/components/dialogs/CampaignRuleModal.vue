@@ -44,11 +44,11 @@
 
   const isFormValid = computed(() => {
     return (
-      form.value.roas_condition &&
-      form.value.roas_comparing_value != null &&
-      form.value.value_type &&
-      ((form.value.value != null && form.value.value !== '') && !isValueTypeStopCampaign.value) &&
-      form.value.last_days != null
+      !!form.value.roas_condition &&
+      !!form.value.roas_comparing_value &&
+      !!form.value.value_type &&
+      ((!!form.value.value) && !isValueTypeStopCampaign.value) &&
+      !!form.value.last_days
     )
   })
 
@@ -99,6 +99,7 @@
       onSuccess: response => {
         const { error, messages } = response.data
         show(t(error ? messages[0] : 'campaign_rule_updated_successfully'), error ? 'error' : 'success')
+        console.log(messages)
         if (!error) emit('update:isDialogVisible', false)
         emit('saved', !error)
         rulesModalsStore.modalSaved()
@@ -211,13 +212,12 @@
       </v-row>
     </v-container>
     <v-divider class="mt-2" />
-
     <v-card-actions class="my-2 d-flex justify-end">
       <v-btn rounded="xl" :text="t('cancel')" @click="handleClose" />
       <v-btn
         append-icon="mdi-check"
         color="success"
-        :disabled="!isFormValid"
+        :disabled="!isFormValid && !isValueTypeStopCampaign"
         :loading="startLoading || loadingRunUpdate"
         rounded="xl"
         :text="t('save')"
