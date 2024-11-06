@@ -1007,6 +1007,10 @@ export default {
   reduce_the_value_Select_the_type_of_reduction: 'Reduce the value Select the type of reduction',
   stop_campaign_msg: 'You can quickly activate the same campaign again through the campaigns page',
   my_notifications: 'notifications',
-  my_notifications_desc: 'You can modify the type of notifications you receive from the notification settings.',
+  my_notifications_desc: 'You can modify the type of notifications you receive from the',
+  not_settings: ' notification settings.',
+  you_have: 'You Have',
+  new_notifications: 'New Notifications',
+  show_all: 'Show All',
 
 }

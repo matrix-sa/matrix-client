@@ -6,6 +6,10 @@
       type: Object,
       default: null,
     },
+    isMenu: {
+      type: Boolean,
+      default: false,
+    },
   })
 
   const { id, title, message, created_at } = props.notification
@@ -17,19 +21,19 @@
   }
 </script>
 <template>
-  <div class="d-flex align-center justify-space-between mt-4">
+  <div class="d-flex justify-space-between my-2">
     <div class="msg-and-body d-flex align-center ga-4">
       <div class="dimmed" />
 
       <div>
         <div class="title">{{ title }}</div>
-        <div class="msg">{{ message }}</div>
+        <div class="msg">{{ message.slice(0, 30) }}</div>
       </div>
     </div>
 
     <div class="d-flex flex-column">
       <span class="date">{{ handleDate(created_at) }}</span>
-      <VIcon class="align-self-end arrow" icon="tabler-arrow-left" />
+      <VIcon class="align-self-end arrow ma-0" icon="tabler-arrow-left" :size="props.isMenu ? 16 : 24" />
 
     </div>
   </div>
