@@ -1022,4 +1022,6 @@ export default {
   useful_recommendations: 'توصيات مفيدة',
   add_ad: 'أضف إعلان',
   add_ad_group: 'أضف مجموعة إعلانية',
+  ad_group_settings: 'إعدادات المجموعة الإعلانية',
+  how_to_edit_ad_group: 'كيفية تعديل المجموعة الإعلانية',
 }
