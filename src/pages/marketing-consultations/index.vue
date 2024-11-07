@@ -3,7 +3,7 @@
   import { useI18n } from 'vue-i18n'
   import { DateFormat } from '@/composable/useFormat'
   import MarketingConsultationsOrdersService from '@/services/marketing-consultations-orders-service'
-  import useSnackbar from '@/composable/useSnackbar'
+  import { useSnackbarStore } from '@/stores/useSnackBarStore'
   import { useRequest } from 'vue-request'
 
   const totalCount = ref(0)
@@ -19,7 +19,7 @@
 
   const { t } = useI18n()
 
-  const { show } = useSnackbar()
+  const { show } = useSnackbarStore()
 
   const headers = [
     {

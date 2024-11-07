@@ -2,7 +2,7 @@
   import { requiredValidator } from '@/utilities/validators'
   import i18n from '@/i18n'
   import AdsGroupsService from '@/services/ads-groups-service'
-  import useSnackbar from '@/composable/useSnackbar'
+  import { useSnackbarStore } from '@/stores/useSnackBarStore'
   import { reactive, ref } from 'vue'
   import { useRequest } from 'vue-request'
   import AppTextInput from '@/components/core/AppTextInput.vue'
@@ -76,7 +76,7 @@
 
   const isEditMode = ref(false)
 
-  const { show } = useSnackbar()
+  const { show } = useSnackbarStore()
 
   const refVForm = ref('')
 
