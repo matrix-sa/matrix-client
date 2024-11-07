@@ -73,7 +73,7 @@
           <tbody class="text-center">
             <tr v-for="(campaign, index) in topCampaigns" :key="index" :class="{ 'highlight-row': index % 2 === 1 }">
               <td class="text-start">
-                <div class="d-flex mt-3">
+                <div class="d-flex align-center">
                   <v-avatar class="ml-1" left>
                     <v-img :src="getPlatformIcon(`${campaign.publishing_platform}`.toLowerCase())" />
                   </v-avatar>
@@ -112,7 +112,7 @@
           <tbody class="text-center">
             <tr v-for="(campaign, index) in leastCampaigns" :key="index" :class="{ 'highlight-row': index % 2 === 1 }">
               <td class="text-start">
-                <div class="d-flex mt-3">
+                <div class="d-flex align-center ">
                   <v-avatar class="ml-1" left>
                     <v-img :src="getPlatformIcon(`${campaign.publishing_platform}`.toLowerCase())" />
                   </v-avatar>
@@ -138,7 +138,7 @@
   </VRow>
 </template>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .header {
   color: #706D79;
   font-size: 14px;
@@ -207,5 +207,9 @@ th:first-child {
 
 tr {
   clip-path: xywh(0 0 100% 100% round 30px)
+}
+
+.v-table > .v-table__wrapper > table > thead > tr > th{
+  padding: 0 9px !important;
 }
 </style>

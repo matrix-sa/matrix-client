@@ -1015,10 +1015,12 @@ export default {
   my_notifications: 'notifications',
   my_notifications_desc: 'You can modify the type of notifications you receive from the',
   not_settings: ' notification settings.',
-  you_have: 'You Have',
   new_notifications: 'New Notifications',
   show_all: 'Show All',
   ctr: 'CTR',
   customers_count: 'Customers Count',
   location_modal: 'Targeted Location',
+  useful_recommendations: 'Useful Recommendations',
+  add_ad: 'Add Ad',
+  add_ad_group: 'Add Ad Group',
 }
