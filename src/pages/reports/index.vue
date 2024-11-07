@@ -1,11 +1,13 @@
 <template>
-  <ReportsNavBar />
-  <OrderedPlatformsByPerformance :platforms-data="platformsData" />
-  <TopAndLeastCampaigns :least-campaigns="leastCampaigns" :top-campaigns="topCampaigns" />
-  <ReportCharts :statistics="statistics" />
-  <v-overlay v-model="loading" class="align-center justify-center" persistent>
-    <v-progress-circular color="primary" indeterminate size="50" :width="7" />
-  </v-overlay>
+  <div>
+    <ReportsNavBar />
+    <OrderedPlatformsByPerformance :platforms-data="platformsData" />
+    <TopAndLeastCampaigns :least-campaigns="leastCampaigns" :top-campaigns="topCampaigns" />
+    <ReportCharts :statistics="statistics" />
+    <v-overlay v-model="loading" class="align-center justify-center" persistent>
+      <v-progress-circular color="primary" indeterminate size="50" :width="7" />
+    </v-overlay>
+  </div>
 </template>
 
 <script setup>
