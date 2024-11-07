@@ -1,6 +1,6 @@
 <script setup>
   import NotificationsService from '@/services/notifications-service'
-  import { usePagination, useRequest } from 'vue-request'
+  import { usePagination } from 'vue-request'
   import { useSnackbarStore } from '@/stores/useSnackBarStore'
   import NotificationItem from './NotificationItem.vue'
 
@@ -56,11 +56,13 @@
     <v-overlay v-model="loadingNotifications" class="align-center justify-center" persistent>
       <v-progress-circular color="primary" indeterminate size="50" :width="7" />
     </v-overlay>
-    <NotificationItem
-      v-for="notification in notifications"
-      v-if="notifications"
-      :key="notification.id"
-      :notification="notification"
-    />
+    <div class="d-flex flex-column">
+      <NotificationItem
+        v-for="notification in notifications"
+        v-if="notifications"
+        :key="notification.id"
+        :notification="notification"
+      />
+    </div>
   </div>
 </template>

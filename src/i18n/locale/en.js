@@ -1013,8 +1013,11 @@ export default {
   stop_campaign_msg:
     'You can quickly activate the same campaign again through the campaigns page',
   my_notifications: 'notifications',
-  my_notifications_desc:
-    'You can modify the type of notifications you receive from the notification settings.',
+  my_notifications_desc: 'You can modify the type of notifications you receive from the',
+  not_settings: ' notification settings.',
+  you_have: 'You Have',
+  new_notifications: 'New Notifications',
+  show_all: 'Show All',
   ctr: 'CTR',
   customers_count: 'Customers Count',
   location_modal: 'Targeted Location',

@@ -84,6 +84,7 @@ declare module 'vue' {
     MobileLayout: typeof import('./src/components/shared/MobileLayout.vue')['default']
     NotificationItem: typeof import('./src/components/notifications/NotificationItem.vue')['default']
     Notifications: typeof import('./src/components/notifications/Notifications.vue')['default']
+    NotificationsMenu: typeof import('./src/components/notifications/NotificationsMenu.vue')['default']
     OrderedPlatformsByPerformance: typeof import('./src/components/reports/OrderedPlatformsByPerformance.vue')['default']
     PlatformCampaignsTable: typeof import('./src/components/campaigns/PlatformCampaignsTable.vue')['default']
     Question: typeof import('./src/components/digital-writer/Question.vue')['default']
