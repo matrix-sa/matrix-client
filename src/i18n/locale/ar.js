@@ -1022,4 +1022,6 @@ export default {
   useful_recommendations: 'توصيات مفيدة',
   add_ad: 'أضف إعلان',
   add_ad_group: 'أضف مجموعة إعلانية',
+  clear_all: 'مسح الكل',
+  add_location: 'أضف موقع',
 }

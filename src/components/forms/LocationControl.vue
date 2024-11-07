@@ -27,6 +27,9 @@
   const handleSavedLocation = location => {
     emits('update:locations', [...props.locations, location])
   }
+  const clearAllLocations = () => {
+    emits('update:locations', [])
+  }
 </script>
 <template>
   <div class="location-control-wrapper">
@@ -51,15 +54,32 @@
           </template>
         </v-chip>
       </div>
-
-      <v-btn
-        color="secondary"
-        icon="mdi-plus"
-        :rounded="false"
-        size="large"
-        variant="flat"
-        @click="openLocationModal = true"
-      />
+      <VTooltip :text="t('clear_all')">
+        <template #activator="{ props: toolTipProps }">
+          <v-btn
+            color="secondary"
+            v-bind="toolTipProps"
+            icon="mdi-close"
+            :rounded="false"
+            size="large"
+            variant="flat"
+            @click="clearAllLocations"
+          />
+        </template>
+      </VTooltip>
+      <VTooltip :text="t('add_location')">
+        <template #activator="{ props: toolTipProps }">
+          <v-btn
+            color="secondary"
+            v-bind="toolTipProps"
+            icon="mdi-plus"
+            :rounded="false"
+            size="large"
+            variant="flat"
+            @click="openLocationModal = true"
+          />
+        </template>
+      </VTooltip>
     </div>
     <v-dialog
       v-if="platform === 'googleads'"

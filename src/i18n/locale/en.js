@@ -1023,4 +1023,6 @@ export default {
   useful_recommendations: 'Useful Recommendations',
   add_ad: 'Add Ad',
   add_ad_group: 'Add Ad Group',
+  clear_all: 'Clear All',
+  add_location: 'Add Location',
 }
