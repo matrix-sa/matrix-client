@@ -4,13 +4,13 @@
   import { useRequest } from 'vue-request'
   import CurrenciesService from '@/services/currencies-service'
   import { useI18n } from 'vue-i18n'
+  import moment from 'moment'
 
   const { locale, t } = useI18n()
 
   const authStore = useAuthStore()
 
   // common
-  const loading = computed(() => authStore.loading)
   const language = computed(() =>
     locale.value === 'ar' ? 'English' : 'العربية'
   )
@@ -27,16 +27,29 @@
   const otpDisabled = ref(true)
   const loadingScripts = ref(true)
   const loginDisplay = computed(() => (loadingScripts.value ? 'none' : 'block'))
-  const onLoginSubmit = async () => {
-    try {
-      if (otpDisabled.value) {
-        await authStore.login({
-          mobile_number: `+966${phoneNumber.value}`,
-        })
-        otpDisabled.value = false
-        return
-      }
 
+  const isSendCodeDisabled = computed(() => authStore.otp?.countDown > 0)
+  const formattedCounter = computed(() => {
+    const duration = moment.duration(authStore.otp?.countDown ?? 0, 'seconds')
+    const minutes = duration.minutes()
+    const seconds = duration.seconds()
+    return `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`
+  })
+
+  const handleSendCode = async () => {
+    try {
+      await authStore.login({
+        mobile_number: `+966${phoneNumber.value}`,
+      })
+
+      otpDisabled.value = false
+    } catch (error) {
+      console.error('Send code failed:', error)
+    }
+  }
+
+  const handleLogin = async () => {
+    try {
       await authStore.verify({
         mobile_number: `+966${phoneNumber.value}`,
         verification_code: otp.value.toString(),
@@ -125,6 +138,10 @@
     'https://unpkg.com/aos@2.3.1/dist/aos.js',
     'https://matrix.sa/website/ar/js/custom.js',
   ])
+
+  const loading = computed(
+    () => authStore.loading || loadingCurrencies.value || loadingScripts.value
+  )
 </script>
 
 <template>
@@ -133,10 +150,16 @@
     style="
       background-image: url('https://matrix.sa/website/ar/images/login-bg.png');
       font-family: 'Tajawal' !important;
-
     "
   >
-    <p v-if="loadingCurrencies">{{ t("loading") }}...</p>
+    <VOverlay
+      v-model="loading"
+      class="align-center justify-center"
+      persistent
+    >
+      <VProgressCircular indeterminate />
+    </VOverlay>
+
     <div
       class="login-container"
       :style="{
@@ -173,7 +196,7 @@
               <h4>{{ t("welcome_back_to_matrix") }}</h4>
               <p>{{ t("login_message") }}</p>
               <div class="signup-form-text">
-                <form @submit.prevent="onLoginSubmit">
+                <form @submit.prevent="">
                   <div class="form-group">
                     <label
                       :dir="language === 'English' ? 'rtl' : 'ltr'"
@@ -206,29 +229,26 @@
                   </div>
 
                   <div class="form-group">
-                    <button class="signup-btn" type="submit">
-                      <v-progress-circular
-                        v-if="loading"
-                        color="secondary"
-                        indeterminate
-                        size="25"
-                        :width="3"
-                      />
-                      <span v-else>{{ t(`${"send_code_verification"}`) }}</span>
+                    <button
+                      class="signup-btn"
+                      :disabled="isSendCodeDisabled"
+                      type="button"
+                      @click="handleSendCode"
+                    >
+                      <span>{{ t(`${"send_code_verification"}`) }}</span>
                     </button>
+
+                    <p v-if="isSendCodeDisabled" class="count-down">
+                      {{ formattedCounter }}
+                    </p>
+
                     <button
                       v-if="!otpDisabled"
                       class="signup-btn"
-                      type="submit"
+                      type="button"
+                      @click="handleLogin"
                     >
-                      <v-progress-circular
-                        v-if="loading"
-                        color="secondary"
-                        indeterminate
-                        size="25"
-                        :width="3"
-                      />
-                      <span v-else>{{ t("Login") }}</span>
+                      <span>{{ t("Login") }}</span>
                     </button>
                   </div>
                 </form>
@@ -330,7 +350,7 @@
 @import url("https://matrix.sa/website/ar/css/animations.css");
 @import url("https://matrix.sa/website/ar/css/responsive.css");
 
- .login-sec * {
+.login-sec * {
   font-family: "Tajawal", sans-serif !important;
 }
 
@@ -361,11 +381,11 @@
     color: #fff;
   }
   input:disabled {
-    background-color: #f5f5f5; /* Light gray background */
-    color: #a9a9a9; /* Gray text color */
-    border: 1px solid #dcdcdc; /* Light gray border */
-    cursor: not-allowed; /* Not-allowed cursor */
-    opacity: 0.6; /* Slightly transparent */
+    background-color: #f5f5f5;
+    color: #a9a9a9;
+    border: 1px solid #dcdcdc;
+    cursor: not-allowed;
+    opacity: 0.6;
   }
 
   select {
@@ -378,6 +398,17 @@
     color: #000;
     outline: none;
     font-size: 16px;
+  }
+
+  .signup-btn:disabled {
+    background-color: #cccccc;
+    color: #666666;
+    cursor: not-allowed;
+    opacity: 0.6;
+  }
+
+  .count-down {
+    display: block !important;
   }
 }
 </style>

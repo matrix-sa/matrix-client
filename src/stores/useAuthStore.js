@@ -47,6 +47,13 @@ export const useAuthStore = defineStore('auth-store', () => {
         mobileNumber: payload.mobile_number,
       }
 
+      const interval = setInterval(() => {
+        otp.value.countDown--
+        if (otp.value.countDown === 0) {
+          clearInterval(interval)
+        }
+      }, 100)
+
       // router.push({ name: 'auth-mobile-otp' })
     })
   }
@@ -65,7 +72,7 @@ export const useAuthStore = defineStore('auth-store', () => {
 
   function logout () {
     clearUserData()
-    router.push({ name: '/auth/' })
+    window.location.href = '/auth/'
   }
 
   async function fetchUser (refresh = false) {
