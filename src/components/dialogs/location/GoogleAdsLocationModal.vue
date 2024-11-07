@@ -6,6 +6,8 @@
   import { useRequest } from 'vue-request'
   import debounce from 'lodash/debounce'
 
+  const emit = defineEmits(['saved', 'update:isDialogVisible'])
+
   const { show } = useSnackbarStore()
   const { t } = useI18n()
 
@@ -56,9 +58,13 @@
     if (city.value) getSuggestedLocations()
   }, 1000)
 
-  const submit = () => {}
-  const handleClose = () => {}
-
+  const submit = () => {
+    emit('saved', selectedLocation.value)
+    emit('update:isDialogVisible', false)
+  }
+  const handleClose = () => {
+    emit('update:isDialogVisible', false)
+  }
   const isValid = computed(() => !!selectedLocation.value)
 </script>
 <template>
@@ -102,7 +108,7 @@
             :disabled="!city"
             hide-no-data
             item-title="name"
-            item-value="id"
+            :item-value="item=>item"
             :items="suggestedLocations"
             :label="$t('location')"
             :loading="loadingSuggestedLocations"

@@ -1,7 +1,7 @@
 <script setup>
-  import i18n from '@/i18n'
+  import { useI18n } from 'vue-i18n'
   import CampaignsService from '@/services/campaigns-service'
-  import useSnackbar from '@/composable/useSnackbar'
+  import { useSnackbarStore } from '@/stores/useSnackBarStore'
   import { requiredValidator } from '@/utilities/validators'
   import { watch } from 'vue'
   import { useRequest } from 'vue-request'
@@ -22,7 +22,7 @@
     },
   })
 
-  const { t } = i18n.global
+  const { t, locale } = useI18n()
 
   const campaign = ref(props.campaign)
 
@@ -46,15 +46,14 @@
     selectedBiddingStrategy: '',
     language_code: '',
   })
-
-  const openLocationModal = ref(false)
+  const locations = ref([])
 
   const router = useRouter()
 
   const userData = JSON.parse(localStorage.getItem('userData') || 'null')
   const userDefaultCurrency = userData?.currency ?? 'SAR'
 
-  const { show } = useSnackbar()
+  const { show } = useSnackbarStore()
 
   const biddingStrategies = [
     {
@@ -82,7 +81,7 @@
       } = form.value
 
       const payload = {
-        platform: 'Google',
+        platform: 'GoogleAds',
         name,
         start_time: new Date(start_time).toISOString(),
         end_time: new Date(end_time).toISOString(),
@@ -92,7 +91,7 @@
         ...(selectedBiddingStrategy == 'MaximizeConversionValue' && {
           target_roas,
         }),
-        location,
+        locations: locations.value.map(({ id }) => id),
         language_code,
       }
 
@@ -113,7 +112,6 @@
       manual: true,
       onSuccess: res => {
         const { error, data, messages, code } = res.data
-
         if (error) {
           show(messages[0], 'error')
         } else {
@@ -154,7 +152,7 @@
         target_cpa,
         target_roas,
         language,
-        location: { country_code, code, name_ar },
+        locations: receivedLocations,
       } = props.data.campaign
 
       form.value.selectedBiddingStrategy = bidding_strategy_type
@@ -162,6 +160,11 @@
 
       if (target_cpa) form.value.target_cpa = target_cpa
       if (target_roas) form.value.target_roas = target_roas
+
+      locations.value = receivedLocations.map(locations => ({
+        id: locations.id,
+        name: locale.value === 'ar' ? locations.name_ar : locations.name_en,
+      }))
     }
   }
 
@@ -213,7 +216,13 @@
         />
       </VCol>
 
-      <v-btn :text="$t('country')" @click="() => (openLocationModal = true)" />
+      <VCol cols="12">
+        <LocationControl
+          :locations="locations"
+          platform="googleads"
+          @update:locations="locations = $event"
+        />
+      </VCol>
 
       <VCol cols="12">
         <AppSelect
@@ -239,8 +248,5 @@
         />
       </VCol>
     </VRow>
-    <v-dialog v-model="openLocationModal" max-width="500">
-      <GoogleAdsLocationModal v-model:is-dialog-visible="openLocationModal" />
-    </v-dialog>
   </VCol>
 </template>

@@ -1,0 +1,95 @@
+<script setup>
+  import { useI18n } from 'vue-i18n'
+
+  const { t } = useI18n()
+
+  const props = defineProps({
+    locations: {
+      type: Array,
+      required: true,
+    },
+    platform: {
+      type: String,
+      required: true,
+    },
+  })
+
+  const emits = defineEmits(['update:locations'])
+
+  const openLocationModal = ref(false)
+
+  const removeLocation = index => {
+    emits(
+      'update:locations',
+      props.locations.filter((_, i) => i !== index)
+    )
+  }
+  const handleSavedLocation = location => {
+    emits('update:locations', [...props.locations, location])
+  }
+</script>
+<template>
+  <div class="location-control-wrapper">
+    <VLabel
+      class="mb-1 text-body-2 text-dark-1"
+      persistent-placeholder
+      :text="t('location')"
+    />
+    <div class="location-control">
+      <div class="chips-container">
+        <v-chip
+          v-for="(location, i) in locations"
+          :key="`location-${i}`"
+          closable
+          :text="location.name"
+        >
+          <template #close>
+            <v-icon
+              icon="mdi-close-circle"
+              @click.stop="removeLocation(i)"
+            />
+          </template>
+        </v-chip>
+      </div>
+
+      <v-btn
+        color="secondary"
+        icon="mdi-plus"
+        :rounded="false"
+        size="large"
+        variant="flat"
+        @click="openLocationModal = true"
+      />
+    </div>
+    <v-dialog
+      v-if="platform === 'googleads'"
+      v-model="openLocationModal"
+      max-width="500"
+    >
+      <GoogleAdsLocationModal
+        v-model:is-dialog-visible="openLocationModal"
+        @saved="handleSavedLocation"
+      />
+    </v-dialog>
+  </div>
+</template>
+<style lang="scss" scoped>
+.location-control {
+  display: flex;
+}
+.chips-container {
+  flex-grow: 1;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 8px;
+  border-radius: 4px;
+  background-color: rgb(var(--v-theme-secondary));
+}
+.location-control-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+</style>
