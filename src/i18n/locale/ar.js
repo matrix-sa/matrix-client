@@ -1023,4 +1023,6 @@ export default {
   add_ad_group: 'أضف مجموعة إعلانية',
   clear_all: 'مسح الكل',
   add_location: 'أضف موقع',
+  ad_group_settings: 'إعدادات المجموعة الإعلانية',
+  how_to_edit_ad_group: 'كيفية تعديل المجموعة الإعلانية',
 }
