@@ -91,6 +91,16 @@
         @saved="handleSavedLocation"
       />
     </v-dialog>
+    <v-dialog
+      v-if="platform === 'tiktok'"
+      v-model="openLocationModal"
+      max-width="500"
+    >
+      <TiktokAdsLocationModal
+        v-model:is-dialog-visible="openLocationModal"
+        @saved="handleSavedLocation"
+      />
+    </v-dialog>
   </div>
 </template>
 <style lang="scss" scoped>

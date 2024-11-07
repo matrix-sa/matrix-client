@@ -10,6 +10,7 @@
   const { update } = useBreadcrumbsStore()
 
   const platform = route.query.platform?.toLocaleLowerCase()
+  const campaignId = route.params.campaignId
   const id = route.query.id
 
   const adGroup = ref(null)
@@ -59,9 +60,9 @@
         </div>
       </header>
       <v-divider class="mb-4 mt-6" />
-      <AdsGroupTiktokForm v-if="platform === 'tiktok'" :ad-group="adGroup" />
-      <AdsGroupXForm v-if="platform === 'twitter'" :ad-group="adGroup" />
-      <AdsGroupGoogleForm v-if="platform === 'google'" :ad-group="adGroup" />
+      <AdsGroupTiktokForm v-if="platform === 'tiktok'" :ad-group="adGroup" :campaign-id="campaignId" />
+      <AdsGroupXForm v-if="platform === 'twitter'" :ad-group="adGroup" :campaign-id="campaignId" />
+      <AdsGroupGoogleForm v-if="platform === 'google'" :ad-group="adGroup" :campaign-id="campaignId" />
     </template>
   </div>
 </template>

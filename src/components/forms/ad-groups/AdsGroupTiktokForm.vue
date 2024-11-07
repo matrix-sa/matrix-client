@@ -1,14 +1,13 @@
 <script setup>
   import { requiredValidator } from '@/utilities/validators'
   import AdsGroupsService from '@/services/ads-groups-service'
-  import TargetingService from '@/services/targeting-service'
   import { useSnackbarStore } from '@/stores/useSnackBarStore'
   import { computed, reactive, ref, watch } from 'vue'
   import { useRequest } from 'vue-request'
   import { useI18n } from 'vue-i18n'
   import { useRouter } from 'vue-router'
 
-  const { t } = useI18n()
+  const { t, locale } = useI18n()
 
   const props = defineProps({
     adGroup: {
@@ -64,12 +63,31 @@
     province_id: null,
     age_group: null,
   })
+  const locations = ref([])
 
   const isEditMode = ref(false)
+  // "language_code": null,
+  // "gender": null,
+  //       "operating_system": null,
 
   if (props.adGroup) {
     form.value = { ...props.adGroup }
+
+    const {
+      gender,
+      language_code: languageCode,
+      operating_system: operatingSystem,
+    } = props.adGroup
+
+    form.value.gender = gender || ''
+    form.value.language_code = languageCode || ''
+    form.value.operating_system = operatingSystem || ''
+
     isEditMode.value = true
+    locations.value = props.adGroup.locations.map(location => ({
+      id: location.id,
+      name: locale.value === 'ar' ? location.name_ar : location.name_en,
+    }))
   }
 
   // Handle submission
@@ -78,7 +96,9 @@
       if (!isValid) {
         const el = document.querySelector('.v-input--error:first-of-type')
 
-        if (el) { el.scrollIntoView() }
+        if (el) {
+          el.scrollIntoView()
+        }
 
         return
       }
@@ -98,6 +118,7 @@
           data[key] = null
         }
       }
+      data.provinces_ids = locations.value.map(location => location.id)
 
       if (isEditMode.value) {
         // data.id = adGroup.value.id
@@ -114,9 +135,15 @@
     data => AdsGroupsService.create(props.platform, data),
     {
       manual: true,
-      onSuccess: () => {
+      onSuccess: res => {
+        const { error, messages } = res.data
+
+        if (error) {
+          show(messages[0], 'error')
+          return
+        }
         show(t('created_message'), 'success')
-      // router.push({ name: 'campaigns' })
+        router.push({ name: '/campaigns/' })
       },
     }
   )
@@ -125,17 +152,21 @@
     data => AdsGroupsService.update(props.platform, data),
     {
       manual: true,
-      onSuccess: () => {
+      onSuccess: res => {
+        const { error, messages } = res.data
+
+        if (error) {
+          show(messages[0], 'error')
+          return
+        }
         show(t('updated_message'), 'success')
-      // router.push({ name: 'campaigns' })
+        router.push({ name: '/campaigns/' })
       },
     }
   )
 
   // TikTok-specific form logic
   const formModel = toRef(props, 'modelValue')
-  const countries = ref([])
-  const provinces = ref([])
   const ageGroups = ref([
     { id: 'Age13To17', name: '13 - 17' },
     { id: 'Age18To24', name: '18 - 24' },
@@ -144,39 +175,6 @@
     { id: 'Age45To54', name: '45 - 54' },
     { id: 'Age55To100', name: '55 - 100' },
   ])
-
-  const { run: fetchCountries, loading: countriesLoading } = useRequest(
-    () => TargetingService.getTikTokCountries(),
-    {
-      onSuccess: res => {
-        const { error, data, messages } = res.data
-
-        if (error) {
-          show(messages[0], 'error')
-        }
-
-        countries.value = data ?? []
-      },
-    },
-  )
-
-  const { run: fetchProvinces, loading: provincesLoading } = useRequest(
-    () => TargetingService.getTikTokCountryProvinces({
-      countryId: formModel.value.country_id,
-    }),
-    {
-      onSuccess: res => {
-        const { error, data, messages } = res.data
-
-        if (error) {
-          show(messages[0], 'error')
-        }
-
-        provinces.value = data ?? []
-      },
-      manual: true,
-    },
-  )
 
   // Transform the arrays for AppChipSelect
   const processedOperatingSystems = computed(() =>
@@ -200,14 +198,16 @@
     }))
   )
 
-  watch(formModel, () => {
-    emit('update:modelValue', formModel.value)
-    form.value.country_id = formModel.value.country_id
-  }, { deep: true })
+  watch(
+    formModel,
+    () => {
+      emit('update:modelValue', formModel.value)
+      form.value.country_id = formModel.value.country_id
+    },
+    { deep: true }
+  )
 
   const loading = computed(() => creationLoading.value || updateLoading.value)
-  const isLoading = computed(() => countriesLoading.value || provincesLoading.value)
-
   const rules = reactive({
     name: [requiredValidator],
     country_id: [requiredValidator],
@@ -221,13 +221,28 @@
     <VRow>
       <!-- Common fields -->
       <VCol cols="12">
-        <AppTextInput v-model="form.name" autofocus :label="$t('ad_group_name')" :rules="rules.name" />
+        <AppTextInput
+          v-model="form.name"
+          autofocus
+          :label="$t('ad_group_name')"
+          :rules="rules.name"
+        />
       </VCol>
       <VCol cols="12">
-        <AppChipSelect v-model="form.language_code" hide-no-data :items="processedLanguages" :label="$t('language')" />
+        <AppChipSelect
+          v-model="form.language_code"
+          hide-no-data
+          :items="processedLanguages"
+          :label="$t('language')"
+        />
       </VCol>
       <VCol cols="12">
-        <AppChipSelect v-model="form.gender" hide-no-data :items="processedGenders" :label="$t('gender')" />
+        <AppChipSelect
+          v-model="form.gender"
+          hide-no-data
+          :items="processedGenders"
+          :label="$t('gender')"
+        />
       </VCol>
       <VCol cols="12">
         <AppChipSelect
@@ -239,45 +254,23 @@
 
       <!-- TikTok-specific fields -->
       <VCol cols="12">
-        <AppAutocomplete
-          :id="`country-${form.id}`"
-          v-model="formModel.country_id"
-          hide-no-data
-          :item-title="item => item.name"
-          :item-value="item => item.id"
-          :items="countries"
-          :label="$t('country')"
-          :rules="rules.country_id"
-          @update:model-value="fetchProvinces"
+        <LocationControl
+          :locations="locations"
+          platform="tiktok"
+          @update:locations="locations = $event"
         />
       </VCol>
-      <VCol cols="12">
-        <AppAutocomplete
-          :id="`province-${form.id}`"
-          v-model="form.province_id"
-          hide-no-data
-          :item-title="item => item.name"
-          :item-value="item => item.id"
-          :items="provinces"
-          :label="$t('province')"
-          :rules="rules.province_id"
-        />
-      </VCol>
+
       <VCol cols="12">
         <AppSelect
           v-model="form.age_group"
           hide-no-data
-          :item-title="item => item.name"
-          :item-value="item => item.id"
+          :item-title="(item) => item.name"
+          :item-value="(item) => item.id"
           :items="ageGroups"
           :label="$t('age_group')"
         />
       </VCol>
-
-      <!-- Loading overlay -->
-      <VOverlay v-model="isLoading" class="align-center justify-center" persistent>
-        <VProgressCircular indeterminate />
-      </VOverlay>
 
       <!-- Submit button -->
       <VCol class="mx-10" cols="2">
@@ -288,12 +281,7 @@
           :loading="loading"
           type="submit"
         >
-          {{ t('save') }}
-          <template #loader>
-            <span class="custom-loader">
-              <VIcon icon="tabler-refresh" />
-            </span>
-          </template>
+          {{ t("save") }}
         </VBtn>
       </VCol>
     </VRow>

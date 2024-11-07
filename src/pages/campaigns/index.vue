@@ -28,7 +28,7 @@
           campaignId: selectedCampaigns.value[0].id,
         },
         query: {
-          platform: selectedCampaigns.value[0].ad_platform,
+          platform: selectedCampaigns.value[0].platform,
         },
       }
       : null
@@ -42,7 +42,7 @@
           adGroupId: selectedAdGroups.value[0].id,
         },
         query: {
-          platform: selectedAdGroups.value[0].ad_platform,
+          platform: selectedAdGroups.value[0].platform,
         },
       }
       : null
