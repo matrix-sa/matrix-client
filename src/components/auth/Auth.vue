@@ -79,6 +79,8 @@
     }
   }
 
+  const isLoading = computed(() => loadingCurrencies || loadingScripts)
+
   // scripts
   const createScript = ({ src, onload, content }) => {
     const script = document.createElement('script')
@@ -136,7 +138,9 @@
 
     "
   >
-    <p v-if="loadingCurrencies">{{ t("loading") }}...</p>
+    <v-overlay v-model="isLoading.value" class="align-center justify-center" persistent>
+      <v-progress-circular color="primary" indeterminate size="50" :width="7" />
+    </v-overlay>
     <div
       class="login-container"
       :style="{
@@ -379,5 +383,14 @@
     outline: none;
     font-size: 16px;
   }
+}
+section.login-sec {
+  padding: 0;
+}
+.login-container {
+  min-height: 100vh;
+  padding: 30px 80px;
+  align-items: center;
+  justify-content: center;
 }
 </style>
