@@ -52,7 +52,7 @@ export const useAuthStore = defineStore('auth-store', () => {
         if (otp.value.countDown === 0) {
           clearInterval(interval)
         }
-      }, 100)
+      }, 1000)
 
       // router.push({ name: 'auth-mobile-otp' })
     })
@@ -66,7 +66,7 @@ export const useAuthStore = defineStore('auth-store', () => {
 
       updateUserAndToken(res.data.data)
 
-      router.push({ name: '/' })
+      window.location.href = '/'
     })
   }
 

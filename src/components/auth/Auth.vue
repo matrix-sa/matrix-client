@@ -36,11 +36,6 @@
     return `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`
   })
 
-  const isNumberValid = computed(() => {
-    const number = phoneNumber.value
-    return number && number.length === 9 && !isNaN(number)
-  })
-
   const handleSendCode = async () => {
     try {
       await authStore.login({
