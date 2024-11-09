@@ -36,6 +36,11 @@
     return `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`
   })
 
+  const isNumberValid = computed(() => {
+    const number = phoneNumber.value
+    return number && number.length === 9 && !isNaN(number)
+  })
+
   const handleSendCode = async () => {
     try {
       await authStore.login({
@@ -86,6 +91,13 @@
       await authStore.register(registerForm.value)
       if (authStore.otp) {
         document.querySelector('.tabs-login li:nth-child(1) a').click()
+        registerForm.value = {
+          name: null,
+          email: null,
+          mobile_number: null,
+          currency: null,
+          accept_terms: null,
+        }
       }
     } catch (error) {
       console.error('Registration failed:', error)
@@ -110,9 +122,9 @@
             ? () => {
               createScript({
                 content: `
-                  $(function () {
-                    AOS.init();
-                  });`,
+                $(function () {
+                  AOS.init();
+                });`,
               })
 
               loadingScripts.value = false
@@ -152,11 +164,7 @@
       font-family: 'Tajawal' !important;
     "
   >
-    <VOverlay
-      v-model="loading"
-      class="align-center justify-center"
-      persistent
-    >
+    <VOverlay v-model="loading" class="align-center justify-center" persistent>
       <VProgressCircular indeterminate />
     </VOverlay>
 
@@ -210,6 +218,10 @@
                       placeholder="56xxxxxxxx"
                       type="tel"
                     >
+                    <p
+                      class="error-message"
+                      :dir="language === 'English' ? 'rtl' : 'ltr'"
+                    >خطأ ما</p>
                   </div>
 
                   <div class="form-group">
@@ -326,7 +338,7 @@
 
                   <div class="form-group">
                     <button class="signup-btn" type="submit">
-                      {{ t("Login") }}
+                      {{ t("sign_up") }}
                     </button>
                   </div>
                 </form>
@@ -409,6 +421,10 @@
 
   .count-down {
     display: block !important;
+  }
+  .error-message{
+    color: rgb(var(--v-theme-error));
+    margin-block: 0.5rem;
   }
 }
 section.login-sec {

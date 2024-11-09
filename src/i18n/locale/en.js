@@ -1026,4 +1026,5 @@ export default {
   add_location: 'Add Location',
   ad_group_settings: 'Ad Group Settings',
   how_to_edit_ad_group: 'How to edit the ad group',
+  sign_up: 'Sign Up',
 }
