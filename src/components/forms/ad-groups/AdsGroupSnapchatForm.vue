@@ -50,6 +50,8 @@
     { code: 'en', name: t('english') },
   ])
 
+  const locations = ref([])
+
   const { show } = useSnackbarStore()
 
   const form = ref({
@@ -240,9 +242,15 @@
         />
       </VCol>
       <VCol cols="12">
+        <LocationControl
+          :locations="locations"
+          platform="snapchat"
+          @update:locations="locations = $event"
+        />
+      </VCol>
+      <VCol cols="12">
         <label
           class="v-label mb-1 text-body-2 text-high-emphasis"
-          for="app-select-  نوع الميدبا  -iegzc"
         >
           {{ t("point") }}
         </label>

@@ -101,6 +101,16 @@
         @saved="handleSavedLocation"
       />
     </v-dialog>
+    <v-dialog
+      v-if="platform === 'snapchat'"
+      v-model="openLocationModal"
+      max-width="500"
+    >
+      <SnapChatLocationModal
+        v-model:is-dialog-visible="openLocationModal"
+        @saved="handleSavedLocation"
+      />
+    </v-dialog>
   </div>
 </template>
 <style lang="scss" scoped>

@@ -20,7 +20,7 @@
     () => TargetingService.getTikTokCountries(),
     {
       onSuccess: res => {
-        const { error, data, messages, code } = res.data
+        const { error, data, messages } = res.data
 
         if (error) {
           show(messages[0], 'error')
