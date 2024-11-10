@@ -191,6 +191,7 @@ export default {
     required: 'هذا الحقل مطلوب',
     numeric: 'هذا الحقل يجب ان يحتوي فقط أرقام',
     invalid_mobile_number: 'رقم الجوال غير صالح',
+    invalid_otp: 'الرمز غير صالح',
     email: {
       valid: 'الرجاء ادخال ايميل صالح',
     },

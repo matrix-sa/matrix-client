@@ -191,6 +191,7 @@ export default {
     required: 'This field is required',
     numeric: 'This field must contain only numbers',
     invalid_mobile_number: 'Invalid mobile number',
+    invalid_otp: 'Invalid OTP',
     email: {
       valid: 'Please enter a valid email',
     },

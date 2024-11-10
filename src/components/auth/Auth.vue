@@ -5,6 +5,9 @@
   import CurrenciesService from '@/services/currencies-service'
   import { useI18n } from 'vue-i18n'
   import moment from 'moment'
+  import { ErrorMessage, Field, Form, useField } from 'vee-validate'
+  import * as yup from 'yup'
+  import { storeToRefs } from 'pinia'
 
   const { locale, t } = useI18n()
 
@@ -14,6 +17,7 @@
   const language = computed(() =>
     locale.value === 'ar' ? 'English' : 'العربية'
   )
+  const isArabic = computed(() => locale.value === 'ar')
   const switchLanguage = () => {
     const value = locale.value === 'ar' ? 'en' : 'ar'
     localStorage.setItem('lang', value)
@@ -22,27 +26,48 @@
   }
 
   // login
-  const phoneNumber = ref(null)
-  const otp = ref(null)
-  const otpDisabled = ref(true)
+  const { otp: storeOtp } = storeToRefs(authStore)
+  const otpDisabled = computed(() => !storeOtp.value?.countDown)
   const loadingScripts = ref(true)
   const loginDisplay = computed(() => (loadingScripts.value ? 'none' : 'block'))
 
-  const isSendCodeDisabled = computed(() => authStore.otp?.countDown > 0)
+  const isSendCodeDisabled = computed(() => storeOtp.value?.countDown > 0)
   const formattedCounter = computed(() => {
-    const duration = moment.duration(authStore.otp?.countDown ?? 0, 'seconds')
+    const duration = moment.duration(storeOtp.value?.countDown ?? 0, 'seconds')
     const minutes = duration.minutes()
     const seconds = duration.seconds()
     return `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`
   })
 
+  const phoneNumberSchema = yup
+    .string()
+    .required(t('validation.required'))
+    .matches(
+      /^5(5|0|3|6|4|9|1|8|7)([0-9]{7})$/,
+      t('validation.invalid_mobile_number')
+    )
+  const {
+    value: phoneNumber,
+    validate: validatePhoneNumber,
+  } = useField('email', phoneNumberSchema)
+
+  const otpSchema = yup
+    .string()
+    .matches(/^([0-9]{4})$/, t('validation.invalid_otp'))
+
+  const {
+    value: otp,
+    validate: validateOtp,
+  } = useField('otp', otpSchema)
+
   const handleSendCode = async () => {
     try {
+      const result = await validatePhoneNumber()
+      if (!result.valid) return
+
       await authStore.login({
         mobile_number: `+966${phoneNumber.value}`,
       })
-
-      otpDisabled.value = false
     } catch (error) {
       console.error('Send code failed:', error)
     }
@@ -50,6 +75,9 @@
 
   const handleLogin = async () => {
     try {
+      const result = await validateOtp()
+      if (!result.valid) return
+
       await authStore.verify({
         mobile_number: `+966${phoneNumber.value}`,
         verification_code: otp.value.toString(),
@@ -160,7 +188,7 @@
     "
   >
     <VOverlay v-model="loading" class="align-center justify-center" persistent>
-      <VProgressCircular indeterminate />
+      <VProgressCircular color="warning" indeterminate />
     </VOverlay>
 
     <div
@@ -202,37 +230,57 @@
                 <form @submit.prevent="">
                   <div class="form-group">
                     <label
-                      :dir="language === 'English' ? 'rtl' : 'ltr'"
+                      :dir="isArabic ? 'rtl' : 'ltr'"
                       :style="{
-                        textAlign: language === 'English' ? 'right' : 'left',
+                        textAlign: isArabic ? 'right' : 'left',
                       }"
                     >{{ t(`${"auth.phone"}`) }} *</label>
-                    <input
-                      v-model="phoneNumber"
-                      :dir="language === 'English' ? 'rtl' : 'ltr'"
-                      placeholder="56xxxxxxxx"
-                      type="tel"
-                    >
-                    <p
-                      class="error-message"
-                      :dir="language === 'English' ? 'rtl' : 'ltr'"
-                    >خطأ ما</p>
+
+                    <Form>
+                      <Field
+                        v-model="phoneNumber"
+                        :dir="isArabic ? 'rtl' : 'ltr'"
+                        name="phoneNumber"
+                        placeholder="56xxxxxxxx"
+                        :rules="phoneNumberSchema"
+                        type="tel"
+                      />
+                      <ErrorMessage
+                        class="error-message"
+                        name="phoneNumber"
+                        :style="{
+                          textAlign: isArabic ? 'right' : 'left',
+                        }"
+                      />
+                    </Form>
                   </div>
 
                   <div class="form-group">
                     <label
-                      :dir="language === 'English' ? 'rtl' : 'ltr'"
+                      :dir="isArabic ? 'rtl' : 'ltr'"
                       :style="{
-                        textAlign: language === 'English' ? 'right' : 'left',
+                        textAlign: isArabic ? 'right' : 'left',
                       }"
                     >{{ t(`${"auth.password"}`) }} *</label>
-                    <input
-                      v-model="otp"
-                      :dir="language === 'English' ? 'rtl' : 'ltr'"
-                      :disabled="otpDisabled"
-                      :placeholder="t('add_here')"
-                      type="number"
-                    >
+
+                    <Form>
+                      <Field
+                        v-model="otp"
+                        :dir="isArabic ? 'rtl' : 'ltr'"
+                        :disabled="otpDisabled"
+                        name="otp"
+                        placeholder="1234"
+                        :rules="otpSchema"
+                        type="number"
+                      />
+                      <ErrorMessage
+                        class="error-message"
+                        name="otp"
+                        :style="{
+                          textAlign: isArabic ? 'right' : 'left',
+                        }"
+                      />
+                    </Form>
                   </div>
 
                   <div class="form-group">
@@ -271,12 +319,12 @@
                   <div class="form-group">
                     <label
                       :style="{
-                        textAlign: language === 'English' ? 'right' : 'left',
+                        textAlign: isArabic ? 'right' : 'left',
                       }"
                     >{{ t("auth.username") }} *</label>
                     <input
                       v-model="registerForm.name"
-                      :dir="language === 'English' ? 'rtl' : 'ltr'"
+                      :dir="isArabic ? 'rtl' : 'ltr'"
                       :placeholder="t('add_here')"
                       type="text"
                     >
@@ -285,12 +333,12 @@
                   <div class="form-group">
                     <label
                       :style="{
-                        textAlign: language === 'English' ? 'right' : 'left',
+                        textAlign: isArabic ? 'right' : 'left',
                       }"
                     >{{ t("auth.email") }} *</label>
                     <input
                       v-model="registerForm.email"
-                      :dir="language === 'English' ? 'rtl' : 'ltr'"
+                      :dir="isArabic ? 'rtl' : 'ltr'"
                       :placeholder="t('add_here')"
                       type="email"
                     >
@@ -299,12 +347,12 @@
                   <div class="form-group">
                     <label
                       :style="{
-                        textAlign: language === 'English' ? 'right' : 'left',
+                        textAlign: isArabic ? 'right' : 'left',
                       }"
                     >{{ t("auth.phone") }} *</label>
                     <input
                       v-model="registerForm.mobile_number"
-                      :dir="language === 'English' ? 'rtl' : 'ltr'"
+                      :dir="isArabic ? 'rtl' : 'ltr'"
                       placeholder="56xxxxxxxx"
                       required
                       type="tel"
@@ -314,7 +362,7 @@
                   <div class="form-group">
                     <label
                       :style="{
-                        textAlign: language === 'English' ? 'right' : 'left',
+                        textAlign: isArabic ? 'right' : 'left',
                       }"
                     >{{ t("currency") }} *</label>
                     <select
@@ -417,7 +465,8 @@
   .count-down {
     display: block !important;
   }
-  .error-message{
+  .error-message {
+    display: block;
     color: rgb(var(--v-theme-error));
     margin-block: 0.5rem;
   }
