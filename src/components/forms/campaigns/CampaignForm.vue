@@ -14,6 +14,8 @@
   import { usePlatformsStore } from '@/stores/usePlatformsStore'
   import campaignHeaderLogo from '@/assets/images/campaign-header.svg'
   import { useRouter } from 'vue-router'
+  import CampaignRuleService from '@/services/campaign-rule-service'
+  import ConnectionRuleService from '@/services/connection-rule-service'
 
   const props = defineProps({
     campaign: {
@@ -34,6 +36,8 @@
   const refVForm = ref('')
   const campaign = ref(props.campaign)
   const selectedPlatform = ref(null)
+  const controlRules = ref([])
+  const communicationRules = ref([])
 
   const platformsStore = usePlatformsStore()
 
@@ -53,6 +57,7 @@
     start_time: '',
     end_time: '',
     daily_budget: null,
+    control_rule_id: null,
   })
 
   const dateTimes = ref({
@@ -85,6 +90,36 @@
 
     return dateTime
   }
+
+  const { loading: loadingControlRules } = useRequest(
+    CampaignRuleService.getAll,
+    {
+      onSuccess: res => {
+        const { error, messages, data } = res.data
+
+        if (error) {
+          show(messages[0], 'error')
+        } else {
+          controlRules.value = data
+        }
+      },
+    }
+  )
+
+  const { loading: loadingCommunicationRules } = useRequest(
+    ConnectionRuleService.getAll,
+    {
+      onSuccess: res => {
+        const { error, messages, data } = res.data
+
+        if (error) {
+          show(messages[0], 'error')
+        } else {
+          communicationRules.value = data
+        }
+      },
+    }
+  )
 
   const { run: runAdd, loading: loadingAdd } = useRequest(
     data => CampaignsService.create(data),
@@ -221,16 +256,16 @@
       ? '(' + t(`platforms.${selectedPlatform.value.toLowerCase()}.title`) + ')'
       : ''
   })
-
 </script>
 <template>
-
   <div class="campaign-form-container">
     <header class="campaign-form-header">
       <img alt="" :src="campaignHeaderLogo">
       <div class="deascription">
-        <h3 class="text-black">{{ t("campaign_settings") }} {{ campaignTitle }}</h3>
-        <p>{{ t("how_to_edit_campaign") }} </p>
+        <h3 class="text-black">
+          {{ t("campaign_settings") }} {{ campaignTitle }}
+        </h3>
+        <p>{{ t("how_to_edit_campaign") }}</p>
       </div>
     </header>
     <v-divider class="mb-4 mt-6" />
@@ -248,7 +283,11 @@
         />
       </VCol>
       <VCol cols="12">
-        <AppTextInput v-model="form.name" :label="$t('campaign_name')" :rules="rules.name" />
+        <AppTextInput
+          v-model="form.name"
+          :label="$t('campaign_name')"
+          :rules="rules.name"
+        />
       </VCol>
       <VCol cols="12">
         <AppTextInput
@@ -268,7 +307,11 @@
         />
       </VCol>
       <VCol cols="12">
-        <AppTimeField v-model="dateTimes.startTime" :label="$t('campaign_start_time')" :placeholder="null" />
+        <AppTimeField
+          v-model="dateTimes.startTime"
+          :label="$t('campaign_start_time')"
+          :placeholder="null"
+        />
       </VCol>
       <VCol cols="12">
         <AppDateField
@@ -279,8 +322,36 @@
         />
       </VCol>
       <VCol cols="12">
-        <AppTimeField v-model="dateTimes.endTime" :label="$t('campaign_end_time')" :placeholder="null" />
+        <AppTimeField
+          v-model="dateTimes.endTime"
+          :label="$t('campaign_end_time')"
+          :placeholder="null"
+        />
       </VCol>
+
+      <VCol cols="12">
+        <AppSelect
+          v-model="form.control_rule_id"
+          item-title="name"
+          item-value="id"
+          :items="controlRules"
+          :label="$t('control_rule')"
+          :loading="loadingControlRules"
+        />
+      </VCol>
+
+      <VCol cols="12">
+        <AppSelect
+          v-model="form.communication_rules_ids"
+          item-title="name"
+          item-value="id"
+          :items="communicationRules"
+          :label="$t('connection_rule')"
+          :loading="loadingCommunicationRules"
+          multiple
+        />
+      </VCol>
+
       <!-- Google Ads Slot Form -->
       <slot
         v-if="selectedPlatform == 'googleads'"
@@ -306,6 +377,5 @@
       </VCol>
     </VForm>
   </div>
-
 </template>
 <style lang="scss"></style>
