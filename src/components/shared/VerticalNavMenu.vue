@@ -100,7 +100,7 @@
           props: {
             prependIcon: 'tabler-link',
             active: isActive('/account-settings', true),
-            to: { name: '/account-settings/' },
+            to: { name: '/account-settings/account-details' },
             disabled: false,
           },
         },
