@@ -100,6 +100,7 @@ declare module 'vue' {
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     SharedChart: typeof import('./src/components/home/SharedChart.vue')['default']
+    SnapChatLocationModal: typeof import('./src/components/dialogs/location/SnapChatLocationModal.vue')['default']
     Tabs: typeof import('./src/components/digital-writer/Tabs.vue')['default']
     TiktokAdsLocationModal: typeof import('./src/components/dialogs/location/TiktokAdsLocationModal.vue')['default']
     TopAndLeastCampaigns: typeof import('./src/components/reports/TopAndLeastCampaigns.vue')['default']

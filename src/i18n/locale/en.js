@@ -1040,7 +1040,7 @@ export default {
   all_notifications_on: "Turn On All Notifications",
   all_notifications_off: "Turn Off All Notifications",
   notify_when_camp_end: "Notify Me When Campaign Ends",
-                another_notify: "Here Appears Another Notification"
+                another_notify: "Here Appears Another Notification",
 
 
 
@@ -1056,4 +1056,6 @@ export default {
 
 
 
+  sign_up: 'Sign Up',
+  snap_location: 'Location {name}',
 }

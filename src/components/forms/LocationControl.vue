@@ -17,6 +17,8 @@
   const emits = defineEmits(['update:locations'])
 
   const openLocationModal = ref(false)
+  const optionViewLocationModal = ref(false)
+  const selectedLocationToView = ref(null)
 
   const removeLocation = index => {
     emits(
@@ -29,6 +31,11 @@
   }
   const clearAllLocations = () => {
     emits('update:locations', [])
+  }
+
+  const viewLocation = location => {
+    optionViewLocationModal.value = true
+    selectedLocationToView.value = location
   }
 </script>
 <template>
@@ -45,12 +52,14 @@
           :key="`location-${i}`"
           closable
           :text="location.name"
+          v-on="
+            platform === 'snapchat'
+              ? { click: () => viewLocation(location) }
+              : {}
+          "
         >
           <template #close>
-            <v-icon
-              icon="mdi-close-circle"
-              @click.stop="removeLocation(i)"
-            />
+            <v-icon icon="mdi-close-circle" @click.stop="removeLocation(i)" />
           </template>
         </v-chip>
       </div>
@@ -99,6 +108,27 @@
       <TiktokAdsLocationModal
         v-model:is-dialog-visible="openLocationModal"
         @saved="handleSavedLocation"
+      />
+    </v-dialog>
+    <v-dialog
+      v-if="platform === 'snapchat'"
+      v-model="openLocationModal"
+      max-width="500"
+    >
+      <SnapChatLocationModal
+        v-model:is-dialog-visible="openLocationModal"
+        @saved="handleSavedLocation"
+      />
+    </v-dialog>
+    <v-dialog
+      v-if="platform === 'snapchat'"
+      v-model="optionViewLocationModal"
+      max-width="500"
+    >
+      <SnapChatLocationModal
+        v-model:is-dialog-visible="optionViewLocationModal"
+        is-view-mode
+        :location="selectedLocationToView"
       />
     </v-dialog>
   </div>

@@ -1039,8 +1039,10 @@ export default {
   all_notifications_on: "تفعيل كل الإشعارات",
   all_notifications_off: "إغلاق كل الإشعارات",
   notify_when_camp_end: "أشعرني عند إنتهاء حملة.",
-  another_notify: "هنا يظهر اشعار آخر"
+  another_notify: "هنا يظهر اشعار آخر",
 
 
 
+  sign_up: 'تسجيل',
+  snap_location: 'موقع {name}',
 }
