@@ -1,52 +1,45 @@
 <script setup>
-  defineOptions({
-    name: 'AppAutocomplete',
-    inheritAttrs: false,
-  })
+defineOptions({
+  name: 'AppAutocomplete',
+  inheritAttrs: false,
+})
 
-  const elementId = computed(() => {
-    const attrs = useAttrs()
-    const _elementIdToken = attrs.id || attrs.label
+const props = defineProps({
+  icon: {
+    type: String,
+    default: '', // Default value if no icon is provided
+  }
+})
+const elementId = computed(() => {
+  const attrs = useAttrs()
+  const _elementIdToken = attrs.id || attrs.label
 
-    return _elementIdToken ? `app-autocomplete-${_elementIdToken}-${Math.random().toString(36).slice(2, 7)}` : undefined
-  })
+  return _elementIdToken ? `app-autocomplete-${_elementIdToken}-${Math.random().toString(36).slice(2, 7)}` : undefined
+})
 
-  const label = computed(() => useAttrs().label)
+const label = computed(() => useAttrs().label)
 </script>
 
 <template>
-  <div
-    class="app-autocomplete flex-grow-1"
-    :class="$attrs.class"
-  >
-    <VLabel
-      v-if="label"
-      class="mb-1 text-body-2 text-dark-1"
-      :for="elementId"
-      :style="{ color: 'black' }"
-      :text="label"
-    />
-    <VAutocomplete
-      v-bind="{
-        ...$attrs,
-        class: null,
-        label: undefined,
-        variant: 'solo-filled',
-        id: elementId,
-        'bg-color': 'secondary',
-        flat: true,
-        density: 'comfortable',
-        height: '48'
-      }"
-    >
-      <template
-        v-for="(_, name) in $slots"
-        #[name]="slotProps"
-      >
-        <slot
-          :name="name"
-          v-bind="slotProps || {}"
-        />
+  <div class="app-autocomplete flex-grow-1" :class="$attrs.class">
+    <VLabel v-if="label" class="mb-1 text-body-2 text-dark-1" :for="elementId" :style="{ color: 'black' }"
+      :text="label" />
+    <VAutocomplete v-bind="{
+      ...$attrs,
+      class: null,
+      label: undefined,
+      variant: 'solo-filled',
+      id: elementId,
+      'bg-color': 'secondary',
+      flat: true,
+      density: 'comfortable',
+      height: '48'
+    }">
+      <template v-if="icon" #prepend-inner>
+        <v-icon>{{ icon }}</v-icon>
+      </template>
+      <template v-for="(_, name) in $slots" #[name]="slotProps">
+        <slot :name="name" v-bind="slotProps || {}" />
       </template>
     </VAutocomplete>
   </div>
