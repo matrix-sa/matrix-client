@@ -503,13 +503,5 @@
     margin-block: 0.5rem;
   }
 }
-section.login-sec {
-  padding: 0;
-}
-.login-container {
-  min-height: 100vh;
-  padding: 30px 80px;
-  align-items: center;
-  justify-content: center;
-}
+
 </style>
