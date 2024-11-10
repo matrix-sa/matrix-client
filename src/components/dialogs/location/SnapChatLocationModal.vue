@@ -1,7 +1,27 @@
 <script setup>
   import locationIcon from '@/assets/images/logos/location.svg'
-  import { radiusRangeValidator, requiredValidator } from '@/utilities/validators'
+  import {
+    radiusRangeValidator,
+    requiredValidator,
+  } from '@/utilities/validators'
   import { useI18n } from 'vue-i18n'
+
+  const props = defineProps({
+    isDialogVisible: {
+      type: Boolean,
+      required: true,
+    },
+    location: {
+      type: Object,
+      required: false,
+      default: null,
+    },
+    isViewMode: {
+      type: Boolean,
+      required: false,
+      default: false,
+    },
+  })
 
   const emit = defineEmits(['saved', 'update:isDialogVisible'])
 
@@ -11,6 +31,12 @@
   const longitude = ref(46.677084)
   const radiusInMeters = ref(1000)
 
+  if (props.location) {
+    latitude.value = props.location.latitude
+    longitude.value = props.location.longitude
+    radiusInMeters.value = props.location.radius_in_meters
+  }
+
   const radiusInput = ref(null)
 
   const selectedCoordinates = computed(() => {
@@ -18,6 +44,7 @@
       latitude: latitude.value,
       longitude: longitude.value,
       radius_in_meters: radiusInMeters.value,
+      name: t('snap_location'),
     }
   })
 
@@ -35,11 +62,14 @@
   }
 
   const isRadiusInputValid = computed(() => {
-    return radiusRangeValidator(radiusInMeters.value) === true &&
+    return (
+      radiusRangeValidator(radiusInMeters.value) === true &&
       requiredValidator(radiusInMeters.value) === true
+    )
   })
-  const isValid = computed(() => !!selectedCoordinates.value &&
-    isRadiusInputValid.value)
+  const isValid = computed(
+    () => !!selectedCoordinates.value && isRadiusInputValid.value
+  )
 </script>
 <template>
   <v-card class="connect-platform px-6 rounded-xl" min-width="40vw">
@@ -62,14 +92,13 @@
             <AppTextInput
               v-model="radiusInMeters"
               :label="$t('radius_in_meters')"
+              :readonly="isViewMode"
               :rules="[requiredValidator, radiusRangeValidator]"
             />
           </VForm>
         </VCol>
         <VCol cols="12">
-          <label
-            class="v-label mb-1 text-body-2 text-high-emphasis"
-          >
+          <label class="v-label mb-1 text-body-2 text-high-emphasis">
             {{ t("point") }}
           </label>
           <GMapMap
@@ -78,7 +107,7 @@
               lng: longitude,
             }"
             map-type-id="terrain"
-            style="height: 300px;"
+            style="height: 300px"
             :zoom="11"
           >
             <GMapMarker
@@ -90,6 +119,7 @@
                 scaleControl: true,
                 rotateControl: true,
                 fullscreenControl: true,
+                draggable: !isViewMode,
               }"
               :position="{
                 lat: latitude,
@@ -117,6 +147,7 @@
     <v-card-actions class="my-2 d-flex justify-end">
       <v-btn rounded="xl" :text="t('cancel')" @click="handleClose" />
       <v-btn
+        v-if="!isViewMode"
         append-icon="mdi-check"
         color="success"
         :disabled="!isValid"

@@ -1026,4 +1026,5 @@ export default {
   ad_group_settings: 'إعدادات المجموعة الإعلانية',
   how_to_edit_ad_group: 'كيفية تعديل المجموعة الإعلانية',
   sign_up: 'تسجيل',
+  snap_location: 'موقع {name}',
 }
