@@ -31,6 +31,13 @@ export const useAuthStore = defineStore('auth-store', () => {
         mobileNumber: payload.mobile_number,
       }
     })
+
+    const interval = setInterval(() => {
+      otp.value.countDown--
+      if (otp.value.countDown === 0) {
+        clearInterval(interval)
+      }
+    }, 1000)
   }
   async function login (payload) {
     await executeWithLoading(async () => {

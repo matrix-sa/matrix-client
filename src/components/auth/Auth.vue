@@ -46,19 +46,16 @@
       /^5(5|0|3|6|4|9|1|8|7)([0-9]{7})$/,
       t('validation.invalid_mobile_number')
     )
-  const {
-    value: phoneNumber,
-    validate: validatePhoneNumber,
-  } = useField('email', phoneNumberSchema)
+  const { value: phoneNumber, validate: validatePhoneNumber } = useField(
+    'email',
+    phoneNumberSchema
+  )
 
   const otpSchema = yup
     .string()
     .matches(/^([0-9]{4})$/, t('validation.invalid_otp'))
 
-  const {
-    value: otp,
-    validate: validateOtp,
-  } = useField('otp', otpSchema)
+  const { value: otp, validate: validateOtp } = useField('otp', otpSchema)
 
   const handleSendCode = async () => {
     try {
@@ -88,12 +85,18 @@
   }
 
   // register
-  const registerForm = ref({
-    name: null,
-    email: null,
-    mobile_number: null,
-    currency: null,
-    accept_terms: null,
+  const registerForm = ref(null)
+  const registerValidationSchema = yup.object({
+    name: yup.string().required(t('validation.required')),
+    email: yup
+      .string()
+      .required(t('validation.required'))
+      .email(t('validation.email.valid')),
+    mobile_number: yup
+      .string()
+      .required(t('validation.required'))
+      .matches(/^[0-9]{9}$/, t('validation.invalid_mobile_number')),
+    currency: yup.string().required(t('validation.required')).default('SAR'),
   })
 
   const currencies = ref([])
@@ -103,24 +106,17 @@
     {
       onSuccess: res => {
         currencies.value = res.data?.data
-        registerForm.value.currency = 'SAR'
       },
     }
   )
 
-  const onRegisterSubmit = async () => {
+  const onRegisterSubmit = async value => {
     try {
-      registerForm.value.mobile_number = `+966${registerForm.value.mobile_number}`
-      await authStore.register(registerForm.value)
+      value.mobile_number = `+966${registerForm.value.mobile_number}`
+      await authStore.register(value)
       if (authStore.otp) {
         document.querySelector('.tabs-login li:nth-child(1) a').click()
-        registerForm.value = {
-          name: null,
-          email: null,
-          mobile_number: null,
-          currency: null,
-          accept_terms: null,
-        }
+        registerForm.value.resetForm()
       }
     } catch (error) {
       console.error('Registration failed:', error)
@@ -227,7 +223,7 @@
               <h4>{{ t("welcome_back_to_matrix") }}</h4>
               <p>{{ t("login_message") }}</p>
               <div class="signup-form-text">
-                <form @submit.prevent="">
+                <Form @submit.prevent="">
                   <div class="form-group">
                     <label
                       :dir="isArabic ? 'rtl' : 'ltr'"
@@ -236,23 +232,21 @@
                       }"
                     >{{ t(`${"auth.phone"}`) }} *</label>
 
-                    <Form>
-                      <Field
-                        v-model="phoneNumber"
-                        :dir="isArabic ? 'rtl' : 'ltr'"
-                        name="phoneNumber"
-                        placeholder="56xxxxxxxx"
-                        :rules="phoneNumberSchema"
-                        type="tel"
-                      />
-                      <ErrorMessage
-                        class="error-message"
-                        name="phoneNumber"
-                        :style="{
-                          textAlign: isArabic ? 'right' : 'left',
-                        }"
-                      />
-                    </Form>
+                    <Field
+                      v-model="phoneNumber"
+                      :dir="isArabic ? 'rtl' : 'ltr'"
+                      name="phoneNumber"
+                      placeholder="56xxxxxxxx"
+                      :rules="phoneNumberSchema"
+                      type="tel"
+                    />
+                    <ErrorMessage
+                      class="error-message"
+                      name="phoneNumber"
+                      :style="{
+                        textAlign: isArabic ? 'right' : 'left',
+                      }"
+                    />
                   </div>
 
                   <div class="form-group">
@@ -263,24 +257,22 @@
                       }"
                     >{{ t(`${"auth.password"}`) }} *</label>
 
-                    <Form>
-                      <Field
-                        v-model="otp"
-                        :dir="isArabic ? 'rtl' : 'ltr'"
-                        :disabled="otpDisabled"
-                        name="otp"
-                        placeholder="1234"
-                        :rules="otpSchema"
-                        type="number"
-                      />
-                      <ErrorMessage
-                        class="error-message"
-                        name="otp"
-                        :style="{
-                          textAlign: isArabic ? 'right' : 'left',
-                        }"
-                      />
-                    </Form>
+                    <Field
+                      v-model="otp"
+                      :dir="isArabic ? 'rtl' : 'ltr'"
+                      :disabled="otpDisabled"
+                      name="otp"
+                      placeholder="1234"
+                      :rules="otpSchema"
+                      type="number"
+                    />
+                    <ErrorMessage
+                      class="error-message"
+                      name="otp"
+                      :style="{
+                        textAlign: isArabic ? 'right' : 'left',
+                      }"
+                    />
                   </div>
 
                   <div class="form-group">
@@ -306,7 +298,7 @@
                       <span>{{ t("Login") }}</span>
                     </button>
                   </div>
-                </form>
+                </Form>
               </div>
             </div>
           </div>
@@ -315,19 +307,32 @@
               <h4>{{ t("welcome_back_to_matrix") }} !</h4>
               <p>{{ t("login_message") }}</p>
               <div class="signup-form-text">
-                <form @submit.prevent="onRegisterSubmit">
+                <Form
+                  ref="registerForm"
+                  :validation-schema="registerValidationSchema"
+                  @submit="onRegisterSubmit"
+                >
                   <div class="form-group">
                     <label
                       :style="{
                         textAlign: isArabic ? 'right' : 'left',
                       }"
                     >{{ t("auth.username") }} *</label>
-                    <input
-                      v-model="registerForm.name"
+
+                    <Field
                       :dir="isArabic ? 'rtl' : 'ltr'"
+                      name="name"
                       :placeholder="t('add_here')"
                       type="text"
-                    >
+                    />
+
+                    <ErrorMessage
+                      class="error-message"
+                      name="name"
+                      :style="{
+                        textAlign: isArabic ? 'right' : 'left',
+                      }"
+                    />
                   </div>
 
                   <div class="form-group">
@@ -336,12 +341,20 @@
                         textAlign: isArabic ? 'right' : 'left',
                       }"
                     >{{ t("auth.email") }} *</label>
-                    <input
-                      v-model="registerForm.email"
+                    <Field
                       :dir="isArabic ? 'rtl' : 'ltr'"
+                      name="email"
                       :placeholder="t('add_here')"
-                      type="email"
-                    >
+                      type="text"
+                    />
+
+                    <ErrorMessage
+                      class="error-message"
+                      name="email"
+                      :style="{
+                        textAlign: isArabic ? 'right' : 'left',
+                      }"
+                    />
                   </div>
 
                   <div class="form-group">
@@ -350,13 +363,20 @@
                         textAlign: isArabic ? 'right' : 'left',
                       }"
                     >{{ t("auth.phone") }} *</label>
-                    <input
-                      v-model="registerForm.mobile_number"
+                    <Field
                       :dir="isArabic ? 'rtl' : 'ltr'"
+                      name="mobile_number"
                       placeholder="56xxxxxxxx"
-                      required
-                      type="tel"
-                    >
+                      type="text"
+                    />
+
+                    <ErrorMessage
+                      class="error-message"
+                      name="mobile_number"
+                      :style="{
+                        textAlign: isArabic ? 'right' : 'left',
+                      }"
+                    />
                   </div>
 
                   <div class="form-group">
@@ -365,9 +385,13 @@
                         textAlign: isArabic ? 'right' : 'left',
                       }"
                     >{{ t("currency") }} *</label>
-                    <select
-                      v-model="registerForm.currency"
+
+                    <Field
+                      as="select"
+                      :dir="isArabic ? 'rtl' : 'ltr'"
+                      name="currency"
                       :placeholder="t('choose_currency')"
+                      value="SAR"
                     >
                       <option
                         v-for="currency in currencies"
@@ -376,7 +400,15 @@
                       >
                         {{ currency.name }}
                       </option>
-                    </select>
+                    </Field>
+
+                    <ErrorMessage
+                      class="error-message"
+                      name="currency"
+                      :style="{
+                        textAlign: isArabic ? 'right' : 'left',
+                      }"
+                    />
                   </div>
 
                   <div class="form-group">
@@ -384,7 +416,7 @@
                       {{ t("sign_up") }}
                     </button>
                   </div>
-                </form>
+                </Form>
               </div>
             </div>
           </div>
