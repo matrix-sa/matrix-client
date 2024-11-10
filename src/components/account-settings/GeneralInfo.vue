@@ -1,8 +1,8 @@
 <script setup>
-import { useI18n } from 'vue-i18n'
-import ksaFlag from '@images/icons/countries/ksa_flag.svg'
+  import { useI18n } from 'vue-i18n'
+  import ksaFlag from '@images/icons/countries/ksa_flag.svg'
 
-const { t } = useI18n()
+  const { t } = useI18n()
 
 </script>
 <template>
@@ -10,35 +10,33 @@ const { t } = useI18n()
     <div class="d-flex gap-7">
 
       <span class="icon-main">
-        <VIcon icon="uil:info" color="#FFF"></VIcon>
+        <VIcon color="#FFF" icon="uil:info" />
       </span>
       <span class="title">{{ t('general_info') }}</span>
     </div>
 
     <v-divider class="divider" />
 
-
     <v-container class="mt-4 px-0">
       <v-row>
         <v-col cols="4">
-          <InfoCard :label="t('username')" :icon="'subway:id-card-1'" value="عمر سالم" />
+          <InfoCard :icon="'subway:id-card-1'" :label="t('username')" value="عمر سالم" />
         </v-col>
         <v-col cols="4">
-          <InfoCard :label="t('phone_number')" :icon="'solar:phone-bold'" value="589 623 487">
+          <InfoCard :icon="'solar:phone-bold'" :label="t('phone_number')" value="589 623 487">
             <template #appendEl>
               <span class="me-2 phone_key">+966</span>
-              <img :src="ksaFlag" width="20" />
+              <img :src="ksaFlag" width="20">
             </template>
           </InfoCard>
         </v-col>
         <v-col cols="4">
-          <InfoCard :label="t('Email')" :icon="'mdi:email'" value="user@gmail.com" />
+          <InfoCard :icon="'mdi:email'" :label="t('Email')" value="user@gmail.com" />
         </v-col>
       </v-row>
     </v-container>
   </div>
 </template>
-
 
 <style lang="scss" scoped>
 .icon-main {

@@ -1,23 +1,22 @@
 <script setup>
-import { useI18n } from 'vue-i18n'
-import userImg from '@/assets/digital-writer/user.svg'
+  import { useI18n } from 'vue-i18n'
+  import userImg from '@/assets/digital-writer/user.svg'
 
-const { t } = useI18n()
+  const { t } = useI18n()
 </script>
 
 <template>
   <div>
 
     <div class="d-flex align-center">
-      <VIcon icon="gridicons:user" size="20" color="#1F1625" />
+      <VIcon color="#1F1625" icon="gridicons:user" size="20" />
       <p class="link-ad-title ms-1">{{ t("account") }}</p>
     </div>
-
 
     <v-divider class="divider" />
 
     <div class="d-flex align-center">
-      <img alt="user" :src="userImg" class="user-img">
+      <img alt="user" class="user-img" :src="userImg">
       <div class="ms-2">
         <h4 class="text-black">{{ t("username") }}</h4>
         <span>user@gmail.com</span>

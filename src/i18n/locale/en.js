@@ -1026,35 +1026,21 @@ export default {
   add_location: 'Add Location',
   ad_group_settings: 'Ad Group Settings',
   how_to_edit_ad_group: 'How to edit the ad group',
-  account_details: "Account Details",
-  edit_account: "Edit Account",
-  general_info: "General Information",
-  phone_number: "Phone Number",
-      company_info: "Company Information",
-  company_name: "Company Name",
-          company_address: "Company Address",
-  company_field: "Company Field",
-  company_website: "Company Website",
-  main_target_country: "Main target country",
-  used_currency: "Used Currency",
-  all_notifications_on: "Turn On All Notifications",
-  all_notifications_off: "Turn Off All Notifications",
-  notify_when_camp_end: "Notify Me When Campaign Ends",
-                another_notify: "Here Appears Another Notification",
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+  account_details: 'Account Details',
+  edit_account: 'Edit Account',
+  general_info: 'General Information',
+  phone_number: 'Phone Number',
+  company_info: 'Company Information',
+  company_name: 'Company Name',
+  company_address: 'Company Address',
+  company_field: 'Company Field',
+  company_website: 'Company Website',
+  main_target_country: 'Main target country',
+  used_currency: 'Used Currency',
+  all_notifications_on: 'Turn On All Notifications',
+  all_notifications_off: 'Turn Off All Notifications',
+  notify_when_camp_end: 'Notify Me When Campaign Ends',
+  another_notify: 'Here Appears Another Notification',
 
   sign_up: 'Sign Up',
   snap_location: 'Location {name}',

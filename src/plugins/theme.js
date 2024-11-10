@@ -16,7 +16,7 @@ const matrixTheme = {
     success: '#24C87E',
     'on-success': '#ffffff',
     warning: '#FB813E',
-    black: "#000"
+    black: '#000',
   },
   variables: {
     'border-color': '#000000',

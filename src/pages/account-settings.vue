@@ -1,38 +1,40 @@
 <script setup>
-import { useI18n } from 'vue-i18n'
-import editPen from '@/assets/edit-pen.svg'
-import password from '@/assets/Password.svg'
+  import { useI18n } from 'vue-i18n'
+  import editPen from '@/assets/edit-pen.svg'
+  import password from '@/assets/Password.svg'
 
-const { t } = useI18n()
-const route = useRoute()
+  const { t } = useI18n()
+  const route = useRoute()
 
+  const isAccountDetails = computed(() =>
+    route.name.includes('account-details')
+  )
 
-const isAccountDetails = computed(() =>
-  route.name.includes('account-details')
-)
+  const activeBtnProps = ref({
+    color: 'warning',
+    flat: true,
+  })
 
-const activeBtnProps = ref({
-  color: 'warning',
-  flat: true,
-})
+  const inActiveBtnProps = ref({
+    color: 'surface-variant',
+    flat: true,
+    variant: 'outlined',
+  })
 
-const inActiveBtnProps = ref({
-  color: 'surface-variant',
-  flat: true,
-  variant: 'outlined',
-})
-
-//router.push({ name: '/account-settings/account-details' })
+// router.push({ name: '/account-settings/account-details' })
 </script>
 
 <template>
   <div>
 
-
     <div class="d-flex mb-6 justify-space-between align-center">
       <div class="buttons-container">
-        <v-btn v-bind="isAccountDetails ? activeBtnProps : inActiveBtnProps" height="40px" rounded
-          :to="{ name: '/account-settings/account-details' }">
+        <v-btn
+          v-bind="isAccountDetails ? activeBtnProps : inActiveBtnProps"
+          height="40px"
+          rounded
+          :to="{ name: '/account-settings/account-details' }"
+        >
 
           <template #prepend>
             <v-icon size="24px">iconoir:user</v-icon>
@@ -40,8 +42,12 @@ const inActiveBtnProps = ref({
           {{ t("account_details") }}
         </v-btn>
 
-        <v-btn v-bind="isAccountDetails ? inActiveBtnProps : activeBtnProps" height="40px" rounded
-          :to="{ name: '/account-settings/settings' }">
+        <v-btn
+          v-bind="isAccountDetails ? inActiveBtnProps : activeBtnProps"
+          height="40px"
+          rounded
+          :to="{ name: '/account-settings/settings' }"
+        >
 
           <template #prepend>
             <v-icon size="22px">ri:settings-line</v-icon>
@@ -53,26 +59,28 @@ const inActiveBtnProps = ref({
       </div>
 
       <div class="d-flex align-center">
-        <v-btn color="primary" variant="outlined" height="40px" rounded>
-          <img alt="user" :src="password" width="16" class="me-1">
+        <v-btn color="primary" height="40px" rounded variant="outlined">
+          <img alt="user" class="me-1" :src="password" width="16">
 
           {{ t("change_password_title") }}
         </v-btn>
 
-        <v-btn color="primary" class="ms-2" height="40px" icon-color="white" rounded>
-          <img alt="user" :src="editPen" width="16" class="me-1">
+        <v-btn
+          class="ms-2"
+          color="primary"
+          height="40px"
+          icon-color="white"
+          rounded
+        >
+          <img alt="user" class="me-1" :src="editPen" width="16">
 
           {{ t("edit_account") }}
         </v-btn>
-
 
       </div>
     </div>
 
     <div class="main">
-
-
-
 
       <div>
         <router-view v-slot="{ Component }">

@@ -1,25 +1,25 @@
 <script setup>
 
-const props = defineProps({
-  label: {
-    type: String,
-    required: true
-  },
-  icon: {
-    type: String,
-    required: true
-  },
-  iconSize: {
-    type: String,
-    default: "24px",
-    required: false
-  },
-  value: {
-    type: String,
-    default: '',
-    required: true
-  }
-})
+  const props = defineProps({
+    label: {
+      type: String,
+      required: true,
+    },
+    icon: {
+      type: String,
+      required: true,
+    },
+    iconSize: {
+      type: String,
+      default: '24px',
+      required: false,
+    },
+    value: {
+      type: String,
+      default: '',
+      required: true,
+    },
+  })
 </script>
 
 <template>
@@ -28,12 +28,12 @@ const props = defineProps({
     <div class="card d-flex align-center justify-space-between mt-2">
       <div class="d-flex align-center">
 
-        <v-icon :size="iconSize" color="dark-1">{{ icon }}</v-icon>
+        <v-icon color="dark-1" :size="iconSize">{{ icon }}</v-icon>
         <span class="value ms-2">{{ value }}</span>
       </div>
 
       <div class="d-flex">
-        <slot name="appendEl"></slot>
+        <slot name="appendEl" />
       </div>
     </div>
   </div>
