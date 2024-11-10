@@ -4,6 +4,12 @@
     inheritAttrs: false,
   })
 
+  const props = defineProps({
+    icon: {
+      type: String,
+      default: '', // Default value if no icon is provided
+    },
+  })
   const elementId = computed(() => {
     const attrs = useAttrs()
     const _elementIdToken = attrs.id || attrs.label
@@ -15,10 +21,7 @@
 </script>
 
 <template>
-  <div
-    class="app-autocomplete flex-grow-1"
-    :class="$attrs.class"
-  >
+  <div class="app-autocomplete flex-grow-1" :class="$attrs.class">
     <VLabel
       v-if="label"
       class="mb-1 text-body-2 text-dark-1"
@@ -39,14 +42,11 @@
         height: '48'
       }"
     >
-      <template
-        v-for="(_, name) in $slots"
-        #[name]="slotProps"
-      >
-        <slot
-          :name="name"
-          v-bind="slotProps || {}"
-        />
+      <template v-if="icon" #prepend-inner>
+        <v-icon>{{ icon }}</v-icon>
+      </template>
+      <template v-for="(_, name) in $slots" #[name]="slotProps">
+        <slot :name="name" v-bind="slotProps || {}" />
       </template>
     </VAutocomplete>
   </div>
