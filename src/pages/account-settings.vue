@@ -1,27 +1,57 @@
 <script setup>
-  import { useI18n } from 'vue-i18n'
-  import editPen from '@/assets/edit-pen.svg'
-  import password from '@/assets/Password.svg'
+import { useI18n } from 'vue-i18n'
+import editPen from '@/assets/edit-pen.svg'
+import password from '@/assets/Password.svg'
+import AccountSettingsService from '@/services/account-settings-service';
+import { useSnackbarStore } from '@/stores/useSnackBarStore'
+import { useRequest } from 'vue-request';
 
-  const { t } = useI18n()
-  const route = useRoute()
+const { t } = useI18n()
+const route = useRoute()
+const accountComponent = ref(null)
+const { show } = useSnackbarStore()
 
-  const isAccountDetails = computed(() =>
-    route.name.includes('account-details')
-  )
+const isAccountDetails = computed(() =>
+  route.name.includes('account-details')
+)
 
-  const activeBtnProps = ref({
-    color: 'warning',
-    flat: true,
-  })
+const activeBtnProps = ref({
+  color: 'warning',
+  flat: true,
+})
 
-  const inActiveBtnProps = ref({
-    color: 'surface-variant',
-    flat: true,
-    variant: 'outlined',
-  })
+const inActiveBtnProps = ref({
+  color: 'surface-variant',
+  flat: true,
+  variant: 'outlined',
+})
 
-// router.push({ name: '/account-settings/account-details' })
+const { run: runUpdate, loading: updateLoading } = useRequest(
+  data => AccountSettingsService.updateAccountData(data),
+  {
+    manual: true,
+    onSuccess: res => {
+      const { error, messages } = res.data
+
+      if (error) {
+        show(messages[0], 'error')
+        return
+      }
+      show(t('updated_message'), 'success')
+
+    },
+  },
+)
+
+const submit = () => {
+  const generalInfoData = accountComponent?.value.generalInfoData
+
+  if (isAccountDetails.value && accountComponent.value) {
+    runUpdate(generalInfoData)
+  } else {
+    runUpdate(generalInfoData)
+  }
+}
 </script>
 
 <template>
@@ -29,12 +59,8 @@
 
     <div class="d-flex mb-6 justify-space-between align-center">
       <div class="buttons-container">
-        <v-btn
-          v-bind="isAccountDetails ? activeBtnProps : inActiveBtnProps"
-          height="40px"
-          rounded
-          :to="{ name: '/account-settings/account-details' }"
-        >
+        <v-btn v-bind="isAccountDetails ? activeBtnProps : inActiveBtnProps" height="40px" rounded
+          :to="{ name: '/account-settings/account-details' }">
 
           <template #prepend>
             <v-icon size="24px">iconoir:user</v-icon>
@@ -42,12 +68,8 @@
           {{ t("account_details") }}
         </v-btn>
 
-        <v-btn
-          v-bind="isAccountDetails ? inActiveBtnProps : activeBtnProps"
-          height="40px"
-          rounded
-          :to="{ name: '/account-settings/settings' }"
-        >
+        <v-btn v-bind="isAccountDetails ? inActiveBtnProps : activeBtnProps" height="40px" rounded
+          :to="{ name: '/account-settings/settings' }">
 
           <template #prepend>
             <v-icon size="22px">ri:settings-line</v-icon>
@@ -65,13 +87,8 @@
           {{ t("change_password_title") }}
         </v-btn>
 
-        <v-btn
-          class="ms-2"
-          color="primary"
-          height="40px"
-          icon-color="white"
-          rounded
-        >
+        <v-btn :loading="updateLoading" class="ms-2" color="primary" height="40px" icon-color="white" rounded
+          @click="submit">
           <img alt="user" class="me-1" :src="editPen" width="16">
 
           {{ t("edit_account") }}
@@ -85,7 +102,7 @@
       <div>
         <router-view v-slot="{ Component }">
           <transition name="fade">
-            <component :is="Component" />
+            <component :is="Component" ref="accountComponent" />
           </transition>
         </router-view>
       </div>

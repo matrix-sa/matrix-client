@@ -1,12 +1,5 @@
 <template>
-  <v-switch
-    v-model="localValue"
-    class="custom-switch"
-    color="orange"
-    hide-details
-    inset
-    :label="props.label"
-  >
+  <v-switch v-model="localValue" class="custom-switch" color="orange" hide-details inset :label="label">
     <template #thumb>
       <v-icon :color="thumbColor" size="20">{{ icon }}</v-icon>
     </template>
@@ -14,34 +7,40 @@
 </template>
 
 <script setup>
-  import { computed, defineProps, ref, watch } from 'vue'
+import { computed, defineProps, ref, watch } from 'vue'
 
-  const props = defineProps({
-    modelValue: {
-      type: Boolean,
-      default: false,
-    },
-    onIcon: {
-      type: String,
-      default: 'mdi-check',
-    },
-    offIcon: {
-      type: String,
-      default: 'si:close-line',
-    },
-  })
+const props = defineProps({
+  modelValue: Boolean,
+  onIcon: {
+    type: String,
+    default: 'mdi-check',
+  },
+  offIcon: {
+    type: String,
+    default: 'si:close-line',
+  },
+  label: String,
+})
 
-  const emit = defineEmits(['update:modelValue'])
+const emit = defineEmits(['update:modelValue'])
+const localValue = ref(props.modelValue)
 
-  const localValue = ref(props.modelValue)
-  watch(localValue, newValue => {
-    emit('update:modelValue', newValue)
-  })
+watch(
+  () => props.modelValue,
+  (newVal) => {
+    localValue.value = newVal
+  }
+)
 
-  // Dynamically set the colors based on switch state
-  const thumbColor = computed(() => (localValue.value ? '#fb813e' : '#222')) // Thumb colors
-  const icon = computed(() => (localValue.value ? props.onIcon : props.offIcon))
+watch(localValue, (newVal) => {
+  emit('update:modelValue', newVal)
+})
+
+// Dynamically set the colors based on switch state
+const thumbColor = computed(() => (localValue.value ? '#fb813e' : '#222'))
+const icon = computed(() => (localValue.value ? props.onIcon : props.offIcon))
 </script>
+
 
 <style scoped>
 .custom-switch .v-input__details {

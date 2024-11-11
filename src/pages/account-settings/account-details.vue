@@ -1,13 +1,43 @@
 <script setup>
-  import { useI18n } from 'vue-i18n'
-  import userImg from '@/assets/digital-writer/user.svg'
+import { useI18n } from 'vue-i18n'
+import userImg from '@/assets/digital-writer/user.svg'
+import { useRequest } from 'vue-request';
+import AccountSettingsService from '@/services/account-settings-service';
 
-  const { t } = useI18n()
+const { t } = useI18n()
+
+const generalInfoData = ref({
+  name: '',
+  mobile_number: '',
+  email: '',
+  company_name: '',
+  company_website: '',
+  company_headquarters: '',
+  company_field: ''
+})
+
+
+
+defineExpose({ generalInfoData })
+
+const { loading: loadingData } = useRequest(
+  () => AccountSettingsService.getAccountData(),
+  {
+    onSuccess: res => {
+      console.log(res.data?.data)
+      generalInfoData.value = res.data?.data
+    },
+  }
+)
+
+
 </script>
 
 <template>
   <div>
-
+    <v-overlay v-if="loadingData" v-model="loadingData" class="align-center justify-center" persistent>
+      <v-progress-circular color="primary" indeterminate size="50" :width="7" />
+    </v-overlay>
     <div class="d-flex align-center">
       <VIcon color="#1F1625" icon="gridicons:user" size="20" />
       <p class="link-ad-title ms-1">{{ t("account") }}</p>
@@ -24,11 +54,11 @@
     </div>
 
     <div class="mt-6">
-      <GeneralInfo />
+      <GeneralInfo :data="generalInfoData" />
     </div>
 
     <div class="mt-6">
-      <CompanyInfo />
+      <CompanyInfo :data="generalInfoData" />
     </div>
   </div>
 </template>

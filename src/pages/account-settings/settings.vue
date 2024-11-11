@@ -1,52 +1,70 @@
 <script setup>
-  import { useI18n } from 'vue-i18n'
-  import { useSnackbarStore } from '@/stores/useSnackBarStore'
-  import { useRequest } from 'vue-request'
-  import TargetingService from '@/services/targeting-service'
-  import CurrenciesService from '@/services/currencies-service'
-  import AppSwitch from '@/components/core/AppSwitch.vue'
-  import Pill from '@/assets/pill.svg'
+import { useI18n } from 'vue-i18n'
+import { useSnackbarStore } from '@/stores/useSnackBarStore'
+import { useRequest } from 'vue-request'
+import TargetingService from '@/services/targeting-service'
+import CurrenciesService from '@/services/currencies-service'
+import AppSwitch from '@/components/core/AppSwitch.vue'
+import Pill from '@/assets/pill.svg'
+import AccountSettingsService from '@/services/account-settings-service'
 
-  const { t } = useI18n()
-  const { show } = useSnackbarStore()
-  const countries = ref([])
-  const selectedCountry = ref('SA')
-  const selectedCurrency = ref('SAR')
+const { t } = useI18n()
+const { show } = useSnackbarStore()
+const countries = ref([])
+const currencies = ref([])
+const generalInfoData = ref({
+  country: null,
+  currency: null,
+  notifications_settings: {
+    "allow_all": false,
+    "when_campaign_ends": false
+  }
 
-  const onAllNotifications = ref(false)
+})
 
-  const currencies = ref([])
+defineExpose({ generalInfoData })
 
-  const { loading: loadingCountries } = useRequest(
-    () => TargetingService.getSupportedCountries('GoogleAds'),
-    {
-      onSuccess: res => {
-        const { error, data, messages, code } = res.data
+const { loading: loadingData } = useRequest(
+  () => AccountSettingsService.getAccountData(),
+  {
+    onSuccess: res => {
+      generalInfoData.value = res.data?.data
+      generalInfoData.value.notifications_settings.allow_all = res.data?.data.notifications_settings?.allow_all || false;
+      generalInfoData.value.notifications_settings.when_campaign_ends = res.data?.data.notifications_settings?.when_campaign_ends || false;
+    },
+  }
+)
 
-        if (error) {
-          show(messages[0], 'error')
-        }
-        countries.value = data ?? []
-      },
-    }
-  )
+const { loading: loadingCountries } = useRequest(
+  () => TargetingService.getSupportedCountries('GoogleAds'),
+  {
+    onSuccess: res => {
+      const { error, data, messages, code } = res.data
 
-  const { loading: loadingCurrencies } = useRequest(
-    () => CurrenciesService.getSupportedCurrencies(),
-    {
-      onSuccess: res => {
-        currencies.value = res.data?.data
-      },
-    }
-  )
+      if (error) {
+        show(messages[0], 'error')
+      }
+      countries.value = data ?? []
+    },
+  }
+)
+
+const { loading: loadingCurrencies } = useRequest(
+  () => CurrenciesService.getSupportedCurrencies(),
+  {
+    onSuccess: res => {
+      currencies.value = res.data?.data
+    },
+  }
+)
 
 </script>
 
 <template>
   <div>
-    <!-- <v-overlay v-model="loadingCheckStatuses" class="align-center justify-center" persistent>
+    <v-overlay v-if="loadingData" v-model="loadingData" class="align-center justify-center" persistent>
       <v-progress-circular color="primary" indeterminate size="50" :width="7" />
-    </v-overlay> -->
+    </v-overlay>
 
     <div class="d-flex align-center">
       <VIcon color="primary" icon="tdesign:setting-filled" size="20" />
@@ -58,28 +76,12 @@
     <v-container class="px-0">
       <v-row>
         <v-col cols="12" sm="6">
-          <AppAutocomplete
-            v-model="selectedCountry"
-            hide-no-data
-            icon="mdi-flag"
-            item-title="name"
-            item-value="id"
-            :items="countries"
-            :label="$t('main_target_country')"
-            :loading="loadingCountries"
-          />
+          <AppAutocomplete v-model="generalInfoData.country" hide-no-data icon="mdi-flag" item-title="name"
+            item-value="id" :items="countries" :label="$t('main_target_country')" :loading="loadingCountries" />
         </v-col>
         <v-col cols="12" sm="6">
-          <AppAutocomplete
-            v-model="selectedCurrency"
-            hide-no-data
-            icon="clarity:dollar-line"
-            item-title="name"
-            item-value="code"
-            :items="currencies"
-            :label="$t('used_currency')"
-            :loading="loadingCurrencies"
-          />
+          <AppAutocomplete v-model="generalInfoData.currency" hide-no-data icon="clarity:dollar-line" item-title="name"
+            item-value="code" :items="currencies" :label="$t('used_currency')" :loading="loadingCurrencies" />
         </v-col>
       </v-row>
     </v-container>
@@ -94,34 +96,19 @@
       <v-divider class="divider" />
       <v-row>
 
+
         <v-col cols="12" sm="12">
-          <AppSwitch
-            v-model="onAllNotifications"
-            :label="t('all_notifications_on')"
-            :off-icon="'mdi:close'"
-            :on-icon="'mdi-check'"
-          />
+          <AppSwitch v-model="generalInfoData.notifications_settings.allow_all" :label="t('all_notifications_on')"
+            :off-icon="'mdi:close'" :on-icon="'mdi-check'" />
 
-          <AppSwitch
-            v-model="onAllNotifications"
-            :label="t('notify_when_camp_end')"
-            :off-icon="'mdi:close'"
-            :on-icon="'mdi-check'"
-          />
+          <AppSwitch v-model="generalInfoData.notifications_settings.when_campaign_ends"
+            :label="t('notify_when_camp_end')" :off-icon="'mdi:close'" :on-icon="'mdi-check'" />
 
-          <AppSwitch
-            v-model="onAllNotifications"
-            :label="t('another_notify')"
-            :off-icon="'mdi:close'"
-            :on-icon="'mdi-check'"
-          />
+          <!-- <AppSwitch v-model="onAllNotifications" :label="t('another_notify')" :off-icon="'mdi:close'"
+            :on-icon="'mdi-check'" />
 
-          <AppSwitch
-            v-model="onAllNotifications"
-            :label="t('another_notify')"
-            :off-icon="'mdi:close'"
-            :on-icon="'mdi-check'"
-          />
+          <AppSwitch v-model="onAllNotifications" :label="t('another_notify')" :off-icon="'mdi:close'"
+            :on-icon="'mdi-check'" /> -->
         </v-col>
       </v-row>
     </v-container>

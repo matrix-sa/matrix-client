@@ -1,65 +1,68 @@
 <script setup>
-  defineOptions({
-    name: 'AppTextInput',
-    inheritAttrs: false,
-    appendText: '',
-  })
+defineOptions({
+  name: 'AppTextInput',
+  inheritAttrs: false,
+  appendText: '',
+})
 
-  defineProps({
-    appendText: {
-      type: String,
-      default: '',
-    },
-    bordered: {
-      type: Boolean,
-      default: false,
-    },
-  })
 
-  const elementId = computed(() => {
-    const attrs = useAttrs()
-    const _elementIdToken = attrs.id || attrs.label
+defineProps({
+  appendText: {
+    type: String,
+    default: '',
+  },
+  bordered: {
+    type: Boolean,
+    default: false,
+  },
+  prependIcon: {
+    type: String,
+    default: '', // Allow passing a prepend icon name
+  },
+})
 
-    return _elementIdToken
-      ? `app-text-field-${_elementIdToken}-${Math.random()
-        .toString(36)
-        .slice(2, 7)}`
-      : undefined
-  })
+const elementId = computed(() => {
+  const attrs = useAttrs()
+  const _elementIdToken = attrs.id || attrs.label
 
-  const label = computed(() => useAttrs().label)
+  return _elementIdToken
+    ? `app-text-field-${_elementIdToken}-${Math.random()
+      .toString(36)
+      .slice(2, 7)}`
+    : undefined
+})
+
+const label = computed(() => useAttrs().label)
 </script>
 
 <template>
   <div class="app-text-field flex-grow-1" :class="$attrs.class">
-    <VLabel
-      v-if="label"
-      class="mb-1 text-body-2 text-dark-1"
-      :for="elementId"
-      persistent-placeholder
-      :text="label"
-    />
-    <VTextField
-      class="text-input"
-      :class="bordered ? 'input-bordered' : ''"
-      height="40"
-      v-bind="{
-        ...$attrs,
-        class: null,
-        label: undefined,
-        variant: 'solo-filled',
-        id: elementId,
-        'bg-color': 'background',
-        flat: true,
-      }"
-    >
+    <VLabel v-if="label" class="mb-1 text-body-2 text-dark-1" :for="elementId" persistent-placeholder :text="label" />
+    <VTextField class="text-input" :class="bordered ? 'input-bordered' : ''" height="40" v-bind="{
+      ...$attrs,
+      class: null,
+      label: undefined,
+      variant: 'solo-filled',
+      id: elementId,
+      'bg-color': 'background',
+      flat: true,
+    }">
+      <template v-if="prependIcon" #prepend-inner>
+        <VIcon class="overlay-icon" color="dark-1">{{ prependIcon }}</VIcon>
+      </template>
       <template v-for="(_, name) in $slots" #[name]="slotProps">
         <slot :name="name" v-bind="slotProps || {}" />
       </template>
 
       <template v-if="appendText" #append-inner>
         <span class="append-text" @click="onClick">{{ appendText }}</span>
+
+        <div class="d-flex">
+          <slot name="appendEl" />
+        </div>
       </template>
+
+
     </VTextField>
   </div>
 </template>
@@ -86,6 +89,7 @@
         border-color: rgb(var(--v-theme-primary));
       }
     }
+
     .v-field__overlay {
       background: unset;
     }

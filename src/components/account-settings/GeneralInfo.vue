@@ -1,9 +1,17 @@
 <script setup>
-  import { useI18n } from 'vue-i18n'
-  import ksaFlag from '@images/icons/countries/ksa_flag.svg'
+import { useI18n } from 'vue-i18n'
+import ksaFlag from '@images/icons/countries/ksa_flag.svg'
 
-  const { t } = useI18n()
+const props = defineProps({
+  data: {
+    type: Object,
+    required: true
+  }
+})
 
+const { t } = useI18n()
+
+const { data } = toRefs(props)
 </script>
 <template>
   <div>
@@ -18,20 +26,26 @@
     <v-divider class="divider" />
 
     <v-container class="mt-4 px-0">
+
       <v-row>
         <v-col cols="4">
-          <InfoCard :icon="'subway:id-card-1'" :label="t('username')" value="عمر سالم" />
+          <AppTextInput v-model="data.name" prependIcon="subway:id-card-1" :label="t('username')"
+            :placeholder="t('name')" />
         </v-col>
         <v-col cols="4">
-          <InfoCard :icon="'solar:phone-bold'" :label="t('phone_number')" value="589 623 487">
+
+          <AppTextInput v-model="data.mobile_number" appendText="' '" prependIcon="solar:phone-bold"
+            :label="t('phone_number')" :placeholder="t('phone_number')">
             <template #appendEl>
               <span class="me-2 phone_key">+966</span>
               <img :src="ksaFlag" width="20">
             </template>
-          </InfoCard>
+          </AppTextInput>
+
         </v-col>
         <v-col cols="4">
-          <InfoCard :icon="'mdi:email'" :label="t('Email')" value="user@gmail.com" />
+          <AppTextInput v-model="data.email" type="email" prependIcon="mdi:email" :label="t('Email')"
+            :placeholder="t('Email')" />
         </v-col>
       </v-row>
     </v-container>
