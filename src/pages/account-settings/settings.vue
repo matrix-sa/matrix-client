@@ -6,16 +6,34 @@
   import CurrenciesService from '@/services/currencies-service'
   import AppSwitch from '@/components/core/AppSwitch.vue'
   import Pill from '@/assets/pill.svg'
+  import AccountSettingsService from '@/services/account-settings-service'
 
   const { t } = useI18n()
   const { show } = useSnackbarStore()
   const countries = ref([])
-  const selectedCountry = ref('SA')
-  const selectedCurrency = ref('SAR')
-
-  const onAllNotifications = ref(false)
-
   const currencies = ref([])
+  const generalInfoData = ref({
+    country: null,
+    currency: null,
+    notifications_settings: {
+      allow_all: false,
+      when_campaign_ends: false,
+    },
+
+  })
+
+  defineExpose({ generalInfoData })
+
+  const { loading: loadingData } = useRequest(
+    () => AccountSettingsService.getAccountData(),
+    {
+      onSuccess: res => {
+        generalInfoData.value = res.data?.data
+        generalInfoData.value.notifications_settings.allow_all = res.data?.data.notifications_settings?.allow_all || false
+        generalInfoData.value.notifications_settings.when_campaign_ends = res.data?.data.notifications_settings?.when_campaign_ends || false
+      },
+    }
+  )
 
   const { loading: loadingCountries } = useRequest(
     () => TargetingService.getSupportedCountries('GoogleAds'),
@@ -44,9 +62,9 @@
 
 <template>
   <div>
-    <!-- <v-overlay v-model="loadingCheckStatuses" class="align-center justify-center" persistent>
+    <v-overlay v-if="loadingData" v-model="loadingData" class="align-center justify-center" persistent>
       <v-progress-circular color="primary" indeterminate size="50" :width="7" />
-    </v-overlay> -->
+    </v-overlay>
 
     <div class="d-flex align-center">
       <VIcon color="primary" icon="tdesign:setting-filled" size="20" />
@@ -59,7 +77,7 @@
       <v-row>
         <v-col cols="12" sm="6">
           <AppAutocomplete
-            v-model="selectedCountry"
+            v-model="generalInfoData.country"
             hide-no-data
             icon="mdi-flag"
             item-title="name"
@@ -71,7 +89,7 @@
         </v-col>
         <v-col cols="12" sm="6">
           <AppAutocomplete
-            v-model="selectedCurrency"
+            v-model="generalInfoData.currency"
             hide-no-data
             icon="clarity:dollar-line"
             item-title="name"
@@ -96,32 +114,24 @@
 
         <v-col cols="12" sm="12">
           <AppSwitch
-            v-model="onAllNotifications"
+            v-model="generalInfoData.notifications_settings.allow_all"
             :label="t('all_notifications_on')"
             :off-icon="'mdi:close'"
             :on-icon="'mdi-check'"
           />
 
           <AppSwitch
-            v-model="onAllNotifications"
+            v-model="generalInfoData.notifications_settings.when_campaign_ends"
             :label="t('notify_when_camp_end')"
             :off-icon="'mdi:close'"
             :on-icon="'mdi-check'"
           />
 
-          <AppSwitch
-            v-model="onAllNotifications"
-            :label="t('another_notify')"
-            :off-icon="'mdi:close'"
-            :on-icon="'mdi-check'"
-          />
+          <!-- <AppSwitch v-model="onAllNotifications" :label="t('another_notify')" :off-icon="'mdi:close'"
+            :on-icon="'mdi-check'" />
 
-          <AppSwitch
-            v-model="onAllNotifications"
-            :label="t('another_notify')"
-            :off-icon="'mdi:close'"
-            :on-icon="'mdi-check'"
-          />
+          <AppSwitch v-model="onAllNotifications" :label="t('another_notify')" :off-icon="'mdi:close'"
+            :on-icon="'mdi-check'" /> -->
         </v-col>
       </v-row>
     </v-container>

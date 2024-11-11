@@ -2,9 +2,14 @@
   import { useI18n } from 'vue-i18n'
   import editPen from '@/assets/edit-pen.svg'
   import password from '@/assets/Password.svg'
+  import AccountSettingsService from '@/services/account-settings-service'
+  import { useSnackbarStore } from '@/stores/useSnackBarStore'
+  import { useRequest } from 'vue-request'
 
   const { t } = useI18n()
   const route = useRoute()
+  const accountComponent = ref(null)
+  const { show } = useSnackbarStore()
 
   const isAccountDetails = computed(() =>
     route.name.includes('account-details')
@@ -21,7 +26,31 @@
     variant: 'outlined',
   })
 
-// router.push({ name: '/account-settings/account-details' })
+  const { run: runUpdate, loading: updateLoading } = useRequest(
+    data => AccountSettingsService.updateAccountData(data),
+    {
+      manual: true,
+      onSuccess: res => {
+        const { error, messages } = res.data
+
+        if (error) {
+          show(messages[0], 'error')
+          return
+        }
+        show(t('updated_message'), 'success')
+      },
+    },
+  )
+
+  const submit = () => {
+    const generalInfoData = accountComponent?.value.generalInfoData
+
+    if (isAccountDetails.value && accountComponent.value) {
+      runUpdate(generalInfoData)
+    } else {
+      runUpdate(generalInfoData)
+    }
+  }
 </script>
 
 <template>
@@ -70,7 +99,9 @@
           color="primary"
           height="40px"
           icon-color="white"
+          :loading="updateLoading"
           rounded
+          @click="submit"
         >
           <img alt="user" class="me-1" :src="editPen" width="16">
 
@@ -85,7 +116,7 @@
       <div>
         <router-view v-slot="{ Component }">
           <transition name="fade">
-            <component :is="Component" />
+            <component :is="Component" ref="accountComponent" />
           </transition>
         </router-view>
       </div>

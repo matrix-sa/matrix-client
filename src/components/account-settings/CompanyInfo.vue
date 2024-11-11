@@ -2,11 +2,18 @@
   import { useI18n } from 'vue-i18n'
   const { t } = useI18n()
 
+  const props = defineProps({
+    data: {
+      type: Object,
+      required: true,
+    },
+  })
+
+  const { data } = toRefs(props)
 </script>
 <template>
   <div>
     <div class="d-flex gap-7">
-
       <span class="icon-main">
         <VIcon color="#FFF" icon="uil:info" />
       </span>
@@ -18,27 +25,49 @@
     <v-container class="mt-4 px-0">
       <v-row>
         <v-col cols="4">
-          <InfoCard :icon="'humbleicons:building'" :label="t('company_name')" value="مايكروسوفت" />
+
+          <AppTextInput
+            v-model="data.company_name"
+            :label="t('company_name')"
+            :placeholder="t('company_name')"
+            prepend-icon="humbleicons:building"
+          />
 
         </v-col>
         <v-col cols="4">
-          <InfoCard :icon="'heroicons:map-pin-16-solid'" :label="t('company_address')" value="الرياض" />
 
+          <AppTextInput
+            v-model="data.company_headquarters"
+            :label="t('company_address')"
+            :placeholder="t('company_address')"
+            prepend-icon="heroicons:map-pin-16-solid"
+          />
         </v-col>
         <v-col cols="4">
-          <InfoCard :icon="'basil:bag-solid'" :label="t('company_field')" value="منتجات استهلاكية" />
-
+          <AppTextInput
+            v-model="data.company_field"
+            :label="t('company_field')"
+            :placeholder="t('company_field')"
+            prepend-icon="basil:bag-solid"
+          />
         </v-col>
 
         <v-col cols="4">
-          <InfoCard :icon="'ph:globe-bold'" :label="t('company_website')" value="www.microsoft.com">
+
+          <AppTextInput
+            v-model="data.company_website"
+            append-text="' '"
+            :label="t('company_website')"
+            :placeholder="t('company_website')"
+            prepend-icon="ph:globe-bold"
+          >
             <template #appendEl>
               <a href="#">
                 <VIcon color="primary" icon="bx:link-external" size="20" />
               </a>
             </template>
+          </AppTextInput>
 
-          </InfoCard>
         </v-col>
       </v-row>
     </v-container>

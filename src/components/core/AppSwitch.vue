@@ -5,7 +5,7 @@
     color="orange"
     hide-details
     inset
-    :label="props.label"
+    :label="label"
   >
     <template #thumb>
       <v-icon :color="thumbColor" size="20">{{ icon }}</v-icon>
@@ -17,10 +17,7 @@
   import { computed, defineProps, ref, watch } from 'vue'
 
   const props = defineProps({
-    modelValue: {
-      type: Boolean,
-      default: false,
-    },
+    modelValue: Boolean,
     onIcon: {
       type: String,
       default: 'mdi-check',
@@ -29,17 +26,25 @@
       type: String,
       default: 'si:close-line',
     },
+    label: String,
   })
 
   const emit = defineEmits(['update:modelValue'])
-
   const localValue = ref(props.modelValue)
-  watch(localValue, newValue => {
-    emit('update:modelValue', newValue)
+
+  watch(
+    () => props.modelValue,
+    newVal => {
+      localValue.value = newVal
+    }
+  )
+
+  watch(localValue, newVal => {
+    emit('update:modelValue', newVal)
   })
 
   // Dynamically set the colors based on switch state
-  const thumbColor = computed(() => (localValue.value ? '#fb813e' : '#222')) // Thumb colors
+  const thumbColor = computed(() => (localValue.value ? '#fb813e' : '#222'))
   const icon = computed(() => (localValue.value ? props.onIcon : props.offIcon))
 </script>
 

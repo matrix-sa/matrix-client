@@ -14,6 +14,10 @@
       type: Boolean,
       default: false,
     },
+    prependIcon: {
+      type: String,
+      default: '', // Allow passing a prepend icon name
+    },
   })
 
   const elementId = computed(() => {
@@ -53,13 +57,21 @@
         flat: true,
       }"
     >
+      <template v-if="prependIcon" #prepend-inner>
+        <VIcon class="overlay-icon" color="dark-1">{{ prependIcon }}</VIcon>
+      </template>
       <template v-for="(_, name) in $slots" #[name]="slotProps">
         <slot :name="name" v-bind="slotProps || {}" />
       </template>
 
       <template v-if="appendText" #append-inner>
         <span class="append-text" @click="onClick">{{ appendText }}</span>
+
+        <div class="d-flex">
+          <slot name="appendEl" />
+        </div>
       </template>
+
     </VTextField>
   </div>
 </template>
@@ -86,6 +98,7 @@
         border-color: rgb(var(--v-theme-primary));
       }
     }
+
     .v-field__overlay {
       background: unset;
     }
