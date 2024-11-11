@@ -9,11 +9,18 @@ const { t } = i18n.global
 export const useAuthStore = defineStore('auth-store', () => {
   const user = ref(null)
   const otp = ref(null)
-  const token = ref(
-    localStorage.getItem('accessToken')
-      ? JSON.parse(localStorage.getItem('accessToken'))
-      : null
-  )
+
+  const getToken = () => {
+    try {
+      return localStorage.getItem('accessToken')
+        ? JSON.parse(localStorage.getItem('accessToken'))
+        : null
+    } catch (e) {
+      return null
+    }
+  }
+
+  const token = ref(getToken())
   const loading = ref(false)
 
   async function register (payload) {

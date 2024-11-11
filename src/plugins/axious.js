@@ -60,7 +60,9 @@ axiosIns.interceptors.response.use(
       // localStorage.removeItem('userAbilities')
 
       // If 401 response returned from api
-      router.push({ name: '/auth/' })
+      if (window.location.href.includes('/auth/')) return
+
+      window.location.href = '/auth/'
     } else {
       return Promise.reject(error)
     }
