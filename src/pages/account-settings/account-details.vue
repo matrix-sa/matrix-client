@@ -22,7 +22,6 @@
     () => AccountSettingsService.getAccountData(),
     {
       onSuccess: res => {
-        console.log(res.data?.data)
         generalInfoData.value = res.data?.data
       },
     }
@@ -45,8 +44,8 @@
     <div class="d-flex align-center">
       <img alt="user" class="user-img" :src="userImg">
       <div class="ms-2">
-        <h4 class="text-black">{{ t("username") }}</h4>
-        <span>user@gmail.com</span>
+        <h4 class="text-black">{{ generalInfoData.name }}</h4>
+        <span>{{ generalInfoData.email }}</span>
       </div>
     </div>
 
