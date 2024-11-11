@@ -1,62 +1,62 @@
 <script setup>
-import { useI18n } from 'vue-i18n'
-import { useSnackbarStore } from '@/stores/useSnackBarStore'
-import { useRequest } from 'vue-request'
-import TargetingService from '@/services/targeting-service'
-import CurrenciesService from '@/services/currencies-service'
-import AppSwitch from '@/components/core/AppSwitch.vue'
-import Pill from '@/assets/pill.svg'
-import AccountSettingsService from '@/services/account-settings-service'
+  import { useI18n } from 'vue-i18n'
+  import { useSnackbarStore } from '@/stores/useSnackBarStore'
+  import { useRequest } from 'vue-request'
+  import TargetingService from '@/services/targeting-service'
+  import CurrenciesService from '@/services/currencies-service'
+  import AppSwitch from '@/components/core/AppSwitch.vue'
+  import Pill from '@/assets/pill.svg'
+  import AccountSettingsService from '@/services/account-settings-service'
 
-const { t } = useI18n()
-const { show } = useSnackbarStore()
-const countries = ref([])
-const currencies = ref([])
-const generalInfoData = ref({
-  country: null,
-  currency: null,
-  notifications_settings: {
-    "allow_all": false,
-    "when_campaign_ends": false
-  }
-
-})
-
-defineExpose({ generalInfoData })
-
-const { loading: loadingData } = useRequest(
-  () => AccountSettingsService.getAccountData(),
-  {
-    onSuccess: res => {
-      generalInfoData.value = res.data?.data
-      generalInfoData.value.notifications_settings.allow_all = res.data?.data.notifications_settings?.allow_all || false;
-      generalInfoData.value.notifications_settings.when_campaign_ends = res.data?.data.notifications_settings?.when_campaign_ends || false;
+  const { t } = useI18n()
+  const { show } = useSnackbarStore()
+  const countries = ref([])
+  const currencies = ref([])
+  const generalInfoData = ref({
+    country: null,
+    currency: null,
+    notifications_settings: {
+      allow_all: false,
+      when_campaign_ends: false,
     },
-  }
-)
 
-const { loading: loadingCountries } = useRequest(
-  () => TargetingService.getSupportedCountries('GoogleAds'),
-  {
-    onSuccess: res => {
-      const { error, data, messages, code } = res.data
+  })
 
-      if (error) {
-        show(messages[0], 'error')
-      }
-      countries.value = data ?? []
-    },
-  }
-)
+  defineExpose({ generalInfoData })
 
-const { loading: loadingCurrencies } = useRequest(
-  () => CurrenciesService.getSupportedCurrencies(),
-  {
-    onSuccess: res => {
-      currencies.value = res.data?.data
-    },
-  }
-)
+  const { loading: loadingData } = useRequest(
+    () => AccountSettingsService.getAccountData(),
+    {
+      onSuccess: res => {
+        generalInfoData.value = res.data?.data
+        generalInfoData.value.notifications_settings.allow_all = res.data?.data.notifications_settings?.allow_all || false
+        generalInfoData.value.notifications_settings.when_campaign_ends = res.data?.data.notifications_settings?.when_campaign_ends || false
+      },
+    }
+  )
+
+  const { loading: loadingCountries } = useRequest(
+    () => TargetingService.getSupportedCountries('GoogleAds'),
+    {
+      onSuccess: res => {
+        const { error, data, messages, code } = res.data
+
+        if (error) {
+          show(messages[0], 'error')
+        }
+        countries.value = data ?? []
+      },
+    }
+  )
+
+  const { loading: loadingCurrencies } = useRequest(
+    () => CurrenciesService.getSupportedCurrencies(),
+    {
+      onSuccess: res => {
+        currencies.value = res.data?.data
+      },
+    }
+  )
 
 </script>
 
@@ -76,12 +76,28 @@ const { loading: loadingCurrencies } = useRequest(
     <v-container class="px-0">
       <v-row>
         <v-col cols="12" sm="6">
-          <AppAutocomplete v-model="generalInfoData.country" hide-no-data icon="mdi-flag" item-title="name"
-            item-value="id" :items="countries" :label="$t('main_target_country')" :loading="loadingCountries" />
+          <AppAutocomplete
+            v-model="generalInfoData.country"
+            hide-no-data
+            icon="mdi-flag"
+            item-title="name"
+            item-value="id"
+            :items="countries"
+            :label="$t('main_target_country')"
+            :loading="loadingCountries"
+          />
         </v-col>
         <v-col cols="12" sm="6">
-          <AppAutocomplete v-model="generalInfoData.currency" hide-no-data icon="clarity:dollar-line" item-title="name"
-            item-value="code" :items="currencies" :label="$t('used_currency')" :loading="loadingCurrencies" />
+          <AppAutocomplete
+            v-model="generalInfoData.currency"
+            hide-no-data
+            icon="clarity:dollar-line"
+            item-title="name"
+            item-value="code"
+            :items="currencies"
+            :label="$t('used_currency')"
+            :loading="loadingCurrencies"
+          />
         </v-col>
       </v-row>
     </v-container>
@@ -96,13 +112,20 @@ const { loading: loadingCurrencies } = useRequest(
       <v-divider class="divider" />
       <v-row>
 
-
         <v-col cols="12" sm="12">
-          <AppSwitch v-model="generalInfoData.notifications_settings.allow_all" :label="t('all_notifications_on')"
-            :off-icon="'mdi:close'" :on-icon="'mdi-check'" />
+          <AppSwitch
+            v-model="generalInfoData.notifications_settings.allow_all"
+            :label="t('all_notifications_on')"
+            :off-icon="'mdi:close'"
+            :on-icon="'mdi-check'"
+          />
 
-          <AppSwitch v-model="generalInfoData.notifications_settings.when_campaign_ends"
-            :label="t('notify_when_camp_end')" :off-icon="'mdi:close'" :on-icon="'mdi-check'" />
+          <AppSwitch
+            v-model="generalInfoData.notifications_settings.when_campaign_ends"
+            :label="t('notify_when_camp_end')"
+            :off-icon="'mdi:close'"
+            :on-icon="'mdi-check'"
+          />
 
           <!-- <AppSwitch v-model="onAllNotifications" :label="t('another_notify')" :off-icon="'mdi:close'"
             :on-icon="'mdi-check'" />

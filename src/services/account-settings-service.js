@@ -12,7 +12,7 @@ const AccountSettingsService = (function () {
   }
   return {
     getAccountData,
-    updateAccountData
+    updateAccountData,
   }
 })()
 

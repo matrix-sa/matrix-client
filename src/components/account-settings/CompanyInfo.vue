@@ -1,16 +1,15 @@
 <script setup>
-import { useI18n } from 'vue-i18n'
-const { t } = useI18n()
+  import { useI18n } from 'vue-i18n'
+  const { t } = useI18n()
 
-const props = defineProps({
-  data: {
-    type: Object,
-    required: true
-  }
-})
+  const props = defineProps({
+    data: {
+      type: Object,
+      required: true,
+    },
+  })
 
-
-const { data } = toRefs(props)
+  const { data } = toRefs(props)
 </script>
 <template>
   <div>
@@ -27,31 +26,47 @@ const { data } = toRefs(props)
       <v-row>
         <v-col cols="4">
 
-          <AppTextInput v-model="data.company_name" prependIcon="humbleicons:building" :label="t('company_name')"
-            :placeholder="t('company_name')" />
+          <AppTextInput
+            v-model="data.company_name"
+            :label="t('company_name')"
+            :placeholder="t('company_name')"
+            prepend-icon="humbleicons:building"
+          />
 
         </v-col>
         <v-col cols="4">
 
-          <AppTextInput v-model="data.company_headquarters" prependIcon="heroicons:map-pin-16-solid"
-            :label="t('company_address')" :placeholder="t('company_address')" />
+          <AppTextInput
+            v-model="data.company_headquarters"
+            :label="t('company_address')"
+            :placeholder="t('company_address')"
+            prepend-icon="heroicons:map-pin-16-solid"
+          />
         </v-col>
         <v-col cols="4">
-          <AppTextInput v-model="data.company_field" prependIcon="basil:bag-solid" :label="t('company_field')"
-            :placeholder="t('company_field')" />
+          <AppTextInput
+            v-model="data.company_field"
+            :label="t('company_field')"
+            :placeholder="t('company_field')"
+            prepend-icon="basil:bag-solid"
+          />
         </v-col>
 
         <v-col cols="4">
 
-          <AppTextInput v-model="data.company_website" appendText="' '" prependIcon="ph:globe-bold"
-            :label="t('company_website')" :placeholder="t('company_website')">
+          <AppTextInput
+            v-model="data.company_website"
+            append-text="' '"
+            :label="t('company_website')"
+            :placeholder="t('company_website')"
+            prepend-icon="ph:globe-bold"
+          >
             <template #appendEl>
               <a href="#">
                 <VIcon color="primary" icon="bx:link-external" size="20" />
               </a>
             </template>
           </AppTextInput>
-
 
         </v-col>
       </v-row>

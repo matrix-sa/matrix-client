@@ -1,17 +1,17 @@
 <script setup>
-import { useI18n } from 'vue-i18n'
-import ksaFlag from '@images/icons/countries/ksa_flag.svg'
+  import { useI18n } from 'vue-i18n'
+  import ksaFlag from '@images/icons/countries/ksa_flag.svg'
 
-const props = defineProps({
-  data: {
-    type: Object,
-    required: true
-  }
-})
+  const props = defineProps({
+    data: {
+      type: Object,
+      required: true,
+    },
+  })
 
-const { t } = useI18n()
+  const { t } = useI18n()
 
-const { data } = toRefs(props)
+  const { data } = toRefs(props)
 </script>
 <template>
   <div>
@@ -29,13 +29,22 @@ const { data } = toRefs(props)
 
       <v-row>
         <v-col cols="4">
-          <AppTextInput v-model="data.name" prependIcon="subway:id-card-1" :label="t('username')"
-            :placeholder="t('name')" />
+          <AppTextInput
+            v-model="data.name"
+            :label="t('username')"
+            :placeholder="t('name')"
+            prepend-icon="subway:id-card-1"
+          />
         </v-col>
         <v-col cols="4">
 
-          <AppTextInput v-model="data.mobile_number" appendText="' '" prependIcon="solar:phone-bold"
-            :label="t('phone_number')" :placeholder="t('phone_number')">
+          <AppTextInput
+            v-model="data.mobile_number"
+            append-text="' '"
+            :label="t('phone_number')"
+            :placeholder="t('phone_number')"
+            prepend-icon="solar:phone-bold"
+          >
             <template #appendEl>
               <span class="me-2 phone_key">+966</span>
               <img :src="ksaFlag" width="20">
@@ -44,8 +53,13 @@ const { data } = toRefs(props)
 
         </v-col>
         <v-col cols="4">
-          <AppTextInput v-model="data.email" type="email" prependIcon="mdi:email" :label="t('Email')"
-            :placeholder="t('Email')" />
+          <AppTextInput
+            v-model="data.email"
+            :label="t('Email')"
+            :placeholder="t('Email')"
+            prepend-icon="mdi:email"
+            type="email"
+          />
         </v-col>
       </v-row>
     </v-container>
