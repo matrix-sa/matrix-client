@@ -1045,4 +1045,19 @@ export default {
 
   sign_up: 'Sign Up',
   snap_location: 'Location {name}',
+  tracking: {
+    create_tracking_link_title: 'Create Tracking Link',
+    create_tracking_link_subtitle: 'This tool helps you to quickly and concisely link and create a trace.',
+    enter_id: 'Enter the identification code',
+    id_valid: '8-digit code',
+    link_rul: 'Link title',
+    link_placeholder: 'Enter name',
+    another_link: 'Another entry',
+    link_add: 'Enter here',
+    the_link: 'Link',
+    link_appear: 'Link will appear here',
+    copy: 'Copy',
+    create: 'Start Create',
+  },
+  min_length: 'The Min Character field must be at least',
 }
