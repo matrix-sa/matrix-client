@@ -1,9 +1,11 @@
 <script setup>
   import trackIcon from '@/assets/trackingLink.svg'
   import AppTextInput from '@/components/core/AppTextInput.vue'
-  import { lengthValidator, requiredValidator } from '@/utilities/validators'
+  import { requiredValidator } from '@/utilities/validators'
   import { ref } from 'vue'
   import { useI18n } from 'vue-i18n'
+  import { usePlatformsStore } from '@/stores/usePlatformsStore'
+  import { useRequest } from 'vue-request'
 
   const { locale, t } = useI18n()
   const isArabic = computed(() => locale.value === 'ar')
@@ -16,14 +18,30 @@
   })
 
   const rules = reactive({
-    platform: [requiredValidator, () => lengthValidator(form.value.platform, 8),
-    ],
     campaign_id: [requiredValidator],
     ad_group_id: [requiredValidator],
   })
 
+  const platformsStore = usePlatformsStore()
+  const platforms = ref([])
+
+  const { loading: loadingPlatforms } = useRequest(
+    platformsStore.getActivePlatforms,
+    {
+      onSuccess: res => {
+        platforms.value = res
+      },
+    }
+  )
+
   const handleClick = () => {
-    console.log('clicked')
+    console.log(form.value)
+    form.value = {
+      platform: null,
+      campaign_id: null,
+      ad_group_id: null,
+      ad_id: null,
+    }
   }
 
   const handleCopy = () => {
@@ -50,21 +68,24 @@
     <v-form>
       <v-row>
         <v-col cols="12" md="4">
-          <AppTextInput
+          <AppSelect
             v-model="form.platform"
-            autofocus
-            :label=" t('tracking.enter_id') "
-            :placeholder="t('tracking.id_valid')"
-            :rules="rules.platform"
+            hide-no-data
+            :item-title="(item) => item.title"
+            :item-value="(item) => item.code"
+            :items="platforms"
+            :label="t('platform')"
+            :loading="loadingPlatforms"
+            :rules="[requiredValidator]"
           />
         </v-col>
 
         <v-col cols="12" md="4">
-          <AppTextInput v-model="form.campaign_id" :label="t('tracking.link_rul')" :placeholder="t('tracking.link_placeholder')" :rules="rules.campaign_id" />
+          <AppTextInput v-model="form.campaign_id" :label="$t('campaign_name')" :placeholder="t('tracking.enter_name')" :rules="rules.campaign_id" />
         </v-col>
 
         <v-col cols="12" md="4">
-          <AppTextInput v-model="form.ad_group_id" :label="t('tracking.another_link')" :placeholder="t('tracking.link_add')" :rules="rules.ad_group_id" />
+          <AppTextInput v-model="form.ad_group_id" :label="t('ad_group_name')" :placeholder="t('tracking.enter_name')" :rules="rules.ad_group_id" />
         </v-col>
       </v-row>
 
@@ -73,8 +94,8 @@
           <AppTextInput
             v-model="form.ad_id"
             bordered
-            :label="t('tracking.the_link')"
-            :placeholder="t('tracking.link_appear')"
+            :label="t('ad_info_title')"
+            :placeholder="t('tracking.enter_name')"
           >
             <template #append-inner>
               <v-btn class="copy_button" prepend-icon="mdi-content-copy" @click="handleCopy">
@@ -131,11 +152,15 @@ color: #1F1625;
 font-size: 14px;
 line-height: 16.8px;
 font-weight: 400;
+margin: 0 5px 0 5px;
 }
 :deep(.bg-background){
 background-color: #F8F7FA;
 }
 :deep(.v-text-field .v-field--no-label input){
+color: #706D79;
+}
+:deep(.v-select__selection-text){
 color: #706D79;
 }
 .copy_button{
@@ -146,6 +171,11 @@ border-radius: .75rem;
 :deep( .v-input__control .v-field--focused){
 outline: none;
 border-color: #1F1625;
+}
+:deep( .v-field.v-field) {
+  background-color: red;
+  color: red;
+  margin-top: 8px;
 }
 }
 </style>
