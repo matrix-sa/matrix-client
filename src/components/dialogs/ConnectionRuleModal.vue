@@ -25,6 +25,7 @@
   const emit = defineEmits(['saved', 'update:isDialogVisible'])
 
   const form = ref({
+    name: null,
     indicator: null,
     comparison_type: null,
     channels: {},
@@ -52,10 +53,12 @@
     } else {
       runUpdate({
         id: props.rule.id,
+        name: form.value.name,
         indicator: form.value.indicator,
         comparison_type: form.value.comparison_type,
         target_value: form.value.target_value,
         channels: truthyKeys,
+        days_ago: form.value.days_ago,
       })
     }
   }
@@ -97,16 +100,14 @@
     }
   )
   const isFormValid = computed(() => {
-    const requirements = {
-      indicator: () => form.value.indicator,
-      comparison_type: () => form.value.comparison_type,
-      channels: () => form.value.channels,
-      target_value: () => form.value.target_value,
-      days_ago: () => form.value.days_ago,
-      default: () => form.value.indicator,
-    }
-
-    return !!requirements.default()
+    return (
+      !!form.value.name &&
+      !!form.value.indicator &&
+      !!form.value.comparison_type &&
+      Object.values(form.value.channels).some(Boolean) &&
+      !!form.value.target_value &&
+      !!form.value.days_ago && !!form.value.indicator
+    )
   })
 
   watch(
@@ -155,6 +156,9 @@
 
     <v-container class="mt-4">
       <v-row>
+        <v-col cols="12" sm="12">
+          <AppTextInput v-model="form.name" :label="t('name')" :placeholder="t('name')" />
+        </v-col>
         <v-col cols="12" sm="6">
           <AppChipSelect
             v-model="form.comparison_type"
