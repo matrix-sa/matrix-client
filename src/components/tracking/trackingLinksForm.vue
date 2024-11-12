@@ -15,6 +15,7 @@
     campaign_id: null,
     ad_group_id: null,
     ad_id: null,
+    link: null,
   })
 
   const rules = reactive({
@@ -41,11 +42,12 @@
       campaign_id: null,
       ad_group_id: null,
       ad_id: null,
+      link: null,
     }
   }
 
   const handleCopy = () => {
-    const copyText = form.value.ad_id
+    const copyText = form.value.link
     navigator.clipboard.writeText(copyText).then(() => {
       console.log('Copied the text: ' + copyText)
     }).catch(err => {
@@ -67,35 +69,39 @@
     <hr>
     <v-form>
       <v-row>
-        <v-col cols="12" md="4">
+        <v-col cols="12" md="3">
           <AppSelect
             v-model="form.platform"
             hide-no-data
             :item-title="(item) => item.title"
             :item-value="(item) => item.code"
             :items="platforms"
-            :label="t('platform')"
+            :label="t('tracking.platform')"
             :loading="loadingPlatforms"
             :rules="[requiredValidator]"
           />
         </v-col>
 
-        <v-col cols="12" md="4">
-          <AppTextInput v-model="form.campaign_id" :label="$t('campaign_name')" :placeholder="t('tracking.enter_name')" :rules="rules.campaign_id" />
+        <v-col cols="12" md="3">
+          <AppTextInput v-model="form.campaign_id" :label="$t('tracking.campaignId')" :placeholder="t('tracking.enter_name')" :rules="rules.campaign_id" />
         </v-col>
 
-        <v-col cols="12" md="4">
-          <AppTextInput v-model="form.ad_group_id" :label="t('ad_group_name')" :placeholder="t('tracking.enter_name')" :rules="rules.ad_group_id" />
+        <v-col cols="12" md="3">
+          <AppTextInput v-model="form.ad_group_id" :label="t('tracking.ad_group_id')" :placeholder="t('tracking.enter_name')" :rules="rules.ad_group_id" />
+        </v-col>
+        <v-col cols="12" md="3">
+          <AppTextInput v-model="form.ad_id" :label="t('tracking.ad_id')" :placeholder="t('tracking.enter_name')" :rules="rules.ad_group_id" />
         </v-col>
       </v-row>
 
       <v-row>
         <v-col cols="12">
           <AppTextInput
-            v-model="form.ad_id"
+            v-model="form.link"
             bordered
-            :label="t('ad_info_title')"
-            :placeholder="t('tracking.enter_name')"
+            disabled
+            :label="t('tracking.the_link')"
+            :placeholder="t('tracking.link_appear')"
           >
             <template #append-inner>
               <v-btn class="copy_button" prepend-icon="mdi-content-copy" @click="handleCopy">

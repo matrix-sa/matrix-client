@@ -1048,6 +1048,10 @@ export default {
   tracking: {
     create_tracking_link_title: 'Create Tracking Link',
     create_tracking_link_subtitle: 'This tool helps you to quickly and concisely link and create a trace.',
+    platform: 'Platform',
+    campaignId: 'Campaign ID',
+    ad_group_id: 'Ad Group ID',
+    ad_id: 'Ad ID',
     enter_id: 'Enter the identification code',
     id_valid: '8-digit code',
     link_rul: 'Link title',

@@ -1046,6 +1046,10 @@ export default {
   tracking: {
     create_tracking_link_title: 'أنشئ روابط تتبع',
     create_tracking_link_subtitle: 'تساعدك هذه الأداة علي إنشاء روابط تتبع بشكل سريع ومختصر.',
+    platform: 'المنصة',
+    campaignId: 'معرف الحملة',
+    ad_group_id: 'معرف المجموعة الاعلانة',
+    ad_id: 'معرف الإعلان',
     enter_id: 'ادخل رمز التعريف',
     id_valid: 'الرمز مكون من 8 أرقام',
     link_rul: 'عنوان الرابط',
