@@ -1046,6 +1046,7 @@ export default {
   sign_up: 'Sign Up',
   snap_location: 'Location {name}',
   tracking: {
+    name: 'Tracking links',
     create_tracking_link_title: 'Create Tracking Link',
     create_tracking_link_subtitle: 'This tool helps you to quickly and concisely link and create a trace.',
     platform: 'Platform',
@@ -1063,4 +1064,5 @@ export default {
     create: 'Start Create',
   },
   min_length: 'The Min Character field must be at least',
+
 }

@@ -1044,6 +1044,7 @@ export default {
   sign_up: 'تسجيل',
   snap_location: 'موقع {name}',
   tracking: {
+    name: 'روابط التتبع',
     create_tracking_link_title: 'أنشئ روابط تتبع',
     create_tracking_link_subtitle: 'تساعدك هذه الأداة علي إنشاء روابط تتبع بشكل سريع ومختصر.',
     platform: 'المنصة',
