@@ -2,21 +2,25 @@
   import trackIcon from '@/assets/trackingLink.svg'
   import AppTextInput from '@/components/core/AppTextInput.vue'
   import { requiredValidator } from '@/utilities/validators'
-  import { ref } from 'vue'
+  import { computed, ref } from 'vue'
   import { useI18n } from 'vue-i18n'
   import { usePlatformsStore } from '@/stores/usePlatformsStore'
   import { useRequest } from 'vue-request'
+  import { useSnackbarStore } from '@/stores/useSnackBarStore'
+  import TrackingService from '@/services/tracking-service'
 
   const { locale, t } = useI18n()
   const isArabic = computed(() => locale.value === 'ar')
+  const { show } = useSnackbarStore()
 
   const form = ref({
     platform: null,
     campaign_id: null,
     ad_group_id: null,
     ad_id: null,
-    link: null,
   })
+
+  const link = ref(null)
 
   const rules = reactive({
     campaign_id: [requiredValidator],
@@ -35,29 +39,51 @@
     }
   )
 
+  // create tracking link
+  const { run: CreateTrackingLink, loading: loadingCreate } = useRequest(
+    (platform, data) => TrackingService.createTrackingAd(platform, data),
+    {
+      manual: true,
+      onSuccess: res => {
+        const { error, messages } = res.data
+        if (error) {
+          show(messages[0], 'error')
+        } else {
+          link.value = res.data.data.target_url
+          show(t('created_message'), 'success')
+        }
+      },
+    }
+  )
+
   const handleClick = () => {
-    console.log(form.value)
+    CreateTrackingLink(form.value.platform, form.value)
     form.value = {
       platform: null,
       campaign_id: null,
       ad_group_id: null,
       ad_id: null,
-      link: null,
     }
   }
 
   const handleCopy = () => {
-    const copyText = form.value.link
+    const copyText = link.value
     navigator.clipboard.writeText(copyText).then(() => {
-      console.log('Copied the text: ' + copyText)
     }).catch(err => {
       console.error('Failed to copy text: ', err)
     })
   }
 
+  const loading = computed(() => {
+    return (
+      loadingCreate.value
+    )
+  })
+
 </script>
 
 <template>
+
   <div class="form_container">
     <div class="head_container">
       <img alt="track-link-icon" :src="trackIcon">
@@ -97,11 +123,12 @@
       <v-row>
         <v-col cols="12">
           <AppTextInput
-            v-model="form.link"
+            v-model="link"
             bordered
-            disabled
+            :disabled="link===null"
             :label="t('tracking.the_link')"
             :placeholder="t('tracking.link_appear')"
+            :value="link"
           >
             <template #append-inner>
               <v-btn class="copy_button" prepend-icon="mdi-content-copy" @click="handleCopy">
@@ -114,7 +141,7 @@
 
       <v-row justify="end">
         <v-col cols="auto">
-          <v-btn color="warning" rounded @click="handleClick">
+          <v-btn color="warning" :disabled="loading" rounded @click="handleClick">
             {{ t('tracking.create') }}
             <VIcon class="mx-1" :icon="isArabic ? 'tabler-arrow-left':'tabler-arrow-right'" />
           </v-btn>
