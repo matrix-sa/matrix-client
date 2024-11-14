@@ -13,22 +13,25 @@
 
   const { stores } = storeToRefs(storesStore)
 
-  const userHasConnectedStore = computed(
-    () => stores.value.some(store => store.status === 'Success')
+  const userHasConnectedStore = computed(() =>
+    stores.value.some(store => store.status === 'Success')
   )
 
   const isConnectPlatformStep = computed(() =>
     route.name.includes('connect-platform')
   )
 
-  const { run: checkAllStores, loading: loadingCheckStatuses } = useRequest(storesStore.checkAuthAll, {
-    onSuccess: () => {
-      if (isConnectPlatformStep.value && !userHasConnectedStore.value) {
-        show(t('connect_store_first'), 'warning')
-        router.push({ name: '/link-ad-accounts' })
-      }
-    },
-  })
+  const { run: checkAllStores, loading: loadingCheckStatuses } = useRequest(
+    storesStore.checkAuthAll,
+    {
+      onSuccess: () => {
+        if (isConnectPlatformStep.value && !userHasConnectedStore.value) {
+          show(t('connect_store_first'), 'warning')
+          router.push({ name: '/link-ad-accounts' })
+        }
+      },
+    }
+  )
 
   const activeBtnProps = ref({
     color: 'warning',
@@ -128,11 +131,11 @@
 <style>
 /* TODO Doha: Remove animation if you want */
 .fade-enter-active {
-    transition: all 0.3s ease-out;
-  }
-  .fade-enter-from,
-  .fade-leave-to {
-    transform: translateX(2em);
-    opacity: 0;
-  }
+  transition: all 0.3s ease-out;
+}
+.fade-enter-from,
+.fade-leave-to {
+  transform: translateX(2em);
+  opacity: 0;
+}
 </style>

@@ -10,6 +10,7 @@
   import { useRequest } from 'vue-request'
   import StoresService from '@/services/stores-service'
   import { useSnackbarStore } from '@/stores/useSnackBarStore'
+  import { useAuthStore } from '@/stores/useAuthStore'
 
   const storesStore = useStoresStore()
   const { update } = useBreadcrumbsStore()
@@ -18,16 +19,22 @@
   const { stores } = storeToRefs(storesStore)
   const { show } = useSnackbarStore()
 
+  const authStore = useAuthStore()
+
   const storeTypesItems = ref([])
 
   const storesItems = computed(() =>
     stores.value.map(store => ({
       title: store.title,
       code: store.code,
-      icon: store.code === 'salla' ? sallaLogo
-        : store.code === 'zid' ? zidLogo
-          : store.code === 'Khuzama' ? Khuzama
-            : storesLogo,
+      icon:
+        store.code === 'salla'
+          ? sallaLogo
+          : store.code === 'zid'
+            ? zidLogo
+            : store.code === 'Khuzama'
+              ? Khuzama
+              : storesLogo,
       status: store.status,
     }))
   )
@@ -36,7 +43,7 @@
     StoresService.startAuthentication,
     {
       manual: true,
-      onSuccess: response => {
+      onSuccess: (response, [store]) => {
         const { data, messages, error } = response.data
 
         if (error) {
@@ -65,7 +72,7 @@
             popupWindow.close()
 
             show(t('connected_successfully'), 'success')
-            websiteStore.checkAuth(form.value.website_type)
+            storesStore.checkAuth(store)
 
             await authStore.fetchUser(true)
           }
@@ -88,15 +95,19 @@
     startAuthentication(store)
   }
 
-  const handleSubmit = async inputValue => {
+  const handleSubmit = async () => {
     showDialog.value = false
 
     ///   Activate store in frontend  ////
-    const storeToActivate = storesStore.stores.find(store => store.code === 'Khuzama')
+    const storeToActivate = storesStore.stores.find(
+      store => store.code === 'Khuzama'
+    )
 
     if (storeToActivate) {
       storeToActivate.status = 'Success'
       show(t('connected_successfully'), 'success')
+
+      // checkAllStores()
     } else {
       console.error('Store not found to activate.')
     }
@@ -222,7 +233,7 @@
   gap: 3.25rem;
   align-items: start;
 
-  >img {
+  > img {
     margin-block-start: 1.9rem;
   }
 
