@@ -5,7 +5,9 @@
   import MarketingConsultationsOrdersService from '@/services/marketing-consultations-orders-service'
   import { useSnackbarStore } from '@/stores/useSnackBarStore'
   import { useRequest } from 'vue-request'
-
+  import { useBreadcrumbsStore } from '@/stores/useBreadcrumbsStore'
+  import { watch } from 'vue'
+  const { update } = useBreadcrumbsStore()
   const totalCount = ref(0)
   const consultationsOrders = ref([])
 
@@ -17,7 +19,7 @@
     search: undefined,
   })
 
-  const { t } = useI18n()
+  const { t, locale } = useI18n()
 
   const { show } = useSnackbarStore()
 
@@ -98,6 +100,19 @@
       })
     },
     { deep: true },
+  )
+  watch(
+    locale,
+    () => {
+      update([
+        {
+          title: t('marketing-consultation.name'),
+          active: true,
+          to: '/marketing-consultations',
+        },
+      ])
+    },
+    { immediate: true }
   )
 
   const loading = computed(() => loadingOrders.value)

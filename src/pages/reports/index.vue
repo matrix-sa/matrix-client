@@ -14,6 +14,11 @@
   import ReportsService from '@/services/reports-service'
   import { ref } from 'vue'
   import { useRequest } from 'vue-request'
+  import { useI18n } from 'vue-i18n'
+  import { watch } from 'vue'
+  import { useBreadcrumbsStore } from '@/stores/useBreadcrumbsStore'
+  const { update } = useBreadcrumbsStore()
+  const { t, locale } = useI18n()
 
   const platformsData = ref([])
   const topCampaigns = ref([])
@@ -28,5 +33,19 @@
       leastCampaigns.value = res.data.data.least_performing_campaigns
     },
   })
+
+  watch(
+    locale,
+    () => {
+      update([
+        {
+          title: t('reports'),
+          active: true,
+          to: '/reports',
+        },
+      ])
+    },
+    { immediate: true }
+  )
 
 </script>

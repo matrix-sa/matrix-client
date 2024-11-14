@@ -4,7 +4,12 @@
   import MarketingConsultationsService from '@/services/marketing-consultations-service'
   import MarketingConsultationsOrdersService from '@/services/marketing-consultations-orders-service'
   import { useRequest } from 'vue-request'
+  import { useI18n } from 'vue-i18n'
+  import { watch } from 'vue'
+  import { useBreadcrumbsStore } from '@/stores/useBreadcrumbsStore'
 
+  const { update } = useBreadcrumbsStore()
+  const { t, locale } = useI18n()
   const consultations = ref([])
   const {
     run: fetchMarketingConsultations,
@@ -56,6 +61,26 @@
     dialog.value = false
     router.push({ name: '/marketing-consultations/' })
   }
+
+  watch(
+    locale,
+    () => {
+      update([
+        {
+          title: t('marketing-consultation.name'),
+          active: false,
+          to: '/marketing-consultations',
+        },
+        {
+          title: t('newConsultOrder'),
+          active: true,
+          to: '/marketing-consultations-orders',
+        },
+      ])
+    },
+    { immediate: true }
+  )
+
 </script>
 
 <template>

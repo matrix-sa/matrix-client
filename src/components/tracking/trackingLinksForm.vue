@@ -2,13 +2,15 @@
   import trackIcon from '@/assets/trackingLink.svg'
   import AppTextInput from '@/components/core/AppTextInput.vue'
   import { requiredValidator } from '@/utilities/validators'
-  import { computed, ref } from 'vue'
+  import { computed, ref, watch } from 'vue'
   import { useI18n } from 'vue-i18n'
   import { usePlatformsStore } from '@/stores/usePlatformsStore'
   import { useRequest } from 'vue-request'
   import { useSnackbarStore } from '@/stores/useSnackBarStore'
   import TrackingService from '@/services/tracking-service'
+  import { useBreadcrumbsStore } from '@/stores/useBreadcrumbsStore'
 
+  const { update } = useBreadcrumbsStore()
   const { locale, t } = useI18n()
   const isArabic = computed(() => locale.value === 'ar')
   const { show } = useSnackbarStore()
@@ -79,6 +81,20 @@
       loadingCreate.value
     )
   })
+
+  watch(
+    locale,
+    () => {
+      update([
+        {
+          title: t('tracking.name'),
+          active: true,
+          to: '/tracking',
+        },
+      ])
+    },
+    { immediate: true }
+  )
 
 </script>
 
