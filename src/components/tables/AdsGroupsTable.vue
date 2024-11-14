@@ -332,7 +332,7 @@
       </VTooltip>
       <VTooltip :text="t('edit')">
         <template #activator="{ props: toolTipProps }">
-          <VBtn v-bind="toolTipProps" @click="goToEdit(item)">
+          <VBtn :disabled="item.is_external===true" v-bind="toolTipProps" @click="goToEdit(item)">
             <VIcon icon="tabler-edit" />
           </VBtn>
         </template>

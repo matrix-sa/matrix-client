@@ -341,6 +341,7 @@
         <template #activator="{ props: toolTipProps }">
           <VBtn
             v-bind="toolTipProps"
+            :disabled="item.is_external===true"
             @click="editCampaign(item.id, item.platform)"
           >
             <VIcon icon="tabler-edit" />

@@ -122,7 +122,7 @@ export const lengthValidator = (value, length) => {
 
   return (
     String(value).length === length ||
-    `The Min Character field must be at least ${length} characters`
+     `${t('min_length')} ${length}`
   )
 }
 

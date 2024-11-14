@@ -60,6 +60,15 @@
           },
         },
         {
+          title: t('tracking.name'),
+          props: {
+            prependIcon: 'tabler-wand',
+            active: isActive('/tracking/'),
+            to: { name: '/tracking/' },
+            disabled: userShouldLink.value,
+          },
+        },
+        {
           title: t('reports'),
           props: {
             prependIcon: 'tabler-report',

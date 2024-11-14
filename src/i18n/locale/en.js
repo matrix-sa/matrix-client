@@ -1045,4 +1045,24 @@ export default {
 
   sign_up: 'Sign Up',
   snap_location: 'Location {name}',
+  tracking: {
+    name: 'Tracking links',
+    create_tracking_link_title: 'Create Tracking Link',
+    create_tracking_link_subtitle: 'This tool helps you to quickly and concisely link and create a trace.',
+    platform: 'Platform',
+    campaignId: 'Campaign ID',
+    ad_group_id: 'Ad Group ID',
+    ad_id: 'Ad ID',
+    enter_id: 'Enter the identification code',
+    id_valid: '8-digit code',
+    link_rul: 'Link title',
+    enter_name: 'Enter name',
+    link_add: 'Enter here',
+    the_link: 'Link',
+    link_appear: 'Link will appear here',
+    copy: 'Copy',
+    create: 'Start Create',
+  },
+  min_length: 'The Min Character field must be at least',
+
 }
