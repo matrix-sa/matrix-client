@@ -59,127 +59,128 @@
 </script>
 
 <template>
-  <VCard>
-    <VCardTitle class="font-weight-medium text-surface-variant pa-6">
-      {{ $t("newConsultOrder") }}
-    </VCardTitle>
+  <div>
+    <VCard>
+      <VCardTitle class="font-weight-medium text-surface-variant pa-6">
+        {{ $t("newConsultOrder") }}
+      </VCardTitle>
 
-    <VDivider class="mx-6" />
+      <VDivider class="mx-6" />
 
-    <VCardText>
-      <VForm ref="refVForm" @submit.prevent="onSubmit">
-        <VRow>
-          <VCol cols="12" lg="4">
-            <div class="d-lg-flex h-100">
-              <section class="text-center pa-6">
-                <figure class="mb-10">
-                  <VImg
-                    class="mx-auto"
-                    height="138"
-                    :src="emailSvg"
-                    width="194"
-                  />
-                </figure>
-                <h5 class="text-body-1 px-6 text-surface-variant">
-                  {{ $t("fillInfoToOrderConsult") }}
-                </h5>
-              </section>
-              <VDivider class="d-none d-lg-block" vertical />
-              <VDivider class="d-lg-none" />
-            </div>
-          </VCol>
+      <VCardText>
+        <VForm ref="refVForm" @submit.prevent="onSubmit">
+          <VRow>
+            <VCol cols="12" lg="4">
+              <div class="d-lg-flex h-100">
+                <section class="text-center pa-6">
+                  <figure class="mb-10">
+                    <VImg
+                      class="mx-auto"
+                      height="138"
+                      :src="emailSvg"
+                      width="194"
+                    />
+                  </figure>
+                  <h5 class="text-body-1 px-6 text-surface-variant">
+                    {{ $t("fillInfoToOrderConsult") }}
+                  </h5>
+                </section>
+                <VDivider class="d-none d-lg-block" vertical />
+                <VDivider class="d-lg-none" />
+              </div>
+            </VCol>
 
-          <VCol cols="12" lg="8">
-            <h5 class="text-body-2 mb-3">{{ $t("selectConsultType") }}</h5>
-            <VRow>
-              <VCol
-                v-for="consult in consultations"
-                :key="consult.id"
-                cols="6"
-                sm="3"
-              >
-                <button
-                  class="w-100 d-flex flex-column justify-center align-center ga-4 bg-background rounded-lg pa-4 text-center h-100"
-                  :class="
-                    selected?.id === consult.id
-                      ? 'border-md border-primary border-opacity-100'
-                      : 'border-sm border'
-                  "
-                  type="button"
-                  @click="setSelected(consult)"
+            <VCol cols="12" lg="8">
+              <h5 class="text-body-2 mb-3">{{ $t("selectConsultType") }}</h5>
+              <VRow>
+                <VCol
+                  v-for="consult in consultations"
+                  :key="consult.id"
+                  cols="6"
+                  sm="3"
                 >
-                  <VImg height="48" :src="consult.icon_url" width="48" />
-                  <span
+                  <button
+                    class="w-100 d-flex flex-column justify-center align-center ga-4 bg-background rounded-lg pa-4 text-center h-100"
                     :class="
                       selected?.id === consult.id
-                        ? 'text-primary font-weight-bold'
-                        : 'text-black font-weight-medium'
+                        ? 'border-md border-primary border-opacity-100'
+                        : 'border-sm border'
                     "
+                    type="button"
+                    @click="setSelected(consult)"
                   >
-                    {{ consult[localeTitle] }}
-                  </span>
-                </button>
-              </VCol>
-              <template v-if="selected">
-                <VCol cols="12">
-                  <template
-                    v-for="(question, i) in selected?.questions"
-                    :key="i"
-                  >
-                    <AppTextInput
-                      v-if="question.type === 'Text'"
-                      v-model="answers[i].answer_text"
-                      bordered
-                      :label="question[localeTitle]"
-                      :placeholder="$t('writeYourAnswer')"
-                    />
-
-                    <AppChipSelect
-                      v-if="question.type === 'SingleChoice'"
-                      v-model="answers[i].selected_choice_id"
-                      :items="
-                        question.choices?.map((item) => {
-                          return {
-                            id: item.id,
-                            title: item[localeTitle],
-                          };
-                        })
+                    <VImg height="48" :src="consult.icon_url" width="48" />
+                    <span
+                      :class="
+                        selected?.id === consult.id
+                          ? 'text-primary font-weight-bold'
+                          : 'text-black font-weight-medium'
                       "
-                      :label="question[localeTitle]"
-                    />
-                  </template>
+                    >
+                      {{ consult[localeTitle] }}
+                    </span>
+                  </button>
                 </VCol>
-              </template>
-            </VRow>
-          </VCol>
-          <VCol class="pt-0" cols="12">
-            <VCardActions class="justify-end pa-0">
-              <VBtn
-                :text="$t('back')"
-                :to="{ name: '/marketing-consultations/' }"
-              />
-              <VBtn
-                class="px-4"
-                color="primary"
-                :disabled="loading"
-                :loading="loading"
-                rounded
-                type="submit"
-                variant="flat"
-              >
-                {{ $t("sendOrder") }}
-                <VIcon class="ms-2" icon="tabler-arrow-left" />
-              </VBtn>
-            </VCardActions>
-          </VCol>
-        </VRow>
-      </VForm>
-    </VCardText>
-  </VCard>
+                <template v-if="selected">
+                  <VCol cols="12">
+                    <template
+                      v-for="(question, i) in selected?.questions"
+                      :key="i"
+                    >
+                      <AppTextInput
+                        v-if="question.type === 'Text'"
+                        v-model="answers[i].answer_text"
+                        bordered
+                        :label="question[localeTitle]"
+                        :placeholder="$t('writeYourAnswer')"
+                      />
 
-  <VDialog v-model="dialog" max-width="428" persistent>
-    <DialogSuccess @close="closeDialog" />
-  </VDialog>
+                      <AppChipSelect
+                        v-if="question.type === 'SingleChoice'"
+                        v-model="answers[i].selected_choice_id"
+                        :items="
+                          question.choices?.map((item) => {
+                            return {
+                              id: item.id,
+                              title: item[localeTitle],
+                            };
+                          })
+                        "
+                        :label="question[localeTitle]"
+                      />
+                    </template>
+                  </VCol>
+                </template>
+              </VRow>
+            </VCol>
+            <VCol class="pt-0" cols="12">
+              <VCardActions class="justify-end pa-0">
+                <VBtn
+                  :text="$t('back')"
+                  :to="{ name: '/marketing-consultations/' }"
+                />
+                <VBtn
+                  class="px-4"
+                  color="primary"
+                  :disabled="loading"
+                  :loading="loading"
+                  rounded
+                  type="submit"
+                  variant="flat"
+                >
+                  {{ $t("sendOrder") }}
+                  <VIcon class="ms-2" icon="tabler-arrow-left" />
+                </VBtn>
+              </VCardActions>
+            </VCol>
+          </VRow>
+        </VForm>
+      </VCardText>
+      <VDialog v-model="dialog" max-width="428" persistent>
+        <DialogSuccess @close="closeDialog" />
+      </VDialog>
+    </VCard>
+  </div>
 </template>
 
 <style scoped>

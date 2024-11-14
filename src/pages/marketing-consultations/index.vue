@@ -180,7 +180,7 @@
             <VPagination
               v-model="options.page"
               :length="Math.ceil(totalCount / options.itemsPerPage)"
-              total-visible="3"
+              total-visible="6"
             />
           </div>
         </template>
