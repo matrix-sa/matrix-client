@@ -7,7 +7,7 @@
 
   // Define props directly in script setup
   const props = defineProps(['activeItem'])
-  const emit = defineEmits()
+  const emit = defineEmits('showAnswers')
   const { t } = useI18n()
 
   const questions = ref([
@@ -77,38 +77,52 @@
         question: t('who_is_the_ideal_audience_to_benefit_from_this_product'),
         placeholder: t('p3'),
       },
+      {
+        id: 5,
+        type: 'text',
+        key: 'specific_message',
+        question: t('is_there_a_specific_message_you_want_to_convey_to_the_audience'),
+        placeholder: t('p5'),
+      },
     ],
     [
       {
         id: 1,
+        type: 'text',
+        key: 'product_or_service',
+        question: t('what_is_the_product_or_service_provided'),
+        placeholder: t('p1'),
+      },
+      {
+        id: 2,
         type: 'text',
         key: 'core_message',
         question: t('what_is_the_main_story_or_message_you_want_to_communicate'),
         placeholder: t('p5'),
       },
       {
-        id: 2,
+        id: 3,
         type: 'text',
         key: 'target_market',
         question: t('who_is_the_target_audience'),
         placeholder: t('p3'),
       },
       {
-        id: 3,
+        id: 4,
         type: 'text',
         key: 'ad_duration_in_seconds',
         question: t('what_is_the_duration_of_the_ad_in_seconds'),
         placeholder: t('p7'),
       },
       {
-        id: 4,
+        id: 5,
         type: 'text',
         key: 'desired_emotion',
         question: t('What_feeling_or_emotion_should_the_video_generate'),
         placeholder: t('p8'),
       },
       {
-        id: 5,
+        id: 6,
         type: 'select',
         key: 'preferred_ad_style',
         question: t('what_is_the_preferred_advertising_method'),
@@ -175,7 +189,6 @@
       {
         id: 3,
         type: 'text',
-        key: 'ProblemSolved',
         key: 'benefits',
         question: t('what_are_the_benefits_of_the_product_or_service'),
         placeholder: t('p12'),
@@ -276,7 +289,10 @@
 <template>
   <div class="writer-content pa-4 d-flex flex-column">
     <div class="questions-container d-flex flex-column">
-      <div v-for="q in questions[activeItem]" key="q.id">
+      <div
+        v-for="q in questions[activeItem]"
+        :key="q.id"
+      >
         <Question :q="q" @update:question-value="updateQuestion" />
       </div>
     </div>
