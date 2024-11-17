@@ -1,7 +1,7 @@
 <script setup>
   import { useI18n } from 'vue-i18n'
   import { useBreadcrumbsStore } from '@/stores/useBreadcrumbsStore'
-  import Header from '@/components/notifications/Header.vue'
+  import Header from '@/components/notifications/NotificationsHeader.vue'
 
   const { t, locale } = useI18n()
   const { update } = useBreadcrumbsStore()
@@ -25,7 +25,7 @@
 <template>
   <div class="d-flex flex-column wrapper mb-8">
 
-    <Header />
+    <NotificationsHeader />
     <hr class="separator">
     <Notifications />
   </div>
