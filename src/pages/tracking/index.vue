@@ -1,3 +1,6 @@
 <template>
-  <TrackingLinksForm />
+  <div>
+    <TrackingLinksForm />
+    <TrackingTable />
+  </div>
 </template>
