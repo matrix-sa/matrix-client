@@ -90,7 +90,7 @@
           title: t('marketing-consultation.name'),
           props: {
             prependIcon: 'ic:baseline-recommend',
-            active: isActive('/marketing-consultations/'),
+            active: isActive('/marketing-consultations/') || isActive('/marketing-consultations-orders/'),
             to: { name: '/marketing-consultations/' },
             disabled: userShouldLink.value,
           },
