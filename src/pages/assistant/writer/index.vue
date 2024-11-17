@@ -61,7 +61,7 @@
 <template>
   <div class="d-flex flex-column writer-wrapper">
 
-    <Header />
+    <WriterHeader />
     <hr class="separator">
     <div class="writter-section-wrapper d-flex">
       <v-container>
