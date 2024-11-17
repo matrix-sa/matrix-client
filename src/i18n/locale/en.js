@@ -1064,5 +1064,14 @@ export default {
     create: 'Start Create',
   },
   min_length: 'The Min Character field must be at least',
+  camps_nums: 'Campaign Numbers',
+  for_this_month: 'For This Month',
+  number_of_advertising_texts: 'Number of advertising texts',
+  num_of_designs: 'Number Of Designs',
+  num_of_control_rules: 'Number Of Control Rules',
+  which_has_been_implemented_to_improve_performance: 'Which has been implemented to improve performance',
+  num_of_communication_rules: 'Number Of communication Rules',
+  through_which_alerts_were_sent_to_monitor_performance: 'Through which alerts were sent to monitor performance',
+  consultations: 'consultations',
 
 }
