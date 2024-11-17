@@ -1,6 +1,14 @@
 <template>
   <div>
     <ReportsNavBar />
+    <Statistics
+      :campaigns="campaigns"
+      :communication-rules-summary="communicationRulesSummary"
+      :consultations-smmary="consultationsSmmary"
+      :control-rules-summary="controlRulesSummary"
+      :digital-designer-conversation-summary="digitalDesignerConversationSummary"
+      :digital-writer-conversation-summary="digitalWriterConversationSummary"
+    />
     <OrderedPlatformsByPerformance :platforms-data="platformsData" />
     <TopAndLeastCampaigns :least-campaigns="leastCampaigns" :top-campaigns="topCampaigns" />
     <ReportCharts :statistics="statistics" />
@@ -24,9 +32,22 @@
   const topCampaigns = ref([])
   const leastCampaigns = ref([])
   const statistics = ref([])
+  const campaigns = ref({})
+  const digitalWriterConversationSummary = ref({})
+  const digitalDesignerConversationSummary = ref({})
+  const controlRulesSummary = ref({})
+  const communicationRulesSummary = ref({})
+  const consultationsSmmary = ref({})
 
   const { loading } = useRequest(() => ReportsService.get(), {
     onSuccess: res => {
+      campaigns.value = res.data.data.campaigns
+      digitalWriterConversationSummary.value = res.data.data.digital_writer_conversations_summary
+      digitalDesignerConversationSummary.value = res.data.data.digital_dsigner_conversations_summary
+      controlRulesSummary.value = res.data.data.control_rules_summary
+      communicationRulesSummary.value = res.data.data.communication_rules_smmary
+      consultationsSmmary.value = res.data.data.consultations_smmary
+
       statistics.value = res.data.data
       platformsData.value = res.data.data.platforms_performance_records
       topCampaigns.value = res.data.data.top_performing_campaigns

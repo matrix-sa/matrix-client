@@ -1062,4 +1062,14 @@ export default {
     create: 'قم بالإنشاء',
   },
   min_length: ' يجب أن يحتوي الحقل على الأقل علي ',
+  camps_nums: 'عدد الحملات',
+  for_this_month: 'لهذا الشهر',
+  number_of_advertising_texts: 'عدد النصوص الإعلانية',
+  num_of_designs: 'عدد التصاميم',
+  num_of_control_rules: 'عدد قواعد التحكم',
+  which_has_been_implemented_to_improve_performance: 'التي تم تنفيذها لتحسين الأداء',
+  num_of_communication_rules: 'عدد قواعد الاتصال',
+  through_which_alerts_were_sent_to_monitor_performance: 'التي تم إرسال تنبيهات من خلالها لمتابعة الأداء',
+  consultations: 'الاستشارات',
+
 }
