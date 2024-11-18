@@ -61,6 +61,7 @@
               v-else
               block
               class="mb-3"
+              color="success"
               type="submit"
               @click="formSubmit"
             >
@@ -74,7 +75,7 @@
             <VBtn
               block
               color="secondary"
-              variant="tonal"
+              variant="flat"
               @click="$emit('update:isDialogVisible', false)"
             >
               {{ t("cancel") }}
