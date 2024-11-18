@@ -31,6 +31,7 @@
     chart: {
       type: 'radar',
       toolbar: false,
+      height: '400px',
     },
     colors: [currentTheme.warning, currentTheme.primary],
     fill: {
@@ -79,3 +80,9 @@
     </VCardText>
   </VCard>
 </template>
+
+<style lang="css" scoped>
+:deep(.v-card-item) {
+  padding-block-end: 0;
+}
+</style>
