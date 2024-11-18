@@ -16,14 +16,16 @@
 
   const { t } = i18n.global
 
-  const series = [{
-                    name: t('sales'),
-                    data: props.performance?.map(item => item.sales),
-                  },
-                  {
-                    name: t('return_on_spending'),
-                    data: props.performance?.map(item => item.spendings),
-                  }]
+  const series = [
+    {
+      name: t('sales'),
+      data: props.performance?.map(item => item.sales),
+    },
+    {
+      name: t('return_on_spending'),
+      data: props.performance?.map(item => item.spendings),
+    },
+  ]
 
   const chartOptions = {
     chart: {
@@ -67,7 +69,11 @@
 <template>
   <VCard :subtitle="$t('last-6-months')" :title="$t('performance')">
     <VCardText class="pa-md-0">
-      <VueApexCharts v-if="props.performance !== null" :options="chartOptions" :series="series" />
+      <VueApexCharts
+        v-if="props.performance !== null"
+        :options="chartOptions"
+        :series="series"
+      />
 
       <HomeEmptyState v-else />
     </VCardText>
