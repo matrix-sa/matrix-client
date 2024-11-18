@@ -1075,5 +1075,6 @@ export default {
   consultations: 'consultations',
   links_table: 'Links Records',
   no_rules_found: 'No Rules Found',
+  not_found: 'Page Not Found',
 
 }
