@@ -136,7 +136,7 @@
     <v-overlay v-model="loading" class="align-center justify-center" persistent>
       <v-progress-circular color="primary" indeterminate size="50" :width="7" />
     </v-overlay>
-    <div v-if="rules.length === 0" class="no-rules">
+    <div v-if="rules.length === 0 && !loading" class="no-rules">
       <EmptyContent :title="t('no_rules_found')" />
     </div>
     <div v-else>
