@@ -112,7 +112,7 @@
 
   const onRegisterSubmit = async value => {
     try {
-      value.mobile_number = `+966${registerForm.value.mobile_number}`
+      value.mobile_number = `+966${registerForm.value.values.mobile_number}`
       await authStore.register(value)
       if (authStore.otp) {
         document.querySelector('.tabs-login li:nth-child(1) a').click()

@@ -126,7 +126,7 @@
 
             return
           } else {
-            runCheckAuth()
+            runCheckAuth(props.platform.code)
             show(t('connected_successfully'), 'success')
           }
 

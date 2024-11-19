@@ -93,6 +93,7 @@ export const useAuthStore = defineStore('auth-store', () => {
     if (user.value && !refresh) return user.value
 
     const res = await AuthService.me()
+    if (!res) return
 
     handleAuthResponse(res)
 
