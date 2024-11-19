@@ -141,9 +141,11 @@
   }
 
   const handleAdAccountIdChange = () => {
+    console.log(props.platform.code)
     switch (props.platform.code) {
-      case 'facebook':
-        fetchFacebookPages()
+      case 'meta':
+        // fetchFacebookPages()
+        fetchPixels()
         break
       case 'snapchat':
         fetchPixels()
@@ -159,8 +161,15 @@
   }
 
   const handlePixelChange = () => {
-    if (props.platform.code === 'snapchat') {
-      fetchPublicProfiles()
+    switch (props.platform.code) {
+      case 'snapchat':
+        fetchPublicProfiles()
+        break
+      case 'meta':
+        fetchFacebookPages()
+        break
+      default:
+        break
     }
 
     form.value.public_profile_id = null

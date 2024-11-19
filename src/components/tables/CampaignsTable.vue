@@ -22,6 +22,10 @@
       type: String,
       default: null,
     },
+    status: {
+      type: String,
+      default: null,
+    },
   })
 
   const getPlatformIcon = platformName => {
@@ -46,7 +50,7 @@
   const { t } = useI18n()
   const router = useRouter()
 
-  const { dateRange, search } = toRefs(props)
+  const { dateRange, search, status } = toRefs(props)
 
   const totalCampaigns = ref(0)
   const campaigns = ref([])
@@ -123,6 +127,7 @@
         Page: options.value.page,
         StartDate: dateRange.value?.[0],
         EndDate: dateRange.value?.[dateRange.value.length - 1],
+        status: status.value,
         Search: search.value,
       }),
     {
@@ -195,6 +200,7 @@
   watch(options, run, { deep: true })
   watch(search, debouncedRun)
   watch(dateRange, run)
+  watch(status, run)
 
   const resolveUserStatusVariant = stat => {
     const statLowerCase = stat.toLowerCase()

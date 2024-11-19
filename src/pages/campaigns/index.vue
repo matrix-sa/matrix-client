@@ -14,6 +14,30 @@
   )
   const dateRange = ref(null)
   const search = ref(null)
+  const status = ref(null)
+
+  const statuses = ref([
+    {
+      value: 'created',
+      title: t('campaign_status_created'),
+    },
+    {
+      value: 'active',
+      title: t('campaign_status_active'),
+    },
+    {
+      value: 'paused',
+      title: t('campaign_status_paused'),
+    },
+    {
+      value: 'archived',
+      title: t('campaign_status_archived'),
+    },
+    {
+      value: 'deleted',
+      title: t('campaign_status_deleted'),
+    },
+  ])
 
   const selectedAdGroups = ref([])
   const selectedAdGroupsIds = computed(() =>
@@ -86,6 +110,21 @@
         />
       </div>
       <div>
+        <v-select
+          v-model="status"
+          bg-color="secondary"
+          class="status-select"
+          density="comfortable"
+          flat
+          height="48px"
+          hide-details
+          :items="statuses"
+          :label="t('status')"
+          prepend-inner-icon="tabler-filter"
+          variant="solo-filled"
+        />
+      </div>
+      <div>
         <v-text-field
           v-model="search"
           class="search-campaign-input"
@@ -101,7 +140,6 @@
       </div>
     </div>
     <v-card>
-
       <v-tabs v-model="tab" bg-color="secondary" color="warning" :grow="true">
         <v-tab
           base-color="secondary"
@@ -128,7 +166,9 @@
           <v-tabs-window-item value="campaigns">
             <VCard>
               <div class="d-flex align-center justify-space-between ga-4 pa-4">
-                <VCardTitle class="font-weight-medium text-surface-variant pa-0">
+                <VCardTitle
+                  class="font-weight-medium text-surface-variant pa-0"
+                >
                   {{ $t("campaigns") }}
                 </VCardTitle>
                 <VBtn color="warning" rounded :to="{ name: '/campaigns/add' }">
@@ -142,6 +182,7 @@
                 <CampaignsTable
                   :date-range="dateRange"
                   :search="search"
+                  :status="status"
                   @selection-updated="selectedCampaigns = $event"
                 />
               </VCardText>
@@ -151,7 +192,9 @@
           <v-tabs-window-item value="ad-groups">
             <VCard>
               <div class="d-flex align-center justify-space-between ga-4 pa-4">
-                <VCardTitle class="font-weight-medium text-surface-variant pa-0">
+                <VCardTitle
+                  class="font-weight-medium text-surface-variant pa-0"
+                >
                   {{ $t("ad_groups") }}
                 </VCardTitle>
                 <VBtn
@@ -178,7 +221,9 @@
           <v-tabs-window-item value="ads">
             <VCard>
               <div class="d-flex align-center justify-space-between ga-4 pa-4">
-                <VCardTitle class="font-weight-medium text-surface-variant pa-0">
+                <VCardTitle
+                  class="font-weight-medium text-surface-variant pa-0"
+                >
                   {{ $t("ads") }}
                 </VCardTitle>
                 <VBtn
@@ -213,7 +258,7 @@
   padding: 1rem;
   margin-bottom: 1rem;
   display: grid;
-  grid-template-columns: 370px 1fr;
+  grid-template-columns: 0.5fr 0.5fr 1fr;
   gap: 1rem;
   background-color: white;
   border-radius: 1rem;
@@ -221,7 +266,7 @@
 </style>
 <style lang="scss">
 .filters-container {
-  .date-range-input {
+  @mixin common-field-styles {
     .v-field {
       border-radius: 0.75rem;
     }
@@ -229,6 +274,14 @@
       background: unset;
       display: none;
     }
+  }
+
+  .date-range-input {
+    @include common-field-styles;
+  }
+
+  .status-select {
+    @include common-field-styles;
   }
 
   .search-campaign-input {
