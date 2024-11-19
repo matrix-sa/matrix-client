@@ -20,10 +20,9 @@
 
 <script setup>
   import ReportsService from '@/services/reports-service'
-  import { ref } from 'vue'
+  import { ref, watch } from 'vue'
   import { useRequest } from 'vue-request'
   import { useI18n } from 'vue-i18n'
-  import { watch } from 'vue'
   import { useBreadcrumbsStore } from '@/stores/useBreadcrumbsStore'
   const { update } = useBreadcrumbsStore()
   const { t, locale } = useI18n()

@@ -137,7 +137,6 @@
       const fileExtension = media.name.split('.').pop().toLowerCase()
       const isValidExtension = acceptedExts.value.includes(fileExtension)
 
-      console.log(isValidExtension)
       if (!isValidExtension) {
         reject(false) // Invalid extension, reject promise
         return
@@ -171,7 +170,6 @@
       if (el) el.scrollIntoView()
       return
     }
-    // console.log(form.value)
     const data = {}
     for (const key in form.value) {
       if (key.trim().toLowerCase() != 'media_file') {
@@ -181,8 +179,6 @@
 
     data.AdGroupId = props.adGroupId
     data.MediaFile = form.value.media_file
-
-    console.log(data)
 
     if (data.MediaFile) {
       try {

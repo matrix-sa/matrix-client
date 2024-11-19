@@ -99,7 +99,6 @@
       onSuccess: response => {
         const { error, messages } = response.data
         show(t(error ? messages[0] : 'campaign_rule_updated_successfully'), error ? 'error' : 'success')
-        console.log(messages)
         if (!error) emit('update:isDialogVisible', false)
         emit('saved', !error)
         rulesModalsStore.modalSaved()

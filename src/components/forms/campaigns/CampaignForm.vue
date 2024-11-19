@@ -130,10 +130,13 @@
 
         if (error) {
           show(messages[0], 'error')
-        } else {
-          show(t('created_message'), 'success')
-          router.push({ name: '/campaigns/' })
         }
+
+        show(t('created_message'), 'success')
+        router.push({
+          path: `/ad-groups/${res.data.data.id}/add`,
+          query: { platform: selectedPlatform.value.toLowerCase() },
+        })
       },
     }
   )
@@ -169,7 +172,7 @@
       if (!isValid) return
       if (!campaign.value) {
         runAdd({
-          platform: 'tiktok',
+          platform: selectedPlatform.value,
           name: form.value.name,
           start_time: new Date(form.value.start_time).toISOString(),
           end_time: new Date(form.value.end_time).toISOString(),
@@ -177,7 +180,7 @@
         })
       } else {
         runUpdate({
-          platform: 'tiktok',
+          platform: selectedPlatform.value,
           id: form.value.id,
           name: form.value.name,
           start_time: new Date(form.value.start_time).toISOString(),

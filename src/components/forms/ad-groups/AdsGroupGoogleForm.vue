@@ -18,7 +18,9 @@
     },
     platform: {
       type: String,
-      required: true,
+      required: false,
+      default: 'google',
+
     },
     id: {
       type: String,
@@ -97,7 +99,10 @@
 
         show(t('created_message'), 'success')
 
-        router.push({ name: 'campaigns' })
+        router.push({
+          path: `/ads/${res.data.data.id}/add`,
+          query: { platform: props.platform.toLowerCase() },
+        })
       },
     },
   )

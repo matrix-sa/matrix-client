@@ -141,7 +141,6 @@
   }
 
   const handleAdAccountIdChange = () => {
-    console.log(props.platform.code)
     switch (props.platform.code) {
       case 'meta':
         // fetchFacebookPages()
