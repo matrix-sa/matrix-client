@@ -2,6 +2,7 @@
   const props = defineProps({
     icon: String,
     title: String,
+    size: String,
   })
 </script>
 
@@ -9,7 +10,7 @@
   <div class="d-flex flex-column align-center justify-center text-center">
     <VIcon
       :icon="icon? icon : 'tabler-database-off'"
-      size="100"
+      :size="size? size : '60'"
     />
     {{ title? title : $t('no-data-found') }}
   </div>
