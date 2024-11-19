@@ -126,7 +126,7 @@
     {
       manual: true,
       onSuccess: res => {
-        const { error, messages } = res.data
+        const { error, messages, data } = res.data
 
         if (error) {
           show(messages[0], 'error')
@@ -134,7 +134,7 @@
 
         show(t('created_message'), 'success')
         router.push({
-          path: `/ad-groups/${res.data.data.id}/add`,
+          path: `/ad-groups/${data.id}/add`,
           query: { platform: selectedPlatform.value.toLowerCase() },
         })
       },

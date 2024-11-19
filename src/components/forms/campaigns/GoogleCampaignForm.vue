@@ -111,12 +111,17 @@
     {
       manual: true,
       onSuccess: res => {
-        const { error, data, messages, code } = res.data
+        const { error, data, messages } = res.data
         if (error) {
           show(messages[0], 'error')
         } else {
           show(t('created_message'), 'success')
           router.push({ name: '/campaigns/' })
+
+          router.push({
+            path: `/ad-groups/${data.id}/add`,
+            query: { platform: 'googleads' },
+          })
         }
       },
     }
