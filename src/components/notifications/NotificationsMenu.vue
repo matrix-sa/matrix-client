@@ -44,7 +44,7 @@
         totalCount.value = data.total_count
       },
       onError: err => {
-        console.log(err)
+        console.error(err)
       },
     }
   )

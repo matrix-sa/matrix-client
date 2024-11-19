@@ -47,7 +47,6 @@
     {
       onSuccess: res => {
         platforms.value = res
-        console.log(platforms.value)
       },
     }
   )

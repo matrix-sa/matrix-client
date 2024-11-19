@@ -92,7 +92,7 @@
         totalCount.value = data.total_count
       },
       onError: err => {
-        console.log(err)
+        console.error(err)
       },
     }
   )
@@ -207,7 +207,6 @@
   const selectedPlatform = ref(null)
 
   const goToEdit = item => {
-    console.log(item)
     router.push({
       name: '/ad-groups/[campaignId]/edit/',
       params: {
