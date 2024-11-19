@@ -99,9 +99,20 @@
     data => AdsGroupsService.create(props.platform, data),
     {
       manual: true,
-      onSuccess: () => {
+      onSuccess: res => {
+        const { error, messages } = res.data
+
+        if (error) {
+          show(messages[0], 'error')
+
+          return
+        }
+
         show(t('created_message'), 'success')
-        router.push(`/campaigns/`)
+        router.push({
+          path: `/ads/${res.data.data.id}/add`,
+          query: { platform: props.platform.toLowerCase() },
+        })
       },
     }
   )

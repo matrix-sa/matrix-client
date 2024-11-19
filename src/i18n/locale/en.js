@@ -1074,5 +1074,7 @@ export default {
   through_which_alerts_were_sent_to_monitor_performance: 'Through which alerts were sent to monitor performance',
   consultations: 'consultations',
   links_table: 'Links Records',
+  no_rules_found: 'No Rules Found',
+  not_found: 'Page Not Found',
 
 }

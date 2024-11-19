@@ -1072,5 +1072,7 @@ export default {
   through_which_alerts_were_sent_to_monitor_performance: 'التي تم إرسال تنبيهات من خلالها لمتابعة الأداء',
   consultations: 'الاستشارات',
   links_table: 'سجل الروابط',
+  no_rules_found: 'لا توجد قواعد متاحة',
+  not_found: 'الصفحة غير موجودة',
 
 }

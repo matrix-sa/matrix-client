@@ -131,10 +131,13 @@
 
         if (error) {
           show(messages[0], 'error')
-        } else {
-          show(t('created_message'), 'success')
-          router.push({ name: '/campaigns/' })
         }
+
+        show(t('created_message'), 'success')
+        router.push({
+          path: `/ad-groups/${res.data.data.id}/add`,
+          query: { platform: selectedPlatform.value.toLowerCase() },
+        })
       },
     }
   )

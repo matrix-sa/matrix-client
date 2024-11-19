@@ -159,53 +159,58 @@
     <v-overlay v-model="loading" class="align-center justify-center" persistent>
       <v-progress-circular color="primary" indeterminate size="50" :width="7" />
     </v-overlay>
-    <div v-for="(rule, index) in rules" :key="rule.id" class="rule-card">
-      <div class="row">
-        <p class="order">{{ index + 1 }}</p>
-        <p>{{ t("rule") }}</p>
-        <VTooltip :text="t('delete')">
-          <template #activator="{ props: toolTipProps }">
-            <VBtn class="check-icon" v-bind="toolTipProps" @click="handleDeleteRule(rule)">
-              <v-icon class="delete-icon" color="error" icon="tabler-x" />
-            </VBtn>
-          </template>
-        </VTooltip>
-      </div>
-      <v-divider class="divider" />
-      <div class="data-row">
-        <p>{{ t("roas_condition") }}</p>
-        <v-chip class="font-weight-bold" color="primary" label>
-          {{ t(rule.roas_condition) }}
-        </v-chip>
-      </div>
-      <div class="data-row">
-        <p>{{ t("roas_rules") }}</p>
-        <v-chip class="font-weight-bold" color="primary" label>
-          {{ rule.roas_comparing_value }}
-        </v-chip>
-      </div>
-      <div class="data-row">
-        <p>{{ t("rule_increase_by") }}</p>
-        <v-chip class="font-weight-bold" color="primary" label>
-          {{ rule.value }}
-          {{ rule.value_type === "Percentage" ? "%" : t(user.currency) }}
-        </v-chip>
-      </div>
-      <div class="data-row">
-        <v-btn
-          class="rule-btn"
-          color="primary"
-          flat
-          :text="t('edit')"
-          @click="handleEditRule(rule)"
-        />
-        <v-btn
-          class="rule-btn"
-          :color="rule.status === 'Active' ? 'error' : 'warning'"
-          flat
-          :text="rule.status === 'Active' ? t('deactivate') : t('activate')"
-          @click="handleStatusChange(rule)"
-        />
+    <div v-if="rules.length === 0 && !loading" class="no-rules">
+      <EmptyContent :title="t('no_rules_found')" />
+    </div>
+    <div v-else>
+      <div v-for="(rule, index) in rules" :key="rule.id" class="rule-card">
+        <div class="row">
+          <p class="order">{{ index + 1 }}</p>
+          <p>{{ t("rule") }}</p>
+          <VTooltip :text="t('delete')">
+            <template #activator="{ props: toolTipProps }">
+              <VBtn class="check-icon" v-bind="toolTipProps" @click="handleDeleteRule(rule)">
+                <v-icon class="delete-icon" color="error" icon="tabler-x" />
+              </VBtn>
+            </template>
+          </VTooltip>
+        </div>
+        <v-divider class="divider" />
+        <div class="data-row">
+          <p>{{ t("roas_condition") }}</p>
+          <v-chip class="font-weight-bold" color="primary" label>
+            {{ t(rule.roas_condition) }}
+          </v-chip>
+        </div>
+        <div class="data-row">
+          <p>{{ t("roas_rules") }}</p>
+          <v-chip class="font-weight-bold" color="primary" label>
+            {{ rule.roas_comparing_value }}
+          </v-chip>
+        </div>
+        <div class="data-row">
+          <p>{{ t("rule_increase_by") }}</p>
+          <v-chip class="font-weight-bold" color="primary" label>
+            {{ rule.value }}
+            {{ rule.value_type === "Percentage" ? "%" : t(user.currency) }}
+          </v-chip>
+        </div>
+        <div class="data-row">
+          <v-btn
+            class="rule-btn"
+            color="primary"
+            flat
+            :text="t('edit')"
+            @click="handleEditRule(rule)"
+          />
+          <v-btn
+            class="rule-btn"
+            :color="rule.status === 'Active' ? 'error' : 'warning'"
+            flat
+            :text="rule.status === 'Active' ? t('deactivate') : t('activate')"
+            @click="handleStatusChange(rule)"
+          />
+        </div>
       </div>
     </div>
 
@@ -244,4 +249,9 @@
   background-color: transparent;
   box-shadow: none;
 }
+.no-rules {
+  grid-column: 2;
+  margin-top: 20px;
+}
+
 </style>
