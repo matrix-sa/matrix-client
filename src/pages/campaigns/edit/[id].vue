@@ -1,63 +1,96 @@
 <script setup>
-  import { useBreadcrumbsStore } from '@/stores/useBreadcrumbsStore'
-  import { useI18n } from 'vue-i18n'
-  import campaignHeaderLogo from '@/assets/images/campaign-header.svg'
-  import { useRequest } from 'vue-request'
-  import CampaignsService from '@/services/campaigns-service'
+import { useBreadcrumbsStore } from '@/stores/useBreadcrumbsStore'
+import { useI18n } from 'vue-i18n'
+import campaignHeaderLogo from '@/assets/images/campaign-header.svg'
+import { useRequest } from 'vue-request'
+import CampaignsService from '@/services/campaigns-service'
 
-  const { update } = useBreadcrumbsStore()
-  const { t, locale } = useI18n()
-  const route = useRoute()
+const { update } = useBreadcrumbsStore()
+const { t, locale } = useI18n()
+const route = useRoute()
 
-  const campaign = ref(null)
+const campaign = ref(null)
+const recommendations = ref([
+  {
+    id: 1,
+    text: "my_answers_title"
+  },
+  {
+    id: 2,
+    text: "my_answers_title"
+  },
+  {
+    id: 3,
+    text: "my_answers_title"
+  }, {
+    id: 4,
+    text: "my_answers_title"
+  }
+])
+const { loadingCampaign } = useRequest(
+  () =>
+    CampaignsService.getById(
+      { id: route.params.id },
+      useRoute().query.platform,
+    ),
+  {
+    onSuccess: res => {
+      campaign.value = res?.data?.data
+    },
+  },
+)
 
-  const { loadingCampaign } = useRequest(
-    () =>
-      CampaignsService.getById(
-        { id: route.params.id },
-        useRoute().query.platform,
-      ),
-    {
-      onSuccess: res => {
-        campaign.value = res?.data?.data
+watch(
+  locale,
+  () => {
+    update([
+      {
+        title: t('campaigns'),
+        active: false,
+        to: '/campaigns/',
       },
-    },
-  )
-
-  watch(
-    locale,
-    () => {
-      update([
-        {
-          title: t('campaigns'),
-          active: false,
-          to: '/campaigns/',
-        },
-        {
-          title: t('edit_campaign'),
-          active: true,
-          disabled: true,
-          to: `/campaigns/edit/[id]`,
-        },
-      ])
-    },
-    { immediate: true }
-  )
+      {
+        title: t('edit_campaign'),
+        active: true,
+        disabled: true,
+        to: `/campaigns/edit/[id]`,
+      },
+    ])
+  },
+  { immediate: true }
+)
 </script>
 <template>
-  <div class="campaign-form-container">
-    <v-overlay v-model="loadingCampaign" class="align-center justify-center" persistent>
-      <v-progress-circular color="primary" indeterminate size="50" :width="7" />
-    </v-overlay>
-    <template v-if="!loadingCampaign">
 
-      <CampaignForm :campaign="campaign" :is-edit-mode="true">
-        <template v-if="campaign?.ad_platform.toLowerCase() === 'googleads'" #default="{ data }">
-          <GoogleCampaignForm :campaign="campaign" :data="data" />
-        </template>
-      </CampaignForm>
-    </template>
+  <div>
+    <v-container>
+      <v-row>
+        <v-col cols="8" class="ps-0">
+          <div class="campaign-form-container">
+            <v-overlay v-model="loadingCampaign" class="align-center justify-center" persistent>
+              <v-progress-circular color="primary" indeterminate size="50" :width="7" />
+            </v-overlay>
+            <template v-if="!loadingCampaign">
+
+              <CampaignForm :campaign="campaign" :is-edit-mode="true">
+                <template v-if="campaign?.ad_platform.toLowerCase() === 'googleads'" #default="{ data }">
+                  <GoogleCampaignForm :campaign="campaign" :data="data" />
+                </template>
+              </CampaignForm>
+            </template>
+          </div>
+
+        </v-col>
+        <v-col cols="4" class="pe-0">
+          <div class="campaign-form-container">
+            <RecommendationList :recommendations="recommendations" />
+          </div>
+        </v-col>
+      </v-row>
+    </v-container>
   </div>
+
+
 </template>
 
 <style lang="scss">

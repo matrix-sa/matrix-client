@@ -1,13 +1,13 @@
 <script setup>
-  import icon from '@/assets/recommendations.svg'
-  import { useI18n } from 'vue-i18n'
-  const { t } = useI18n()
-  defineProps({
-    recommendations: {
-      type: Array,
-      required: true,
-    },
-  })
+import icon from '@/assets/recommendations.svg'
+import { useI18n } from 'vue-i18n'
+const { t } = useI18n()
+defineProps({
+  recommendations: {
+    type: Array,
+    required: true,
+  },
+})
 </script>
 
 <template>
@@ -20,9 +20,9 @@
     </v-card-title>
     <v-card-text>
       <v-list class="list">
-        <v-list-item v-for="(item, index) in recommendations" :key="index">
+        <v-list-item v-for="(item) in recommendations" :key="item.id">
           <v-list-item-content>
-            <p class="recommendation-text"> <span class="dot" /> {{ item }}</p>
+            <p class="recommendation-text"> <span class="dot" /> {{ t(item.text) }}</p>
           </v-list-item-content>
         </v-list-item>
       </v-list>
@@ -30,54 +30,55 @@
   </v-card>
 </template>
 
-  <style scoped>
-  .recommendations-card {
-    border-radius: 24px;
-    background-color: #F8F7FA;
-    padding: 8px;
-    max-width: 407px;
+<style scoped>
+.recommendations-card {
+  border-radius: 24px;
+  background-color: #F8F7FA;
+  padding: 8px;
 }
 
 .recommendations-title {
-    font-size: 18px;
-    font-weight: 700;
-    line-height: 21.6px;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    color:#000;
-    padding-top: 16px;
-    span{
-        color: #FB813E;
-    }
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 21.6px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #000;
+  padding-top: 16px;
+
+  span {
+    color: #FB813E;
+  }
 }
 
 .list {
-    background-color: #F8F7FA;
-  }
-  .v-card-text {
-    padding: 0;
-  }
+  background-color: #F8F7FA;
+}
 
-    .dot {
-        height: 4px;
-        width: 4px;
-        background-color: #4E1AC7;
-        border-radius: 50%;
-        margin: 0 8px;
-    }
+.v-card-text {
+  padding: 0;
+}
 
-  .recommendation-text {
-    color: #41324C;
-    padding: 0 8px;
-    background-color: #B7B0C71A;
-    border-radius: 50px;
-    margin-bottom: 16px;
-    height: 48px;
-    display: flex;
-    align-items: center;
-    font-size: 14px;
-    line-height: 16.8px;
-    font-weight: 400;
-  }
-  </style>
+.dot {
+  height: 4px;
+  width: 4px;
+  background-color: #4E1AC7;
+  border-radius: 50%;
+  margin: 0 8px;
+}
+
+.recommendation-text {
+  color: #41324C;
+  padding: 0 8px;
+  background-color: #B7B0C71A;
+  border-radius: 50px;
+  margin-bottom: 16px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  font-size: 14px;
+  line-height: 16.8px;
+  font-weight: 400;
+}
+</style>
