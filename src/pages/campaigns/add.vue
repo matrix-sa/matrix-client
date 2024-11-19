@@ -6,6 +6,24 @@
 
   const { update } = useBreadcrumbsStore()
   const { t, locale } = useI18n()
+
+  const recommendations = ref([
+    {
+      id: 1,
+      text: 'my_answers_title',
+    },
+    {
+      id: 2,
+      text: 'my_answers_title',
+    },
+    {
+      id: 3,
+      text: 'my_answers_title',
+    }, {
+      id: 4,
+      text: 'my_answers_title',
+    },
+  ])
   watch(
     locale,
     () => {
@@ -27,13 +45,26 @@
   )
 </script>
 <template>
-  <div class="campaign-form-container">
+  <div>
+    <v-container>
+      <v-row>
+        <v-col class="ps-0" cols="8">
+          <div class="campaign-form-container">
+            <CampaignForm>
+              <template #default="{ data }">
+                <GoogleCampaignForm :data="data" />
+              </template>
+            </CampaignForm>
+          </div>
 
-    <CampaignForm>
-      <template #default="{ data }">
-        <GoogleCampaignForm :data="data" />
-      </template>
-    </CampaignForm>
+        </v-col>
+        <v-col class="pe-0" cols="4">
+          <div class="campaign-form-container">
+            <RecommendationList :recommendations="recommendations" />
+          </div>
+        </v-col>
+      </v-row>
+    </v-container>
   </div>
 </template>
 
