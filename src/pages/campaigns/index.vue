@@ -18,6 +18,10 @@
 
   const statuses = ref([
     {
+      value: null,
+      title: t('all'),
+    },
+    {
       value: 'created',
       title: t('campaign_status_created'),
     },
