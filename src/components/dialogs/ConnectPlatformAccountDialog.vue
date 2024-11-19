@@ -143,10 +143,12 @@
   const handleAdAccountIdChange = () => {
     switch (props.platform.code) {
       case 'meta':
-        // fetchFacebookPages()
         fetchPixels()
         break
       case 'snapchat':
+        fetchPixels()
+        break
+      case 'tiktok':
         fetchPixels()
         break
       case 'twitter':

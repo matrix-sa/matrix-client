@@ -131,18 +131,20 @@
         style="margin: auto"
         :width="185"
       />
-      <RouterLink
+      <component
+        :is="item.props.disabled ? 'span' : 'router-link'"
         v-for="(item, index) in items1"
         :key="index"
         class="nav-item"
         :class="{
           active: item.props.active,
+          disabled: item.props.disabled,
         }"
         :to="item.props.to"
       >
         <p><v-icon :icon="item.props.prependIcon" /></p>
         <p>{{ item.title }}</p>
-      </RouterLink>
+      </component>
 
       <v-divider class="mx-5 my-3" :thickness="2" />
 
@@ -246,6 +248,14 @@
 .nav-item.active {
   background-color: rgb(var(--v-theme-warning)) !important;
   color: rgb(var(--v-theme-on-kbd)) !important;
+}
+
+.nav-item.disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+  &:hover {
+    background-color: transparent;
+  }
 }
 
 .username-container-section {

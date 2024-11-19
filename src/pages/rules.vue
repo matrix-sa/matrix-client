@@ -102,10 +102,11 @@
 
       <p class="instructions">{{ instructionsText }}</p>
 
+      <!--TODO: Remove-->
       <div>
-        <router-view ref="x" v-slot="{ Component }">
+        <router-view v-slot="{ Component }">
           <transition name="fade">
-            <component :is="Component" ref="x" />
+            <component :is="Component" />
           </transition>
         </router-view>
       </div>
