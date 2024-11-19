@@ -107,8 +107,9 @@
         </VCardText>
       </VCarouselItem>
     </VCarousel>
-
-    <HomeEmptyState v-else />
+    <div v-else class="d-flex justify-center h-100">
+      <HomeEmptyState size="100" />
+    </div>
   </VCard>
 </template>
 
