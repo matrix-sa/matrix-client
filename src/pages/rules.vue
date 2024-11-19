@@ -102,7 +102,6 @@
 
       <p class="instructions">{{ instructionsText }}</p>
 
-      <!--TODO: Remove-->
       <div>
         <router-view v-slot="{ Component }">
           <transition name="fade">
