@@ -15,6 +15,24 @@
 
   const adGroup = ref(null)
 
+  const recommendations = ref([
+    {
+      id: 1,
+      text: 'my_answers_title',
+    },
+    {
+      id: 2,
+      text: 'my_answers_title',
+    },
+    {
+      id: 3,
+      text: 'my_answers_title',
+    }, {
+      id: 4,
+      text: 'my_answers_title',
+    },
+  ])
+
   const { loading } = useRequest(
     () => AdsGroupsService.getById(platform, { id }),
     {
@@ -45,29 +63,50 @@
 </script>
 
 <template>
-  <div class="ad-group-form-container">
-    <v-overlay v-model="loading" class="align-center justify-center" persistent>
-      <v-progress-circular color="primary" indeterminate size="50" :width="7" />
-    </v-overlay>
-    <template v-if="!loading">
-      <header class="ad-group-form-header">
-        <img alt="" height="45" :src="campaignHeaderLogo">
-        <div class="deascription">
-          <h3 class="text-black">
-            {{ t("ad_group_settings") }} ({{ t(`platforms.${platform}.title`) }})
-          </h3>
-          <p>{{ t("how_to_edit_ad_group") }}</p>
-        </div>
-      </header>
-      <v-divider class="mb-4 mt-6" />
-      <AdsGroupTiktokForm v-if="platform === 'tiktok'" :ad-group="adGroup" :campaign-id="campaignId" />
-      <AdsGroupXForm v-if="platform === 'twitter'" :ad-group="adGroup" :campaign-id="campaignId" />
-      <AdsGroupGoogleForm v-if="platform === 'google'" :ad-group="adGroup" :campaign-id="campaignId" />
-    </template>
+
+  <div>
+    <v-container>
+      <v-row>
+        <v-col class="ps-0" cols="8">
+          <div class="ad-group-form-container">
+            <v-overlay v-model="loading" class="align-center justify-center" persistent>
+              <v-progress-circular color="primary" indeterminate size="50" :width="7" />
+            </v-overlay>
+            <template v-if="!loading">
+              <header class="ad-group-form-header">
+                <img alt="" height="45" :src="campaignHeaderLogo">
+                <div class="deascription">
+                  <h3 class="text-black">
+                    {{ t("ad_group_settings") }} ({{ t(`platforms.${platform}.title`) }})
+                  </h3>
+                  <p>{{ t("how_to_edit_ad_group") }}</p>
+                </div>
+              </header>
+              <v-divider class="mb-4 mt-6" />
+              <AdsGroupTiktokForm v-if="platform === 'tiktok'" :ad-group="adGroup" :campaign-id="campaignId" />
+              <AdsGroupXForm v-if="platform === 'twitter'" :ad-group="adGroup" :campaign-id="campaignId" />
+              <AdsGroupGoogleForm v-if="platform === 'google'" :ad-group="adGroup" :campaign-id="campaignId" />
+            </template>
+          </div>
+        </v-col>
+        <v-col class="pe-0" cols="4">
+          <div class="main-container">
+            <RecommendationList :recommendations="recommendations" />
+          </div>
+        </v-col>
+      </v-row>
+    </v-container>
   </div>
+
 </template>
 
 <style lang="scss">
+.main-container {
+  background-color: white;
+  padding: 1rem;
+  border-radius: 1rem;
+}
+
 .ad-group-form-container {
   background-color: white;
   padding: 1rem;

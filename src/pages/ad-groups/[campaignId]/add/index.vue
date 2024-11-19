@@ -6,7 +6,23 @@
   const route = useRoute()
   const { t, locale } = useI18n()
   const { update } = useBreadcrumbsStore()
-
+  const recommendations = ref([
+    {
+      id: 1,
+      text: 'my_answers_title',
+    },
+    {
+      id: 2,
+      text: 'my_answers_title',
+    },
+    {
+      id: 3,
+      text: 'my_answers_title',
+    }, {
+      id: 4,
+      text: 'my_answers_title',
+    },
+  ])
   const platform = route.query.platform?.toLocaleLowerCase()
   const campaignId = route.params.campaignId
 
@@ -32,27 +48,49 @@
 </script>
 
 <template>
-  <div class="ad-group-form-container">
-    <header class="ad-group-form-header">
-      <img alt="" height="45" :src="campaignHeaderLogo">
-      <div class="deascription">
-        <h3 class="text-black">
-          {{ t("ad_group_settings") }} ({{
-            t(`platforms.${platform}.title`)
-          }})
-        </h3>
-        <p>{{ t("how_to_edit_ad_group") }}</p>
-      </div>
-    </header>
-    <v-divider class="mb-4 mt-6" />
-    <AdsGroupTiktokForm v-if="platform === 'tiktok'" :campaign-id="campaignId" />
-    <AdsGroupSnapchatForm v-if="platform === 'snapchat'" :campaign-id="campaignId" />
-    <AdsGroupXForm v-if="platform === 'twitter'" :campaign-id="campaignId" />
-    <AdsGroupGoogleForm v-if="platform === 'googleads'" :campaign-id="campaignId" />
+
+  <div>
+    <v-container>
+      <v-row>
+        <v-col class="ps-0" cols="8">
+          <div class="ad-group-form-container">
+            <header class="ad-group-form-header">
+              <img alt="" height="45" :src="campaignHeaderLogo">
+              <div class="deascription">
+                <h3 class="text-black">
+                  {{ t("ad_group_settings") }} ({{
+                    t(`platforms.${platform}.title`)
+                  }})
+                </h3>
+                <p>{{ t("how_to_edit_ad_group") }}</p>
+              </div>
+            </header>
+            <v-divider class="mb-4 mt-6" />
+            <AdsGroupTiktokForm v-if="platform === 'tiktok'" :campaign-id="campaignId" />
+            <AdsGroupSnapchatForm v-if="platform === 'snapchat'" :campaign-id="campaignId" />
+            <AdsGroupXForm v-if="platform === 'twitter'" :campaign-id="campaignId" />
+            <AdsGroupGoogleForm v-if="platform === 'googleads'" :campaign-id="campaignId" />
+          </div>
+
+        </v-col>
+        <v-col class="pe-0" cols="4">
+          <div class="main-container">
+            <RecommendationList :recommendations="recommendations" />
+          </div>
+        </v-col>
+      </v-row>
+    </v-container>
   </div>
+
 </template>
 
 <style lang="scss">
+.main-container {
+  background-color: white;
+  padding: 1rem;
+  border-radius: 1rem;
+}
+
 .ad-group-form-container {
   background-color: white;
   padding: 1rem;

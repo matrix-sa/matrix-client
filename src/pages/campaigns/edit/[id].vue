@@ -10,7 +10,23 @@
   const route = useRoute()
 
   const campaign = ref(null)
-
+  const recommendations = ref([
+    {
+      id: 1,
+      text: 'my_answers_title',
+    },
+    {
+      id: 2,
+      text: 'my_answers_title',
+    },
+    {
+      id: 3,
+      text: 'my_answers_title',
+    }, {
+      id: 4,
+      text: 'my_answers_title',
+    },
+  ])
   const { loadingCampaign } = useRequest(
     () =>
       CampaignsService.getById(
@@ -45,19 +61,35 @@
   )
 </script>
 <template>
-  <div class="campaign-form-container">
-    <v-overlay v-model="loadingCampaign" class="align-center justify-center" persistent>
-      <v-progress-circular color="primary" indeterminate size="50" :width="7" />
-    </v-overlay>
-    <template v-if="!loadingCampaign">
 
-      <CampaignForm :campaign="campaign" :is-edit-mode="true">
-        <template v-if="campaign?.ad_platform.toLowerCase() === 'googleads'" #default="{ data }">
-          <GoogleCampaignForm :campaign="campaign" :data="data" />
-        </template>
-      </CampaignForm>
-    </template>
+  <div>
+    <v-container>
+      <v-row>
+        <v-col class="ps-0" cols="8">
+          <div class="campaign-form-container">
+            <v-overlay v-model="loadingCampaign" class="align-center justify-center" persistent>
+              <v-progress-circular color="primary" indeterminate size="50" :width="7" />
+            </v-overlay>
+            <template v-if="!loadingCampaign">
+
+              <CampaignForm :campaign="campaign" :is-edit-mode="true">
+                <template v-if="campaign?.ad_platform.toLowerCase() === 'googleads'" #default="{ data }">
+                  <GoogleCampaignForm :campaign="campaign" :data="data" />
+                </template>
+              </CampaignForm>
+            </template>
+          </div>
+
+        </v-col>
+        <v-col class="pe-0" cols="4">
+          <div class="campaign-form-container">
+            <RecommendationList :recommendations="recommendations" />
+          </div>
+        </v-col>
+      </v-row>
+    </v-container>
   </div>
+
 </template>
 
 <style lang="scss">
