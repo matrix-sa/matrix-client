@@ -56,7 +56,12 @@ export const usePlatformsStore = defineStore('platforms', {
   }),
   actions: {
     async checkAuth (platform) {
-      this.platforms.find(item => item.code === platform).loading = true
+      const currentPlatform = this.platforms.find(
+        item => item.code === platform
+      )
+      if (!currentPlatform) return
+
+      currentPlatform.loading = true
       const socialService = SocialPlatformsService(platform)
       const { data } = await socialService.checkAuthentication()
       this.platforms.find(item => item.code === platform).status = data.code

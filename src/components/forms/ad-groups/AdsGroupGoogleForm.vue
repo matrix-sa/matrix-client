@@ -19,8 +19,7 @@
     platform: {
       type: String,
       required: false,
-      default: 'google',
-
+      default: 'googleads',
     },
     id: {
       type: String,
