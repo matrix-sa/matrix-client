@@ -1,71 +1,71 @@
 <script setup>
-import { useBreadcrumbsStore } from '@/stores/useBreadcrumbsStore'
-import { useI18n } from 'vue-i18n'
-import campaignHeaderLogo from '@/assets/images/campaign-header.svg'
-import { useRequest } from 'vue-request'
-import CampaignsService from '@/services/campaigns-service'
+  import { useBreadcrumbsStore } from '@/stores/useBreadcrumbsStore'
+  import { useI18n } from 'vue-i18n'
+  import campaignHeaderLogo from '@/assets/images/campaign-header.svg'
+  import { useRequest } from 'vue-request'
+  import CampaignsService from '@/services/campaigns-service'
 
-const { update } = useBreadcrumbsStore()
-const { t, locale } = useI18n()
-const route = useRoute()
+  const { update } = useBreadcrumbsStore()
+  const { t, locale } = useI18n()
+  const route = useRoute()
 
-const campaign = ref(null)
-const recommendations = ref([
-  {
-    id: 1,
-    text: "my_answers_title"
-  },
-  {
-    id: 2,
-    text: "my_answers_title"
-  },
-  {
-    id: 3,
-    text: "my_answers_title"
-  }, {
-    id: 4,
-    text: "my_answers_title"
-  }
-])
-const { loadingCampaign } = useRequest(
-  () =>
-    CampaignsService.getById(
-      { id: route.params.id },
-      useRoute().query.platform,
-    ),
-  {
-    onSuccess: res => {
-      campaign.value = res?.data?.data
+  const campaign = ref(null)
+  const recommendations = ref([
+    {
+      id: 1,
+      text: 'my_answers_title',
     },
-  },
-)
+    {
+      id: 2,
+      text: 'my_answers_title',
+    },
+    {
+      id: 3,
+      text: 'my_answers_title',
+    }, {
+      id: 4,
+      text: 'my_answers_title',
+    },
+  ])
+  const { loadingCampaign } = useRequest(
+    () =>
+      CampaignsService.getById(
+        { id: route.params.id },
+        useRoute().query.platform,
+      ),
+    {
+      onSuccess: res => {
+        campaign.value = res?.data?.data
+      },
+    },
+  )
 
-watch(
-  locale,
-  () => {
-    update([
-      {
-        title: t('campaigns'),
-        active: false,
-        to: '/campaigns/',
-      },
-      {
-        title: t('edit_campaign'),
-        active: true,
-        disabled: true,
-        to: `/campaigns/edit/[id]`,
-      },
-    ])
-  },
-  { immediate: true }
-)
+  watch(
+    locale,
+    () => {
+      update([
+        {
+          title: t('campaigns'),
+          active: false,
+          to: '/campaigns/',
+        },
+        {
+          title: t('edit_campaign'),
+          active: true,
+          disabled: true,
+          to: `/campaigns/edit/[id]`,
+        },
+      ])
+    },
+    { immediate: true }
+  )
 </script>
 <template>
 
   <div>
     <v-container>
       <v-row>
-        <v-col cols="8" class="ps-0">
+        <v-col class="ps-0" cols="8">
           <div class="campaign-form-container">
             <v-overlay v-model="loadingCampaign" class="align-center justify-center" persistent>
               <v-progress-circular color="primary" indeterminate size="50" :width="7" />
@@ -81,7 +81,7 @@ watch(
           </div>
 
         </v-col>
-        <v-col cols="4" class="pe-0">
+        <v-col class="pe-0" cols="4">
           <div class="campaign-form-container">
             <RecommendationList :recommendations="recommendations" />
           </div>
@@ -89,7 +89,6 @@ watch(
       </v-row>
     </v-container>
   </div>
-
 
 </template>
 

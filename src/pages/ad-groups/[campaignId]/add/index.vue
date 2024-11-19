@@ -1,50 +1,50 @@
 <script setup>
-import { useBreadcrumbsStore } from '@/stores/useBreadcrumbsStore'
-import { useI18n } from 'vue-i18n'
-import campaignHeaderLogo from '@/assets/images/campaign-header.svg'
+  import { useBreadcrumbsStore } from '@/stores/useBreadcrumbsStore'
+  import { useI18n } from 'vue-i18n'
+  import campaignHeaderLogo from '@/assets/images/campaign-header.svg'
 
-const route = useRoute()
-const { t, locale } = useI18n()
-const { update } = useBreadcrumbsStore()
-const recommendations = ref([
-  {
-    id: 1,
-    text: "my_answers_title"
-  },
-  {
-    id: 2,
-    text: "my_answers_title"
-  },
-  {
-    id: 3,
-    text: "my_answers_title"
-  }, {
-    id: 4,
-    text: "my_answers_title"
-  }
-])
-const platform = route.query.platform?.toLocaleLowerCase()
-const campaignId = route.params.campaignId
+  const route = useRoute()
+  const { t, locale } = useI18n()
+  const { update } = useBreadcrumbsStore()
+  const recommendations = ref([
+    {
+      id: 1,
+      text: 'my_answers_title',
+    },
+    {
+      id: 2,
+      text: 'my_answers_title',
+    },
+    {
+      id: 3,
+      text: 'my_answers_title',
+    }, {
+      id: 4,
+      text: 'my_answers_title',
+    },
+  ])
+  const platform = route.query.platform?.toLocaleLowerCase()
+  const campaignId = route.params.campaignId
 
-watch(
-  locale,
-  () => {
-    update([
-      {
-        title: t('ad_groups'),
-        active: false,
-        to: '/campaigns/',
-      },
-      {
-        title: t('add_ad_group'),
-        active: true,
-        disabled: true,
-        to: `/campaigns/add`,
-      },
-    ])
-  },
-  { immediate: true }
-)
+  watch(
+    locale,
+    () => {
+      update([
+        {
+          title: t('ad_groups'),
+          active: false,
+          to: '/campaigns/',
+        },
+        {
+          title: t('add_ad_group'),
+          active: true,
+          disabled: true,
+          to: `/campaigns/add`,
+        },
+      ])
+    },
+    { immediate: true }
+  )
 </script>
 
 <template>
@@ -52,7 +52,7 @@ watch(
   <div>
     <v-container>
       <v-row>
-        <v-col cols="8" class="ps-0">
+        <v-col class="ps-0" cols="8">
           <div class="ad-group-form-container">
             <header class="ad-group-form-header">
               <img alt="" height="45" :src="campaignHeaderLogo">
@@ -73,7 +73,7 @@ watch(
           </div>
 
         </v-col>
-        <v-col cols="4" class="pe-0">
+        <v-col class="pe-0" cols="4">
           <div class="main-container">
             <RecommendationList :recommendations="recommendations" />
           </div>
@@ -81,9 +81,6 @@ watch(
       </v-row>
     </v-container>
   </div>
-
-
-
 
 </template>
 

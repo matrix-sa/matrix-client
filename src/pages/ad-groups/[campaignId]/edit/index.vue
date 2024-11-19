@@ -1,74 +1,73 @@
 <script setup>
-import AdsGroupsService from '@/services/ads-groups-service'
-import { useBreadcrumbsStore } from '@/stores/useBreadcrumbsStore'
-import { useI18n } from 'vue-i18n'
-import { useRequest } from 'vue-request'
-import campaignHeaderLogo from '@/assets/images/campaign-header.svg'
+  import AdsGroupsService from '@/services/ads-groups-service'
+  import { useBreadcrumbsStore } from '@/stores/useBreadcrumbsStore'
+  import { useI18n } from 'vue-i18n'
+  import { useRequest } from 'vue-request'
+  import campaignHeaderLogo from '@/assets/images/campaign-header.svg'
 
-const route = useRoute()
-const { t, locale } = useI18n()
-const { update } = useBreadcrumbsStore()
+  const route = useRoute()
+  const { t, locale } = useI18n()
+  const { update } = useBreadcrumbsStore()
 
-const platform = route.query.platform?.toLocaleLowerCase()
-const campaignId = route.params.campaignId
-const id = route.query.id
+  const platform = route.query.platform?.toLocaleLowerCase()
+  const campaignId = route.params.campaignId
+  const id = route.query.id
 
-const adGroup = ref(null)
+  const adGroup = ref(null)
 
-const recommendations = ref([
-  {
-    id: 1,
-    text: "my_answers_title"
-  },
-  {
-    id: 2,
-    text: "my_answers_title"
-  },
-  {
-    id: 3,
-    text: "my_answers_title"
-  }, {
-    id: 4,
-    text: "my_answers_title"
-  }
-])
-
-const { loading } = useRequest(
-  () => AdsGroupsService.getById(platform, { id }),
-  {
-    onSuccess: res => {
-      adGroup.value = res?.data?.data
+  const recommendations = ref([
+    {
+      id: 1,
+      text: 'my_answers_title',
     },
-  }
-)
-watch(
-  locale,
-  () => {
-    update([
-      {
-        title: t('ad_groups'),
-        active: false,
-        to: '/campaigns/',
+    {
+      id: 2,
+      text: 'my_answers_title',
+    },
+    {
+      id: 3,
+      text: 'my_answers_title',
+    }, {
+      id: 4,
+      text: 'my_answers_title',
+    },
+  ])
+
+  const { loading } = useRequest(
+    () => AdsGroupsService.getById(platform, { id }),
+    {
+      onSuccess: res => {
+        adGroup.value = res?.data?.data
       },
-      {
-        title: t('edit_ad_group'),
-        active: true,
-        disabled: true,
-        to: `/campaigns/add`,
-      },
-    ])
-  },
-  { immediate: true }
-)
+    }
+  )
+  watch(
+    locale,
+    () => {
+      update([
+        {
+          title: t('ad_groups'),
+          active: false,
+          to: '/campaigns/',
+        },
+        {
+          title: t('edit_ad_group'),
+          active: true,
+          disabled: true,
+          to: `/campaigns/add`,
+        },
+      ])
+    },
+    { immediate: true }
+  )
 </script>
 
 <template>
 
-
   <div>
     <v-container>
       <v-row>
-        <v-col cols="8" class="ps-0">
+        <v-col class="ps-0" cols="8">
           <div class="ad-group-form-container">
             <v-overlay v-model="loading" class="align-center justify-center" persistent>
               <v-progress-circular color="primary" indeterminate size="50" :width="7" />
@@ -90,7 +89,7 @@ watch(
             </template>
           </div>
         </v-col>
-        <v-col cols="4" class="pe-0">
+        <v-col class="pe-0" cols="4">
           <div class="main-container">
             <RecommendationList :recommendations="recommendations" />
           </div>
@@ -98,8 +97,6 @@ watch(
       </v-row>
     </v-container>
   </div>
-
-
 
 </template>
 

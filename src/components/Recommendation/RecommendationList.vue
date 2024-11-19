@@ -1,13 +1,13 @@
 <script setup>
-import icon from '@/assets/recommendations.svg'
-import { useI18n } from 'vue-i18n'
-const { t } = useI18n()
-defineProps({
-  recommendations: {
-    type: Array,
-    required: true,
-  },
-})
+  import icon from '@/assets/recommendations.svg'
+  import { useI18n } from 'vue-i18n'
+  const { t } = useI18n()
+  defineProps({
+    recommendations: {
+      type: Array,
+      required: true,
+    },
+  })
 </script>
 
 <template>

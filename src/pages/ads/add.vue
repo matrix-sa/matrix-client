@@ -1,14 +1,14 @@
 <script setup>
 // import AdsForm from '@/components/AdsForm.vue'
 // import CreateCampaignHints from '@/components/CreateCampaignHints.vue'
-import i18n from '@/i18n'
-import { useSnackbarStore } from '@/stores/useSnackBarStore'
-import { useRoute } from 'vue-router'
+  import i18n from '@/i18n'
+  import { useSnackbarStore } from '@/stores/useSnackBarStore'
+  import { useRoute } from 'vue-router'
 
-const route = useRoute()
-const { t } = i18n.global
+  const route = useRoute()
+  const { t } = i18n.global
 
-const { show } = useSnackbarStore()
+  const { show } = useSnackbarStore()
 </script>
 
 <template>

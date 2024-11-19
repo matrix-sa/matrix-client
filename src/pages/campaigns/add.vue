@@ -1,54 +1,54 @@
 <script setup>
-import { useBreadcrumbsStore } from '@/stores/useBreadcrumbsStore'
-import { useI18n } from 'vue-i18n'
+  import { useBreadcrumbsStore } from '@/stores/useBreadcrumbsStore'
+  import { useI18n } from 'vue-i18n'
 
-import GoogleCampaignForm from '@/components/forms/campaigns/GoogleCampaignForm.vue'
+  import GoogleCampaignForm from '@/components/forms/campaigns/GoogleCampaignForm.vue'
 
-const { update } = useBreadcrumbsStore()
-const { t, locale } = useI18n()
+  const { update } = useBreadcrumbsStore()
+  const { t, locale } = useI18n()
 
-const recommendations = ref([
-  {
-    id: 1,
-    text: "my_answers_title"
-  },
-  {
-    id: 2,
-    text: "my_answers_title"
-  },
-  {
-    id: 3,
-    text: "my_answers_title"
-  }, {
-    id: 4,
-    text: "my_answers_title"
-  }
-])
-watch(
-  locale,
-  () => {
-    update([
-      {
-        title: t('campaigns'),
-        active: false,
-        to: '/campaigns/',
-      },
-      {
-        title: t('add_campaign'),
-        active: true,
-        disabled: true,
-        to: `/campaigns/add`,
-      },
-    ])
-  },
-  { immediate: true }
-)
+  const recommendations = ref([
+    {
+      id: 1,
+      text: 'my_answers_title',
+    },
+    {
+      id: 2,
+      text: 'my_answers_title',
+    },
+    {
+      id: 3,
+      text: 'my_answers_title',
+    }, {
+      id: 4,
+      text: 'my_answers_title',
+    },
+  ])
+  watch(
+    locale,
+    () => {
+      update([
+        {
+          title: t('campaigns'),
+          active: false,
+          to: '/campaigns/',
+        },
+        {
+          title: t('add_campaign'),
+          active: true,
+          disabled: true,
+          to: `/campaigns/add`,
+        },
+      ])
+    },
+    { immediate: true }
+  )
 </script>
 <template>
   <div>
     <v-container>
       <v-row>
-        <v-col cols="8" class="ps-0">
+        <v-col class="ps-0" cols="8">
           <div class="campaign-form-container">
             <CampaignForm>
               <template #default="{ data }">
@@ -58,7 +58,7 @@ watch(
           </div>
 
         </v-col>
-        <v-col cols="4" class="pe-0">
+        <v-col class="pe-0" cols="4">
           <div class="campaign-form-container">
             <RecommendationList :recommendations="recommendations" />
           </div>
