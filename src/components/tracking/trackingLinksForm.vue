@@ -125,14 +125,29 @@
         </v-col>
 
         <v-col cols="12" md="3">
-          <AppTextInput v-model="form.campaign_id" :label="$t('tracking.campaignId')" :placeholder="t('tracking.enter_name')" :rules="rules.campaign_id" />
+          <AppTextInput
+            v-model="form.campaign_id"
+            :label="$t('tracking.campaignId')"
+            :placeholder="t('tracking.enter_name')"
+            :rules="rules.campaign_id"
+          />
         </v-col>
 
         <v-col cols="12" md="3">
-          <AppTextInput v-model="form.ad_group_id" :label="t('tracking.ad_group_id')" :placeholder="t('tracking.enter_name')" :rules="rules.ad_group_id" />
+          <AppTextInput
+            v-model="form.ad_group_id"
+            :label="t('tracking.ad_group_id')"
+            :placeholder="t('tracking.enter_name')"
+            :rules="rules.ad_group_id"
+          />
         </v-col>
         <v-col cols="12" md="3">
-          <AppTextInput v-model="form.ad_id" :label="t('tracking.ad_id')" :placeholder="t('tracking.enter_name')" :rules="rules.ad_group_id" />
+          <AppTextInput
+            v-model="form.ad_id"
+            :label="t('tracking.ad_id')"
+            :placeholder="t('tracking.enter_name')"
+            :rules="rules.ad_group_id"
+          />
         </v-col>
       </v-row>
 
