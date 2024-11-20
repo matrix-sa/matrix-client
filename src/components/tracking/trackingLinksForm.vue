@@ -21,12 +21,15 @@
     ad_group_id: null,
     ad_id: null,
   })
+  const formRef = ref(null)
 
   const link = ref(null)
 
   const rules = reactive({
+    platform: [requiredValidator],
     campaign_id: [requiredValidator],
     ad_group_id: [requiredValidator],
+    ad_id: [requiredValidator],
   })
 
   const platformsStore = usePlatformsStore()
@@ -58,13 +61,11 @@
     }
   )
 
-  const handleClick = () => {
-    CreateTrackingLink(form.value.platform, form.value)
-    form.value = {
-      platform: null,
-      campaign_id: null,
-      ad_group_id: null,
-      ad_id: null,
+  const handleChange = async () => {
+    const { valid } = await formRef.value.validate()
+    console.log('isValid', valid)
+    if (valid) {
+      CreateTrackingLink(form.value.platform, form.value)
     }
   }
 
@@ -76,11 +77,7 @@
     })
   }
 
-  const loading = computed(() => {
-    return (
-      loadingCreate.value
-    )
-  })
+  const loading = computed(() => loadingCreate.value)
 
   watch(
     locale,
@@ -109,44 +106,51 @@
       </div>
     </div>
     <hr>
-    <v-form>
+    <v-form ref="formRef">
       <v-row>
         <v-col cols="12" md="3">
           <AppSelect
             v-model="form.platform"
+            hide-details
             hide-no-data
             :item-title="(item) => item.title"
             :item-value="(item) => item.code"
             :items="platforms"
             :label="t('tracking.platform')"
             :loading="loadingPlatforms"
-            :rules="[requiredValidator]"
+            :rules="rules.platform"
           />
         </v-col>
 
         <v-col cols="12" md="3">
           <AppTextInput
             v-model="form.campaign_id"
+            hide-details
             :label="$t('tracking.campaignId')"
             :placeholder="t('tracking.enter_name')"
             :rules="rules.campaign_id"
+            @update:model-value="handleChange"
           />
         </v-col>
 
         <v-col cols="12" md="3">
           <AppTextInput
             v-model="form.ad_group_id"
+            hide-details
             :label="t('tracking.ad_group_id')"
             :placeholder="t('tracking.enter_name')"
             :rules="rules.ad_group_id"
+            @update:model-value="handleChange"
           />
         </v-col>
         <v-col cols="12" md="3">
           <AppTextInput
             v-model="form.ad_id"
+            hide-details
             :label="t('tracking.ad_id')"
             :placeholder="t('tracking.enter_name')"
             :rules="rules.ad_group_id"
+            @update:model-value="handleChange"
           />
         </v-col>
       </v-row>
@@ -158,6 +162,7 @@
             bordered
             :disabled="link===null"
             :label="t('tracking.the_link')"
+            :loading="loading"
             :placeholder="t('tracking.link_appear')"
             :value="link"
           >
@@ -167,15 +172,6 @@
               </v-btn>
             </template>
           </AppTextInput>
-        </v-col>
-      </v-row>
-
-      <v-row justify="end">
-        <v-col cols="auto">
-          <v-btn color="warning" :disabled="loading" rounded @click="handleClick">
-            {{ t('tracking.create') }}
-            <VIcon class="mx-1" :icon="isArabic ? 'tabler-arrow-left':'tabler-arrow-right'" />
-          </v-btn>
         </v-col>
       </v-row>
     </v-form>
