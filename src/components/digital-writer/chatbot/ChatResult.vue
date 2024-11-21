@@ -1,46 +1,46 @@
 <script setup>
-  const emit = defineEmits(['updateMessageHistory', 'pushInFront'])
+const emit = defineEmits(['updateMessageHistory', 'pushInFront'])
 
-  const props = defineProps({
-    messagesHistory: {
-      type: Object,
-      default: {},
-    },
-    activeItem: {
-      type: String,
-      required: true,
-    },
-  })
+const props = defineProps({
+  messagesHistory: {
+    type: Object,
+    default: {},
+  },
+  activeItem: {
+    type: String,
+    required: true,
+  },
+})
 
-  const writerWrapper = ref(null)
+const writerWrapper = ref(null)
 
-  const emitUpdateMessagesHistory = newMessageHistory => {
-    emit('updateMessagesHistory', newMessageHistory)
-    setTimeout(() => {
-      scrollToBottom()
-    }, 10)
-  }
+const emitUpdateMessagesHistory = newMessageHistory => {
+  emit('updateMessagesHistory', newMessageHistory)
+  setTimeout(() => {
+    scrollToBottom()
+  }, 10)
+}
 
-  const emitPushInFront = newMessageHistory => {
-    emit('pushInFront', newMessageHistory)
-    setTimeout(() => {
-      scrollToBottom()
-    }, 10)
-  }
+const emitPushInFront = newMessageHistory => {
+  emit('pushInFront', newMessageHistory)
+  setTimeout(() => {
+    scrollToBottom()
+  }, 10)
+}
 
-  const scrollToBottom = () => {
-    writerWrapper.value.scrollTop = writerWrapper.value.scrollHeight + 1000
-  }
+const scrollToBottom = () => {
+  writerWrapper.value.scrollTop = writerWrapper.value.scrollHeight + 1000
+}
 
-  defineExpose({
-    scrollToBottom,
-  })
+defineExpose({
+  scrollToBottom,
+})
 
-  const conditionalStyle = computed(() => ({
-    ...((props.messagesHistory?.messages?.length > 0 ||
-      !props.messagesHistory?.messages ||
-      props.messagesHistory?.messages == 0) && { top: '100%' }),
-  }))
+const conditionalStyle = computed(() => ({
+  ...((props.messagesHistory?.messages?.length > 0 ||
+    !props.messagesHistory?.messages ||
+    props.messagesHistory?.messages == 0) && { top: '100%' }),
+}))
 
 </script>
 
@@ -57,13 +57,10 @@
     </div>
 
     <div class="form-wrapper" :style="conditionalStyle">
-      <Form
-        :active-item="activeItem"
+      <Form :active-item="activeItem"
         :chat-id="messagesHistory?.conversation_id ? messagesHistory?.conversation_id : messagesHistory?.id"
-        @emit-push-in-front="emitPushInFront"
-        @scroll-to-bottom="scrollToBottom"
-        @update-messages-history="emitUpdateMessagesHistory"
-      />
+        @emit-push-in-front="emitPushInFront" @scroll-to-bottom="scrollToBottom"
+        @update-messages-history="emitUpdateMessagesHistory" />
     </div>
   </div>
 </template>

@@ -1,60 +1,91 @@
 <script setup>
-  import { ref } from 'vue'
-  import { useI18n } from 'vue-i18n'
-  import { useBreadcrumbsStore } from '@/stores/useBreadcrumbsStore'
+import { ref } from 'vue'
+import { useI18n } from 'vue-i18n'
+import { useBreadcrumbsStore } from '@/stores/useBreadcrumbsStore'
+import { useRequest } from 'vue-request';
+import DigitalWriterService from '@/services/digital-writer-service';
 
-  const { t, locale } = useI18n()
-  const { update } = useBreadcrumbsStore()
+const { t, locale } = useI18n()
+const { update } = useBreadcrumbsStore()
 
-  const activeItem = ref(0) // Reactive state for the active item
-  const isShowAnswers = ref(false)
-  const messagesHistory = ref([])
+const activeItem = ref(0) // Reactive state for the active item
+const isShowAnswers = ref(false)
+const messagesHistory = ref([])
 
-  const chatResult = ref(null)
+const chatResult = ref(null)
+const tabsRef = ref(null)
+const conversations = ref(null)
+const callScrollChatToTop = () => {
+  chatResult?.value?.scrollToBottom() // Call the child method
+}
 
-  const callScrollChatToTop = () => {
-    chatResult?.value?.scrollToBottom() // Call the child method
-  }
+// Correct the method name
+const updateActiveTab = (itemValue, isHistory) => {
+  activeItem.value = itemValue
 
-  // Correct the method name
-  const updateActiveTab = (itemValue, isHistory) => {
-    activeItem.value = itemValue
-
-    if (isHistory == undefined) {
-      isShowAnswers.value = true
-    } else {
-      isShowAnswers.value = false
-    }
-  }
-
-  const updateMessagesHistory = data => {
-    messagesHistory.value = data
-    setTimeout(() => callScrollChatToTop(), 100)
-  }
-
-  const pushInFront = data => {
-    messagesHistory.value.messages.push(data)
-  }
-
-  const showAnswers = data => {
-    messagesHistory.value = data
-    activeItem.value = 0
+  if (isHistory == undefined) {
     isShowAnswers.value = true
+  } else {
+    isShowAnswers.value = false
   }
+}
 
-  watch(
-    locale,
-    () => {
-      update([
-        {
-          title: t('digital_writer'),
-          active: false,
-          to: '/assistant/writer/',
-        },
-      ])
-    },
-    { immediate: true }
+const updateMessagesHistory = data => {
+  messagesHistory.value = data
+  setTimeout(() => callScrollChatToTop(), 100)
+}
+
+const pushInFront = data => {
+  messagesHistory.value.messages.push(data)
+}
+
+const showAnswers = data => {
+  messagesHistory.value = data
+  activeItem.value = 0
+  isShowAnswers.value = true
+}
+
+
+
+const getConversationsAfterStart = () => {
+
+
+
+  const { run: getAllConversations } = useRequest(
+    params => DigitalWriterService.getConversations(params),
+    {
+      onSuccess: res => {
+        const { data } = res.data
+        conversations.value = data.items
+        tabsRef.value.activeItem = data.items[0].id
+        const { run: fetchConversationById } = useRequest(
+          () => DigitalWriterService.getConversationById({ id: data.items[0].id }),
+          {
+            onSuccess: msgsRes => {
+              updateMessagesHistory(msgsRes.data.data)
+              isShowAnswers.value = true
+            },
+          }
+        )
+      },
+    }
   )
+
+}
+
+watch(
+  locale,
+  () => {
+    update([
+      {
+        title: t('digital_writer'),
+        active: false,
+        to: '/assistant/writer/',
+      },
+    ])
+  },
+  { immediate: true }
+)
 
 </script>
 
@@ -68,18 +99,15 @@
         <v-row class="row" gap="16px">
           <v-col cols="3">
             <!-- Use the corrected event name -->
-            <Tabs @update-active-tab="updateActiveTab" @update-messages-history="updateMessagesHistory" />
+            <Tabs ref="tabsRef" @update-active-tab="updateActiveTab" :conversations="conversations"
+              @update-messages-history="updateMessagesHistory" />
           </v-col>
           <v-col cols="9">
-            <ChatResult
-              v-if="isShowAnswers"
-              ref="chatResult"
-              :active-item="activeItem"
-              :messages-history="messagesHistory"
-              @push-in-front="pushInFront"
-              @update-messages-history="updateMessagesHistory"
-            />
-            <Questions v-else :active-item="activeItem" @show-answers="showAnswers" />
+            <ChatResult v-if="isShowAnswers" ref="chatResult" :active-item="activeItem"
+              :messages-history="messagesHistory" @push-in-front="pushInFront"
+              @update-messages-history="updateMessagesHistory" />
+            <Questions v-else :active-item="activeItem" @show-answers="showAnswers"
+              @get-conversations-after-start="getConversationsAfterStart" />
           </v-col>
         </v-row>
       </v-container>
