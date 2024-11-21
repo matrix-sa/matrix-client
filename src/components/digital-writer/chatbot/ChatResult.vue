@@ -1,5 +1,5 @@
 <script setup>
-const emit = defineEmits(['updateMessageHistory', 'pushInFront'])
+const emit = defineEmits(['updateMessagesHistory', 'pushInFront'])
 
 const props = defineProps({
   messagesHistory: {
@@ -7,7 +7,6 @@ const props = defineProps({
     default: {},
   },
   activeItem: {
-    type: String,
     required: true,
   },
 })

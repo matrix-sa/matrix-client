@@ -1,25 +1,26 @@
 <script setup>
-import { ref } from 'vue'
+import { ref, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useBreadcrumbsStore } from '@/stores/useBreadcrumbsStore'
-import { useRequest } from 'vue-request';
-import DigitalWriterService from '@/services/digital-writer-service';
+import { useRequest } from 'vue-request'
+import DigitalWriterService from '@/services/digital-writer-service'
 
 const { t, locale } = useI18n()
 const { update } = useBreadcrumbsStore()
 
-const activeItem = ref(0) // Reactive state for the active item
+// Reactive state
+const activeItem = ref(0)
 const isShowAnswers = ref(false)
 const messagesHistory = ref([])
-
 const chatResult = ref(null)
-const tabsRef = ref(null)
-const conversations = ref(null)
+const tabsRef = ref({ activeItem: null })
+const conversations = ref([])
+
+// Methods
 const callScrollChatToTop = () => {
-  chatResult?.value?.scrollToBottom() // Call the child method
+  chatResult?.value?.scrollToBottom()
 }
 
-// Correct the method name
 const updateActiveTab = (itemValue, isHistory) => {
   activeItem.value = itemValue
 
@@ -30,49 +31,50 @@ const updateActiveTab = (itemValue, isHistory) => {
   }
 }
 
-const updateMessagesHistory = data => {
+const updateMessagesHistory = (data) => {
   messagesHistory.value = data
   setTimeout(() => callScrollChatToTop(), 100)
 }
 
-const pushInFront = data => {
+const pushInFront = (data) => {
   messagesHistory.value.messages.push(data)
 }
 
-const showAnswers = data => {
+const showAnswers = (data) => {
   messagesHistory.value = data
   activeItem.value = 0
   isShowAnswers.value = true
 }
 
-
-
 const getConversationsAfterStart = () => {
-
-
-
+  // Request to get all conversations
   const { run: getAllConversations } = useRequest(
-    params => DigitalWriterService.getConversations(params),
+    () => DigitalWriterService.getConversations(),
     {
-      onSuccess: res => {
+      onSuccess: (res) => {
         const { data } = res.data
         conversations.value = data.items
-        tabsRef.value.activeItem = data.items[0].id
-        const { run: fetchConversationById } = useRequest(
-          () => DigitalWriterService.getConversationById({ id: data.items[0].id }),
-          {
-            onSuccess: msgsRes => {
-              updateMessagesHistory(msgsRes.data.data)
-              isShowAnswers.value = true
-            },
-          }
-        )
+        tabsRef.value.activeItem = data.items[0]?.id
+        activeItem.value = data.items[0]?.id
+        if (data.items.length > 0) {
+          // Request to fetch the first conversation details
+          useRequest(
+            () => DigitalWriterService.getConversationById({ id: data.items[0]?.id }),
+            {
+              onSuccess: (msgsRes) => {
+                updateMessagesHistory(msgsRes.data.data)
+                isShowAnswers.value = true
+              },
+            }
+          )
+        }
       },
     }
   )
 
 }
 
+// Watch locale for breadcrumbs update
 watch(
   locale,
   () => {
@@ -87,7 +89,10 @@ watch(
   { immediate: true }
 )
 
+// Trigger conversation loading
+//getConversationsAfterStart()
 </script>
+
 
 <template>
   <div class="d-flex flex-column writer-wrapper">

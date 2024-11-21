@@ -12,7 +12,6 @@ const props = defineProps({
     required: false,
   },
   activeItem: {
-    type: String,
     required: true,
   },
 })
