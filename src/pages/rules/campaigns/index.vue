@@ -165,7 +165,7 @@
     <div v-for="(rule, index) in rules" v-else :key="rule.id" class="rule-card">
       <div class="row">
         <p class="order">{{ index + 1 }}</p>
-        <p>{{ t("rule") }}</p>
+        <p>{{ rule.name }}</p>
         <VTooltip :text="t('delete')">
           <template #activator="{ props: toolTipProps }">
             <VBtn class="check-icon" v-bind="toolTipProps" @click="handleDeleteRule(rule)">
