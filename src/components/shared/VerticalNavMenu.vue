@@ -152,11 +152,13 @@
         <div class="username-container">
 
           <div>
-            <v-icon color="black" :icon="`tabler:letter-${user.email[0]}`" />
+            <div class="user-img-letter">
+              <span>{{ user.name.slice(0, 1) }}</span>
+            </div>
           </div>
 
           <div>
-            <h4 class="text-black">{{ t("username") }}</h4>
+            <h4 class="text-black">{{ user.name }}</h4>
             <h5>{{ user.email }}</h5>
           </div>
         </div>
@@ -253,6 +255,7 @@
 .nav-item.disabled {
   cursor: not-allowed;
   opacity: 0.5;
+
   &:hover {
     background-color: transparent;
   }
@@ -299,5 +302,20 @@
     font-size: 16px;
     font-weight: 500
   }
+}
+
+.user-img-letter {
+  background-color: rgb(var(--v-theme-primary)) !important;
+  width: 40px;
+  height: 40px;
+  line-height: 30px;
+  border-radius: 1rem;
+  display: flex;
+  justify-content: center;
+  color: #FFF;
+  font-size: 1.5em;
+  font-weight: bolder;
+  padding: 0;
+
 }
 </style>

@@ -1,6 +1,5 @@
 <script setup>
   import { useI18n } from 'vue-i18n'
-  import userImg from '@/assets/digital-writer/user.svg'
   import { useRequest } from 'vue-request'
   import AccountSettingsService from '@/services/account-settings-service'
 
@@ -42,7 +41,9 @@
     <v-divider class="divider" />
 
     <div class="d-flex align-center">
-      <img alt="user" class="user-img" :src="userImg">
+      <div class="user-img-letter">
+        <span>{{ generalInfoData.name.slice(0, 1) }}</span>
+      </div>
       <div class="ms-2">
         <h4 class="text-black">{{ generalInfoData.name }}</h4>
         <span>{{ generalInfoData.email }}</span>
@@ -95,8 +96,17 @@
   margin-block: 1em;
 }
 
-.user-img {
-  width: 100px;
+.user-img-letter {
+  background-color: rgb(var(--v-theme-primary));
+  width: 60px;
+  height: 60px;
+  border-radius: 1rem;
+  display: flex;
+  justify-content: center;
+  color: #FFF;
+  font-size: 2em;
+  font-weight: bolder;
+  padding: 0;
 }
 
 .fade-enter-active {
