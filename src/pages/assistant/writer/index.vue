@@ -98,35 +98,33 @@
     <WriterHeader />
     <hr class="separator">
     <div class="writter-section-wrapper d-flex">
-      <v-container>
-        <v-row class="row" gap="16px">
-          <v-col cols="3">
-            <!-- Use the corrected event name -->
-            <Tabs
-              ref="tabsRef"
-              :conversations="conversations"
-              @update-active-tab="updateActiveTab"
-              @update-messages-history="updateMessagesHistory"
-            />
-          </v-col>
-          <v-col cols="9">
-            <ChatResult
-              v-if="isShowAnswers"
-              ref="chatResult"
-              :active-item="activeItem"
-              :messages-history="messagesHistory"
-              @push-in-front="pushInFront"
-              @update-messages-history="updateMessagesHistory"
-            />
-            <Questions
-              v-else
-              :active-item="activeItem"
-              @get-conversations-after-start="getConversationsAfterStart"
-              @show-answers="showAnswers"
-            />
-          </v-col>
-        </v-row>
-      </v-container>
+      <v-row class="row" gap="16px">
+        <v-col cols="3">
+          <!-- Use the corrected event name -->
+          <Tabs
+            ref="tabsRef"
+            :conversations="conversations"
+            @update-active-tab="updateActiveTab"
+            @update-messages-history="updateMessagesHistory"
+          />
+        </v-col>
+        <v-col cols="9">
+          <ChatResult
+            v-if="isShowAnswers"
+            ref="chatResult"
+            :active-item="activeItem"
+            :messages-history="messagesHistory"
+            @push-in-front="pushInFront"
+            @update-messages-history="updateMessagesHistory"
+          />
+          <Questions
+            v-else
+            :active-item="activeItem"
+            @get-conversations-after-start="getConversationsAfterStart"
+            @show-answers="showAnswers"
+          />
+        </v-col>
+      </v-row>
     </div>
   </div>
 </template>
