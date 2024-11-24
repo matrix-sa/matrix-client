@@ -174,7 +174,7 @@
             v-model="form.indicator"
             :items="['CTR', 'CVC']"
             :label="t('select_the_indicator')"
-            placeholder="Select"
+            :placeholder="t('choose_indicator')"
           />
         </v-col>
 
