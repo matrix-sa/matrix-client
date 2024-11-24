@@ -1075,5 +1075,6 @@ export default {
   no_rules_found: 'لا توجد قواعد متاحة',
   not_found: 'الصفحة غير موجودة',
   choose_indicator: 'اختر المؤشر',
-
+  inactive_note: 'ملاحظة : متجرك غير نشط',
+  no_notifications: 'لا توجد إشعارات',
 }

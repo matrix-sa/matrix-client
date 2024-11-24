@@ -55,7 +55,21 @@
   run()
 </script>
 <template>
-  <v-list class="list">
+  <v-list v-if="loadingNotifications || notifications?.length===0" class="list">
+    <v-list-item
+      v-if="loadingNotifications"
+      class="d-flex justify-center align-center"
+      style="height: 250px;"
+    ><v-progress-circular
+      color="primary"
+      indeterminate
+      size="20"
+      :width="2"
+    /></v-list-item>
+    <v-list-item v-else> <EmptyContent :title="t('no_notifications')" /></v-list-item>
+  </v-list>
+
+  <v-list v-else class="list">
 
     <v-list-item>
       <div class="list-header">
@@ -68,17 +82,7 @@
 
     <v-divider class="mb-0" />
 
-    <v-list-item
-      v-if="loadingNotifications"
-      class="d-flex justify-center align-center"
-      style="height: 250px;"
-    ><v-progress-circular
-      color="primary"
-      indeterminate
-      size="20"
-      :width="2"
-    /></v-list-item>
-    <v-list-item v-for="notification in notifications" v-else :key="notification.id">
+    <v-list-item v-for="notification in notifications" :key="notification.id">
       <NotificationItem :is-menu="true" :notification="notification" />
     </v-list-item>
 
