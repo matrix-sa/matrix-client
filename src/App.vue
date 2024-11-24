@@ -33,6 +33,14 @@
 
 <template>
   <v-app>
+    <v-alert
+      v-if="authStore.user?.is_store_active === false && !isLoadingRoute"
+      border="bottom"
+      color="error"
+      icon="mdi-alert"
+    >
+      {{ $t('inactive_note') }}
+    </v-alert>
     <v-overlay
       v-if="isLoadingRoute"
       v-model="loadingUser"

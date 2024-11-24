@@ -1074,5 +1074,6 @@ export default {
   links_table: 'سجل الروابط',
   no_rules_found: 'لا توجد قواعد متاحة',
   not_found: 'الصفحة غير موجودة',
+  inactive_note: 'ملاحظة : متجرك غير نشط',
 
 }
