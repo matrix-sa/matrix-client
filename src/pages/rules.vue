@@ -52,7 +52,15 @@
       : () => (openCommunicationRuleDialog.value = true)
   )
 
-  router.push({ name: '/rules/campaigns/' })
+  watch(
+    () => route.name,
+    current => {
+      if (current === '/rules') {
+        router.push({ name: '/rules/campaigns/' })
+      }
+    },
+    { immediate: true }
+  )
 </script>
 
 <template>

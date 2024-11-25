@@ -44,7 +44,15 @@
     variant: 'outlined',
   })
 
-  router.push({ name: '/link-ad-accounts/add-store' })
+  watch(
+    () => route.name,
+    current => {
+      if (current === '/link-ad-accounts') {
+        router.push({ name: '/link-ad-accounts/add-store' })
+      }
+    },
+    { immediate: true }
+  )
 </script>
 
 <template>
