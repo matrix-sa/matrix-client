@@ -109,6 +109,7 @@ declare module 'vue' {
     TrackingLinksForm: typeof import('./src/components/tracking/trackingLinksForm.vue')['default']
     TrackingTable: typeof import('./src/components/tracking/TrackingTable.vue')['default']
     UserCard: typeof import('./src/components/digital-writer/chatbot/UserCard.vue')['default']
+    UserImg: typeof import('./src/components/shared/UserImg.vue')['default']
     VerticalNavMenu: typeof import('./src/components/shared/VerticalNavMenu.vue')['default']
     WriterHeader: typeof import('./src/components/digital-writer/WriterHeader.vue')['default']
   }

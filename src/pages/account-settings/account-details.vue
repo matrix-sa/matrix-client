@@ -41,8 +41,8 @@
     <v-divider class="divider" />
 
     <div class="d-flex align-center">
-      <div class="user-img-letter">
-        <span>{{ generalInfoData.name.slice(0, 1) }}</span>
+      <div>
+        <UserImg bg-color="primary" :height="60" :letter="generalInfoData.name.slice(0, 1)" :width="60" />
       </div>
       <div class="ms-2">
         <h4 class="text-black">{{ generalInfoData.name }}</h4>
@@ -94,19 +94,6 @@
 
 .divider {
   margin-block: 1em;
-}
-
-.user-img-letter {
-  background-color: rgb(var(--v-theme-primary));
-  width: 60px;
-  height: 60px;
-  border-radius: 1rem;
-  display: flex;
-  justify-content: center;
-  color: #FFF;
-  font-size: 2em;
-  font-weight: bolder;
-  padding: 0;
 }
 
 .fade-enter-active {

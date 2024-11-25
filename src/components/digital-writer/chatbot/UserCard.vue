@@ -1,6 +1,4 @@
 <script setup>
-  import { useI18n } from 'vue-i18n'
-  import userImg from '@/assets/digital-writer/user.svg'
   import { storeToRefs } from 'pinia'
   import { useAuthStore } from '@/stores/useAuthStore'
 
@@ -19,7 +17,9 @@
   <div class="title-container d-flex">
     <div class="d-flex flex-column wrapper">
       <div class="d-flex user-wrapper align-center">
-        <img alt="user" :src="userImg">
+
+        <UserImg bg-color="warning" :height="36" :letter="user.name.slice(0, 1)" :width="36" />
+
         <span> {{ user.name }}</span>
       </div>
 
