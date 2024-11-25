@@ -2,7 +2,7 @@
   import { useI18n } from 'vue-i18n'
   import { useAuthStore } from '@/stores/useAuthStore'
   import { storeToRefs } from 'pinia'
-  import { RouterLink } from 'vue-router'
+  import UserImg from './UserImg.vue'
 
   const { t, locale } = useI18n()
   const route = useRoute()
@@ -152,9 +152,7 @@
         <div class="username-container">
 
           <div>
-            <div class="user-img-letter">
-              <span>{{ user.name.slice(0, 1) }}</span>
-            </div>
+            <UserImg bg-color="primary" :height="40" :letter="user.name.slice(0, 1)" :width="40" />
           </div>
 
           <div>
@@ -302,20 +300,5 @@
     font-size: 16px;
     font-weight: 500
   }
-}
-
-.user-img-letter {
-  background-color: rgb(var(--v-theme-primary)) !important;
-  width: 40px;
-  height: 40px;
-  line-height: 30px;
-  border-radius: 1rem;
-  display: flex;
-  justify-content: center;
-  color: #FFF;
-  font-size: 1.5em;
-  font-weight: bolder;
-  padding: 0;
-
 }
 </style>
