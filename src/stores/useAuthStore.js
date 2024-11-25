@@ -1,4 +1,3 @@
-import router from '@/router'
 import AuthService from '@/services/auth-service'
 import { defineStore } from 'pinia'
 import { useSnackbarStore } from './useSnackBarStore'
@@ -90,6 +89,9 @@ export const useAuthStore = defineStore('auth-store', () => {
   }
 
   async function fetchUser (refresh = false) {
+    const router = useRouter()
+    const route = useRoute()
+
     if (user.value && !refresh) return user.value
 
     const res = await AuthService.me()
@@ -98,6 +100,18 @@ export const useAuthStore = defineStore('auth-store', () => {
     handleAuthResponse(res)
 
     updateUserAndToken({ user: res.data.data })
+
+    const needsToLinkAccounts = ({
+      has_linked_ad_account: hasLinkedAccount,
+      has_linked_website: hasLinkedWebsite,
+    }) => !hasLinkedAccount || !hasLinkedWebsite
+
+    if (
+      needsToLinkAccounts(user.value) &&
+      !route.name.includes('link-ad-accounts')
+    ) {
+      router.push({ name: '/link-ad-accounts' })
+    }
 
     return user.value
   }
