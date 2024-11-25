@@ -37,7 +37,7 @@
           props: {
             prependIcon: 'tabler-report',
             active: isActive('/reports/'),
-            to: { name: '/reports/', params: { tab: 'campaigns' } },
+            to: { name: '/reports/' },
             disabled: userShouldLink.value,
           },
         },
