@@ -9,10 +9,11 @@
   import { useSnackbarStore } from '@/stores/useSnackBarStore'
   import TrackingService from '@/services/tracking-service'
   import { useBreadcrumbsStore } from '@/stores/useBreadcrumbsStore'
+  import CampaignRuleService from '@/services/campaign-rule-service'
+  import ConnectionRuleService from '@/services/connection-rule-service'
 
   const { update } = useBreadcrumbsStore()
   const { locale, t } = useI18n()
-  const isArabic = computed(() => locale.value === 'ar')
   const { show } = useSnackbarStore()
 
   const form = ref({
@@ -20,6 +21,9 @@
     campaign_id: null,
     ad_group_id: null,
     ad_id: null,
+    control_rule_id: null,
+    communication_rules_ids: [],
+
   })
   const formRef = ref(null)
 
@@ -30,10 +34,14 @@
     campaign_id: [requiredValidator],
     ad_group_id: [requiredValidator],
     ad_id: [requiredValidator],
+    control_rule_id: [requiredValidator],
+    communication_rules_ids: [requiredValidator],
   })
 
   const platformsStore = usePlatformsStore()
   const platforms = ref([])
+  const controlRules = ref([])
+  const communicationRules = ref([])
 
   const { loading: loadingPlatforms } = useRequest(
     platformsStore.getActivePlatforms,
@@ -61,9 +69,39 @@
     }
   )
 
+  // control and communication rules
+  const { loading: loadingControlRules } = useRequest(
+    CampaignRuleService.getAll,
+    {
+      onSuccess: res => {
+        const { error, messages, data } = res.data
+
+        if (error) {
+          show(messages[0], 'error')
+        } else {
+          controlRules.value = data
+        }
+      },
+    }
+  )
+
+  const { loading: loadingCommunicationRules } = useRequest(
+    ConnectionRuleService.getAll,
+    {
+      onSuccess: res => {
+        const { error, messages, data } = res.data
+
+        if (error) {
+          show(messages[0], 'error')
+        } else {
+          communicationRules.value = data
+        }
+      },
+    }
+  )
+
   const handleChange = async () => {
     const { valid } = await formRef.value.validate()
-    console.log('isValid', valid)
     if (valid) {
       CreateTrackingLink(form.value.platform, form.value)
     }
@@ -153,6 +191,35 @@
             @update:model-value="handleChange"
           />
         </v-col>
+        <!-- control and communications rules -->
+        <VCol cols="12">
+          <AppSelect
+            v-model="form.communication_rules_ids"
+            item-title="name"
+            item-value="id"
+            :items="communicationRules"
+            :label="$t('connection_rule')"
+            :loading="loadingCommunicationRules"
+            multiple
+            :rules="rules.communication_rules_ids"
+            @update:model-value="handleChange"
+          />
+        </VCol>
+
+        <VCol cols="12">
+          <AppSelect
+            v-model="form.control_rule_id"
+            item-title="name"
+            item-value="id"
+            :items="controlRules"
+            :label="$t('control_rule')"
+            :loading="loadingControlRules"
+            :rules="rules.control_rule_id"
+            @update:model-value="handleChange"
+          />
+        </VCol>
+
+        <!--  -->
       </v-row>
 
       <v-row>
