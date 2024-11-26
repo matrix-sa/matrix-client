@@ -1077,4 +1077,9 @@ export default {
   choose_indicator: 'اختر المؤشر',
   inactive_note: 'ملاحظة : متجرك غير نشط',
   no_notifications: 'لا توجد إشعارات',
+  preferred_dialect: 'ﺍﻟﻠﻬﺠﺔ ﺍﻟﻤﻔﻀﻠﺔ',
+  saudi_dialect: 'ﺍﻟﻠﻬﺠﺔ ﺍﻟﺴﻌﻮﺩﻳﺔ',
+  ordinary_language: 'ﺍﻟﻠﻐﺔ ﺍﻟﻔﺼﺤﻰ',
+  white_language: 'ﺍﻟﻠﻐﺔ ﺍﻟﺒﻴﻀﺎﺀ',
+
 }
