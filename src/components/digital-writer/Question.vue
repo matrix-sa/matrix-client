@@ -30,7 +30,7 @@
       >
 
       <VBtn-toggle v-if="q.type == 'select'" v-model="q.value" class="select">
-        <VBtn v-for="i in q.items" :key="i.id">
+        <VBtn v-for="i in q.items" :key="i.id" :value="i.text">
           {{ i.text }}
         </VBtn>
       </VBtn-toggle>

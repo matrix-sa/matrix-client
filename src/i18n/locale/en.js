@@ -1079,4 +1079,9 @@ export default {
   choose_indicator: 'Choose Indicator',
   inactive_note: 'Note: your store is inactive',
   no_notifications: 'No Notifications Exist',
+  preferred_dialect: 'Preferred Dialect',
+  saudi_dialect: 'Saudi dialect',
+  ordinary_language: 'Ordinary language',
+  white_language: 'white language',
+
 }

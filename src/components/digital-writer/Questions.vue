@@ -10,6 +10,17 @@
   const emit = defineEmits(['showAnswers', 'getConversationsAfterStart'])
   const { t } = useI18n()
 
+  const sharedQuestion = {
+    id: 6,
+    type: 'select',
+    key: 'dialect',
+    question: t('preferred_dialect'),
+    items: [
+      { id: 1, text: t('saudi_dialect') },
+      { id: 2, text: t('ordinary_language') },
+      { id: 3, text: t('white_language') },
+    ],
+  }
   const questions = ref([
     [
       {
@@ -47,6 +58,7 @@
         question: t('is_there_a_specific_message_you_want_to_convey_to_the_audience'),
         placeholder: t('p5'),
       },
+      sharedQuestion,
     ],
     [
       {
@@ -84,6 +96,7 @@
         question: t('is_there_a_specific_message_you_want_to_convey_to_the_audience'),
         placeholder: t('p5'),
       },
+      sharedQuestion,
     ],
     [
       {
@@ -133,6 +146,7 @@
           { id: 4, text: t('other') },
         ],
       },
+      sharedQuestion,
     ],
     [
       {
@@ -170,6 +184,7 @@
         question: t('is_there_a_particular_message_you_want_to_focus_on'),
         placeholder: t('p5'),
       },
+      sharedQuestion,
     ],
     [
       {
@@ -223,6 +238,7 @@
         question: t('what_distinguishes_your_product_or_service_from_competitors'),
         placeholder: t('p5'),
       },
+      sharedQuestion,
 
     ],
   ]) // Reactive state for the active item
@@ -281,7 +297,7 @@
   const isAllQuestionsAnswered = computed(() => {
     const activeQuestions = questions.value[props.activeItem]
     return activeQuestions.every(
-      obj => obj.hasOwnProperty('value') && obj.value && obj.value.trim() !== ''
+      obj => obj.hasOwnProperty('value') && (!!obj.value || obj.value == 0)
     )
   })
 
@@ -294,7 +310,6 @@
         <Question :q="q" @update:question-value="updateQuestion" />
       </div>
     </div>
-
     <div class="btn-container d-flex justify-end">
       <VBtn
         class="d-flex align-center"
