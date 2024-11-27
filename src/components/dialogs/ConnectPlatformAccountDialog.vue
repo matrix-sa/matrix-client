@@ -4,6 +4,7 @@
   import { usePlatformsStore } from '@/stores/usePlatformsStore'
   import { useRequest } from 'vue-request'
   import { useSnackbarStore } from '@/stores/useSnackBarStore'
+  import { useAuthStore } from '@/stores/useAuthStore'
 
   const props = defineProps({
     platform: {
@@ -25,6 +26,7 @@
   const platformsStore = usePlatformsStore()
   const { t } = useI18n()
   const { show } = useSnackbarStore()
+  const authStore = useAuthStore()
 
   const adAccounts = ref([])
 
