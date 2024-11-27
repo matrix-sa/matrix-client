@@ -6,6 +6,9 @@ import i18n from '@/i18n'
 const { t } = i18n.global
 
 export const useAuthStore = defineStore('auth-store', () => {
+  const router = useRouter()
+  const route = useRoute()
+
   const user = ref(null)
   const otp = ref(null)
 
@@ -89,9 +92,6 @@ export const useAuthStore = defineStore('auth-store', () => {
   }
 
   async function fetchUser (refresh = false) {
-    const router = useRouter()
-    const route = useRoute()
-
     if (user.value && !refresh) return user.value
 
     const res = await AuthService.me()

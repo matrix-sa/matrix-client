@@ -5,7 +5,7 @@
   import { storeToRefs } from 'pinia'
   import sallaLogo from '@/assets/salla.svg'
   import zidLogo from '@/assets/zid.svg'
-  import Khuzama from '@/assets/Khuzama.svg'
+  import KhuzamaLogo from '@/assets/Khuzama.svg'
   import storesLogo from '@/assets/stores.svg'
   import { useRequest } from 'vue-request'
   import StoresService from '@/services/stores-service'
@@ -23,20 +23,29 @@
 
   const storeTypesItems = ref([])
 
+  const storeLogos = {
+    salla: sallaLogo,
+    zid: zidLogo,
+    Khuzama: KhuzamaLogo,
+  }
   const storesItems = computed(() =>
     stores.value.map(store => ({
       title: store.title,
       code: store.code,
-      icon:
-        store.code === 'salla'
-          ? sallaLogo
-          : store.code === 'zid'
-            ? zidLogo
-            : store.code === 'Khuzama'
-              ? Khuzama
-              : storesLogo,
+      icon: storeLogos[store.code],
       status: store.status,
     }))
+  )
+
+  const { run: updateStatus, loading: loadingUpdateStatus } = useRequest(
+    store =>
+      Promise.all([storesStore.checkAuth(store), authStore.fetchUser(true)]),
+    {
+      manual: true,
+      onSuccess: () => {
+        showDialog.value = false
+      },
+    }
   )
 
   const { run: startAuthentication, loading: loadingAuthentication } = useRequest(
@@ -72,9 +81,7 @@
             popupWindow.close()
 
             show(t('connected_successfully'), 'success')
-            storesStore.checkAuth(store)
-
-            await authStore.fetchUser(true)
+            updateStatus(store)
           }
         })
       },
@@ -96,18 +103,13 @@
   }
 
   const handleSubmit = async () => {
-    showDialog.value = false
-
     ///   Activate store in frontend  ////
     const storeToActivate = storesStore.stores.find(
       store => store.code === 'Khuzama'
     )
 
     if (storeToActivate) {
-      storeToActivate.status = 'Success'
-      show(t('connected_successfully'), 'success')
-
-      // checkAllStores()
+      updateStatus('Khuzama')
     } else {
       console.error('Store not found to activate.')
     }
@@ -118,7 +120,9 @@
     return storesStore.stores.some(store => store.status === 'Success')
   })
 
-  const loading = computed(() => loadingAuthentication.value)
+  const loading = computed(
+    () => loadingAuthentication.value || loadingUpdateStatus.value
+  )
 
   watch(
     locale,

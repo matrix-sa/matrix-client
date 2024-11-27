@@ -51,6 +51,10 @@ const StoresService = (function () {
     return API.get(`Salla/Account/Logout`)
   }
 
+  const khuzamaLogin = code => {
+    return API.post(`Khuzama/Account/Login`, {}, { params: { code } })
+  }
+
   return {
     create,
     get,
@@ -62,6 +66,7 @@ const StoresService = (function () {
     checkAuthentication,
     startAuthentication,
     disconnectSalla,
+    khuzamaLogin,
   }
 })()
 

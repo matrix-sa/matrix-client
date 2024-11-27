@@ -107,7 +107,7 @@
   )
 
   const { run: runCheckAuth, loading: loadingCheckingPlatform } = useRequest(
-    platformsStore.checkAuth,
+    store => Promise.all([platformsStore.checkAuth(store), authStore.fetchUser(true)]),
     {
       manual: true,
     }

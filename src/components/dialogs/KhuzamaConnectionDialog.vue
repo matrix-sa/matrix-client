@@ -1,3 +1,52 @@
+<script setup>
+  import { ref } from 'vue'
+  import { useI18n } from 'vue-i18n'
+  import KhuzamaLogo from '@/assets/Khuzama2.svg'
+  import { useRequest } from 'vue-request'
+  import StoresService from '@/services/stores-service'
+  import { useSnackbarStore } from '@/stores/useSnackBarStore'
+
+  const { t } = useI18n()
+  const { show } = useSnackbarStore()
+
+  const showDialog = ref(false)
+  const inputValue = ref('')
+
+  const emit = defineEmits(['submit', 'close'])
+
+  const { run: khuzamaLogin, loading: loadingKhuzamaLogin } = useRequest(
+    StoresService.khuzamaLogin,
+    {
+      manual: true,
+      onSuccess: async response => {
+        const { messages, error } = response.data
+
+        if (error) {
+          show(messages[0], 'error')
+        }
+
+        show(t('connected_successfully'), 'success')
+        emit('submit')
+        showDialog.value = false
+        inputValue.value = ''
+      },
+      onError: error => {
+        show(error, 'error')
+      },
+    }
+  )
+
+  const handleSubmit = () => {
+    khuzamaLogin(inputValue.value)
+  }
+
+  const handleClose = () => {
+    emit('close')
+    showDialog.value = false
+    inputValue.value = ''
+  }
+</script>
+
 <template>
   <v-dialog v-model="showDialog" max-width="400px">
     <v-card class="px-6 rounded-xl" min-width="40vw" rounded="lg">
@@ -29,6 +78,7 @@
         <v-btn
           append-icon="mdi-check"
           class="bg-success  text-none"
+          :loading="loadingKhuzamaLogin"
           rounded="xl"
           @click="handleSubmit"
         >
@@ -38,28 +88,3 @@
     </v-card>
   </v-dialog>
 </template>
-
-<script setup>
-  import { ref } from 'vue'
-  import { useI18n } from 'vue-i18n'
-  import KhuzamaLogo from '@/assets/Khuzama2.svg'
-
-  const { t } = useI18n()
-
-  const showDialog = ref(false)
-  const inputValue = ref('')
-
-  const emit = defineEmits(['submit', 'close'])
-
-  const handleSubmit = () => {
-    emit('submit', inputValue.value)
-    showDialog.value = false
-    inputValue.value = ''
-  }
-
-  const handleClose = () => {
-    emit('close')
-    showDialog.value = false
-    inputValue.value = ''
-  }
-</script>
