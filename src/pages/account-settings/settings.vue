@@ -1,4 +1,5 @@
 <script setup>
+  import { useBreadcrumbsStore } from '@/stores/useBreadcrumbsStore'
   import { useI18n } from 'vue-i18n'
   import { useSnackbarStore } from '@/stores/useSnackBarStore'
   import { useRequest } from 'vue-request'
@@ -8,7 +9,8 @@
   import Pill from '@/assets/pill.svg'
   import AccountSettingsService from '@/services/account-settings-service'
 
-  const { t } = useI18n()
+  const { update } = useBreadcrumbsStore()
+  const { t, locale } = useI18n()
   const { show } = useSnackbarStore()
   const countries = ref([])
   const currencies = ref([])
@@ -57,7 +59,19 @@
       },
     }
   )
-
+  watch(
+    locale,
+    () => {
+      update([
+        {
+          title: t('account_settings'),
+          active: false,
+          to: '/account-settings/account-details/',
+        },
+      ])
+    },
+    { immediate: true }
+  )
 </script>
 
 <template>

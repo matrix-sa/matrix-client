@@ -1,4 +1,5 @@
 <script setup>
+  import { useBreadcrumbsStore } from '@/stores/useBreadcrumbsStore'
   import { useI18n } from 'vue-i18n'
   import editPen from '@/assets/edit-pen.svg'
   import password from '@/assets/Password.svg'
@@ -6,10 +7,11 @@
   import { useSnackbarStore } from '@/stores/useSnackBarStore'
   import { useRequest } from 'vue-request'
 
-  const { t } = useI18n()
+  const { t, locale } = useI18n()
   const route = useRoute()
   const accountComponent = ref(null)
   const { show } = useSnackbarStore()
+  const { update } = useBreadcrumbsStore()
 
   const isAccountDetails = computed(() =>
     route.name.includes('account-details')
@@ -51,6 +53,19 @@
       runUpdate(generalInfoData)
     }
   }
+  watch(
+    locale,
+    () => {
+      update([
+        {
+          title: t('account_settings'),
+          active: false,
+          to: '/account-settings/account-details/',
+        },
+      ])
+    },
+    { immediate: true }
+  )
 </script>
 
 <template>

@@ -1,9 +1,11 @@
 <script setup>
+  import { useBreadcrumbsStore } from '@/stores/useBreadcrumbsStore'
   import { useI18n } from 'vue-i18n'
   import { useRequest } from 'vue-request'
   import AccountSettingsService from '@/services/account-settings-service'
 
-  const { t } = useI18n()
+  const { update } = useBreadcrumbsStore()
+  const { t, locale } = useI18n()
 
   const generalInfoData = ref({
     name: '',
@@ -25,7 +27,25 @@
       },
     }
   )
-
+  watch(
+    locale,
+    () => {
+      update([
+        {
+          title: t('account_settings'),
+          active: false,
+          to: '/account-settings/account-details/',
+        },
+        {
+          title: t('account_details'),
+          active: false,
+          disable: true,
+          to: '/account-settings/account-details/',
+        },
+      ])
+    },
+    { immediate: true }
+  )
 </script>
 
 <template>

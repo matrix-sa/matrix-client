@@ -3,11 +3,13 @@
   import { usePagination } from 'vue-request'
   import { useSnackbarStore } from '@/stores/useSnackBarStore'
   import NotificationItem from './NotificationItem.vue'
+  import { useI18n } from 'vue-i18n'
 
   const notifications = ref(null)
   const totalCount = ref(0)
   const pageSize = ref()
   const { show } = useSnackbarStore()
+  const { t } = useI18n()
 
   const options = ref({
     page: 1,
@@ -56,6 +58,7 @@
     <v-overlay v-model="loadingNotifications" class="align-center justify-center" persistent>
       <v-progress-circular color="primary" indeterminate size="50" :width="7" />
     </v-overlay>
+    <div v-if="notifications?.length===0 && !loadingNotifications"> <EmptyContent :title="t('no_notifications')" /></div>
     <div class="d-flex flex-column">
       <NotificationItem
         v-for="notification in notifications"

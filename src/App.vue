@@ -5,9 +5,6 @@
   import { storeToRefs } from 'pinia'
   import { useI18n } from 'vue-i18n'
   import { useRoute } from 'vue-router'
-  import { useLoadingStore } from './stores/useLoadingStore'
-
-  const { isLoading: isLoadingRoute } = storeToRefs(useLoadingStore())
 
   const { locale } = useI18n()
   const snackBarStore = useSnackbarStore()
@@ -34,7 +31,7 @@
 <template>
   <v-app>
     <v-alert
-      v-if="authStore.user?.is_store_active === false && !isLoadingRoute"
+      v-if="authStore.user?.is_store_active === false"
       border="bottom"
       color="error"
       icon="mdi-alert"
@@ -42,7 +39,6 @@
       {{ $t('inactive_note') }}
     </v-alert>
     <v-overlay
-      v-if="isLoadingRoute"
       v-model="loadingUser"
       class="align-center justify-center"
       persistent
