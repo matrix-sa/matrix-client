@@ -33,6 +33,17 @@
     days_ago: null,
   })
 
+  const indicators = ref(['CTR', 'CVC', 'CPM',
+                          'CPMR',
+                          'Freq',
+                          'CPC',
+                          'ROAS',
+                          'CVR',
+                          'CPA',
+                          'AOV',
+                          'Clicks',
+                          'Impression'])
+
   const { t } = useI18n()
   const { show } = useSnackbarStore()
   const rulesModalsStore = useRulesModalsStore()
@@ -172,7 +183,7 @@
         <v-col cols="12" sm="6">
           <AppSelect
             v-model="form.indicator"
-            :items="['CTR', 'CVC']"
+            :items="indicators"
             :label="t('select_the_indicator')"
             :placeholder="t('choose_indicator')"
           />
