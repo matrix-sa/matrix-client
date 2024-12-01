@@ -120,10 +120,7 @@ export const urlAdvancedValidator = value => {
 export const lengthValidator = (value, length) => {
   if (isEmpty(value)) return true
 
-  return (
-    String(value).length === length ||
-     `${t('min_length')} ${length}`
-  )
+  return String(value).length === length || `${t('min_length')} ${length}`
 }
 
 // 👉 Alpha-dash Validator
@@ -207,9 +204,7 @@ export const tiktokVideoSizeValidator = value => {
 }
 
 export const isVideoFile = ([file]) => {
-  const videoExtensions = ['mp4', 'mov', 'mpeg', '3gp', 'avi']
-
-  console.log(file)
+  const videoExtensions = ['.mp4', '.mov', '.mpeg', '.3gp', '.avi']
   if (!file || !file.name) {
     return t('extension_not_allowed')
   }
@@ -217,7 +212,10 @@ export const isVideoFile = ([file]) => {
   const fileExtension = file.name
     .slice(file.name.lastIndexOf('.'))
     .toLowerCase()
-  return videoExtensions.includes(fileExtension)
+
+  console.log(fileExtension, videoExtensions.includes(fileExtension))
+
+  return videoExtensions.includes(fileExtension) || t('extension_not_allowed')
 }
 
 export const isImageFile = file => {

@@ -67,6 +67,7 @@
 
   const onSubmit = () => {
     refVForm.value?.validate().then(({ valid: isValid }) => {
+      console.log('valid', isValid)
       if (!isValid) {
         return
       }
@@ -121,7 +122,7 @@
         color="primary"
         :disabled="loading"
         :loading="loading"
-        text="create"
+        :text="t('create')"
         type="submit"
       />
     </VCol>
