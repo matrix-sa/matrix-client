@@ -130,6 +130,7 @@
 
         if (error) {
           show(messages[0], 'error')
+          return
         }
 
         show(t('created_message'), 'success')
