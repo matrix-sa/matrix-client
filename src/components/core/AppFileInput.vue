@@ -17,6 +17,11 @@
         .slice(2, 7)}`
       : undefined
   })
+
+  const fileInput = ref(null)
+  const fileExists = computed(
+    () => fileInput.value?.modelValue?.[0] && !fileInput.value.error
+  )
 </script>
 <template>
   <div class="app-select flex-grow-1" :class="$attrs.class">
@@ -36,6 +41,9 @@
           id: elementId,
           'bg-color': 'transparent',
           flat: true,
+          class: {
+            'hide-hint': fileExists,
+          },
         }"
       />
     </div>
@@ -63,6 +71,11 @@
   }
   .v-field__overlay {
     display: none;
+  }
+}
+.app-file-input .hide-hint{
+  .v-label::after {
+    display: hidden;
   }
 }
 </style>

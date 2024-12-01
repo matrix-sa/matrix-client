@@ -1081,5 +1081,5 @@ export default {
   saudi_dialect: 'ﺍﻟﻠﻬﺠﺔ ﺍﻟﺴﻌﻮﺩﻳﺔ',
   ordinary_language: 'ﺍﻟﻠﻐﺔ ﺍﻟﻔﺼﺤﻰ',
   white_language: 'ﺍﻟﻠﻐﺔ ﺍﻟﺒﻴﻀﺎﺀ',
-
+  tiktok_video: 'فيديو تيك توك',
 }

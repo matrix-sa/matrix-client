@@ -1083,5 +1083,5 @@ export default {
   saudi_dialect: 'Saudi dialect',
   ordinary_language: 'Ordinary language',
   white_language: 'white language',
-
+  tiktok_video: 'Tiktok Video',
 }

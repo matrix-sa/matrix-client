@@ -206,9 +206,10 @@ export const tiktokVideoSizeValidator = value => {
   )
 }
 
-export const isVideoFile = file => {
+export const isVideoFile = ([file]) => {
   const videoExtensions = ['mp4', 'mov', 'mpeg', '3gp', 'avi']
 
+  console.log(file)
   if (!file || !file.name) {
     return t('extension_not_allowed')
   }
