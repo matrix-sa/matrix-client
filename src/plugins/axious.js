@@ -1,4 +1,3 @@
-import router from '@/router'
 import axios from 'axios'
 import { useAuthStore } from '@/stores/useAuthStore'
 import i18n from '@/i18n'
@@ -6,8 +5,8 @@ import i18n from '@/i18n'
 const axiosIns = axios.create({
   // You can add your headers here
   // ================================
+  // baseURL: 'https://localhost:7241',
   baseURL: 'https://matrix.sa',
-  // baseURL: 'https://matrix.sa',
 
   // timeout: 1000,
   // headers: {'X-Custom-Header': 'foobar'}

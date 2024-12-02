@@ -22,8 +22,6 @@
   const fileExists = computed(
     () => fileInput.value?.modelValue?.[0] && !fileInput.value.error
   )
-
-  const fileAndErrorExist = computed(() => fileInput.value?.modelValue?.[0] && fileInput.value.error)
 </script>
 <template>
   <div class="app-select flex-grow-1" :class="$attrs.class">
@@ -45,7 +43,6 @@
           flat: true,
           class: {
             'hide-hint': fileExists,
-            
           },
         }"
       />
