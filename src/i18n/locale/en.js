@@ -1084,4 +1084,6 @@ export default {
   ordinary_language: 'Ordinary language',
   white_language: 'white language',
   tiktok_video: 'Tiktok Video',
+  add_card: 'Add Card',
+  my_cards: 'My Cards'
 }

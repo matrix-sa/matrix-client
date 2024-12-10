@@ -1082,4 +1082,6 @@ export default {
   ordinary_language: 'ﺍﻟﻠﻐﺔ ﺍﻟﻔﺼﺤﻰ',
   white_language: 'ﺍﻟﻠﻐﺔ ﺍﻟﺒﻴﻀﺎﺀ',
   tiktok_video: 'فيديو تيك توك',
+  add_card: 'أضف بطاقة',
+  my_cards: 'بطاقاتي',
 }
