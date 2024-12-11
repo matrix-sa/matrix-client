@@ -21,7 +21,14 @@
     </div>
     <v-container>
       <v-row>
-        <v-col v-for="(card, index) in cards" :key="index" cols="3">
+        <v-col
+          v-for="(card, index) in cards"
+          :key="index"
+          cols="12"
+          lg="3"
+          md="4"
+          sm="6"
+        >
           <CreditCard
             :background-gradient="card.backgroundGradient"
             :card-category="card.cardCategory"

@@ -62,7 +62,8 @@
 <style scoped lang='scss'>
 
 .credit-card {
-  width: 260px;
+  max-width: 260px;
+  width: 100%;
   height: 158px;
   border-radius: 16px;
   display: flex;
@@ -73,7 +74,7 @@
   background-position: center  ;
   background-size: cover;
   background-repeat: no-repeat;
-
+  margin: 0 auto;
   .v-card-text {
     padding: 0;
   }
