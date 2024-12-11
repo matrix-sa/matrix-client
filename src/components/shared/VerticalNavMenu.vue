@@ -1,147 +1,145 @@
 <script setup>
-  import { useI18n } from 'vue-i18n'
-  import { useAuthStore } from '@/stores/useAuthStore'
-  import { storeToRefs } from 'pinia'
-  import UserImg from './UserImg.vue'
+import { useI18n } from 'vue-i18n'
+import { useAuthStore } from '@/stores/useAuthStore'
+import { storeToRefs } from 'pinia'
+import UserImg from './UserImg.vue'
 
-  const { t, locale } = useI18n()
-  const route = useRoute()
-  const authStore = useAuthStore()
+const { t, locale } = useI18n()
+const route = useRoute()
+const authStore = useAuthStore()
 
-  const { user } = storeToRefs(authStore)
+const { user } = storeToRefs(authStore)
 
-  const items1 = ref([])
+const items1 = ref([])
 
-  const isActive = (to, partial) =>
-    partial ? route.name?.includes(to) : route.name === to
+const isActive = (to, partial) =>
+  partial ? route.name?.includes(to) : route.name === to
 
-  const userShouldLink = computed(
-    () => !user.value.has_linked_website || !user.value.has_linked_ad_account
-  )
+const userShouldLink = computed(
+  () => !user.value.has_linked_website || !user.value.has_linked_ad_account
+)
 
-  watch(
-    [locale, route],
-    () => {
-      items1.value = [
-        {
-          title: t('dashboard'),
-          props: {
-            prependIcon: 'tabler-dashboard',
-            active: isActive('/'),
-            to: { name: '/' },
-            disabled: userShouldLink.value,
-          },
+watch(
+  [locale, route],
+  () => {
+    items1.value = [
+      {
+        title: t('dashboard'),
+        props: {
+          prependIcon: 'tabler-dashboard',
+          active: isActive('/'),
+          to: { name: '/' },
+          disabled: userShouldLink.value,
         },
-        {
-          title: t('reports'),
-          props: {
-            prependIcon: 'tabler-report',
-            active: isActive('/reports/'),
-            to: { name: '/reports/' },
-            disabled: userShouldLink.value,
-          },
+      },
+      {
+        title: t('reports'),
+        props: {
+          prependIcon: 'tabler-report',
+          active: isActive('/reports/'),
+          to: { name: '/reports/' },
+          disabled: userShouldLink.value,
         },
-        {
-          title: t('campaigns'),
-          props: {
-            prependIcon: 'tabler-speakerphone',
-            active: isActive('/campaigns/'),
-            to: { name: '/campaigns/' },
-            disabled: userShouldLink.value,
-          },
+      },
+      {
+        title: t('campaigns'),
+        props: {
+          prependIcon: 'tabler-speakerphone',
+          active: isActive('/campaigns/'),
+          to: { name: '/campaigns/' },
+          disabled: userShouldLink.value,
         },
-        {
-          title: t('campaign_rules'),
-          props: {
-            prependIcon: 'tabler-list',
-            active: isActive('/rules', true),
-            to: { name: '/rules' },
-            disabled: userShouldLink.value,
-          },
+      },
+      {
+        title: t('campaign_rules'),
+        props: {
+          prependIcon: 'tabler-list',
+          active: isActive('/rules', true),
+          to: { name: '/rules' },
+          disabled: userShouldLink.value,
         },
-        {
-          title: t('tracking.name'),
-          props: {
-            prependIcon: 'tabler-wand',
-            active: isActive('/tracking/'),
-            to: { name: '/tracking/' },
-            disabled: userShouldLink.value,
-          },
+      },
+      {
+        title: t('tracking.name'),
+        props: {
+          prependIcon: 'tabler-wand',
+          active: isActive('/tracking/'),
+          to: { name: '/tracking/' },
+          disabled: userShouldLink.value,
         },
-        {
-          title: t('digital_writer'),
-          props: {
-            prependIcon: 'tabler-message-chatbot',
-            active: isActive('/assistant/writer/'),
-            to: { name: '/assistant/writer/' },
-            disabled: userShouldLink.value,
-          },
+      },
+      {
+        title: t('digital_writer'),
+        props: {
+          prependIcon: 'tabler-message-chatbot',
+          active: isActive('/assistant/writer/'),
+          to: { name: '/assistant/writer/' },
+          disabled: userShouldLink.value,
         },
-        {
-          title: t('digital_designer'),
-          props: {
-            prependIcon: 'tabler-robot',
-            active: isActive('/assistant/designer/'),
-            to: { name: '/assistant/designer/' },
-            disabled: userShouldLink.value,
-          },
+      },
+      {
+        title: t('digital_designer'),
+        props: {
+          prependIcon: 'tabler-robot',
+          active: isActive('/assistant/designer/'),
+          to: { name: '/assistant/designer/' },
+          disabled: userShouldLink.value,
         },
-        {
-          title: t('marketing-consultation.name'),
-          props: {
-            prependIcon: 'ic:baseline-recommend',
-            active: isActive('/marketing-consultations/') || isActive('/marketing-consultations-orders/'),
-            to: { name: '/marketing-consultations/' },
-            disabled: userShouldLink.value,
-          },
+      },
+
+      {
+        title: t('financial_transaction'),
+        props: {
+          prependIcon: 'tabler-link',
+          active: isActive('/financial-transaction/'),
+          to: { name: '/financial-transaction/' },
+          disabled: userShouldLink.value,
         },
-        {
-          title: t('account_connect'),
-          props: {
-            prependIcon: 'tabler-link',
-            active: isActive('/link-ad-accounts', true),
-            to: { name: '/link-ad-accounts' },
-            disabled: false,
-          },
+      },
+      {
+        title: t('marketing-consultation.name'),
+        props: {
+          prependIcon: 'ic:baseline-recommend',
+          active: isActive('/marketing-consultations/') || isActive('/marketing-consultations-orders/'),
+          to: { name: '/marketing-consultations/' },
+          disabled: userShouldLink.value,
         },
-        {
-          title: t('account_settings'),
-          props: {
-            prependIcon: 'tabler-link',
-            active: isActive('/account-settings', true),
-            to: { name: '/account-settings/account-details' },
-            disabled: userShouldLink.value,
-          },
+      },
+      {
+        title: t('account_connect'),
+        props: {
+          prependIcon: 'tabler-link',
+          active: isActive('/link-ad-accounts', true),
+          to: { name: '/link-ad-accounts' },
+          disabled: false,
         },
-      ]
-    },
-    {
-      immediate: true,
-    }
-  )
+      },
+      {
+        title: t('account_settings'),
+        props: {
+          prependIcon: 'tabler-link',
+          active: isActive('/account-settings', true),
+          to: { name: '/account-settings/account-details' },
+          disabled: userShouldLink.value,
+        },
+      }
+    ]
+  },
+  {
+    immediate: true,
+  }
+)
 </script>
 
 <template>
   <div class="vertical-nav-menu-wrapper">
     <nav>
-      <v-img
-        aspect-ratio="1/1"
-        :max-height="185"
-        src="@/assets/logo.svg"
-        style="margin: auto"
-        :width="185"
-      />
-      <component
-        :is="item.props.disabled ? 'span' : 'router-link'"
-        v-for="(item, index) in items1"
-        :key="index"
-        class="nav-item"
-        :class="{
+      <v-img aspect-ratio="1/1" :max-height="185" src="@/assets/logo.svg" style="margin: auto" :width="185" />
+      <component :is="item.props.disabled ? 'span' : 'router-link'" v-for="(item, index) in items1" :key="index"
+        class="nav-item" :class="{
           active: item.props.active,
           disabled: item.props.disabled,
-        }"
-        :to="item.props.to"
-      >
+        }" :to="item.props.to">
         <p><v-icon :icon="item.props.prependIcon" /></p>
         <p>{{ item.title }}</p>
       </component>
