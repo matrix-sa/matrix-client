@@ -13,9 +13,14 @@
   const { show } = useSnackbarStore()
   const { update } = useBreadcrumbsStore()
 
-  const isAccountDetails = computed(() =>
-    route.name.includes('account-details')
-  )
+  const activeRoute = computed(() => {
+    const routeName = route.name || ''
+    return {
+      isAccountDetails: routeName.includes('account-details'),
+      isAccountPayment: routeName.includes('payment-methods'),
+      isAccountSettings: routeName.includes('/account-settings/settings'),
+    }
+  })
 
   const activeBtnProps = ref({
     color: 'warning',
@@ -74,7 +79,7 @@
     <div class="d-flex mb-6 justify-space-between align-center">
       <div class="buttons-container">
         <v-btn
-          v-bind="isAccountDetails ? activeBtnProps : inActiveBtnProps"
+          v-bind="activeRoute.isAccountDetails ? activeBtnProps : inActiveBtnProps"
           height="40px"
           rounded
           :to="{ name: '/account-settings/account-details' }"
@@ -87,7 +92,7 @@
         </v-btn>
 
         <v-btn
-          v-bind="isAccountDetails ? inActiveBtnProps : activeBtnProps"
+          v-bind="activeRoute.isAccountSettings ? activeBtnProps : inActiveBtnProps"
           height="40px"
           rounded
           :to="{ name: '/account-settings/settings' }"
@@ -99,7 +104,19 @@
 
           {{ t("account_settings") }}
         </v-btn>
+        <v-btn
+          v-bind="activeRoute.isAccountPayment ? activeBtnProps : inActiveBtnProps"
+          height="40px"
+          rounded
+          :to="{ name: '/account-settings/payment-methods' }"
+        >
 
+          <template #prepend>
+            <v-icon size="22px">tabler-credit-card</v-icon>
+          </template>
+
+          {{ t("payment_method") }}
+        </v-btn>
       </div>
 
       <div class="d-flex align-center">
