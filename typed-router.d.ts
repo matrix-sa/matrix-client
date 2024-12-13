@@ -34,7 +34,7 @@ declare module 'vue-router/auto-routes' {
     '/campaigns/': RouteRecordInfo<'/campaigns/', '/campaigns', Record<never, never>, Record<never, never>>,
     '/campaigns/add': RouteRecordInfo<'/campaigns/add', '/campaigns/add', Record<never, never>, Record<never, never>>,
     '/campaigns/edit/[id]': RouteRecordInfo<'/campaigns/edit/[id]', '/campaigns/edit/:id', { id: ParamValue<true> }, { id: ParamValue<false> }>,
-    '/financial-transaction/financial_transaction': RouteRecordInfo<'/financial-transaction/financial_transaction', '/financial-transaction/financial_transaction', Record<never, never>, Record<never, never>>,
+    '/financial-transaction/': RouteRecordInfo<'/financial-transaction/', '/financial-transaction', Record<never, never>, Record<never, never>>,
     '/link-ad-accounts': RouteRecordInfo<'/link-ad-accounts', '/link-ad-accounts', Record<never, never>, Record<never, never>>,
     '/link-ad-accounts/add-store': RouteRecordInfo<'/link-ad-accounts/add-store', '/link-ad-accounts/add-store', Record<never, never>, Record<never, never>>,
     '/link-ad-accounts/connect-platform': RouteRecordInfo<'/link-ad-accounts/connect-platform', '/link-ad-accounts/connect-platform', Record<never, never>, Record<never, never>>,

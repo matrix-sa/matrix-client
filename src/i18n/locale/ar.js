@@ -1082,4 +1082,5 @@ export default {
   ordinary_language: 'ﺍﻟﻠﻐﺔ ﺍﻟﻔﺼﺤﻰ',
   white_language: 'ﺍﻟﻠﻐﺔ ﺍﻟﺒﻴﻀﺎﺀ',
   tiktok_video: 'فيديو تيك توك',
+  financial_transaction: "المعاملات المالية"
 }
