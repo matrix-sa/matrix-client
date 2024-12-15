@@ -99,6 +99,15 @@
           },
         },
         {
+          title: t('financial_transaction'),
+          props: {
+            prependIcon: 'tabler-link',
+            active: isActive('/financial-transaction/'),
+            to: { name: '/financial-transaction/' },
+            disabled: userShouldLink.value,
+          },
+        },
+        {
           title: t('marketing-consultation.name'),
           props: {
             prependIcon: 'ic:baseline-recommend',

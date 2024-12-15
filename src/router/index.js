@@ -21,6 +21,10 @@ const router = createRouter({
       path: '/rules',
       redirect: '/rules/campaigns',
     },
+    {
+      path: '/financial-transaction',
+      redirect: '/financial-transaction/operations-table',
+    },
     ...setupLayouts(routes),
   ],
 })

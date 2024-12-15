@@ -60,6 +60,15 @@
           },
         },
         {
+          title: t('financial_transaction'),
+          props: {
+            prependIcon: 'tabler-calculator',
+            active: isActive('/financial-transaction'),
+            to: { name: '/financial-transaction' },
+            disabled: userShouldLink.value,
+          },
+        },
+        {
           title: t('tracking.name'),
           props: {
             prependIcon: 'tabler-wand',
@@ -86,6 +95,7 @@
             disabled: userShouldLink.value,
           },
         },
+
         {
           title: t('marketing-consultation.name'),
           props: {
