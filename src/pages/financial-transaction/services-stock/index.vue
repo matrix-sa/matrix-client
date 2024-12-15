@@ -1,84 +1,79 @@
 <script setup>
-import snapchat from '@/assets/images/logos/reports/snap.svg'
-/* import tiktok from '@/assets/images/logos/reports/tiktok.svg'
+  import snapchat from '@/assets/images/logos/reports/snap.svg'
+  /* import tiktok from '@/assets/images/logos/reports/tiktok.svg'
 import facebook from '@/assets/images/logos/reports/meta.svg'
 import instagram from '@/assets/images/logos/reports/instagram.svg'
 import googleads from '@/assets/images/logos/reports/google.svg'
 import youtube from '@/assets/images/logos/reports/youtube.svg'
 import twitter from '@/assets/images/logos/reports/x.svg' */
-import { localeTitle, paginationMeta } from '@/composable/utils'
-import { DateFormat } from '@/composable/useFormat'
-import TablesIcon from '@/assets/table.svg'
+  import { localeTitle, paginationMeta } from '@/composable/utils'
+  import { DateFormat } from '@/composable/useFormat'
+  import TablesIcon from '@/assets/table.svg'
 
-import { useI18n } from 'vue-i18n'
-import { useRequest } from 'vue-request'
+  import { useI18n } from 'vue-i18n'
+  import { useRequest } from 'vue-request'
 
-const { t, locale } = useI18n()
+  const { t, locale } = useI18n()
 
-const options = ref({
-  page: 1,
-  itemsPerPage: 10,
-  sortBy: [],
-  groupBy: [],
-  search: undefined,
-})
+  const options = ref({
+    page: 1,
+    itemsPerPage: 10,
+    sortBy: [],
+    groupBy: [],
+    search: undefined,
+  })
 
-const switch1 = ref(false)
-const totalCount = ref(0)
+  const switch1 = ref(false)
+  const totalCount = ref(0)
 
-const operations = ref([
-  {
-    id: t('digital_writer'),
-    platform: t('digital_writer'),
-    status: 'Pending',
-    total_count: 10,
-    consumed_balance: 10,
-    rest_amount: 10,
-    order_date: '2024-12-02T16:25:21Z',
-    renewale_date: '2024-12-02T16:25:21Z',
-  },
-])
+  const operations = ref([
+    {
+      id: t('digital_writer'),
+      platform: t('digital_writer'),
+      status: 'Pending',
+      total_count: 10,
+      consumed_balance: 10,
+      rest_amount: 10,
+      order_date: '2024-12-02T16:25:21Z',
+      renewale_date: '2024-12-02T16:25:21Z',
+    },
+  ])
 
-const headers = [
-  {
-    title: t('platform'),
-    key: 'platform',
-  },
+  const headers = [
+    {
+      title: t('platform'),
+      key: 'platform',
+    },
 
-  {
-    title: t('status'),
-    key: 'status',
-  },
-  {
-    title: t('total_count'),
-    key: 'total_count',
-  },
+    {
+      title: t('status'),
+      key: 'status',
+    },
+    {
+      title: t('total_count'),
+      key: 'total_count',
+    },
 
-  {
-    title: t('consumed_balance'),
-    key: 'consumed_balance',
-  },
+    {
+      title: t('consumed_balance'),
+      key: 'consumed_balance',
+    },
 
-  {
-    title: t('rest_amount'),
-    key: 'rest_amount',
-  },
+    {
+      title: t('rest_amount'),
+      key: 'rest_amount',
+    },
 
+    {
+      title: t('order_date'),
+      key: 'order_date',
+    },
+    {
+      title: t('renewale_date'),
+      key: 'renewale_date',
+    },
 
-
-
-  {
-    title: t('order_date'),
-    key: 'order_date',
-  },
-  {
-    title: t('renewale_date'),
-    key: 'renewale_date',
-  },
-
-
-
-]
+  ]
 
 /*     watch(
     options,
@@ -95,13 +90,21 @@ const headers = [
 <template>
   <div class="main">
 
-    <VDataTableServer v-model:items-per-page="options.itemsPerPage" v-model:page="options.page" class="text-no-wrap"
-      :headers="headers" :items="operations" :items-length="totalCount" :loading="loading"
-      :no-data-text="$t('no_data_text')" @update:options="options = $event">
+    <VDataTableServer
+      v-model:items-per-page="options.itemsPerPage"
+      v-model:page="options.page"
+      class="text-no-wrap"
+      :headers="headers"
+      :items="operations"
+      :items-length="totalCount"
+      :loading="loading"
+      :no-data-text="$t('no_data_text')"
+      @update:options="options = $event"
+    >
       <template #item.platform="{ item }">
 
         <div class="d-flex ga-3 align-center">
-          <img :src="snapchat" />
+          <img :src="snapchat">
           {{ item.platform }}
         </div>
 
@@ -124,8 +127,6 @@ const headers = [
         {{ t('ad') }}
       </template>
 
-
-
       <template #item.consumed_balance="{ item }">
         {{ item.consumed_balance }}
         {{ t('ad') }}
@@ -136,25 +137,17 @@ const headers = [
         {{ t('ad') }}
       </template>
 
-
-
       <template #item.order_date="{ item }">
         {{ DateFormat(item.order_date) }}
       </template>
-
 
       <template #item.renewale_date="{ item }">
         <div class="d-flex align-center ga-4">
           <span>{{ DateFormat(item.renewale_date) }}</span>
 
-          <VBtn color="primary" class="subscribe-btn">{{ t('subscribe') }}</VBtn>
+          <VBtn class="subscribe-btn" color="primary">{{ t('subscribe') }}</VBtn>
         </div>
       </template>
-
-
-
-
-
 
       <!-- pagination -->
       <template #bottom>
@@ -164,8 +157,11 @@ const headers = [
             {{ paginationMeta(options, totalCount) }}
           </p>
 
-          <VPagination v-model="options.page" :length="Math.ceil(totalCount / options.itemsPerPage)"
-            total-visible="6" />
+          <VPagination
+            v-model="options.page"
+            :length="Math.ceil(totalCount / options.itemsPerPage)"
+            total-visible="6"
+          />
         </div>
       </template>
     </VDataTableServer>
@@ -185,7 +181,6 @@ const headers = [
   font-size: 14px;
   font-weight: 500;
   line-height: 16.8px;
-
 
 }
 </style>

@@ -1,65 +1,64 @@
 <script setup>
-import { localeTitle, paginationMeta } from '@/composable/utils'
-import { DateFormat } from '@/composable/useFormat'
-import TablesIcon from '@/assets/table.svg'
+  import { localeTitle, paginationMeta } from '@/composable/utils'
+  import { DateFormat } from '@/composable/useFormat'
+  import TablesIcon from '@/assets/table.svg'
 
-import { useI18n } from 'vue-i18n'
-import { useRequest } from 'vue-request'
+  import { useI18n } from 'vue-i18n'
+  import { useRequest } from 'vue-request'
 
-const { t, locale } = useI18n()
+  const { t, locale } = useI18n()
 
-const options = ref({
-  page: 1,
-  itemsPerPage: 10,
-  sortBy: [],
-  groupBy: [],
-  search: undefined,
-})
+  const options = ref({
+    page: 1,
+    itemsPerPage: 10,
+    sortBy: [],
+    groupBy: [],
+    search: undefined,
+  })
 
-const switch1 = ref(false)
-const totalCount = ref(0)
+  const switch1 = ref(false)
+  const totalCount = ref(0)
 
-const operations = ref([
-  {
-    id: t('digital_writer'),
-    slogan: t('digital_writer'),
-    product_name: 'First',
-    reference_number: '1234567890',
-    status: 'Pending',
-    order_date: '2024-12-02T16:25:21Z',
-    renewale_date: '2024-12-02T16:25:21Z',
-    amount: 100,
-  },
-])
+  const operations = ref([
+    {
+      id: t('digital_writer'),
+      slogan: t('digital_writer'),
+      product_name: 'First',
+      reference_number: '1234567890',
+      status: 'Pending',
+      order_date: '2024-12-02T16:25:21Z',
+      renewale_date: '2024-12-02T16:25:21Z',
+      amount: 100,
+    },
+  ])
 
-const headers = [
-  {
-    title: t('product_name'),
-    key: 'product_name',
-  },
-  {
-    title: t('reference_number'),
-    key: 'reference_number',
-  },
-  {
-    title: t('status'),
-    key: 'status',
-  },
-  {
-    title: t('order_date'),
-    key: 'order_date',
-  },
-  {
-    title: t('renewale_date'),
-    key: 'renewale_date',
-  },
-  {
-    title: t('amount'),
-    key: 'amount',
-  },
+  const headers = [
+    {
+      title: t('product_name'),
+      key: 'product_name',
+    },
+    {
+      title: t('reference_number'),
+      key: 'reference_number',
+    },
+    {
+      title: t('status'),
+      key: 'status',
+    },
+    {
+      title: t('order_date'),
+      key: 'order_date',
+    },
+    {
+      title: t('renewale_date'),
+      key: 'renewale_date',
+    },
+    {
+      title: t('amount'),
+      key: 'amount',
+    },
 
-
-]
+  ]
 
 /*     watch(
     options,
@@ -76,13 +75,21 @@ const headers = [
 <template>
   <div class="main">
 
-    <VDataTableServer v-model:items-per-page="options.itemsPerPage" v-model:page="options.page" class="text-no-wrap"
-      :headers="headers" :items="operations" :items-length="totalCount" :loading="loading"
-      :no-data-text="$t('no_data_text')" @update:options="options = $event">
+    <VDataTableServer
+      v-model:items-per-page="options.itemsPerPage"
+      v-model:page="options.page"
+      class="text-no-wrap"
+      :headers="headers"
+      :items="operations"
+      :items-length="totalCount"
+      :loading="loading"
+      :no-data-text="$t('no_data_text')"
+      @update:options="options = $event"
+    >
       <template #item.product_name="{ item }">
 
         <div class="product-name-container d-flex ga-3 align-center">
-          <div class="img-container d-flex align-center justify-center"><img :src="TablesIcon" alt="title" /></div>
+          <div class="img-container d-flex align-center justify-center"><img alt="title" :src="TablesIcon"></div>
           <div>
             <p class="product-name">{{ item.id }}</p>
             <p class="product-name-slogan">{{ item.id }}</p>
@@ -116,8 +123,6 @@ const headers = [
         <span> {{ $t('sar') }}</span>
       </template>
 
-
-
       <!-- pagination -->
       <template #bottom>
         <VDivider />
@@ -126,8 +131,11 @@ const headers = [
             {{ paginationMeta(options, totalCount) }}
           </p>
 
-          <VPagination v-model="options.page" :length="Math.ceil(totalCount / options.itemsPerPage)"
-            total-visible="6" />
+          <VPagination
+            v-model="options.page"
+            :length="Math.ceil(totalCount / options.itemsPerPage)"
+            total-visible="6"
+          />
         </div>
       </template>
     </VDataTableServer>

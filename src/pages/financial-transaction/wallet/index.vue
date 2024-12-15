@@ -1,78 +1,73 @@
 <script setup>
-import { paginationMeta } from '@/composable/utils'
-import { DateOnlyFormat } from '@/composable/useFormat'
+  import { paginationMeta } from '@/composable/utils'
+  import { DateOnlyFormat } from '@/composable/useFormat'
 
-import { useI18n } from 'vue-i18n'
-import { useRequest } from 'vue-request'
-import Wallet from '@images/Wallet.png'
+  import { useI18n } from 'vue-i18n'
+  import { useRequest } from 'vue-request'
+  import Wallet from '@images/Wallet.png'
 
-const { t, locale } = useI18n()
+  const { t, locale } = useI18n()
 
-const options = ref({
-  page: 1,
-  itemsPerPage: 10,
-  sortBy: [],
-  groupBy: [],
-  search: undefined,
-})
+  const options = ref({
+    page: 1,
+    itemsPerPage: 10,
+    sortBy: [],
+    groupBy: [],
+    search: undefined,
+  })
 
-const switch1 = ref(false)
-const totalCount = ref(0)
+  const switch1 = ref(false)
+  const totalCount = ref(0)
 
-const operations = ref([
-  {
-    id: 1,
-    transaction: 1,
-    order_date: '2024-12-02T16:25:21Z',
-    amount: 100,
-    amount_after_transaction: 100,
-    payment_method: "wallet",
-    card_name: "card_name"
-  },
-  {
-    id: 2,
-    transaction: 0,
-    order_date: '2024-12-02T16:25:21Z',
-    amount: 100,
-    amount_after_transaction: 100,
-    payment_method: "wallet",
-    card_name: "card_name"
+  const operations = ref([
+    {
+      id: 1,
+      transaction: 1,
+      order_date: '2024-12-02T16:25:21Z',
+      amount: 100,
+      amount_after_transaction: 100,
+      payment_method: 'wallet',
+      card_name: 'card_name',
+    },
+    {
+      id: 2,
+      transaction: 0,
+      order_date: '2024-12-02T16:25:21Z',
+      amount: 100,
+      amount_after_transaction: 100,
+      payment_method: 'wallet',
+      card_name: 'card_name',
 
-  },
-])
+    },
+  ])
 
-const headers = [
-  {
-    title: t('transaction'),
-    key: 'transaction',
-  },
-  {
-    title: t('date'),
-    key: 'date',
-  },
-  {
-    title: t('amount_after_transaction'),
-    key: 'amount_after_transaction',
-  },
-  {
-    title: t('amount'),
-    key: 'amount',
-  },
-  {
-    title: t('payment_method'),
-    key: 'payment_method',
-  },
-  {
-    title: t('card_name'),
-    key: 'card_name',
-  },
+  const headers = [
+    {
+      title: t('transaction'),
+      key: 'transaction',
+    },
+    {
+      title: t('date'),
+      key: 'date',
+    },
+    {
+      title: t('amount_after_transaction'),
+      key: 'amount_after_transaction',
+    },
+    {
+      title: t('amount'),
+      key: 'amount',
+    },
+    {
+      title: t('payment_method'),
+      key: 'payment_method',
+    },
+    {
+      title: t('card_name'),
+      key: 'card_name',
+    },
 
-
-
-
-
-
-]
+  ]
 
 /*     watch(
     options,
@@ -91,7 +86,7 @@ const headers = [
     <div class="main pa-6">
       <div class="d-flex justify-space-between">
         <div class="d-flex ga-3 align-center">
-          <img :src="Wallet" />
+          <img :src="Wallet">
 
           <div>
             <p class="title"> {{ t('a_wallet') }} <span class="text-warning">{{ t('matrix') }}</span> {{
@@ -106,9 +101,7 @@ const headers = [
           <div class="d-flex align-center ga-6">
 
             <div class="d-flex align-center ga-2">
-              <AppSwitchWithoutIcons v-model="switch1" :base-color="'#F54A41'">
-
-              </AppSwitchWithoutIcons>
+              <AppSwitchWithoutIcons v-model="switch1" :base-color="'#F54A41'" />
 
               <span class="use-amount">{{ t('use_amount_msg') }}</span>
             </div>
@@ -116,30 +109,38 @@ const headers = [
             <VBtn class="charge-amount-btn"> {{ t('charge_amount') }}</VBtn>
           </div>
 
-
         </div>
       </div>
     </div>
     <div class="main">
 
-      <VDataTableServer v-model:items-per-page="options.itemsPerPage" v-model:page="options.page" class="text-no-wrap"
-        :headers="headers" :items="operations" :items-length="totalCount" :loading="loading"
-        :no-data-text="$t('no_data_text')" @update:options="options = $event">
+      <VDataTableServer
+        v-model:items-per-page="options.itemsPerPage"
+        v-model:page="options.page"
+        class="text-no-wrap"
+        :headers="headers"
+        :items="operations"
+        :items-length="totalCount"
+        :loading="loading"
+        :no-data-text="$t('no_data_text')"
+        @update:options="options = $event"
+      >
         <!-- Created At -->
         <template #item.transaction="{ item }">
 
           <div class="d-flex ga-2 align-center">
 
-            <div :class="{
-              'icon-container d-flex align-center justify-center': true,
-              'add-transaction': item.transaction == 1,
-              'sub-transaction': item.transaction == 0,
+            <div
+              :class="{
+                'icon-container d-flex align-center justify-center': true,
+                'add-transaction': item.transaction == 1,
+                'sub-transaction': item.transaction == 0,
 
-            }">
+              }"
+            >
 
               <VIcon icon="tabler-plus" size="15" />
             </div>
-
 
             <div :class="item.transaction == 1 ? 'text-success' : 'text-error'">
               {{ item.transaction == 1 ? t('charge_wallet') : t('charge_wallet') }}
@@ -151,8 +152,6 @@ const headers = [
         <template #item.date="{ item }">
           {{ DateOnlyFormat(item.date) }}
         </template>
-
-
 
         <template #item.amount_after_transaction="{ item }">
           {{ item.amount_after_transaction }}
@@ -174,9 +173,6 @@ const headers = [
 
         </template>
 
-
-
-
         <!-- pagination -->
         <template #bottom>
           <VDivider />
@@ -185,13 +181,15 @@ const headers = [
               {{ paginationMeta(options, totalCount) }}
             </p>
 
-            <VPagination v-model="options.page" :length="Math.ceil(totalCount / options.itemsPerPage)"
-              total-visible="6" />
+            <VPagination
+              v-model="options.page"
+              :length="Math.ceil(totalCount / options.itemsPerPage)"
+              total-visible="6"
+            />
           </div>
         </template>
       </VDataTableServer>
     </div>
-
 
   </div>
 </template>
@@ -253,8 +251,6 @@ const headers = [
   border-radius: 50%;
   color: #FFF;
 }
-
-
 
 .add-transaction {
   background-color: green

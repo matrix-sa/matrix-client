@@ -1,62 +1,62 @@
 <script setup>
-import { localeTitle, paginationMeta } from '@/composable/utils'
-import { DateFormat } from '@/composable/useFormat'
+  import { localeTitle, paginationMeta } from '@/composable/utils'
+  import { DateFormat } from '@/composable/useFormat'
 
-import { useI18n } from 'vue-i18n'
-import { useRequest } from 'vue-request'
+  import { useI18n } from 'vue-i18n'
+  import { useRequest } from 'vue-request'
 
-const { t, locale } = useI18n()
+  const { t, locale } = useI18n()
 
-const options = ref({
-  page: 1,
-  itemsPerPage: 10,
-  sortBy: [],
-  groupBy: [],
-  search: undefined,
-})
+  const options = ref({
+    page: 1,
+    itemsPerPage: 10,
+    sortBy: [],
+    groupBy: [],
+    search: undefined,
+  })
 
-const switch1 = ref(false)
-const totalCount = ref(0)
+  const switch1 = ref(false)
+  const totalCount = ref(0)
 
-const operations = ref([
-  {
-    id: 1,
-    product_name: 'First',
-    reference_number: '1234567890',
-    status: 'Pending',
-    order_date: '2024-12-02T16:25:21Z',
-    amount: 100,
-    download_invoice: 'invoice1.pdf',
-  },
-])
+  const operations = ref([
+    {
+      id: 1,
+      product_name: 'First',
+      reference_number: '1234567890',
+      status: 'Pending',
+      order_date: '2024-12-02T16:25:21Z',
+      amount: 100,
+      download_invoice: 'invoice1.pdf',
+    },
+  ])
 
-const headers = [
-  {
-    title: t('product_name'),
-    key: 'product_name',
-  },
-  {
-    title: t('reference_number'),
-    key: 'reference_number',
-  },
-  {
-    title: t('status'),
-    key: 'status',
-  },
-  {
-    title: t('order_date'),
-    key: 'order_date',
-  },
-  {
-    title: t('amount'),
-    key: 'amount',
-  },
-  {
-    title: t('download_invoice'),
-    key: 'download_invoice',
-  },
+  const headers = [
+    {
+      title: t('product_name'),
+      key: 'product_name',
+    },
+    {
+      title: t('reference_number'),
+      key: 'reference_number',
+    },
+    {
+      title: t('status'),
+      key: 'status',
+    },
+    {
+      title: t('order_date'),
+      key: 'order_date',
+    },
+    {
+      title: t('amount'),
+      key: 'amount',
+    },
+    {
+      title: t('download_invoice'),
+      key: 'download_invoice',
+    },
 
-]
+  ]
 
 /*     watch(
     options,
@@ -73,9 +73,17 @@ const headers = [
 <template>
   <div class="main">
 
-    <VDataTableServer v-model:items-per-page="options.itemsPerPage" v-model:page="options.page" class="text-no-wrap"
-      :headers="headers" :items="operations" :items-length="totalCount" :loading="loading"
-      :no-data-text="$t('no_data_text')" @update:options="options = $event">
+    <VDataTableServer
+      v-model:items-per-page="options.itemsPerPage"
+      v-model:page="options.page"
+      class="text-no-wrap"
+      :headers="headers"
+      :items="operations"
+      :items-length="totalCount"
+      :loading="loading"
+      :no-data-text="$t('no_data_text')"
+      @update:options="options = $event"
+    >
       <!-- Created At -->
       <template #item.product_name="{ item }">
         {{ item.id }}
@@ -117,8 +125,11 @@ const headers = [
             {{ paginationMeta(options, totalCount) }}
           </p>
 
-          <VPagination v-model="options.page" :length="Math.ceil(totalCount / options.itemsPerPage)"
-            total-visible="6" />
+          <VPagination
+            v-model="options.page"
+            :length="Math.ceil(totalCount / options.itemsPerPage)"
+            total-visible="6"
+          />
         </div>
       </template>
     </VDataTableServer>

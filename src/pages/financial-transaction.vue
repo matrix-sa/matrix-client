@@ -1,83 +1,83 @@
 <script setup>
-import { useI18n } from 'vue-i18n'
+  import { useI18n } from 'vue-i18n'
 
-import TablesIcon from '@/assets/table.svg'
-import WalletIcon from '@/assets/wallet.svg'
-import MoneyBagIcon from '@/assets/money-bag.svg'
-import PremiumIcon from '@/assets/premium.svg'
+  import TablesIcon from '@/assets/table.svg'
+  import WalletIcon from '@/assets/wallet.svg'
+  import MoneyBagIcon from '@/assets/money-bag.svg'
+  import PremiumIcon from '@/assets/premium.svg'
 
-import TablesActiveIcon from '@/assets/table-active.svg'
-import WalletActiveIcon from '@/assets/wallet-active.svg'
-import MoneyBagActiveIcon from '@/assets/money-bag-active.svg'
-import PremiumActiveIcon from '@/assets/premium-active.svg'
+  import TablesActiveIcon from '@/assets/table-active.svg'
+  import WalletActiveIcon from '@/assets/wallet-active.svg'
+  import MoneyBagActiveIcon from '@/assets/money-bag-active.svg'
+  import PremiumActiveIcon from '@/assets/premium-active.svg'
 
-const { t } = useI18n()
-const route = useRoute()
-const router = useRouter()
+  const { t } = useI18n()
+  const route = useRoute()
+  const router = useRouter()
 
-// Used
-const activeBtnProps = ref({
-  color: 'warning',
-  flat: true,
-})
+  // Used
+  const activeBtnProps = ref({
+    color: 'warning',
+    flat: true,
+  })
 
-// Used
-const inActiveBtnProps = ref({
-  color: 'surface-variant',
-  flat: true,
-  variant: 'outlined',
-})
+  // Used
+  const inActiveBtnProps = ref({
+    color: 'surface-variant',
+    flat: true,
+    variant: 'outlined',
+  })
 
-// Used
-const loading = computed(() => false)
+  // Used
+  const loading = computed(() => false)
 
-const isTableTab = computed(() =>
-  route.name.toLowerCase().includes('operations-table')
-)
+  const isTableTab = computed(() =>
+    route.name.toLowerCase().includes('operations-table')
+  )
 
-const isActiveSubscribtionsTab = computed(() =>
-  route.name.toLowerCase().includes('active-subscribtions')
-)
+  const isActiveSubscribtionsTab = computed(() =>
+    route.name.toLowerCase().includes('active-subscribtions')
+  )
 
-const isActiveServiceStockTab = computed(() =>
-  route.name.toLowerCase().includes('services-stock')
-)
+  const isActiveServiceStockTab = computed(() =>
+    route.name.toLowerCase().includes('services-stock')
+  )
 
-const isActiveWalletTab = computed(() =>
-  route.name.toLowerCase().includes('wallet')
-)
+  const isActiveWalletTab = computed(() =>
+    route.name.toLowerCase().includes('wallet')
+  )
 
-const usedTableIcon = computed(() =>
-  isTableTab.value ? TablesActiveIcon : TablesIcon
-)
+  const usedTableIcon = computed(() =>
+    isTableTab.value ? TablesActiveIcon : TablesIcon
+  )
 
-const usedActiveSubscribtionsIcon = computed(() =>
-  isActiveSubscribtionsTab.value
-    ? PremiumActiveIcon
-    : PremiumIcon
-)
+  const usedActiveSubscribtionsIcon = computed(() =>
+    isActiveSubscribtionsTab.value
+      ? PremiumActiveIcon
+      : PremiumIcon
+  )
 
-const usedServicesStockIcon = computed(() =>
-  isActiveServiceStockTab.value
-    ? MoneyBagActiveIcon
-    : MoneyBagIcon
-)
+  const usedServicesStockIcon = computed(() =>
+    isActiveServiceStockTab.value
+      ? MoneyBagActiveIcon
+      : MoneyBagIcon
+  )
 
-const usedWalletIcon = computed(() =>
-  isActiveWalletTab.value
-    ? WalletActiveIcon
-    : WalletIcon
-)
+  const usedWalletIcon = computed(() =>
+    isActiveWalletTab.value
+      ? WalletActiveIcon
+      : WalletIcon
+  )
 
-watch(
-  () => route.name,
-  current => {
-    if (current == '/financial-transaction') {
-      router.push({ name: '/financial-transaction/operations-table/' })
-    }
-  },
-  { immediate: true }
-)
+  watch(
+    () => route.name,
+    current => {
+      if (current == '/financial-transaction') {
+        router.push({ name: '/financial-transaction/operations-table/' })
+      }
+    },
+    { immediate: true }
+  )
 </script>
 
 <template>
@@ -87,8 +87,12 @@ watch(
     </v-overlay>
     <div>
       <div class="buttons-container">
-        <v-btn v-bind="isTableTab ? activeBtnProps : inActiveBtnProps" height="40px" rounded
-          :to="{ name: '/financial-transaction/operations-table/' }">
+        <v-btn
+          v-bind="isTableTab ? activeBtnProps : inActiveBtnProps"
+          height="40px"
+          rounded
+          :to="{ name: '/financial-transaction/operations-table/' }"
+        >
           {{ t("operations_table") }}
           <template #prepend>
             <v-icon>
@@ -96,8 +100,12 @@ watch(
             </v-icon>
           </template>
         </v-btn>
-        <v-btn v-bind="isActiveSubscribtionsTab ? activeBtnProps : inActiveBtnProps" height="40px" rounded
-          :to="{ name: '/financial-transaction/active-subscribtions/' }">
+        <v-btn
+          v-bind="isActiveSubscribtionsTab ? activeBtnProps : inActiveBtnProps"
+          height="40px"
+          rounded
+          :to="{ name: '/financial-transaction/active-subscribtions/' }"
+        >
           {{ t("active_subscriptions") }}
           <template #prepend>
             <v-icon>
@@ -106,8 +114,12 @@ watch(
           </template>
         </v-btn>
 
-        <v-btn v-bind="isActiveServiceStockTab ? activeBtnProps : inActiveBtnProps" height="40px" rounded
-          :to="{ name: '/financial-transaction/services-stock/' }">
+        <v-btn
+          v-bind="isActiveServiceStockTab ? activeBtnProps : inActiveBtnProps"
+          height="40px"
+          rounded
+          :to="{ name: '/financial-transaction/services-stock/' }"
+        >
           {{ t("services_balance") }}
           <template #prepend>
             <v-icon>
@@ -116,8 +128,12 @@ watch(
           </template>
         </v-btn>
 
-        <v-btn v-bind="isActiveWalletTab ? activeBtnProps : inActiveBtnProps" height="40px" rounded
-          :to="{ name: '/financial-transaction/wallet/' }">
+        <v-btn
+          v-bind="isActiveWalletTab ? activeBtnProps : inActiveBtnProps"
+          height="40px"
+          rounded
+          :to="{ name: '/financial-transaction/wallet/' }"
+        >
           {{ t("wallet") }}
           <template #prepend>
             <v-icon>
