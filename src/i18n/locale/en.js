@@ -1084,6 +1084,39 @@ export default {
   ordinary_language: 'Ordinary language',
   white_language: 'white language',
   tiktok_video: 'Tiktok Video',
-    financial_transaction: "financial transaction"
+  financial_transaction: 'financial transaction',
+
+  operations_table: 'Operations table',
+  active_subscriptions: 'Active subscriptions',
+  services_balance: 'Services balance',
+  wallet: 'Wallet',
+  product_name: 'Product Name',
+  reference_number: 'Reference number',
+  order_date: 'Order Date',
+  download_invoice: 'Download Invoice',
+  on: 'On',
+  off: 'Off',
+  renewale_date: "Renewale Date",
+  total_count: "Total Count",
+      consumed_balance: "Consumed Balance",
+  ad: "Ad",
+  rest_amount: "Rest Amount",
+    transaction: "transaction",
+  charge_wallet: "Charge Wallet",
+  amount_after_transaction: "Amount After Transaction",
+  card_name: "Card Name",
+  a_wallet: "wallet",
+  matrix: "matrix",
+  outstanding: "Otstanding",
+  saudi_sar: "Saudi Ryal",
+  use_amount_msg: "Use your wallet balance when paying",
+          charge_amount: "Charge Amount"
+
+
+
+
+
+
+
 
 }

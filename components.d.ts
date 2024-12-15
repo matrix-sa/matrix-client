@@ -26,6 +26,7 @@ declare module 'vue' {
     AppNumberField: typeof import('./src/components/core/AppNumberField.vue')['default']
     AppSelect: typeof import('./src/components/core/AppSelect.vue')['default']
     AppSwitch: typeof import('./src/components/core/AppSwitch.vue')['default']
+    AppSwitchWithoutIcons: typeof import('./src/components/core/AppSwitchWithoutIcons.vue')['default']
     AppTextarea: typeof import('./src/components/core/AppTextarea.vue')['default']
     AppTextInput: typeof import('./src/components/core/AppTextInput.vue')['default']
     AppTimeField: typeof import('./src/components/core/AppTimeField.vue')['default']
