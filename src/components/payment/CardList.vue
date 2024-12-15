@@ -1,6 +1,6 @@
 <script setup>
   import { useI18n } from 'vue-i18n'
-  import { defineProps } from 'vue'
+  import { defineProps, ref } from 'vue'
 
   const { t } = useI18n()
 
@@ -8,13 +8,18 @@
     cards: Array,
   })
 
+  const showAddCardPopup = ref(false)
+
+  const handleSaveCard = newCard => {
+    console.log('Saved Card:', newCard)
+  }
 </script>
 
 <template>
   <div class="rounded-lg bg-white pa-4">
     <div class="header-container">
       <span class="cards-text"> {{ t("my_cards") }} </span>
-      <v-btn color="warning" rounded>
+      <v-btn color="warning" rounded @click="showAddCardPopup = true">
         <v-icon icon="tabler-circle-plus-filled" />
         {{ t("add_card") }}
       </v-btn>
@@ -40,6 +45,11 @@
         </v-col>
       </v-row>
     </v-container>
+    <PaymentDialog
+      :show-add-card-popup="showAddCardPopup"
+      @close="showAddCardPopup = false"
+      @save="handleSaveCard"
+    />
   </div>
 </template>
 
