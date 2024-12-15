@@ -93,6 +93,7 @@ declare module 'vue' {
     NotificationsHeader: typeof import('./src/components/notifications/NotificationsHeader.vue')['default']
     NotificationsMenu: typeof import('./src/components/notifications/NotificationsMenu.vue')['default']
     OrderedPlatformsByPerformance: typeof import('./src/components/reports/OrderedPlatformsByPerformance.vue')['default']
+    PaymentDialog: typeof import('./src/components/payment/PaymentDialog.vue')['default']
     PlatformCampaignsTable: typeof import('./src/components/campaigns/PlatformCampaignsTable.vue')['default']
     Question: typeof import('./src/components/digital-writer/Question.vue')['default']
     Questions: typeof import('./src/components/digital-writer/Questions.vue')['default']
