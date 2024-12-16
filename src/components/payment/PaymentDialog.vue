@@ -13,14 +13,14 @@
   })
 
   const form = ref({
-    cardName: '',
-    cardTheme: '',
+    name: '',
+    theme: '',
   })
 
   const isFormValid = computed(() => {
     return (
-      !!form.value.cardName &&
-      !!form.value.cardTheme
+      !!form.value.name &&
+      !!form.value.theme
     )
   })
 
@@ -42,8 +42,8 @@
   const handleSave = () => {
     emit('save', form.value)
     form.value = {
-      cardName: '',
-      cardTheme: '',
+      name: '',
+      theme: '',
     }
     handleClose()
   }
@@ -78,7 +78,7 @@
         <v-row>
           <v-col cols="12">
             <AppTextInput
-              v-model="form.cardName"
+              v-model="form.name"
               autofocus
               :label="t('card_name')"
               :placeholder="t('enter_name_card')"
@@ -88,7 +88,7 @@
           <!-- Card Theme selection -->
           <v-col cols="12">
             <v-select
-              v-model="form.cardTheme"
+              v-model="form.theme"
               class="mt-4"
               density="comfortable"
               flat:true

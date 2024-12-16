@@ -1,7 +1,11 @@
 <script setup>
-  import { useI18n } from 'vue-i18n'
   import { defineProps, ref } from 'vue'
+  import { useI18n } from 'vue-i18n'
+  import { useRequest } from 'vue-request'
+  import { useSnackbarStore } from '@/stores/useSnackBarStore'
+  import CreditCardService from '@/services/credit-card-service'
 
+  const { show } = useSnackbarStore()
   const { t } = useI18n()
 
   defineProps({
@@ -9,10 +13,46 @@
   })
 
   const showAddCardPopup = ref(false)
+  const formHTML = ref('')
 
-  const handleSaveCard = newCard => {
-    console.log('Saved Card:', newCard)
+  // Add Credit Card
+  const { run: AddCreditCard } = useRequest(
+    data => CreditCardService.AddCreditCard(data),
+    {
+      manual: true,
+      onSuccess: res => {
+        const { error, messages } = res.data
+        if (error) {
+          show(messages[0], 'error')
+        } else {
+          show(t('loading'), 'success')
+
+          formHTML.value = res.data
+          submitPaymentForm(formHTML.value)
+        }
+      },
+    }
+  )
+
+  // Submit Payment Form
+  const submitPaymentForm = htmlForm => {
+    const formElement = document.createElement('div')
+    formElement.innerHTML = htmlForm
+
+    document.body.appendChild(formElement)
+
+    const form = formElement.querySelector('form')
+    if (form) {
+      form.submit()
+    }
   }
+
+  // Handle Adding Card
+  const handleAddCard = newCard => {
+    console.log('Adding Card:', newCard)
+    AddCreditCard(newCard)
+  }
+
 </script>
 
 <template>
@@ -48,7 +88,7 @@
     <PaymentDialog
       :show-add-card-popup="showAddCardPopup"
       @close="showAddCardPopup = false"
-      @save="handleSaveCard"
+      @save="handleAddCard"
     />
   </div>
 </template>
