@@ -1085,5 +1085,15 @@ export default {
   white_language: 'white language',
   tiktok_video: 'Tiktok Video',
   add_card: 'Add Card',
-  my_cards: 'My Cards'
+  my_cards: 'My Cards',
+  card_name: 'Card Name',
+  enter_name_card: 'Enter Card Name',
+  choose_card_theme: 'Choose Card Theme',
+  card_colors: {
+    blue: 'Blue',
+    red: 'Red',
+    light_purple: 'Light Purple',
+    dark_purple: 'Dark Purple',
+  },
+
 }

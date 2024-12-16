@@ -1084,4 +1084,13 @@ export default {
   tiktok_video: 'فيديو تيك توك',
   add_card: 'أضف بطاقة',
   my_cards: 'بطاقاتي',
+  card_name: 'اسم البطاقة',
+  enter_name_card: 'أدخل اسم البطاقة',
+  choose_card_theme: 'اختر شكل البطاقة',
+  card_colors: {
+    blue: 'أزرق',
+    red: 'أحمر',
+    light_purple: 'أرجواني فاتح',
+    dark_purple: 'أرجواني غامق',
+  },
 }
