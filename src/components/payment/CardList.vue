@@ -1,12 +1,14 @@
 <script setup>
-  import { defineProps, ref } from 'vue'
+  import { defineProps, ref, watch } from 'vue'
   import { useI18n } from 'vue-i18n'
+  import { useRoute } from 'vue-router'
   import { useRequest } from 'vue-request'
   import { useSnackbarStore } from '@/stores/useSnackBarStore'
   import CreditCardService from '@/services/credit-card-service'
 
   const { show } = useSnackbarStore()
   const { t } = useI18n()
+  const route = useRoute()
 
   defineProps({
     cards: Array,
@@ -52,6 +54,22 @@
     console.log('Adding Card:', newCard)
     AddCreditCard(newCard)
   }
+
+  // Watch for changes in the route's query parameters
+  watch(
+    () => route.query,
+    newQuery => {
+      const { message, isSuccessful } = newQuery
+      if (message) {
+        if (isSuccessful.toLocaleLowerCase() === 'true') {
+          show(message, 'success')
+        } else if (isSuccessful.toLocaleLowerCase() === 'false') {
+          show(message, 'error')
+        }
+      }
+    },
+    { immediate: true }
+  )
 
 </script>
 
