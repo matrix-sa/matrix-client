@@ -70,10 +70,9 @@
   const rules = reactive({
     name: [requiredValidator],
     start_time: [requiredValidator],
-    end_time: [requiredValidator],
+    end_time: [],
     daily_budget: [
       integerValidator,
-      requiredValidator,
       () => minIntValidator(form.value.daily_budget, 80),
     ],
   })
@@ -313,6 +312,7 @@
       <VCol cols="12">
         <AppTimeField
           v-model="dateTimes.startTime"
+          :disabled="!dateTimes.startDate"
           :label="$t('campaign_start_time')"
           :placeholder="null"
         />
@@ -320,6 +320,7 @@
       <VCol cols="12">
         <AppDateField
           v-model="dateTimes.endDate"
+          clearable
           :label="$t('campaign_end_date')"
           :min="new Date()"
           :placeholder="null"
@@ -328,6 +329,8 @@
       <VCol cols="12">
         <AppTimeField
           v-model="dateTimes.endTime"
+          clearable
+          :disabled="!dateTimes.endDate"
           :label="$t('campaign_end_time')"
           :placeholder="null"
         />
