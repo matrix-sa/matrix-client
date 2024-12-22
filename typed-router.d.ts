@@ -35,6 +35,7 @@ declare module 'vue-router/auto-routes' {
     '/campaigns/add': RouteRecordInfo<'/campaigns/add', '/campaigns/add', Record<never, never>, Record<never, never>>,
     '/campaigns/edit/[id]': RouteRecordInfo<'/campaigns/edit/[id]', '/campaigns/edit/:id', { id: ParamValue<true> }, { id: ParamValue<false> }>,
     '/financial-transaction': RouteRecordInfo<'/financial-transaction', '/financial-transaction', Record<never, never>, Record<never, never>>,
+    '/financial-transaction/': RouteRecordInfo<'/financial-transaction/', '/financial-transaction', Record<never, never>, Record<never, never>>,
     '/financial-transaction/active-subscribtions/': RouteRecordInfo<'/financial-transaction/active-subscribtions/', '/financial-transaction/active-subscribtions', Record<never, never>, Record<never, never>>,
     '/financial-transaction/operations-table/': RouteRecordInfo<'/financial-transaction/operations-table/', '/financial-transaction/operations-table', Record<never, never>, Record<never, never>>,
     '/financial-transaction/services-stock/': RouteRecordInfo<'/financial-transaction/services-stock/', '/financial-transaction/services-stock', Record<never, never>, Record<never, never>>,
