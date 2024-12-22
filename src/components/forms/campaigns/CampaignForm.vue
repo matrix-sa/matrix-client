@@ -74,7 +74,7 @@
     daily_budget: [
       integerValidator,
       requiredValidator,
-      () => minIntValidator(form.value.daily_budget, 50),
+      () => minIntValidator(form.value.daily_budget, 80),
     ],
   })
 
@@ -333,7 +333,7 @@
         />
       </VCol>
 
-      <VCol cols="12">
+      <VCol v-if="controlRules.length" cols="12">
         <AppSelect
           v-model="form.control_rule_id"
           item-title="name"
@@ -344,7 +344,7 @@
         />
       </VCol>
 
-      <VCol cols="12">
+      <VCol v-if="communicationRules.length" cols="12">
         <AppSelect
           v-model="form.communication_rules_ids"
           item-title="name"
