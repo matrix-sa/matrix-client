@@ -78,6 +78,7 @@
   })
 
   const generateDateTime = (date, time) => {
+    if (!date) return null
     const dateTime = new Date(date)
     if (time?.includes(':')) {
       const splitTime = time.split(':')
@@ -175,8 +176,10 @@
           platform: selectedPlatform.value,
           name: form.value.name,
           start_time: new Date(form.value.start_time).toISOString(),
-          end_time: new Date(form.value.end_time).toISOString(),
-          daily_budget: form.value.daily_budget,
+          end_time: form.value.end_time
+            ? new Date(form.value.end_time).toISOString()
+            : null,
+          daily_budget: form.value.daily_budget || null,
         })
       } else {
         runUpdate({
@@ -185,7 +188,7 @@
           name: form.value.name,
           start_time: new Date(form.value.start_time).toISOString(),
           end_time: new Date(form.value.end_time).toISOString(),
-          daily_budget: form.value.daily_budget,
+          daily_budget: form.value.daily_budget || null,
         })
       }
     })
