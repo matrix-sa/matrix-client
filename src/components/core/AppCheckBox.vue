@@ -9,6 +9,10 @@
       type: String,
       default: '',
     },
+    color: {
+      type: String,
+      default: '',
+    },
   })
 
   const elementId = computed(() => {
@@ -31,7 +35,7 @@
         class: null,
         id: elementId,
 
-        color: 'primary',
+        color: color || 'primary',
         hideDetails: true
       }"
     >
@@ -48,14 +52,16 @@
 
 <style lang="scss" scoped>
 .v-input__control {
-  height: 30px !important
+  height: 30px !important;
 }
 
 .custom-label {
   color: rgb(var(--v-dark-1)) !important;
+
 }
 
 .v-checkbox.v-input {
-  height: 50px !important
+  height: 50px !important;
+
 }
 </style>

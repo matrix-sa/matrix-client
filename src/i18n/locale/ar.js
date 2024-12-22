@@ -1109,5 +1109,27 @@ export default {
   saudi_sar: 'ريال سعودي',
   use_amount_msg: 'استعمل رصيد المحفظة عند الدفع',
   charge_amount: 'اشحن رصيد',
+  purchase_process: 'عملية الشراء',
+  purchase_process_desc: 'يمكنك مراجعة طلبك ثم أضف وسيلة دفع وقم بالشراء.',
+  order_summary: 'ملخص الطلب',
+  ref_num: 'رقم مرجعي',
+  start_date: 'تاريخ البدء',
+  end_date: 'تاريخ الانتهاء',
+
+  select_the_subscription_duration: 'حدد مدة الاشتراك :',
+  service_desc: 'وصف الخدمة',
+  digital_Writer_subscription: 'اشتراك الكاتب الرقمي',
+  wallet_balance: 'رصيد المحفظة ({balance} {currency})',
+  wallet_balance_note: 'يمكنك الضغط على الصندوق لاستخدام رصيد المحفظة في عملية الشراء.',
+  payment_method_slogan: 'حدد وسيلة الدفع او ادفع عن طريق آبل باي.',
+  bank_card: 'بطاقة بنكية',
+  mada_card: 'بطاقة مدى',
+  pay_with: 'ادفع عن طريق',
+  pay: 'قم بالدفع',
+  payment_method_desc: 'هذا نص عن الشروط والأحكام والضرائب وسياسة الاسترجاع الخاصة بمنصة ماتركس.',
+  apply: 'تطبيق',
+  do_you_have_discount_code: 'هل لديك رمز تخفيض؟',
+  checkout: "عملية الشراء"
+
 
 }
