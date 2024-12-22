@@ -1130,6 +1130,6 @@ export default {
   payment_method_desc: 'This is a text about the terms and conditions, taxes and return policy of the Matrix platform.',
   apply: 'Apply',
   do_you_have_discount_code: 'Do you have a discount code?',
-  checkout: "checkout"
+  checkout: 'checkout',
 
 }

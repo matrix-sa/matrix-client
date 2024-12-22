@@ -1129,7 +1129,6 @@ export default {
   payment_method_desc: 'هذا نص عن الشروط والأحكام والضرائب وسياسة الاسترجاع الخاصة بمنصة ماتركس.',
   apply: 'تطبيق',
   do_you_have_discount_code: 'هل لديك رمز تخفيض؟',
-  checkout: "عملية الشراء"
-
+  checkout: 'عملية الشراء',
 
 }
