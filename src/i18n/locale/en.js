@@ -1106,10 +1106,11 @@ export default {
   amount_after_transaction: 'Amount After Transaction',
   card_name: 'Card Name',
   a_wallet: 'wallet',
-  matrix: 'matrix',
   outstanding: 'Otstanding',
   saudi_sar: 'Saudi Ryal',
   use_amount_msg: 'Use your wallet balance when paying',
   charge_amount: 'Charge Amount',
+  cancel_connection: 'Cancel Connection',
+  connection_canceled: 'Connection Canceled',
 
 }

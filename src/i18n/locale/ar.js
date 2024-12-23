@@ -1104,10 +1104,11 @@ export default {
   amount_after_transaction: 'الرصيد بعد العملية',
   card_name: 'اسم البطاقة',
   a_wallet: 'محفظة ',
-  matrix: 'ماتركس',
   outstanding: 'المتميزة',
   saudi_sar: 'ريال سعودي',
   use_amount_msg: 'استعمل رصيد المحفظة عند الدفع',
   charge_amount: 'اشحن رصيد',
+  cancel_connection: 'إلغاء الإتصال',
+  connection_canceled: 'تم إلغاء الإتصال',
 
 }

@@ -52,6 +52,10 @@
     showConfirmationDialog.value = true
   }
 
+  const cancelConnection = platform => {
+    cancelAuthentication(platform)
+  }
+
   const getEvents = platform => {
     switch (platform.status) {
       case 'Success':
@@ -66,6 +70,22 @@
   const { run: runCheckAuth, loading: loadingCheckingPlatform } = useRequest(platformsStore.checkAuth, {
     manual: true,
   })
+
+  const { run: cancelAuthentication, loading: loadingCancelPlatform } = async platform => {
+    const { messages, error } = await platformsStore.cancelAuthentication(
+      platform
+    )
+    showConfirmationDialog.value = !showConfirmationDialog.value
+    if (error) {
+      show(messages[0], 'error')
+      showConfirmationDialog.value = !showConfirmationDialog.value
+
+      return
+    }
+
+    show(t('connection_canceled'), 'success')
+    runCheckAuth(selectedPlatform.value)
+  }
 
   const confirm = async platform => {
     const { data, messages, error } = await platformsStore.startAuthentication(
@@ -112,7 +132,7 @@
 
   const loading = computed(() => loadingAuthentication.value ||
     loadingCheckingPlatforms.value ||
-    loadingCheckingPlatform.value)
+    loadingCheckingPlatform.value || loadingCancelPlatform.value)
 
   const handleSavedAccount = () => {
     runCheckAuth(chosenPlatform.value.code)
@@ -156,6 +176,16 @@
         width="90%"
         v-on="getEvents(platform)"
       />
+      <v-btn
+        v-if="platform.status === 'OnlyAuthenticated' || platform.status === 'Success'"
+        color="error"
+        rounded
+        width="90%"
+        @click="cancelConnection(platform)"
+      >
+        {{ t('cancel_connection') }}
+      </v-btn>
+
     </div>
     <ConnectionConfirmationDialog
       v-if="selectedPlatform"
