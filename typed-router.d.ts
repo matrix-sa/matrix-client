@@ -22,6 +22,7 @@ declare module 'vue-router/auto-routes' {
     '/[...all]': RouteRecordInfo<'/[...all]', '/:all(.*)', { all: ParamValue<true> }, { all: ParamValue<false> }>,
     '/account-settings': RouteRecordInfo<'/account-settings', '/account-settings', Record<never, never>, Record<never, never>>,
     '/account-settings/account-details': RouteRecordInfo<'/account-settings/account-details', '/account-settings/account-details', Record<never, never>, Record<never, never>>,
+    '/account-settings/payment-methods': RouteRecordInfo<'/account-settings/payment-methods', '/account-settings/payment-methods', Record<never, never>, Record<never, never>>,
     '/account-settings/settings': RouteRecordInfo<'/account-settings/settings', '/account-settings/settings', Record<never, never>, Record<never, never>>,
     '/ad-groups/[campaignId]/add/': RouteRecordInfo<'/ad-groups/[campaignId]/add/', '/ad-groups/:campaignId/add', { campaignId: ParamValue<true> }, { campaignId: ParamValue<false> }>,
     '/ad-groups/[campaignId]/edit/': RouteRecordInfo<'/ad-groups/[campaignId]/edit/', '/ad-groups/:campaignId/edit', { campaignId: ParamValue<true> }, { campaignId: ParamValue<false> }>,
