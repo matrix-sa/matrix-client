@@ -17,8 +17,9 @@
   const selectedPlatform = ref(null)
   const showConfirmationDialog = ref(false)
 
-  const { loading: loadingCheckingPlatforms } =
-    useRequest(platformsStore.getActivePlatforms)
+  const { loading: loadingCheckingPlatforms } = useRequest(
+    platformsStore.getActivePlatforms
+  )
 
   const getProperties = status => {
     switch (status) {
@@ -53,7 +54,7 @@
   }
 
   const cancelConnection = platform => {
-    cancelAuthentication(platform)
+    // cancelAuthentication(platform)
   }
 
   const getEvents = platform => {
@@ -67,29 +68,35 @@
     }
   }
 
-  const { run: runCheckAuth, loading: loadingCheckingPlatform } = useRequest(platformsStore.checkAuth, {
-    manual: true,
-  })
-
-  const { run: cancelAuthentication, loading: loadingCancelPlatform } = async platform => {
-    const { messages, error } = await platformsStore.cancelAuthentication(
-      platform
-    )
-    showConfirmationDialog.value = !showConfirmationDialog.value
-    if (error) {
-      show(messages[0], 'error')
-      showConfirmationDialog.value = !showConfirmationDialog.value
-
-      return
+  const { run: runCheckAuth, loading: loadingCheckingPlatform } = useRequest(
+    platformsStore.checkAuth,
+    {
+      manual: true,
     }
+  )
 
-    show(t('connection_canceled'), 'success')
-    runCheckAuth(selectedPlatform.value)
-  }
+  // const {
+  //   run: cancelAuthentication,
+  //   loading: loadingCancelPlatform,
+  // } = async platform => {
+  //   const { messages, error } = await platformsStore.cancelAuthentication(
+  //     platform
+  //   )
+  //   showConfirmationDialog.value = !showConfirmationDialog.value
+  //   if (error) {
+  //     show(messages[0], 'error')
+  //     showConfirmationDialog.value = !showConfirmationDialog.value
+
+  //     return
+  //   }
+
+  //   show(t('connection_canceled'), 'success')
+  //   runCheckAuth(selectedPlatform.value)
+  // }
 
   const confirm = async platform => {
     const { data, messages, error } = await platformsStore.startAuthentication(
-      platform,
+      platform
     )
     showConfirmationDialog.value = !showConfirmationDialog.value
     if (error) {
@@ -102,7 +109,7 @@
     const popupWindow = window.open(
       data.authentication_url,
       'PopupWindow',
-      'width=600,height=400',
+      'width=600,height=400'
     )
 
     window.addEventListener('message', async function (e) {
@@ -120,19 +127,25 @@
 
         show(t('connected_successfully'), 'success')
         runCheckAuth(selectedPlatform.value)
-        // toggleAdFormDialog(selectedPlatform.value)
+      // toggleAdFormDialog(selectedPlatform.value)
       }
     })
   }
 
-  const { run: handleConfirmation, loading: loadingAuthentication } =
-    useRequest(confirm, {
+  const { run: handleConfirmation, loading: loadingAuthentication } = useRequest(
+    confirm,
+    {
       manual: true,
-    })
+    }
+  )
 
-  const loading = computed(() => loadingAuthentication.value ||
-    loadingCheckingPlatforms.value ||
-    loadingCheckingPlatform.value || loadingCancelPlatform.value)
+  const loading = computed(
+    () =>
+      loadingAuthentication.value ||
+      loadingCheckingPlatforms.value ||
+      loadingCheckingPlatform.value
+      // || loadingCancelPlatform.value
+  )
 
   const handleSavedAccount = () => {
     runCheckAuth(chosenPlatform.value.code)
@@ -160,11 +173,7 @@
 </script>
 <template>
   <div class="boxes-container">
-    <v-overlay
-      v-model="loading"
-      class="align-center justify-center"
-      persistent
-    >
+    <v-overlay v-model="loading" class="align-center justify-center" persistent>
       <v-progress-circular color="primary" indeterminate size="50" :width="7" />
     </v-overlay>
     <div v-for="platform in platforms" :key="platform.code" class="box">
@@ -177,15 +186,17 @@
         v-on="getEvents(platform)"
       />
       <v-btn
-        v-if="platform.status === 'OnlyAuthenticated' || platform.status === 'Success'"
+        v-if="
+          platform.status === 'OnlyAuthenticated' ||
+            platform.status === 'Success'
+        "
         color="error"
         rounded
         width="90%"
         @click="cancelConnection(platform)"
       >
-        {{ t('cancel_connection') }}
+        {{ t("cancel_connection") }}
       </v-btn>
-
     </div>
     <ConnectionConfirmationDialog
       v-if="selectedPlatform"
