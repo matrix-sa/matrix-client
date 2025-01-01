@@ -60,7 +60,23 @@
         size="x-large"
         :text="item.title"
         :value="item.id"
-      />
+      >
+        <template v-if="item.withIcon">
+          <div class="d-flex align-center ga-2">
+            <img alt="" class="chip-icon" :src="item.iconSrc">
+            <span class="ml-2">{{ item.title }}</span>
+          </div>
+        </template>
+        <template v-else>
+          {{ item.title }}
+        </template>
+        <template v-if="item.haveDiscount" #default>
+          {{ item.title }}
+          <div v-if="$slots.text" class="absolute-element d-flex align-center justify-center">
+            <slot name="text" />
+          </div>
+        </template>
+      </v-chip>
     </v-chip-group>
   </div>
 </template>
@@ -82,5 +98,21 @@
       margin: auto;
     }
   }
+}
+
+.absolute-element{
+  position: absolute;
+  top: 0;
+  left: 20px;
+  width: 30px;
+  height: 30px;
+  background: #F50;
+
+  border-bottom-right-radius: 25px;
+  border-bottom-left-radius: 25px;
+  color: white;
+  font-size: 12px;
+  font-weight: 500;
+
 }
 </style>

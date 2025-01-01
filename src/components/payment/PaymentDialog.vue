@@ -67,7 +67,7 @@
       <v-card-title class="d-flex justify-space-between align-center">
         <div class="d-flex align-center">
           <v-icon size="22px">tabler-credit-card</v-icon>
-          <span class="card-title mx-2">{{t('add_card')}}</span>
+          <span class="card-title mx-2">{{ t('add_card') }}</span>
         </div>
         <v-btn icon="mdi-close" @click="handleClose" />
       </v-card-title>
