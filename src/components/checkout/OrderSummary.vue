@@ -1,6 +1,14 @@
 <script setup>
-  import { useI18n } from 'vue-i18n'
-  const { t } = useI18n()
+
+
+import { useI18n } from 'vue-i18n'
+
+defineProps({
+  orderSummaryData: {
+    type: Object,
+  },
+})
+const { t } = useI18n()
 </script>
 
 <template>
@@ -10,8 +18,7 @@
     </div>
 
     <hr class="separator mt-4">
-
-    <OrderStats />
+    <OrderStats :order-summary-data="orderSummaryData" />
 
   </div>
 </template>
@@ -20,20 +27,20 @@
 $borderColor: rgba(31, 22, 37, 0.1);
 
 .text-wrapper {
-    gap: 8px;
+  gap: 8px;
 
-    span {
-        font-size: 20px;
-        font-weight: 700;
-        color: rgb(var(--v-theme-on-code));
-    }
+  span {
+    font-size: 20px;
+    font-weight: 700;
+    color: rgb(var(--v-theme-on-code));
+  }
 
-    p {
-        color: rgb(var(--v-dark-1));
-    }
+  p {
+    color: rgb(var(--v-dark-1));
+  }
 }
 
 .separator {
-    border-color: $borderColor;
+  border-color: $borderColor;
 }
 </style>

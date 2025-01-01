@@ -1130,5 +1130,6 @@ export default {
   apply: 'تطبيق',
   do_you_have_discount_code: 'هل لديك رمز تخفيض؟',
   checkout: 'عملية الشراء',
+  vat: "ضريبة VAT"
 
 }

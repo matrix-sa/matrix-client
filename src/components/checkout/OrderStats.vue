@@ -1,11 +1,52 @@
 <script setup>
-  import ChatbotLogo from '@/assets/digital-writer/digital.svg'
-  import CalendarIcon from '@/assets/images/icons/calendar.svg'
+import ChatbotLogo from '@/assets/digital-writer/digital.svg'
+import CalendarIcon from '@/assets/images/icons/calendar.svg'
+import { useAuthStore } from '@/stores/useAuthStore'
+import { storeToRefs } from 'pinia'
 
-  import { useI18n } from 'vue-i18n'
-  const { t } = useI18n()
+import { useI18n } from 'vue-i18n'
+
+const props = defineProps({
+  orderSummaryData: {
+    type: Object,
+  },
+})
+
+const { locale, t } = useI18n()
+
+
+const authStore = useAuthStore()
+
+const selectedPackage = ref(null)
+const selectedPackageObject = ref(null)
+
+
+const language = computed(() =>
+  locale.value
+)
+const { user } = storeToRefs(authStore)
+
+const packages = computed(() => {
+  if (!props.orderSummaryData?.packages) return [];
+  return props.orderSummaryData?.packages?.map((item) => ({
+    id: item.code,
+    title: language.value === 'en' ? item.name_en : item.name_ar,
+    haveDiscount: false,
+  }));
+});
+
+
+watch(selectedPackage, newValue => {
+  if (newValue) {
+    selectedPackageObject.value = props.orderSummaryData?.packages?.find(item => item.code == newValue)
+  } else {
+    selectedPackageObject.value = null
+  }
+})
+
 </script>
 <template>
+
   <div class="mt-4 order-stats-container">
     <div class="d-flex align-center justify-space-between">
       <div>
@@ -14,7 +55,8 @@
             <img alt="chatbot" :src="ChatbotLogo">
           </div>
           <div>
-            <span class="title">{{ t('digital_writer') }}</span>
+            <span class="title">{{ language == "en" ? props.orderSummaryData.name_en : props.orderSummaryData.name_ar
+              }}</span>
             <div class="mt-1">
               <span class="ref-text">{{ t('ref_num') }}</span>:
               <span class="ref-num">5628</span>
@@ -22,7 +64,7 @@
           </div>
         </div>
       </div>
-      <div class="first-price">750 {{ t('sar') }}</div>
+      <div class="first-price" v-if="selectedPackageObject">{{ selectedPackageObject?.price }} {{ t('sar') }}</div>
 
     </div>
     <div class="mt-4 date-container ga-4 d-flex justify-space-between">
@@ -44,16 +86,10 @@
     </div>
     <hr class="separator mt-4">
     <div class="mt-4">
-      <AppChipSelect
-        :have-discount="true"
-        :items="[
-          { id: 'month', title: t('last-month') , haveDiscount: false},
-          { id: 'month2', title: t('last-month') , haveDiscount: false},
-          { id: 'month3', title: t('last-month'), haveDiscount: false },
-          { id: 'month4', title: t('last-month') , haveDiscount: true}
-        ]"
-        :label="t('select_the_subscription_duration')"
-      >
+      <pre>
+      </pre>
+      <AppChipSelect v-model="selectedPackage" v-if="packages" :have-discount="true" :items="packages"
+        :label="t('select_the_subscription_duration')">
         <template #text>
           <span>%25</span>
         </template>
@@ -62,7 +98,8 @@
 
     <div class="desc-box mt-4">
       <span class="desc-box-title"> {{ t('service_desc') }}</span>
-      <p class="service-desc">هذا نص يوضح ما سيقدمه الكاتب الرقمي للمستخدم عند الشراء.</p>
+      <p class="service-desc">{{ language == 'en' ? props.orderSummaryData.description_en :
+        props.orderSummaryData.description_ar }}</p>
     </div>
     <hr class="separator mt-4">
 
@@ -76,8 +113,8 @@
         </li>
         <li>
           <div class="d-flex justify-space-between align-center">
-            <span>{{ t('digital_Writer_subscription') }}</span>
-            <span class="second-price">750 {{ t('sar') }}</span>
+            <span>{{ t('vat') }}</span>
+            <span class="second-price">{{ props.orderSummaryData.vat }}%</span>
           </div>
         </li>
       </ul>
@@ -92,8 +129,8 @@
               <AppCheckBox color="orange" />
             </div>
             <div class="d-flex flex-column ga-1">
-              <span class="wallet-balance">
-                {{ t('wallet_balance' , {balance: 100 , currency: t('sar')}) }}
+              <span class="wallet-balance" v-if="user">
+                {{ t('wallet_balance', { balance: user.walltet_balance, currency: t('sar') }) }}
               </span>
               <span class="wallet-balance-note">{{ t('wallet_balance_note') }}</span>
             </div>
@@ -111,13 +148,14 @@
               <span class="total-price-title">{{ t('total-sum') }}</span>
               <span class="total-price">750 {{ t('sar') }}</span>
             </div>
-          </li></ul>
+          </li>
+        </ul>
       </div>
     </div>
   </div>
 </template>
 
-<style  lang="scss">
+<style lang="scss">
 $blackColor: #000000;
 
 .order-stats-container {
@@ -181,22 +219,23 @@ $blackColor: #000000;
   .desc-box {
     background-color: #f4f4f4;
 
-padding: 16px ;
-gap: 8px;
-border-radius: 16px ;
+    padding: 16px;
+    gap: 8px;
+    border-radius: 16px;
 
-&-title{
-    color: #706D79 !important;
-    font-size: 14px;
-}
-.service-desc{
-font-size: 16px;
-font-weight: 400;
-line-height: 20px;
-color: #000;
-margin-top: 8px;
+    &-title {
+      color: #706D79 !important;
+      font-size: 14px;
+    }
 
-}
+    .service-desc {
+      font-size: 16px;
+      font-weight: 400;
+      line-height: 20px;
+      color: #000;
+      margin-top: 8px;
+
+    }
 
   }
 
@@ -204,66 +243,67 @@ margin-top: 8px;
     border-color: #DDDDDD;
     border-top: 0;
     border-width: 1px;
-}
+  }
 
-.total-box{
+  .total-box {
     background-color: #f4f4f4;
 
-padding: 16px ;
-gap: 8px;
-border-radius: 16px ;
+    padding: 16px;
+    gap: 8px;
+    border-radius: 16px;
 
-.second-price{
-font-size: 14px;
-font-weight: 400;
-line-height: 20px;
-color: #000;
-
-}
-
-ul li{
-    color: rgb(var(--v-theme-primary)) ;
-
-    span:nth-child(1){
-        color: rgb(var(--v-dark-2)) !important;
+    .second-price {
+      font-size: 14px;
+      font-weight: 400;
+      line-height: 20px;
+      color: #000;
 
     }
+
+    ul li {
+      color: rgb(var(--v-theme-primary));
+
+      span:nth-child(1) {
+        color: rgb(var(--v-dark-2)) !important;
+
+      }
+    }
+
+    .wallet-balance {
+      font-size: 14px;
+      font-weight: 500;
+      line-height: 20px;
+      color: #000
+    }
+
+    .wallet-balance-note {
+      font-size: 12px;
+      font-weight: 400;
+      line-height: 20px;
+
+    }
+
+    .wallet-after-use {
+      color: rgb(var(--v-theme-primary));
+      font-size: 14px;
+      font-weight: 400;
+      line-height: 20px;
+
+    }
+
+    .total-list {
+
+      .total-price-title,
+      .total-price {
+        color: #000 !important;
+        font-size: 14px;
+        font-weight: 700;
+        line-height: 20px;
+
+      }
+
+    }
+  }
+
 }
-
-.wallet-balance{
-font-size: 14px;
-font-weight: 500;
-line-height: 20px;
-color: #000
-
-}
-
-.wallet-balance-note{
-font-size: 12px;
-font-weight: 400;
-line-height: 20px;
-
-}
-.wallet-after-use{
-    color: rgb(var(--v-theme-primary));
-font-size: 14px;
-font-weight: 400;
-line-height: 20px;
-
-}
-
-.total-list{
-    .total-price-title,.total-price{
-    color: #000 !important;
-font-size: 14px;
-font-weight: 700;
-line-height: 20px;
-
-}
-
-}
-}
-
-}
-
 </style>
