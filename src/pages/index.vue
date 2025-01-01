@@ -64,7 +64,7 @@
       </VCol>
 
       <VCol cols="12" lg="3" md="6">
-        <HomeRoas class="h-100" :roas="statistics.weekly_roas" />
+        <HomeSpending class="h-100" :roas="statistics.weekly_spendings" />
       </VCol>
 
       <VCol cols="12" lg="3" md="6">
@@ -72,7 +72,7 @@
       </VCol>
 
       <VCol cols="12" lg="3" md="6">
-        <HomeSpendingReturn class="h-100" :spendings="statistics.weekly_spendings" />
+        <HomeSpendingReturn class="h-100" :spendings="statistics.weekly_roas" />
       </VCol>
 
       <VCol cols="12">
