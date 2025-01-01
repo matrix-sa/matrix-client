@@ -10,7 +10,9 @@ const SocialPlatformsService = function (platform) {
   const startAuthentication = data => {
     return API.get(`${prefix}/StartAuthentication`, {})
   }
-
+  const cancelAuthentication = async () => {
+    return API.put(`${prefix}/Account/cancel`, {})
+  }
   const getAdAccounts = async () => {
     return API.get(`${platform}/AdAccounts/GetAdAccounts`, {})
   }
@@ -48,6 +50,7 @@ const SocialPlatformsService = function (platform) {
     getFacebookPages,
     getFundingInstruments,
     getPublicProfiles,
+    cancelAuthentication,
   }
 }
 

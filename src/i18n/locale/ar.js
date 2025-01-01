@@ -974,7 +974,8 @@ export default {
   least_adds_ad_campaigns: 'أضعف الحملات الإعلانية أداء',
   create_account: 'قم بإنشاء حسابك مجانا',
   welcome_back_to_matrix: 'مرحبا بك مرة أخري في ماتريكس',
-  login_message: 'قم بتسجيل الدخول إلي حساب ماتريكس الخاص بك وتحكم في مبيعات منتجاتك وحملاتك التسويقية',
+  login_message:
+    'قم بتسجيل الدخول إلي حساب ماتريكس الخاص بك وتحكم في مبيعات منتجاتك وحملاتك التسويقية',
   add_here: 'أدخل هنا',
   send_code_verification: 'أرسل الرمز',
   choose_currency: 'اختر العملة',
@@ -1046,7 +1047,8 @@ export default {
   tracking: {
     name: 'روابط التتبع',
     create_tracking_link_title: 'أنشئ روابط تتبع',
-    create_tracking_link_subtitle: 'تساعدك هذه الأداة علي إنشاء روابط تتبع بشكل سريع ومختصر.',
+    create_tracking_link_subtitle:
+      'تساعدك هذه الأداة علي إنشاء روابط تتبع بشكل سريع ومختصر.',
     platform: 'المنصة',
     campaignId: 'معرف الحملة',
     ad_group_id: 'معرف المجموعة الاعلانة',
@@ -1067,9 +1069,11 @@ export default {
   number_of_advertising_texts: 'عدد النصوص الإعلانية',
   num_of_designs: 'عدد التصاميم',
   num_of_control_rules: 'عدد قواعد التحكم',
-  which_has_been_implemented_to_improve_performance: 'التي تم تنفيذها لتحسين الأداء',
+  which_has_been_implemented_to_improve_performance:
+    'التي تم تنفيذها لتحسين الأداء',
   num_of_communication_rules: 'عدد قواعد الاتصال',
-  through_which_alerts_were_sent_to_monitor_performance: 'التي تم إرسال تنبيهات من خلالها لمتابعة الأداء',
+  through_which_alerts_were_sent_to_monitor_performance:
+    'التي تم إرسال تنبيهات من خلالها لمتابعة الأداء',
   consultations: 'الاستشارات',
   links_table: 'سجل الروابط',
   no_rules_found: 'لا توجد قواعد متاحة',
@@ -1083,7 +1087,6 @@ export default {
   white_language: 'ﺍﻟﻠﻐﺔ ﺍﻟﺒﻴﻀﺎﺀ',
   tiktok_video: 'فيديو تيك توك',
   financial_transaction: 'المعاملات المالية',
-
   operations_table: 'جدول العمليات',
   active_subscriptions: 'الاشتراكات النشطة',
   services_balance: 'رصيد الخدمات',
@@ -1104,7 +1107,6 @@ export default {
   amount_after_transaction: 'الرصيد بعد العملية',
   card_name: 'اسم البطاقة',
   a_wallet: 'محفظة ',
-  matrix: 'ماتركس',
   outstanding: 'المتميزة',
   saudi_sar: 'ريال سعودي',
   use_amount_msg: 'استعمل رصيد المحفظة عند الدفع',
@@ -1130,6 +1132,17 @@ export default {
   apply: 'تطبيق',
   do_you_have_discount_code: 'هل لديك رمز تخفيض؟',
   checkout: 'عملية الشراء',
-  vat: "ضريبة VAT"
-
+  vat: "ضريبة VAT",
+  cancel_connection: 'إلغاء الإتصال',
+  connection_canceled: 'تم إلغاء الإتصال',
+  add_card: 'أضف بطاقة',
+  my_cards: 'بطاقاتي',
+  enter_name_card: 'أدخل اسم البطاقة',
+  choose_card_theme: 'اختر شكل البطاقة',
+  card_colors: {
+    blue: 'أزرق',
+    red: 'أحمر',
+    light_purple: 'أرجواني فاتح',
+    dark_purple: 'أرجواني غامق',
+  },
 }

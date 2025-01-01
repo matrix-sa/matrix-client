@@ -976,7 +976,8 @@ export default {
   least_adds_ad_campaigns: 'Least Adds Ad Campaigns Performance',
   create_account: 'Create Account for Free',
   welcome_back_to_matrix: 'Welcome back to Matrix',
-  login_message: 'Log in to your Matrix account and control your product sales and marketing campaigns',
+  login_message:
+    'Log in to your Matrix account and control your product sales and marketing campaigns',
   add_here: 'Add Here',
   send_code_verification: 'Send Code Verification',
   choose_currency: 'Choose Currency',
@@ -1013,7 +1014,8 @@ export default {
   stop_campaign_msg:
     'You can quickly activate the same campaign again through the campaigns page',
   my_notifications: 'notifications',
-  my_notifications_desc: 'You can modify the type of notifications you receive from the',
+  my_notifications_desc:
+    'You can modify the type of notifications you receive from the',
   not_settings: ' notification settings.',
   new_notifications: 'New Notifications',
   show_all: 'Show All',
@@ -1048,7 +1050,8 @@ export default {
   tracking: {
     name: 'Tracking links',
     create_tracking_link_title: 'Create Tracking Link',
-    create_tracking_link_subtitle: 'This tool helps you to quickly and concisely link and create a trace.',
+    create_tracking_link_subtitle:
+      'This tool helps you to quickly and concisely link and create a trace.',
     platform: 'Platform',
     campaignId: 'Campaign ID',
     ad_group_id: 'Ad Group ID',
@@ -1069,9 +1072,11 @@ export default {
   number_of_advertising_texts: 'Number of advertising texts',
   num_of_designs: 'Number Of Designs',
   num_of_control_rules: 'Number Of Control Rules',
-  which_has_been_implemented_to_improve_performance: 'Which has been implemented to improve performance',
+  which_has_been_implemented_to_improve_performance:
+    'Which has been implemented to improve performance',
   num_of_communication_rules: 'Number Of communication Rules',
-  through_which_alerts_were_sent_to_monitor_performance: 'Through which alerts were sent to monitor performance',
+  through_which_alerts_were_sent_to_monitor_performance:
+    'Through which alerts were sent to monitor performance',
   consultations: 'consultations',
   links_table: 'Links Records',
   no_rules_found: 'No Rules Found',
@@ -1085,7 +1090,6 @@ export default {
   white_language: 'white language',
   tiktok_video: 'Tiktok Video',
   financial_transaction: 'financial transaction',
-
   operations_table: 'Operations table',
   active_subscriptions: 'Active subscriptions',
   services_balance: 'Services balance',
@@ -1106,7 +1110,6 @@ export default {
   amount_after_transaction: 'Amount After Transaction',
   card_name: 'Card Name',
   a_wallet: 'wallet',
-  matrix: 'matrix',
   outstanding: 'Otstanding',
   saudi_sar: 'Saudi Ryal',
   use_amount_msg: 'Use your wallet balance when paying',
@@ -1131,6 +1134,17 @@ export default {
   apply: 'Apply',
   do_you_have_discount_code: 'Do you have a discount code?',
   checkout: 'checkout',
-  vat:"Vat"
-
+  vat:"Vat",
+  cancel_connection: 'Cancel Connection',
+  connection_canceled: 'Connection Canceled',
+  add_card: 'Add Card',
+  my_cards: 'My Cards',
+  enter_name_card: 'Enter Card Name',
+  choose_card_theme: 'Choose Card Theme',
+  card_colors: {
+    blue: 'Blue',
+    red: 'Red',
+    light_purple: 'Light Purple',
+    dark_purple: 'Dark Purple',
+  },
 }

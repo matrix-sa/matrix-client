@@ -140,6 +140,18 @@ export const usePlatformsStore = defineStore('platforms', {
       return data
     },
 
+    async cancelAuthentication (platform) {
+      this.isLoading = true
+
+      const socialService = SocialPlatformsService(platform)
+
+      const { data } = await socialService.cancelAuthentication()
+
+      this.isLoading = false
+
+      return data
+    },
+
     async getPublicProfiles (adAccountId) {
       this.isLoading = true
 

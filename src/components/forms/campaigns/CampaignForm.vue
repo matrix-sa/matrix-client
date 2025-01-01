@@ -70,15 +70,15 @@
   const rules = reactive({
     name: [requiredValidator],
     start_time: [requiredValidator],
-    end_time: [requiredValidator],
+    end_time: [],
     daily_budget: [
       integerValidator,
-      requiredValidator,
-      () => minIntValidator(form.value.daily_budget, 50),
+      () => minIntValidator(form.value.daily_budget, 80),
     ],
   })
 
   const generateDateTime = (date, time) => {
+    if (!date) return null
     const dateTime = new Date(date)
     if (time?.includes(':')) {
       const splitTime = time.split(':')
@@ -176,8 +176,10 @@
           platform: selectedPlatform.value,
           name: form.value.name,
           start_time: new Date(form.value.start_time).toISOString(),
-          end_time: new Date(form.value.end_time).toISOString(),
-          daily_budget: form.value.daily_budget,
+          end_time: form.value.end_time
+            ? new Date(form.value.end_time).toISOString()
+            : null,
+          daily_budget: form.value.daily_budget || null,
         })
       } else {
         runUpdate({
@@ -186,7 +188,7 @@
           name: form.value.name,
           start_time: new Date(form.value.start_time).toISOString(),
           end_time: new Date(form.value.end_time).toISOString(),
-          daily_budget: form.value.daily_budget,
+          daily_budget: form.value.daily_budget || null,
         })
       }
     })
@@ -313,6 +315,7 @@
       <VCol cols="12">
         <AppTimeField
           v-model="dateTimes.startTime"
+          :disabled="!dateTimes.startDate"
           :label="$t('campaign_start_time')"
           :placeholder="null"
         />
@@ -320,6 +323,7 @@
       <VCol cols="12">
         <AppDateField
           v-model="dateTimes.endDate"
+          clearable
           :label="$t('campaign_end_date')"
           :min="new Date()"
           :placeholder="null"
@@ -328,12 +332,14 @@
       <VCol cols="12">
         <AppTimeField
           v-model="dateTimes.endTime"
+          clearable
+          :disabled="!dateTimes.endDate"
           :label="$t('campaign_end_time')"
           :placeholder="null"
         />
       </VCol>
 
-      <VCol cols="12">
+      <VCol v-if="controlRules.length" cols="12">
         <AppSelect
           v-model="form.control_rule_id"
           item-title="name"
@@ -344,7 +350,7 @@
         />
       </VCol>
 
-      <VCol cols="12">
+      <VCol v-if="communicationRules.length" cols="12">
         <AppSelect
           v-model="form.communication_rules_ids"
           item-title="name"
