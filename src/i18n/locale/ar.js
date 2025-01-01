@@ -1132,7 +1132,7 @@ export default {
   apply: 'تطبيق',
   do_you_have_discount_code: 'هل لديك رمز تخفيض؟',
   checkout: 'عملية الشراء',
-  vat: "ضريبة VAT",
+  vat: 'ضريبة VAT',
   cancel_connection: 'إلغاء الإتصال',
   connection_canceled: 'تم إلغاء الإتصال',
   add_card: 'أضف بطاقة',

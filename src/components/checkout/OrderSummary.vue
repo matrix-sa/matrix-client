@@ -1,14 +1,13 @@
 <script setup>
 
+  import { useI18n } from 'vue-i18n'
 
-import { useI18n } from 'vue-i18n'
-
-defineProps({
-  orderSummaryData: {
-    type: Object,
-  },
-})
-const { t } = useI18n()
+  defineProps({
+    orderSummaryData: {
+      type: Object,
+    },
+  })
+  const { t } = useI18n()
 </script>
 
 <template>

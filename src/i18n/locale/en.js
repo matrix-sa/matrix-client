@@ -1134,7 +1134,7 @@ export default {
   apply: 'Apply',
   do_you_have_discount_code: 'Do you have a discount code?',
   checkout: 'checkout',
-  vat:"Vat",
+  vat: 'Vat',
   cancel_connection: 'Cancel Connection',
   connection_canceled: 'Connection Canceled',
   add_card: 'Add Card',

@@ -1,69 +1,67 @@
 <script setup>
-import { ref, watch } from 'vue'
-import { useI18n } from 'vue-i18n'
-import { useBreadcrumbsStore } from '@/stores/useBreadcrumbsStore'
-import PaymentService from '@/services/payment-service'
-import { usePagination } from 'vue-request'
+  import { ref, watch } from 'vue'
+  import { useI18n } from 'vue-i18n'
+  import { useBreadcrumbsStore } from '@/stores/useBreadcrumbsStore'
+  import PaymentService from '@/services/payment-service'
+  import { usePagination } from 'vue-request'
 
-const { t, locale } = useI18n()
-const { update } = useBreadcrumbsStore()
+  const { t, locale } = useI18n()
+  const { update } = useBreadcrumbsStore()
 
-const orderSummaryData = ref({})
-const loading = ref(true)
-const options = ref({
-  page: 1,
-  itemsPerPage: 10,
-  sortBy: [],
-  groupBy: [],
-  search: undefined,
-})
+  const orderSummaryData = ref({})
+  const loading = ref(true)
+  const options = ref({
+    page: 1,
+    itemsPerPage: 10,
+    sortBy: [],
+    groupBy: [],
+    search: undefined,
+  })
 
-const getQuery = params => {
-  const query = new URLSearchParams()
+  const getQuery = params => {
+    const query = new URLSearchParams()
 
-  query.append('PageSize', options.value.itemsPerPage)
-  query.append('Page', options.value.page)
+    query.append('PageSize', options.value.itemsPerPage)
+    query.append('Page', options.value.page)
 
-  return query
-}
-
-
-const { run, loading: loadData } = usePagination(
-  params => PaymentService.get(getQuery(params)),
-  {
-    manual: true,
-    onSuccess: res => {
-      const { data, error, messages } = res.data
-      if (error) {
-        show(messages[0], 'error')
-        return
-      }
-
-
-      orderSummaryData.value = data
-      loading.value = false
-    },
-    onError: err => {
-      console.error(err)
-    },
+    return query
   }
-)
 
-run()
-// Watch locale for breadcrumbs update
-watch(
-  locale,
-  () => {
-    update([
-      {
-        title: t('checkout'),
-        active: false,
-        to: '/checkout',
+  const { run, loading: loadData } = usePagination(
+    params => PaymentService.get(getQuery(params)),
+    {
+      manual: true,
+      onSuccess: res => {
+        const { data, error, messages } = res.data
+        if (error) {
+          show(messages[0], 'error')
+          return
+        }
+
+        orderSummaryData.value = data
+        loading.value = false
       },
-    ])
-  },
-  { immediate: true }
-)
+      onError: err => {
+        console.error(err)
+      },
+    }
+  )
+
+  run()
+  // Watch locale for breadcrumbs update
+  watch(
+    locale,
+    () => {
+      update([
+        {
+          title: t('checkout'),
+          active: false,
+          to: '/checkout',
+        },
+      ])
+    },
+    { immediate: true }
+  )
 
 </script>
 

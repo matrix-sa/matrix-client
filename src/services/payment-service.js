@@ -9,7 +9,6 @@ const PaymentService = (function () {
     return API.get(`${prefix}ServicesPurchase/GetService?serviceType=WhatsApp`, params)
   }
 
-
   return {
     get,
 
