@@ -21,9 +21,9 @@
     <v-card-text>
       <v-list class="list">
         <v-list-item v-for="(item) in recommendations" :key="item.id">
-          <v-list-item-content>
+          <div>
             <p class="recommendation-text"> <span class="dot" /> {{ t(item.text) }}</p>
-          </v-list-item-content>
+          </div>
         </v-list-item>
       </v-list>
     </v-card-text>
