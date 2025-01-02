@@ -213,8 +213,6 @@ export const isVideoFile = ([file]) => {
     .slice(file.name.lastIndexOf('.'))
     .toLowerCase()
 
-  console.log(fileExtension, videoExtensions.includes(fileExtension))
-
   return videoExtensions.includes(fileExtension) || t('extension_not_allowed')
 }
 

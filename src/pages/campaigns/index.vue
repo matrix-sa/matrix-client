@@ -70,7 +70,7 @@
           adGroupId: selectedAdGroups.value[0].id,
         },
         query: {
-          platform: selectedAdGroups.value[0].platform,
+          platform: selectedAdGroups.value[0].ad_platform,
         },
       }
       : null
