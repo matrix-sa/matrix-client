@@ -1,5 +1,8 @@
 <script setup>
-  import { radiusRangeValidator, requiredValidator } from '@/utilities/validators'
+  import {
+    radiusRangeValidator,
+    requiredValidator,
+  } from '@/utilities/validators'
   import AdsGroupsService from '@/services/ads-groups-service'
   import TargetingService from '@/services/targeting-service'
   import { useSnackbarStore } from '@/stores/useSnackBarStore'
@@ -77,7 +80,9 @@
     refVForm.value?.validate().then(({ valid: isValid }) => {
       if (!isValid) {
         const el = document.querySelector('.v-input--error:first-of-type')
-        if (el) { el.scrollIntoView() }
+        if (el) {
+          el.scrollIntoView()
+        }
         return
       }
 
@@ -143,10 +148,14 @@
     }
   )
 
-  watch(formModel, () => {
-    emit('update:modelValue', formModel.value)
-    form.value.country_code = formModel.value.country_code
-  }, { deep: true })
+  watch(
+    formModel,
+    () => {
+      emit('update:modelValue', formModel.value)
+      form.value.country_code = formModel.value.country_code
+    },
+    { deep: true }
+  )
 
   const loading = computed(() => creationLoading.value || updateLoading.value)
   const isLoading = computed(() => countriesLoading.value)
@@ -179,7 +188,6 @@
       title: gender.name,
     }))
   )
-
 </script>
 
 <template>
@@ -224,8 +232,8 @@
           :id="`country-${form.id}`"
           v-model="form.country_code"
           hide-no-data
-          :item-title="item => item.name"
-          :item-value="item => item.id"
+          :item-title="(item) => item.name"
+          :item-value="(item) => item.id"
           :items="countries"
           :label="$t('country')"
           :rules="rules.country_code"
@@ -272,7 +280,7 @@
           :loading="loading"
           type="submit"
         >
-          {{ t('save') }}
+          {{ t("save") }}
           <template #loader>
             <span class="custom-loader">
               <VIcon icon="tabler-refresh" />

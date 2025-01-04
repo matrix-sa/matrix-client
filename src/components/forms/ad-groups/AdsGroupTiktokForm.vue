@@ -1,8 +1,8 @@
 <script setup>
   import { requiredValidator } from '@/utilities/validators'
   import AdsGroupsService from '@/services/ads-groups-service'
+  import TargetingService from '@/services/targeting-service'
   import { useSnackbarStore } from '@/stores/useSnackBarStore'
-  import { computed, reactive, ref, watch } from 'vue'
   import { useRequest } from 'vue-request'
   import { useI18n } from 'vue-i18n'
   import { useRouter } from 'vue-router'
@@ -59,16 +59,27 @@
     gender: null,
     language_code: null,
     operating_system: null,
-    country_id: null,
-    province_id: null,
-    age_group: null,
+    country_code: null,
+    age_groups: null,
   })
   const locations = ref([])
 
   const isEditMode = ref(false)
-  // "language_code": null,
-  // "gender": null,
-  //       "operating_system": null,
+
+  const countries = ref([])
+  const { loading: loadingCountries } = useRequest(
+    () => TargetingService.getTikTokCountries(),
+    {
+      onSuccess: res => {
+        const { error, data, messages } = res.data
+
+        if (error) {
+          show(messages[0], 'error')
+        }
+        countries.value = data ?? []
+      },
+    }
+  )
 
   if (props.adGroup) {
     form.value = { ...props.adGroup }
@@ -106,7 +117,6 @@
       const data = {}
       for (const key in form.value) {
         data[key] = form.value[key]
-        data.country_id = formModel.value.country_id
         if (key === 'gender' && form.value[key] === '') {
           data[key] = null
         }
@@ -169,7 +179,6 @@
   )
 
   // TikTok-specific form logic
-  const formModel = toRef(props, 'modelValue')
   const ageGroups = ref([
     { id: 'Age13To17', name: '13 - 17' },
     { id: 'Age18To24', name: '18 - 24' },
@@ -201,21 +210,15 @@
     }))
   )
 
-  watch(
-    formModel,
-    () => {
-      emit('update:modelValue', formModel.value)
-      form.value.country_id = formModel.value.country_id
-    },
-    { deep: true }
+  const loading = computed(
+    () => creationLoading.value || updateLoading.value || loadingCountries.value
   )
-
-  const loading = computed(() => creationLoading.value || updateLoading.value)
   const rules = reactive({
     name: [requiredValidator],
+    country_code: [requiredValidator],
     country_id: [requiredValidator],
     province_id: [],
-    age_group: [],
+    age_groups: [],
   })
 </script>
 
@@ -257,6 +260,18 @@
 
       <!-- TikTok-specific fields -->
       <VCol cols="12">
+        <AppAutocomplete
+          :id="`country-${form.id}`"
+          v-model="form.country_code"
+          hide-no-data
+          :item-title="(item) => item.name"
+          :item-value="(item) => item.id"
+          :items="countries"
+          :label="$t('country')"
+          :rules="rules.country_code"
+        />
+      </VCol>
+      <VCol cols="12">
         <LocationControl
           :locations="locations"
           platform="tiktok"
@@ -266,12 +281,13 @@
 
       <VCol cols="12">
         <AppSelect
-          v-model="form.age_group"
+          v-model="form.age_groups"
           hide-no-data
           :item-title="(item) => item.name"
           :item-value="(item) => item.id"
           :items="ageGroups"
           :label="$t('age_group')"
+          multiple
         />
       </VCol>
 
