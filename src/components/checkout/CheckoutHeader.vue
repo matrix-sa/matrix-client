@@ -1,5 +1,5 @@
 <script setup>
-  import CheckoutImg from '@/assets/images/checkout/CheckoutImg.svg'
+  import CheckoutImg from '@/assets/images/checkout/checkoutImg.svg'
   import { useI18n } from 'vue-i18n'
   const { t } = useI18n()
 </script>
