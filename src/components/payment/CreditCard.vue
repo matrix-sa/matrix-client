@@ -1,9 +1,11 @@
 <script setup>
-  import { defineProps } from 'vue'
   import visaLogo from '@/assets/visaLogo.svg'
   import masterLogo from '@/assets/mastercardLogo.svg'
-  import cardMaster from '@/assets/Card1.svg'
-  import cardVisa from '@/assets/Card2.svg'
+  import cardBlue from '@/assets/Card1.svg'
+  import cardLightPurple from '@/assets/Card2.svg'
+  import cardDarkPurple from '@/assets/Card3.svg'
+  import CardRed from '@/assets/Card4.svg'
+
   const props = defineProps({
     cardType: {
       type: String,
@@ -25,9 +27,21 @@
       type: String,
       required: true,
     },
+    theme: {
+      type: String,
+      default: 'Blue',
+    },
   })
 
-  const maskedCardNumber = [props.cardNumber.slice(-4), '••••', '••••', '••••']
+  const cardThemes = {
+    Blue: cardBlue,
+    'Light Purple': cardLightPurple,
+    'Dark Purple': cardDarkPurple,
+    Red: CardRed,
+  }
+
+  const maskedCardNumber = props.cardNumber.match(/.{1,4}/g) || []
+  const maskedExpirationDate = props.expirationDate.slice(0, 2) + ' / ' + props.expirationDate.slice(2, 4)
 </script>
 
 <template>
@@ -36,12 +50,12 @@
     <v-card
       class="credit-card"
       flat
-      :style="{ backgroundImage: cardType === 'master'? `url(${cardMaster})`: `url(${cardVisa})`
+      :style="{ backgroundImage: `url(${cardThemes[theme]})`
       }"
     >
       <v-card-text>
         <div class="card-header">
-          <img alt="visa-logo" :src="cardType === 'master'? masterLogo : visaLogo">
+          <img alt="visa-logo" :src="cardType === 'Visa'? visaLogo:masterLogo">
 
           <span class="card-type">{{ cardCategory }}</span>
         </div>
@@ -51,7 +65,7 @@
         </div>
 
         <div class="card-footer">
-          <span>{{ expirationDate }}</span>
+          <span>{{ maskedExpirationDate }}</span>
           <span>{{ cardHolderName }}</span>
         </div>
       </v-card-text>

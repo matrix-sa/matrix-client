@@ -1,5 +1,5 @@
 <script setup>
-  import { defineProps, ref, watch } from 'vue'
+  import { ref, watch } from 'vue'
   import { useI18n } from 'vue-i18n'
   import { useRoute } from 'vue-router'
   import { useRequest } from 'vue-request'
@@ -10,9 +10,7 @@
   const { t } = useI18n()
   const route = useRoute()
 
-  defineProps({
-    cards: Array,
-  })
+  const cards = ref([])
 
   const showAddCardPopup = ref(false)
   const formHTML = ref('')
@@ -36,6 +34,21 @@
     }
   )
 
+  // Get Credit Cards
+  const { run: GetCreditCards } = useRequest(
+    () => CreditCardService.GetCreditCards(),
+    {
+      onSuccess: res => {
+        const { error, messages, data } = res.data
+        if (error) {
+          show(messages[0], 'error')
+        } else {
+          cards.value = data
+        }
+      },
+    }
+  )
+
   // Submit Payment Form
   const submitPaymentForm = htmlForm => {
     const formElement = document.createElement('div')
@@ -51,7 +64,6 @@
 
   // Handle Adding Card
   const handleAddCard = newCard => {
-    console.log('Adding Card:', newCard)
     AddCreditCard(newCard)
   }
 
@@ -71,6 +83,10 @@
     { immediate: true }
   )
 
+  // Get Credit Cards on component mount
+  onMounted(() => {
+    GetCreditCards()
+  })
 </script>
 
 <template>
@@ -93,12 +109,12 @@
           sm="6"
         >
           <CreditCard
-            :background-gradient="card.backgroundGradient"
-            :card-category="card.cardCategory"
-            :card-holder-name="card.cardHolderName"
-            :card-number="card.cardNumber"
-            :card-type="card.cardType"
-            :expiration-date="card.expirationDate"
+            :card-category="card.name"
+            :card-holder-name="card.card_holder_name"
+            :card-number="card.card_number"
+            :card-type="card.type"
+            :expiration-date="card.expiry_date"
+            :theme="card.theme"
           />
         </v-col>
       </v-row>

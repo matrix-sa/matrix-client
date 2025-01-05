@@ -1,18 +1,19 @@
 import API from './api'
 
 const CreditCardService = (function () {
-  // Create tracking ad
-  const AddCreditCard = data => {
-    return API.post(`Clients/CreditCards/StartAddCreditCard`, data, {
-      headers: {
-        'Content-Type': 'application/json',
-      },
+  const prefix = 'Clients/CreditCards'
 
-    })
+  const AddCreditCard = data => {
+    return API.post(`${prefix}/StartAddCreditCard`, data)
+  }
+
+  const GetCreditCards = () => {
+    return API.get(`${prefix}/GetAll`)
   }
 
   return {
     AddCreditCard,
+    GetCreditCards,
   }
 })()
 
