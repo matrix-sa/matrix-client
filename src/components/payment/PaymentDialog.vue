@@ -49,10 +49,10 @@
   }
 
   const themes = [
-    { title: 'blue', label: t('card_colors.blue'), image: cardBlue },
-    { title: 'lightPurple', label: t('card_colors.light_purple'), image: cardLightPurple },
-    { title: 'darkPurple', label: t('card_colors.dark_purple'), image: cardDarkPurple },
-    { title: 'red', label: t('card_colors.red'), image: CardRed },
+    { title: t('card_colors.blue'), value: 'Blue', label: t('card_colors.blue'), image: cardBlue },
+    { title: t('card_colors.light_purple'), value: 'LightPurple', label: t('card_colors.light_purple'), image: cardLightPurple },
+    { title: t('card_colors.dark_purple'), value: 'DarkPurple', label: t('card_colors.dark_purple'), image: cardDarkPurple },
+    { title: t('card_colors.red'), value: 'Red', label: t('card_colors.red'), image: CardRed },
   ]
 </script>
 
