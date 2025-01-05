@@ -1147,4 +1147,5 @@ export default {
     light_purple: 'Light Purple',
     dark_purple: 'Dark Purple',
   },
+  no_cards: 'No Cards Found',
 }

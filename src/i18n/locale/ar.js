@@ -1145,4 +1145,5 @@ export default {
     light_purple: 'أرجواني فاتح',
     dark_purple: 'أرجواني غامق',
   },
+  no_cards: 'لا توجد بطاقات',
 }
