@@ -54,7 +54,7 @@
   }
 
   const cancelConnection = platform => {
-    // cancelAuthentication(platform)
+    cancelAuthentication(platform)
   }
 
   const getEvents = platform => {
@@ -75,24 +75,22 @@
     }
   )
 
-  // const {
-  //   run: cancelAuthentication,
-  //   loading: loadingCancelPlatform,
-  // } = async platform => {
-  //   const { messages, error } = await platformsStore.cancelAuthentication(
-  //     platform
-  //   )
-  //   showConfirmationDialog.value = !showConfirmationDialog.value
-  //   if (error) {
-  //     show(messages[0], 'error')
-  //     showConfirmationDialog.value = !showConfirmationDialog.value
+  // handle cancel connection
+  const { run: cancelAuthentication, loading: loadingCancelPlatform } = useRequest(
+    platform => platformsStore.cancelAuthentication(platform),
+    {
+      manual: true,
+      onSuccess: res => {
+        const { error, messages } = res.data
+        if (error) {
+          show(messages[0], 'error')
+        } else {
+          show(t('connection_canceled'), 'success')
+          runCheckAuth(selectedPlatform.value)
+        }
+      },
 
-  //     return
-  //   }
-
-  //   show(t('connection_canceled'), 'success')
-  //   runCheckAuth(selectedPlatform.value)
-  // }
+    })
 
   const confirm = async platform => {
     const { data, messages, error } = await platformsStore.startAuthentication(
@@ -143,8 +141,8 @@
     () =>
       loadingAuthentication.value ||
       loadingCheckingPlatforms.value ||
-      loadingCheckingPlatform.value
-      // || loadingCancelPlatform.value
+      loadingCheckingPlatform.value ||
+      loadingCancelPlatform.value
   )
 
   const handleSavedAccount = () => {
@@ -193,7 +191,7 @@
         color="error"
         rounded
         width="90%"
-        @click="cancelConnection(platform)"
+        @click="cancelConnection(platform.code)"
       >
         {{ t("cancel_connection") }}
       </v-btn>
