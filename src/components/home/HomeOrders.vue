@@ -30,7 +30,7 @@
         type: 'bar',
         toolbar: { show: false },
       },
-      tooltip: { enabled: false },
+      tooltip: { enabled: true },
       plotOptions: {
         bar: {
           barHeight: '100%',

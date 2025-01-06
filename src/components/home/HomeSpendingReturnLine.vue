@@ -30,7 +30,7 @@
       colors: [currentTheme.warning],
       stroke: { width: 2 },
       tooltip: {
-        enabled: false,
+        enabled: true,
         shared: false,
         intersect: true,
         x: { show: false },
