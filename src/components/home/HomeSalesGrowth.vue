@@ -9,6 +9,7 @@
   const { t } = i18n.global
 
   const series = [{
+    name: t('action_value'),
     data: props.sales?.details?.map(item => item.value),
   }]
 

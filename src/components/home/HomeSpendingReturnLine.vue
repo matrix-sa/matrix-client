@@ -1,6 +1,9 @@
 <script setup>
   import VueApexCharts from 'vue3-apexcharts'
   import { useTheme } from 'vuetify'
+  import { useI18n } from 'vue-i18n'
+
+  const { t } = useI18n()
 
   const props = defineProps({
     roas: Object,
@@ -9,6 +12,7 @@
   const vuetifyTheme = useTheme()
 
   const series = [{
+    name: t('action_value'),
     data: props.roas?.current_details?.map(item => item.value),
   }]
 
