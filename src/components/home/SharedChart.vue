@@ -2,6 +2,9 @@
   import VueApexCharts from 'vue3-apexcharts'
   import { useTheme } from 'vuetify'
   import { isRtl } from '.'
+  import { useI18n } from 'vue-i18n'
+
+  const { t } = useI18n()
 
   const props = defineProps({
     rate: Array,
@@ -13,6 +16,7 @@
   const vuetifyTheme = useTheme()
 
   const series = [{
+    name: t('action_value'),
     data: props.rate?.map(item => item.value),
   }]
 
@@ -60,7 +64,7 @@
 </script>
 
 <template>
-  <VCard :subtitle="$t(props?.subTitle)" :title="$t(props?.title)">
+  <VCard class="h-100" :subtitle="$t(props?.subTitle)" :title="$t(props?.title)">
     <VCardText>
       <VueApexCharts v-if="props.rate !== null" :options="chartOptions" :series="series" />
       <HomeEmptyState v-else />
