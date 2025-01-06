@@ -9,17 +9,9 @@
   })
 
   const dates = computed(() => {
-    const result = props.customersStatistics.map(item => {
-      const dateObj = new Date(item.date)
-
-      const day = dateObj.getDate()
-      const month = dateObj.getMonth() + 1
-
-      return isRtl.value ? `${month}/${day}` : `${day}/${month}`
-    })
-
-    if (!isRtl.value) result.reverse()
-
+    const result = props.customersStatistics.map(item =>
+      new Date(item.date).toDateString()
+    )
     return result
   })
 
@@ -146,9 +138,18 @@
 </script>
 
 <template>
-  <VCard class="home-clients" :subtitle="$t('last-14-days')" :title="$t('clients')">
+  <VCard
+    class="home-clients"
+    :subtitle="$t('last-14-days')"
+    :title="$t('clients')"
+  >
     <VCardText>
-      <VueApexCharts v-if="props.customersStatistics !== null" :height="300" :options="chartOptions" :series="series" />
+      <VueApexCharts
+        v-if="props.customersStatistics !== null"
+        :height="300"
+        :options="chartOptions"
+        :series="series"
+      />
       <HomeEmptyState v-else />
     </VCardText>
   </VCard>
