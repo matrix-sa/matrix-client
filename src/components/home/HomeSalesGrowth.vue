@@ -16,16 +16,8 @@
     return {
       chart: {
         parentHeightOffset: 0,
-        type: 'bar',
+        type: 'line',
         toolbar: { show: false },
-      },
-      plotOptions: {
-        bar: {
-          barHeight: '60%',
-          columnWidth: '12px',
-          borderRadius: 6,
-          distributed: true,
-        },
       },
       grid: {
         show: false,
