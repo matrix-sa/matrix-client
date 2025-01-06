@@ -1,12 +1,12 @@
 <script setup>
-  import i18n from '@/i18n'
+  import { useI18n } from 'vue-i18n'
   import VueApexCharts from 'vue3-apexcharts'
 
   const props = defineProps({
     sales: Object,
   })
 
-  const { t } = i18n.global
+  const { locale, t } = useI18n()
 
   const series = [{
     name: t('action_value'),
@@ -43,7 +43,7 @@
         },
         fixed: {
           enabled: true,
-          position: 'bottomRight',
+          position: locale.value === 'ar' ? 'bottomRight' : 'bottomLeft',
           offsetY: 80,
         },
       },
