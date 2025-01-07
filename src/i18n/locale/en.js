@@ -1065,6 +1065,8 @@ export default {
     link_appear: 'Link will appear here',
     copy: 'Copy',
     create: 'Start Create',
+    project_name: 'Project Name',
+    generate: 'Generate',
   },
   min_length: 'The Min Character field must be at least',
   camps_nums: 'Campaign Numbers',

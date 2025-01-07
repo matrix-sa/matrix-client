@@ -23,6 +23,7 @@
     ad_id: null,
     control_rule_id: null,
     communication_rules_ids: [],
+    path: null,
 
   })
   const formRef = ref(null)
@@ -63,6 +64,7 @@
           show(messages[0], 'error')
         } else {
           link.value = res.data.data.target_url
+          formRef.value.reset()
           show(t('created_message'), 'success')
         }
       },
@@ -100,7 +102,7 @@
     }
   )
 
-  const handleChange = async () => {
+  const handleSubmit = async () => {
     const { valid } = await formRef.value.validate()
     if (valid) {
       CreateTrackingLink(form.value.platform, form.value)
@@ -146,7 +148,7 @@
     <hr>
     <v-form ref="formRef">
       <v-row>
-        <v-col cols="12" md="3">
+        <v-col cols="12">
           <AppSelect
             v-model="form.platform"
             hide-details
@@ -160,35 +162,44 @@
           />
         </v-col>
 
-        <v-col cols="12" md="3">
+        <v-col cols="12" md="6">
           <AppTextInput
             v-model="form.campaign_id"
             hide-details
             :label="$t('tracking.campaignId')"
             :placeholder="t('tracking.enter_name')"
             :rules="rules.campaign_id"
-            @update:model-value="handleChange"
           />
         </v-col>
 
-        <v-col cols="12" md="3">
+        <v-col cols="12" md="6">
           <AppTextInput
             v-model="form.ad_group_id"
             hide-details
             :label="t('tracking.ad_group_id')"
             :placeholder="t('tracking.enter_name')"
             :rules="rules.ad_group_id"
-            @update:model-value="handleChange"
           />
         </v-col>
-        <v-col cols="12" md="3">
+      </v-row>
+      <v-row>
+
+        <v-col cols="12" md="6">
           <AppTextInput
             v-model="form.ad_id"
             hide-details
             :label="t('tracking.ad_id')"
             :placeholder="t('tracking.enter_name')"
             :rules="rules.ad_group_id"
-            @update:model-value="handleChange"
+          />
+        </v-col>
+
+        <v-col cols="12" md="6">
+          <AppTextInput
+            v-model="form.path"
+            hide-details
+            :label="t('tracking.project_name')"
+            :placeholder="t('tracking.enter_name')"
           />
         </v-col>
         <!-- control and communications rules -->
@@ -202,7 +213,6 @@
             :loading="loadingCommunicationRules"
             multiple
             :rules="rules.communication_rules_ids"
-            @update:model-value="handleChange"
           />
         </VCol>
 
@@ -215,13 +225,26 @@
             :label="$t('control_rule')"
             :loading="loadingControlRules"
             :rules="rules.control_rule_id"
-            @update:model-value="handleChange"
           />
         </VCol>
 
-        <!--  -->
       </v-row>
-
+      <v-row>
+        <!-- make the button in the end of the page -->
+        <v-col class="d-flex justify-end" cols="12">
+          <v-btn
+            color="primary"
+            :disabled="loading"
+            :loading="loading"
+            rounded="lg"
+            @click="handleSubmit"
+          >
+            {{ t('tracking.generate') }}
+          </v-btn>
+        </v-col>
+      </v-row>
+      <br>
+      <hr>
       <v-row>
         <v-col cols="12">
           <AppTextInput
