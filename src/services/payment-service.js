@@ -11,23 +11,21 @@ const PaymentService = (function () {
 
   const getCreditCards = params => {
     return API.get(`${prefix}CreditCards/GetAll`, params)
-
   }
 
-    const purchaseService = data => {
+  const purchaseService = data => {
     return API.post(`${prefix}ServicesPurchase/Purchase`, data)
   }
 
-    const getFinancialTransactions = params => {
+  const getFinancialTransactions = params => {
     return API.get(`${prefix}Transactions/GetAll`, params)
   }
-   
 
   return {
     get,
     getCreditCards,
     purchaseService,
-    getFinancialTransactions
+    getFinancialTransactions,
   }
 })()
 

@@ -1,84 +1,82 @@
 <script setup>
-import { useI18n } from 'vue-i18n'
-/* import BankCard from '@/assets/images/icons/bank-card.svg'
+  import { useI18n } from 'vue-i18n'
+  /* import BankCard from '@/assets/images/icons/bank-card.svg'
 import MadaCard from '@/assets/images/icons/mada.svg' */
-import ApplePay from '@/assets/images/checkout/apple-pay.svg'
-import PaymentService from '@/services/payment-service'
-import { useRequest } from 'vue-request'
-import { useSnackbarStore } from '@/stores/useSnackBarStore'
+  import ApplePay from '@/assets/images/checkout/apple-pay.svg'
+  import PaymentService from '@/services/payment-service'
+  import { useRequest } from 'vue-request'
+  import { useSnackbarStore } from '@/stores/useSnackBarStore'
 
-const props = defineProps({
-  orderSummaryData: {
-    type: Object,
-  },
-  selectedPackage: {
-    default: null
-  }
-})
-
-const { t } = useI18n()
-
-const creditCards = ref(null)
-
-const purchaseData = ref({
-  credit_card_id: null,
-
-})
-
-const { show } = useSnackbarStore()
-
-const submit = () => {
-
-  const validData = Object.values(purchaseData.value).every(value =>
-    typeof value === 'string' ? value.trim() !== '' : value !== null && value !== undefined
-  )
-
-  if (validData && props.orderSummaryData.id) {
-    runPurchase({
-      ...purchaseData.value,
-      service_id: props.orderSummaryData.id,
-      package_code: props.selectedPackage
-    })
-  }
-}
-
-const validData = computed(() => {
-  return Object.values(purchaseData.value).every(value =>
-    typeof value == 'string' ? value.trim() != '' : value != null && value != undefined && value != false
-  )
-})
-
-const { run: runPurchase, loading: purchaseLoading } = useRequest(
-  data => PaymentService.purchaseService(data),
-  {
-    manual: true,
-    onSuccess: res => {
-      const { error, messages } = res.data
-
-      if (error) {
-        show(messages[0], 'error')
-        return
-      }
-      show(t('purchase_complete'), 'success')
+  const props = defineProps({
+    orderSummaryData: {
+      type: Object,
     },
-  },
-)
+    selectedPackage: {
+      default: null,
+    },
+  })
 
+  const { t } = useI18n()
 
-const { run, loading: loadData } = useRequest(
-  () => PaymentService.getCreditCards(),
-  {
+  const creditCards = ref(null)
 
-    onSuccess: res => {
-      const { data, error, messages } = res.data
-      if (error) {
-        show(messages[0], 'error')
-        return
-      }
-      console.log(data)
-      creditCards.value = data.map(item => ({ ...item, title: item.name }))
-      console.log(creditCards.value)
-      //loading.value = false
+  const purchaseData = ref({
+    credit_card_id: null,
+
+  })
+
+  const { show } = useSnackbarStore()
+
+  const submit = () => {
+    const validData = Object.values(purchaseData.value).every(value =>
+      typeof value === 'string' ? value.trim() !== '' : value !== null && value !== undefined
+    )
+
+    if (validData && props.orderSummaryData.id) {
+      runPurchase({
+        ...purchaseData.value,
+        service_id: props.orderSummaryData.id,
+        package_code: props.selectedPackage,
+      })
+    }
+  }
+
+  const validData = computed(() => {
+    return Object.values(purchaseData.value).every(value =>
+      typeof value === 'string' ? value.trim() != '' : value != null && value != undefined && value != false
+    )
+  })
+
+  const { run: runPurchase, loading: purchaseLoading } = useRequest(
+    data => PaymentService.purchaseService(data),
+    {
+      manual: true,
+      onSuccess: res => {
+        const { error, messages } = res.data
+
+        if (error) {
+          show(messages[0], 'error')
+          return
+        }
+        show(t('purchase_complete'), 'success')
+      },
+    },
+  )
+
+  const { run, loading: loadData } = useRequest(
+    () => PaymentService.getCreditCards(),
+    {
+
+      onSuccess: res => {
+        const { data, error, messages } = res.data
+        if (error) {
+          show(messages[0], 'error')
+          return
+        }
+        console.log(data)
+        creditCards.value = data.map(item => ({ ...item, title: item.name }))
+        console.log(creditCards.value)
+      // loading.value = false
 
       /*
      [
@@ -87,14 +85,14 @@ const { run, loading: loadData } = useRequest(
             { id: 2, image: BankCard, name: 'Entry3' },
           ]
       */
-    },
-    onError: err => {
-      console.error(err)
-    },
-  }
-)
+      },
+      onError: err => {
+        console.error(err)
+      },
+    }
+  )
 
-run()
+  run()
 </script>
 
 <template>
@@ -126,8 +124,16 @@ run()
 
         <div class="mt-3">
           {{ purchaseData.credit_card_id }}
-          <v-select hide-details v-model="purchaseData.credit_card_id" v-if="creditCards" item-title="name"
-            :items="creditCards" item-value="id" menu-icon="tabler:caret-down-filled" placeholder="Select an option">
+          <v-select
+            v-if="creditCards"
+            v-model="purchaseData.credit_card_id"
+            hide-details
+            item-title="name"
+            item-value="id"
+            :items="creditCards"
+            menu-icon="tabler:caret-down-filled"
+            placeholder="Select an option"
+          >
             <!-- Slot for dropdown options -->
             <template #item="{ item, props }">
               <v-list-item v-bind="props">
@@ -140,7 +146,7 @@ run()
               </v-list-item>
             </template>
 
-            <!-- Slot for selected option 
+            <!-- Slot for selected option
             <template #selection="{ item }">
               <div v-if="item" class="d-flex align-center ga-2">
                 <img alt="" class="selected-image mr-2" :src="item.raw.image">
@@ -172,7 +178,14 @@ run()
 
         </VBtn>
 
-        <VBtn class="mt-4 btn" color="warning" rounded width="318" :loading="purchaseLoading" @click="submit">
+        <VBtn
+          class="mt-4 btn"
+          color="warning"
+          :loading="purchaseLoading"
+          rounded
+          width="318"
+          @click="submit"
+        >
           {{ t("pay") }}
 
         </VBtn>

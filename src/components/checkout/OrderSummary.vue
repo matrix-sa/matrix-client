@@ -1,22 +1,20 @@
 <script setup>
 
-import { useI18n } from 'vue-i18n'
+  import { useI18n } from 'vue-i18n'
 
-defineProps({
-  orderSummaryData: {
-    type: Object,
-  },
+  defineProps({
+    orderSummaryData: {
+      type: Object,
+    },
 
-})
+  })
 
-const emit = defineEmits(['update-package']);
+  const emit = defineEmits(['update-package'])
 
-
-const { t } = useI18n()
-const handleUpdatePackage = (value) => {
-  emit('update-package', value);
-
-};
+  const { t } = useI18n()
+  const handleUpdatePackage = value => {
+    emit('update-package', value)
+  }
 
 </script>
 

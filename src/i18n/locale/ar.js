@@ -1145,7 +1145,7 @@ export default {
     light_purple: 'أرجواني فاتح',
     dark_purple: 'أرجواني غامق',
   },
-  purchase_complete: "تم الدفع بنجاح",
-  success: "ناجحة",
-  fail: "فاشللة"
+  purchase_complete: 'تم الدفع بنجاح',
+  success: 'ناجحة',
+  fail: 'فاشللة',
 }
