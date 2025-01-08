@@ -3,34 +3,22 @@
   import { useI18n } from 'vue-i18n'
   import { useBreadcrumbsStore } from '@/stores/useBreadcrumbsStore'
   import PaymentService from '@/services/payment-service'
-  import { usePagination } from 'vue-request'
+  import { useRequest } from 'vue-request'
 
   const { t, locale } = useI18n()
   const { update } = useBreadcrumbsStore()
 
   const orderSummaryData = ref({})
   const loading = ref(true)
-  const options = ref({
-    page: 1,
-    itemsPerPage: 10,
-    sortBy: [],
-    groupBy: [],
-    search: undefined,
-  })
+  const selectedPackage = ref(null)
 
-  const getQuery = params => {
-    const query = new URLSearchParams()
-
-    query.append('PageSize', options.value.itemsPerPage)
-    query.append('Page', options.value.page)
-
-    return query
+  const handleUpdatePackage = value => {
+    selectedPackage.value = value
   }
-
-  const { run, loading: loadData } = usePagination(
-    params => PaymentService.get(getQuery(params)),
+  const { run, loading: loadData } = useRequest(
+    () => PaymentService.get(),
     {
-      manual: true,
+
       onSuccess: res => {
         const { data, error, messages } = res.data
         if (error) {
@@ -75,10 +63,10 @@
     <v-container class="pt-2 px-0 mx-0 main-container">
       <v-row>
         <v-col cols="7">
-          <OrderSummary :order-summary-data="orderSummaryData" />
+          <OrderSummary :order-summary-data="orderSummaryData" @update-package="handleUpdatePackage" />
         </v-col>
         <v-col cols="5">
-          <PaymentMethod />
+          <PaymentMethod :order-summary-data="orderSummaryData" :selected-package="selectedPackage" />
         </v-col>
       </v-row>
     </v-container>

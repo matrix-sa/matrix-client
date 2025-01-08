@@ -6,8 +6,16 @@
     orderSummaryData: {
       type: Object,
     },
+
   })
+
+  const emit = defineEmits(['update-package'])
+
   const { t } = useI18n()
+  const handleUpdatePackage = value => {
+    emit('update-package', value)
+  }
+
 </script>
 
 <template>
@@ -17,7 +25,8 @@
     </div>
 
     <hr class="separator mt-4">
-    <OrderStats :order-summary-data="orderSummaryData" />
+
+    <OrderStats :order-summary-data="orderSummaryData" @update-package="handleUpdatePackage" />
 
   </div>
 </template>

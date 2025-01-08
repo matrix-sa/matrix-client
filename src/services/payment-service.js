@@ -9,9 +9,23 @@ const PaymentService = (function () {
     return API.get(`${prefix}ServicesPurchase/GetService?serviceType=WhatsApp`, params)
   }
 
+  const getCreditCards = params => {
+    return API.get(`${prefix}CreditCards/GetAll`, params)
+  }
+
+  const purchaseService = data => {
+    return API.post(`${prefix}ServicesPurchase/Purchase`, data)
+  }
+
+  const getFinancialTransactions = params => {
+    return API.get(`${prefix}Transactions/GetAll`, params)
+  }
+
   return {
     get,
-
+    getCreditCards,
+    purchaseService,
+    getFinancialTransactions,
   }
 })()
 

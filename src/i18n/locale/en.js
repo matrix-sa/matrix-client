@@ -1149,5 +1149,9 @@ export default {
     light_purple: 'Light Purple',
     dark_purple: 'Dark Purple',
   },
+  purchase_complete: 'Payment was successful',
+  success: 'Success',
+  fail: 'Fail',
+
   no_cards: 'No Cards Found',
 }

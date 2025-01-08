@@ -11,6 +11,7 @@
       type: Object,
     },
   })
+  const emit = defineEmits(['update-package'])
 
   const { locale, t } = useI18n()
 
@@ -35,6 +36,7 @@
 
   watch(selectedPackage, newValue => {
     if (newValue) {
+      emit('update-package', newValue)
       selectedPackageObject.value = props.orderSummaryData?.packages?.find(item => item.code == newValue)
     } else {
       selectedPackageObject.value = null
