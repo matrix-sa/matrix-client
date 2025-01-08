@@ -35,7 +35,7 @@
   )
 
   // Get Credit Cards
-  const { run: GetCreditCards } = useRequest(
+  const { run: GetCreditCards, loading: loadingCards } = useRequest(
     () => CreditCardService.GetCreditCards(),
     {
       onSuccess: res => {
@@ -91,6 +91,9 @@
 
 <template>
   <div class="rounded-lg bg-white pa-4">
+    <v-overlay v-if="loadingCards" v-model="loadingCards" class="align-center justify-center" persistent>
+      <v-progress-circular color="primary" indeterminate size="50" :width="7" />
+    </v-overlay>
     <div class="header-container">
       <span class="cards-text"> {{ t("my_cards") }} </span>
       <v-btn color="warning" rounded @click="showAddCardPopup = true">
@@ -99,6 +102,16 @@
       </v-btn>
     </div>
     <v-container>
+      <v-row v-if=" !loadingCards && cards.length===0">
+        <v-col cols="12">
+          <EmptyState
+            :add-button-text="t('add_card')"
+            :message="t('no_cards')"
+            @add-button-clicked="showAddCardPopup = true"
+          />
+        </v-col>
+
+      </v-row>
       <v-row>
         <v-col
           v-for="(card, index) in cards"

@@ -18,7 +18,7 @@
         </div>
         <VChip
           class="font-weight-bold px-3"
-          color="success"
+          :color="props.spendings?.rate < 0 ? 'error' : 'success' "
           density="comfortable"
           label
           size="x-large"

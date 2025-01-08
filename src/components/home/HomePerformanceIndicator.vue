@@ -96,7 +96,7 @@
           offsetY: -25,
           distributed: true,
           formatter (val) {
-            return `${Math.round(val)}K`
+            return `${Math.round(val)}`
           },
           style: {
             colors: [...colors.value],
@@ -119,7 +119,7 @@
           labels: {
             offsetX: -30,
             formatter (val) {
-              return `${parseInt(val / 1)}k`
+              return `${parseInt(val / 1)}`
             },
             style: {
               fontSize: '13px',

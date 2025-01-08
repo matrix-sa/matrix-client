@@ -1062,6 +1062,8 @@ export default {
     link_appear: 'سيظهر الرابط هنا',
     copy: 'نسخ',
     create: 'قم بالإنشاء',
+    project_name: 'اسم المشروع',
+    generate: 'قم بالتوليد',
   },
   min_length: ' يجب أن يحتوي الحقل على الأقل علي ',
   camps_nums: 'عدد الحملات',
@@ -1148,4 +1150,5 @@ export default {
   purchase_complete: 'تم الدفع بنجاح',
   success: 'ناجحة',
   fail: 'فاشللة',
+  no_cards: 'لا توجد بطاقات',
 }
