@@ -1,67 +1,58 @@
 <script setup>
-  import { ref, watch } from 'vue'
-  import { useI18n } from 'vue-i18n'
-  import { useBreadcrumbsStore } from '@/stores/useBreadcrumbsStore'
-  import PaymentService from '@/services/payment-service'
-  import { usePagination } from 'vue-request'
+import { ref, watch } from 'vue'
+import { useI18n } from 'vue-i18n'
+import { useBreadcrumbsStore } from '@/stores/useBreadcrumbsStore'
+import PaymentService from '@/services/payment-service'
+import { useRequest } from 'vue-request'
 
-  const { t, locale } = useI18n()
-  const { update } = useBreadcrumbsStore()
+const { t, locale } = useI18n()
+const { update } = useBreadcrumbsStore()
 
-  const orderSummaryData = ref({})
-  const loading = ref(true)
-  const options = ref({
-    page: 1,
-    itemsPerPage: 10,
-    sortBy: [],
-    groupBy: [],
-    search: undefined,
-  })
+const orderSummaryData = ref({})
+const loading = ref(true)
+const selectedPackage = ref(null)
 
-  const getQuery = params => {
-    const query = new URLSearchParams()
 
-    query.append('PageSize', options.value.itemsPerPage)
-    query.append('Page', options.value.page)
 
-    return query
-  }
+const handleUpdatePackage = (value) => {
+  selectedPackage.value = value
 
-  const { run, loading: loadData } = usePagination(
-    params => PaymentService.get(getQuery(params)),
-    {
-      manual: true,
-      onSuccess: res => {
-        const { data, error, messages } = res.data
-        if (error) {
-          show(messages[0], 'error')
-          return
-        }
+};
+const { run, loading: loadData } = useRequest(
+  () => PaymentService.get(),
+  {
 
-        orderSummaryData.value = data
-        loading.value = false
-      },
-      onError: err => {
-        console.error(err)
-      },
-    }
-  )
+    onSuccess: res => {
+      const { data, error, messages } = res.data
+      if (error) {
+        show(messages[0], 'error')
+        return
+      }
 
-  run()
-  // Watch locale for breadcrumbs update
-  watch(
-    locale,
-    () => {
-      update([
-        {
-          title: t('checkout'),
-          active: false,
-          to: '/checkout',
-        },
-      ])
+      orderSummaryData.value = data
+      loading.value = false
     },
-    { immediate: true }
-  )
+    onError: err => {
+      console.error(err)
+    },
+  }
+)
+
+run()
+// Watch locale for breadcrumbs update
+watch(
+  locale,
+  () => {
+    update([
+      {
+        title: t('checkout'),
+        active: false,
+        to: '/checkout',
+      },
+    ])
+  },
+  { immediate: true }
+)
 
 </script>
 
@@ -75,10 +66,10 @@
     <v-container class="pt-2 px-0 mx-0 main-container">
       <v-row>
         <v-col cols="7">
-          <OrderSummary :order-summary-data="orderSummaryData" />
+          <OrderSummary :order-summary-data="orderSummaryData" @update-package="handleUpdatePackage" />
         </v-col>
         <v-col cols="5">
-          <PaymentMethod />
+          <PaymentMethod :order-summary-data="orderSummaryData" :selectedPackage="selectedPackage" />
         </v-col>
       </v-row>
     </v-container>
