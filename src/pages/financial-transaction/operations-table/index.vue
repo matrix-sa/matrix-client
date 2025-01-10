@@ -2,10 +2,15 @@
   import { paginationMeta } from '@/composable/utils'
   import { DateOnlyFormat } from '@/composable/useFormat'
   import { usePagination } from 'vue-request'
+  import { useSnackbarStore } from '@/stores/useSnackBarStore'
+  import { useBreadcrumbsStore } from '@/stores/useBreadcrumbsStore'
 
   import { useI18n } from 'vue-i18n'
   import PaymentService from '@/services/payment-service'
   const { t, locale } = useI18n()
+  const { show } = useSnackbarStore()
+
+  const { update } = useBreadcrumbsStore()
 
   const options = ref({
     page: 1,
@@ -88,6 +93,25 @@
     }
   )
   run()
+
+  watch(
+    locale,
+    () => {
+      update([
+        {
+          title: t('financial_transaction'),
+          active: true,
+          to: '/financial-transaction/operations-table',
+        },
+        {
+          title: t('operations_table'),
+          active: true,
+          to: '/financial_transaction/operations-table',
+        },
+      ])
+    },
+    { immediate: true }
+  )
 </script>
 <template>
   <div class="main">
@@ -99,7 +123,7 @@
       :headers="headers"
       :items="operations"
       :items-length="totalCount"
-      :loading="loading"
+      :loading="loadingTransactions"
       :no-data-text="$t('no_data_text')"
       @update:options="options = $event"
     >
@@ -131,7 +155,7 @@
 
       <template #item.amount="{ item }">
         {{ item.amount }}
-        <span> {{ $t('sar') }}</span>
+        <span> {{ $t(item.currency) }}</span>
       </template>
 
       <template #item.download_invoice="{ item }">

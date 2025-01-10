@@ -18,7 +18,6 @@
   const userShouldLink = computed(
     () => !user.value.has_linked_website || !user.value.has_linked_ad_account
   )
-
   watch(
     [locale, route],
     () => {
@@ -63,7 +62,7 @@
           title: t('financial_transaction'),
           props: {
             prependIcon: 'tabler-calculator',
-            active: isActive('/financial-transaction'),
+            active: isActive('/financial-transaction', true),
             to: { name: '/financial-transaction' },
             disabled: userShouldLink.value,
           },

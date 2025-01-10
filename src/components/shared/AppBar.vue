@@ -115,10 +115,7 @@
           variant="plain"
           @click="logOut"
         >
-          <VIcon
-            icon="mdi:logout"
-            size="26"
-          />
+          <VIcon icon="mdi:logout" size="26" />
         </VBtn>
       </div>
     </div>

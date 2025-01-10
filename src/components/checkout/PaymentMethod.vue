@@ -73,9 +73,7 @@ import MadaCard from '@/assets/images/icons/mada.svg' */
           show(messages[0], 'error')
           return
         }
-        console.log(data)
         creditCards.value = data.map(item => ({ ...item, title: item.name }))
-        console.log(creditCards.value)
       // loading.value = false
 
       /*
@@ -123,7 +121,6 @@ import MadaCard from '@/assets/images/icons/mada.svg' */
       <div>
 
         <div class="mt-3">
-          {{ purchaseData.credit_card_id }}
           <v-select
             v-if="creditCards"
             v-model="purchaseData.credit_card_id"

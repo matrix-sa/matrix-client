@@ -3,6 +3,7 @@
   import { useI18n } from 'vue-i18n'
   import DigitalWriterService from '@/services/digital-writer-service'
   import { useRequest } from 'vue-request'
+  import { useRouter } from 'vue-router'
 
   export default {
     props: {
@@ -12,6 +13,7 @@
     },
     setup (props, { emit }) {
       const { t } = useI18n() // use useI18n inside setup
+      const router = useRouter()
 
       const options = ref({
         page: 1,
@@ -49,6 +51,9 @@
             options.value.page = data.current_page
             totalPage.value = data.page_size
             conversations.value = data?.items
+            if (res.data.code == 'ClientHasNoActiveService') {
+              router.push(`/checkout/`)
+            }
           },
         }
       )

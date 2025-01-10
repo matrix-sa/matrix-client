@@ -1154,4 +1154,9 @@ export default {
   fail: 'Fail',
 
   no_cards: 'No Cards Found',
+  monthly: 'Monthly Subscription',
+  months: 'Months',
+  SMS: 'SMS',
+  charge_success: 'The balance has been charged successfully',
+
 }
