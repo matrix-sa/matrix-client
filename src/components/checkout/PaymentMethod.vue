@@ -143,15 +143,19 @@ import MadaCard from '@/assets/images/icons/mada.svg' */
               </v-list-item>
             </template>
 
-            <!-- Slot for selected option
+            <!-- Slot for selected option-->
             <template #selection="{ item }">
-              <div v-if="item" class="d-flex align-center ga-2">
-                <img alt="" class="selected-image mr-2" :src="item.raw.image">
+              <div v-if="item" class="d-flex  ga-2 flex-column">
+                <!--  <img alt="" class="selected-image mr-2" :src="item.raw.image"> -->
+
                 <span>
                   {{ item.title }}
                 </span>
+                <span>
+                  {{ item.raw.card_number }}
+                </span>
               </div>
-            </template>-->
+            </template>
 
           </v-select>
         </div>
