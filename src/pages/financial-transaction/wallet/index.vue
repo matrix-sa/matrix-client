@@ -195,12 +195,12 @@
 
               }"
             >
-
-              <VIcon icon="tabler-plus" size="15" />
+              <VIcon v-if="item.amount < 0" icon="tabler-minus" size="15" />
+              <VIcon v-else icon="tabler-plus" size="15" />
             </div>
 
             <div :class="item.amount > 0 ? 'text-success' : 'text-error'">
-              {{ item.amount > 0 ? t('charge_wallet') : t('charge_wallet') }}
+              {{ item.amount > 0 ? t('charge_wallet') : t('pay_from_wallet') }}
             </div>
 
           </div>
