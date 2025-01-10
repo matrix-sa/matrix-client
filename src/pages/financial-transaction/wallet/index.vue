@@ -1,11 +1,15 @@
 <script setup>
   import { paginationMeta } from '@/composable/utils'
   import { DateOnlyFormat } from '@/composable/useFormat'
+  import { useBreadcrumbsStore } from '@/stores/useBreadcrumbsStore'
 
   import { useI18n } from 'vue-i18n'
-  import { useRequest } from 'vue-request'
   import Wallet from '@images/Wallet.png'
-
+  import { usePagination } from 'vue-request'
+  import PaymentService from '@/services/payment-service'
+  import { useAuthStore } from '@/stores/useAuthStore'
+  import { storeToRefs } from 'pinia'
+  import ChargeWalletModal from '@/components/dialogs/ChargeWalletModal.vue'
   const { t, locale } = useI18n()
 
   const options = ref({
@@ -15,12 +19,20 @@
     groupBy: [],
     search: undefined,
   })
-
-  const switch1 = ref(false)
+  const authStore = useAuthStore()
+  const { update } = useBreadcrumbsStore()
+  const { user } = storeToRefs(authStore)
+  /* const switch1 = ref(false) */
   const totalCount = ref(0)
+  const pageSize = ref()
+  const openChargeWalletDialog = ref(false)
+
+  const chargeWalletHandler = () => {
+    openChargeWalletDialog.value = true
+  }
 
   const operations = ref([
-    {
+  /*   {
       id: 1,
       transaction: 1,
       order_date: '2024-12-02T16:25:21Z',
@@ -38,7 +50,7 @@
       payment_method: 'wallet',
       card_name: 'card_name',
 
-    },
+    }, */
   ])
 
   const headers = [
@@ -48,11 +60,11 @@
     },
     {
       title: t('date'),
-      key: 'date',
+      key: 'creation_time',
     },
     {
       title: t('amount_after_transaction'),
-      key: 'amount_after_transaction',
+      key: 'new_balnace',
     },
     {
       title: t('amount'),
@@ -60,29 +72,70 @@
     },
     {
       title: t('payment_method'),
-      key: 'payment_method',
+      key: 'credit_card_type',
     },
     {
       title: t('card_name'),
-      key: 'card_name',
+      key: 'credit_card_name',
     },
 
   ]
 
-/*     watch(
-    options,
-    () => {
-      fetchOrders({
-        PageSize: options.value.itemsPerPage,
-        Page: options.value.page,
-      })
-    },
-    { deep: true },
-) */
+  const getQuery = params => {
+    const query = new URLSearchParams()
 
+    query.append('PageSize', options.value.itemsPerPage)
+    query.append('Page', options.value.page)
+
+    return query
+  }
+
+  const { run, loading: loadingTransactions } = usePagination(
+    params => PaymentService.getWalletTransactions(getQuery(params)),
+    {
+      manual: true,
+      onSuccess: res => {
+        const { data, error, messages } = res.data
+        if (error) {
+          show(messages[0], 'error')
+          return
+        }
+
+        operations.value = data.items
+        options.value.page = data.current_page
+        pageSize.value = data.page_size
+        totalCount.value = data.total_count
+        authStore.fetchUser(true)
+      },
+      onError: err => {
+        console.error(err)
+      },
+    }
+  )
+  run()
+
+  watch(
+    locale,
+    () => {
+      update([
+        {
+          title: t('financial_transaction'),
+          active: true,
+          to: '/financial-transaction/operations-table',
+        },
+        {
+          title: t('wallet'),
+          active: true,
+          to: '/financial_transaction/wallet',
+        },
+      ])
+    },
+    { immediate: true }
+  )
 </script>
 <template>
   <div>
+
     <div class="main pa-6">
       <div class="d-flex justify-space-between">
         <div class="d-flex ga-3 align-center">
@@ -93,20 +146,24 @@
               t('outstanding') }}</p>
             <div class="current-amount-container mt-3">
               <span> {{ t('current_credit') }}</span>
-              <p>1200 {{ t('saudi_sar') }} </p>
+              <p> {{ user?.walltet_balance }} {{ t('saudi_sar') }} </p>
             </div>
           </div>
         </div>
         <div class="d-flex align-center">
           <div class="d-flex align-center ga-6">
 
-            <div class="d-flex align-center ga-2">
+            <!--          <div class="d-flex align-center ga-2">
               <AppSwitchWithoutIcons v-model="switch1" :base-color="'#F54A41'" />
 
               <span class="use-amount">{{ t('use_amount_msg') }}</span>
-            </div>
+            </div> -->
 
-            <VBtn class="charge-amount-btn"> {{ t('charge_amount') }}</VBtn>
+            <VBtn class="charge-amount-btn" @click="chargeWalletHandler"> {{ t('charge_amount') }}</VBtn>
+
+            <v-dialog v-model="openChargeWalletDialog" max-width="500">
+              <ChargeWalletModal v-model:is-dialog-visible="openChargeWalletDialog" @refetch-transactions="run" />
+            </v-dialog>
           </div>
 
         </div>
@@ -121,7 +178,7 @@
         :headers="headers"
         :items="operations"
         :items-length="totalCount"
-        :loading="loading"
+        :loading="loadingTransactions"
         :no-data-text="$t('no_data_text')"
         @update:options="options = $event"
       >
@@ -133,8 +190,8 @@
             <div
               :class="{
                 'icon-container d-flex align-center justify-center': true,
-                'add-transaction': item.transaction == 1,
-                'sub-transaction': item.transaction == 0,
+                'add-transaction': item.amount > 0,
+                'sub-transaction': item.amount < 0,
 
               }"
             >
@@ -142,19 +199,19 @@
               <VIcon icon="tabler-plus" size="15" />
             </div>
 
-            <div :class="item.transaction == 1 ? 'text-success' : 'text-error'">
-              {{ item.transaction == 1 ? t('charge_wallet') : t('charge_wallet') }}
+            <div :class="item.amount > 0 ? 'text-success' : 'text-error'">
+              {{ item.amount > 0 ? t('charge_wallet') : t('charge_wallet') }}
             </div>
 
           </div>
         </template>
 
-        <template #item.date="{ item }">
-          {{ DateOnlyFormat(item.date) }}
+        <template #item.creation_time="{ item }">
+          {{ DateOnlyFormat(item.creation_time) }}
         </template>
 
-        <template #item.amount_after_transaction="{ item }">
-          {{ item.amount_after_transaction }}
+        <template #item.new_balnace="{ item }">
+          {{ item.new_balnace }}
           <span> {{ $t('sar') }}</span>
         </template>
 
@@ -163,13 +220,13 @@
           <span> {{ $t('sar') }}</span>
         </template>
 
-        <template #item.payment_method="{ item }">
-          {{ t(item.payment_method) }}
+        <template #item.credit_card_type="{ item }">
+          {{ item.credit_card_type }}
 
         </template>
 
-        <template #item.card_name="{ item }">
-          {{ t(item.card_name) }}
+        <template #item.credit_card_name="{ item }">
+          {{ item.credit_card_name }}
 
         </template>
 

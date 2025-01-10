@@ -1151,4 +1151,9 @@ export default {
   success: 'ناجحة',
   fail: 'فاشللة',
   no_cards: 'لا توجد بطاقات',
+  monthly: 'اشتراك شهري',
+  months: 'أشهر',
+  SMS: 'رسالة',
+  charge_success: 'تم شحن الرصيد بنجاح',
+
 }

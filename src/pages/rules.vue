@@ -120,9 +120,7 @@
     </div>
 
     <v-dialog v-model="openCommunicationRuleDialog" max-width="500">
-      <ConnectionRuleModal
-        v-model:is-dialog-visible="openCommunicationRuleDialog"
-      />
+      <ConnectionRuleModal v-model:is-dialog-visible="openCommunicationRuleDialog" />
     </v-dialog>
 
     <v-dialog v-model="openControlRuleDialog" max-width="500">

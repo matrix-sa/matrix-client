@@ -1,12 +1,17 @@
 <script setup>
-  import { localeTitle, paginationMeta } from '@/composable/utils'
-  import { DateFormat } from '@/composable/useFormat'
+  import { paginationMeta } from '@/composable/utils'
   import TablesIcon from '@/assets/table.svg'
+  import PaymentService from '@/services/payment-service'
+  import { useRequest } from 'vue-request'
+  import { DateOnlyFormat } from '@/composable/useFormat'
+  import { useSnackbarStore } from '@/stores/useSnackBarStore'
+  import { useBreadcrumbsStore } from '@/stores/useBreadcrumbsStore'
 
   import { useI18n } from 'vue-i18n'
-  import { useRequest } from 'vue-request'
 
   const { t, locale } = useI18n()
+  const { show } = useSnackbarStore()
+  const { update } = useBreadcrumbsStore()
 
   const options = ref({
     page: 1,
@@ -16,20 +21,20 @@
     search: undefined,
   })
 
-  const switch1 = ref(false)
+  // const switch1 = ref(false)
   const totalCount = ref(0)
 
-  const operations = ref([
-    {
-      id: t('digital_writer'),
-      slogan: t('digital_writer'),
-      product_name: 'First',
-      reference_number: '1234567890',
-      status: 'Pending',
-      order_date: '2024-12-02T16:25:21Z',
-      renewale_date: '2024-12-02T16:25:21Z',
-      amount: 100,
-    },
+  const subscriptions = ref([
+  /* {
+    id: t('digital_writer'),
+    slogan: t('digital_writer'),
+    product_name: 'First',
+    reference_number: '1234567890',
+    status: 'Pending',
+    order_date: '2024-12-02T16:25:21Z',
+    renewale_date: '2024-12-02T16:25:21Z',
+    amount: 100,
+  }, */
   ])
 
   const headers = [
@@ -39,7 +44,7 @@
     },
     {
       title: t('reference_number'),
-      key: 'reference_number',
+      key: 'id',
     },
     {
       title: t('status'),
@@ -60,39 +65,72 @@
 
   ]
 
-/*     watch(
-    options,
-    () => {
-      fetchOrders({
-        PageSize: options.value.itemsPerPage,
-        Page: options.value.page,
-      })
-    },
-    { deep: true },
-) */
+  const { run, loading: loadingActiveSubscriptions } = useRequest(
+    params => PaymentService.getActiveSubscriptions(),
+    {
+      manual: true,
+      onSuccess: res => {
+        const { data, error, messages } = res.data
+        if (error) {
+          show(messages[0], 'error')
+          return
+        }
+        subscriptions.value = data
+      },
+      onError: err => {
+        console.error(err)
+      },
+    }
+  )
+  run()
 
+  watch(
+    locale,
+    () => {
+      update([
+        {
+          title: t('financial_transaction'),
+          active: true,
+          to: '/financial-transaction/operations-table',
+        },
+        {
+          title: t('active_subscriptions'),
+          active: true,
+          to: '/financial_transaction/active-subscribtions',
+        },
+      ])
+    },
+    { immediate: true }
+  )
 </script>
 <template>
   <div class="main">
 
     <VDataTableServer
-      v-model:items-per-page="options.itemsPerPage"
-      v-model:page="options.page"
       class="text-no-wrap"
       :headers="headers"
-      :items="operations"
+      :items="subscriptions"
       :items-length="totalCount"
-      :loading="loading"
+      :loading="loadingActiveSubscriptions"
       :no-data-text="$t('no_data_text')"
-      @update:options="options = $event"
     >
       <template #item.product_name="{ item }">
 
         <div class="product-name-container d-flex ga-3 align-center">
           <div class="img-container d-flex align-center justify-center"><img alt="title" :src="TablesIcon"></div>
           <div>
-            <p class="product-name">{{ item.id }}</p>
-            <p class="product-name-slogan">{{ item.id }}</p>
+            <p class="product-name">{{ item[`service_name_${locale}`] || '' }}</p>
+            <p class="product-name-slogan">
+              <span v-if="item.duration_in_months == 1">
+                {{ t('monthly') }}
+              </span>
+
+              <span v-if="item.duration_in_months > 1">
+                {{ t('subscribe') }}
+                {{ item.duration_in_months }}
+                {{ t('months') }}
+              </span>
+            </p>
 
           </div>
         </div>
@@ -100,13 +138,13 @@
       </template>
 
       <template #item.order_date="{ item }">
-        {{ DateFormat(item.order_date) }}
+        {{ DateOnlyFormat(item.order_date) }}
       </template>
       <template #item.renewale_date="{ item }">
-        {{ DateFormat(item.renewale_date) }}
+        {{ DateOnlyFormat(item.renewale_date) }}
       </template>
 
-      <template #item.status="{ item }">
+      <!-- <template #item.status="{ item }">
         <div>
           <AppSwitchWithoutIcons v-model="switch1" :base-color="'#F54A41'">
             <div>
@@ -116,11 +154,18 @@
           </AppSwitchWithoutIcons>
 
         </div>
+      </template> -->
+
+      <template #item.status="{ item }">
+        <div>
+          <p style="color: #22c55e"> {{ t(item.status.toLowerCase()) }}</p>
+
+        </div>
       </template>
 
       <template #item.amount="{ item }">
         {{ item.amount }}
-        <span> {{ $t('sar') }}</span>
+        <span> {{ $t(item.currency) }}</span>
       </template>
 
       <!-- pagination -->
