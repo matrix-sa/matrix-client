@@ -1106,6 +1106,7 @@ export default {
   rest_amount: 'الرصيد المتبقي',
   transaction: 'العملية',
   charge_wallet: 'شحن المحفظة',
+  pay_from_wallet: 'دفع من المحفظة',
   amount_after_transaction: 'الرصيد بعد العملية',
   card_name: 'اسم البطاقة',
   a_wallet: 'محفظة ',

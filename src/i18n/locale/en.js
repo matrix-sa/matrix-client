@@ -1109,6 +1109,8 @@ export default {
   rest_amount: 'Rest Amount',
   transaction: 'transaction',
   charge_wallet: 'Charge Wallet',
+  pay_from_wallet: 'Pay From Wallet',
+
   amount_after_transaction: 'Amount After Transaction',
   card_name: 'Card Name',
   a_wallet: 'wallet',
