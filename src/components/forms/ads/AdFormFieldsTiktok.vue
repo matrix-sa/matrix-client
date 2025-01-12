@@ -9,6 +9,7 @@
   import { useI18n } from 'vue-i18n'
   import { convertToCamelCase } from '@/utilities/validators-helpers'
   import AdsService from '@/services/ads-service'
+  import TargetingService from '@/services/targeting-service'
 
   const props = defineProps({
     platform: {
@@ -54,6 +55,8 @@
     name: null,
     ad_text: null,
     target_url: null,
+    identity_id: null,
+    action: null,
     media_file: null,
   })
 
@@ -62,7 +65,59 @@
     ad_text: [requiredValidator],
     target_url: [requiredValidator, urlAdvancedValidator],
     ad_group_id: [requiredValidator],
+    action: [requiredValidator],
+    identity_id: [],
     media_file: [requiredValidator, isVideoFile],
+  })
+
+  const actions = [
+    'APPLY_NOW',
+    'BOOK_NOW',
+    'CALL_NOW',
+    'CONTACT_US',
+    'DOWNLOAD_NOW',
+    'EXPERIENCE_NOW',
+    'GET_QUOTE',
+    'GET_SHOWTIMES',
+    'GET_TICKETS_NOW',
+    'INSTALL_NOW',
+    'INTERESTED',
+    'LEARN_MORE',
+    'LISTEN_NOW',
+    'ORDER_NOW',
+    'PLAY_GAME',
+    'PREORDER_NOW',
+    'READ_MORE',
+    'SEND_MESSAGE',
+    'SHOP_NOW',
+    'SIGN_UP',
+    'SUBSCRIBE',
+    'VIEW_NOW',
+    'VIEW_PROFILE',
+    'VISIT_STORE',
+    'WATCH_LIVE',
+    'WATCH_NOW',
+    'JOIN_THIS_HASHTAG',
+    'SHOOT_WITH_THIS_EFFECT',
+    'VIEW_VIDEO_WITH_THIS_EFFECT',
+  ].map(action => ({
+    title: t(action),
+    value: action,
+  }))
+
+  const identities = ref([])
+
+  const { loading: loadingIdentities } = useRequest(TargetingService.getTikTokIdentities, {
+    onSuccess: res => {
+      const { error, messages, data } = res.data
+
+      if (error) {
+        show(messages[0], 'error')
+        return
+      }
+
+      identities.value = data
+    },
   })
 
   const onSubmit = () => {
@@ -105,6 +160,25 @@
         v-model="form.target_url"
         :label="$t('target_url')"
         :rules="rules.target_url"
+      />
+    </VCol>
+    <VCol cols="12">
+      <AppSelect
+        v-model="form.action"
+        :items="actions"
+        :label="$t('cta')"
+        :rules="rules.action"
+      />
+    </VCol>
+    <VCol cols="12">
+      <AppSelect
+        v-model="form.identity_id"
+        item-title="display_name"
+        item-value="identity_id"
+        :items="identities"
+        :label="$t('identity_id')"
+        :loading="loadingIdentities"
+        :rules="rules.identity_id"
       />
     </VCol>
     <VCol cols="12">

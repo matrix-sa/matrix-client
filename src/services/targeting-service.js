@@ -19,6 +19,10 @@ const TargetingService = (function () {
     return API.get(`${prefix}/TikTok/Targeting/GetCountryProvinces`, params)
   }
 
+  const getTikTokIdentities = () => {
+    return API.get(`${prefix}/TikTok/Targeting/GetIdentities`)
+  }
+
   const getSnapchatCountries = () => {
     return API.get(`${prefix}/Snapchat/Targeting/GetCountries`)
   }
@@ -51,6 +55,7 @@ const TargetingService = (function () {
     getTwitterCities,
     getTikTokCountries,
     getTikTokCountryProvinces,
+    getTikTokIdentities,
     getSnapchatCountries,
     getMetaCountries,
     getMetaRegions,

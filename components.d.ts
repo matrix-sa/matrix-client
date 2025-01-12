@@ -45,7 +45,6 @@ declare module 'vue' {
     ConnectionConfirmationDialog: typeof import('./src/components/dialogs/ConnectionConfirmationDialog.vue')['default']
     ConnectionRuleModal: typeof import('./src/components/dialogs/ConnectionRuleModal.vue')['default']
     ConnectPlatformAccountDialog: typeof import('./src/components/dialogs/ConnectPlatformAccountDialog.vue')['default']
-    copy: typeof import('./src/components/dialogs/ConnectionRuleModal copy.vue')['default']
     CreditCard: typeof import('./src/components/payment/CreditCard.vue')['default']
     DatePicker: typeof import('./src/components/core/DatePicker.vue')['default']
     DesktopLayout: typeof import('./src/components/shared/DesktopLayout.vue')['default']
