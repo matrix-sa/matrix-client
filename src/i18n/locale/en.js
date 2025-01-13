@@ -1193,4 +1193,5 @@ export default {
   JOIN_THIS_HASHTAG: 'Join This Hashtag',
   SHOOT_WITH_THIS_EFFECT: 'Shoot With This Effect',
   VIEW_VIDEO_WITH_THIS_EFFECT: 'View Video With This Effect',
+  ads_library: 'Ads Library',
 }

@@ -1188,4 +1188,5 @@ export default {
   JOIN_THIS_HASHTAG: 'انضم إلى هذا الهاشتاج',
   SHOOT_WITH_THIS_EFFECT: 'صور بهذا التأثير',
   VIEW_VIDEO_WITH_THIS_EFFECT: 'شاهد الفيديو بهذا التأثير',
+  ads_library: 'مكتبة الإعلانات',
 }
