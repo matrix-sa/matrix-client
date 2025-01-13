@@ -23,6 +23,6 @@
 
 <template>
   <div>
-    Ads library
+    <AdsHeader />
   </div>
 </template>
