@@ -1193,5 +1193,15 @@ export default {
   JOIN_THIS_HASHTAG: 'Join This Hashtag',
   SHOOT_WITH_THIS_EFFECT: 'Shoot With This Effect',
   VIEW_VIDEO_WITH_THIS_EFFECT: 'View Video With This Effect',
-  ads_library: 'Ads Library',
+  ads_library: {
+    name: 'Ads Library',
+    header_text: 'You can hide the columns you want and control the display mode completely through the options below.',
+    add_ad: 'Add Ad',
+    filter: 'Filter',
+    group: 'Group within 4 fields',
+    sort: 'Sort by 1 field',
+    control: 'Column control',
+    display_windows: 'Display windows',
+
+  },
 }

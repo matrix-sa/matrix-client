@@ -51,7 +51,7 @@
           },
         },
         {
-          title: t('ads_library'),
+          title: t('ads_library.name'),
           props: {
             prependIcon: 'solar:cart-linear',
             active: isActive('/ads-library/'),

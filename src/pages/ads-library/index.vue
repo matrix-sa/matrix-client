@@ -11,7 +11,7 @@
     () => {
       update([
         {
-          title: t('ads_library'),
+          title: t('ads_library.name'),
           active: true,
           to: '/ads-library',
         },

@@ -1188,5 +1188,14 @@ export default {
   JOIN_THIS_HASHTAG: 'انضم إلى هذا الهاشتاج',
   SHOOT_WITH_THIS_EFFECT: 'صور بهذا التأثير',
   VIEW_VIDEO_WITH_THIS_EFFECT: 'شاهد الفيديو بهذا التأثير',
-  ads_library: 'مكتبة الإعلانات',
+  ads_library: {
+    name: 'مكتبة الإعلانات',
+    header_text: 'يمكنك إخفاء الأعمدة التي تريد والتحكم بطريقة العرض بشكل كامل عن طريق الخيارات في الأسفل.',
+    add_ad: 'أضف إعلان',
+    filter: 'فلتر',
+    group: 'تجميع ضمن 4 حقول',
+    sort: 'ترتيب حسب 1 حقل',
+    control: 'التحكم بالأعمدة',
+    display_windows: 'نوافذ العرض',
+  },
 }
