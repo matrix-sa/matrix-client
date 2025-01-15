@@ -91,7 +91,6 @@
 
             <!-- pagination -->
             <template #bottom>
-              <VDivider />
               <div
                 class="d-flex align-center justify-sm-space-between justify-center flex-wrap gap-3 pa-5 pt-3"
               >
@@ -112,3 +111,34 @@
     </v-card-text>
   </v-card>
 </template>
+
+<style lang="scss" scoped>
+  .text-no-wrap {
+    white-space: nowrap;
+  }
+
+:deep( .v-data-table-header__content){
+font-size: 12px;
+line-height: 14.4px;
+font-weight: 400;
+color: #706D79;
+}
+
+:deep(.v-data-table) {
+  ::-webkit-scrollbar {
+    height: 8px;
+    text-decoration: none;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background-color: #4E1AC7;
+    border-radius: 4px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background-color: #F8F7FA;
+    border-radius: 4px;
+  }
+
+}
+</style>
