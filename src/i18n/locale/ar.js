@@ -1198,4 +1198,15 @@ export default {
     control: 'التحكم بالأعمدة',
     display_windows: 'نوافذ العرض',
   },
+  ads_table: {
+    reference: 'الرمز المرجعي',
+    type: 'النوع',
+    link: 'الرابط (URL)  ',
+    date: 'التاريخ',
+    season: 'الموسم',
+    style: 'الأسلوب',
+    montier: 'المونتير / التصميم',
+    writer: 'اسم الكاتب',
+    notes: 'ملاحظات',
+  },
 }

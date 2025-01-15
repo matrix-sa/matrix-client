@@ -1202,6 +1202,16 @@ export default {
     sort: 'Sort by 1 field',
     control: 'Column control',
     display_windows: 'Display windows',
-
+  },
+  ads_table: {
+    reference: 'Reference',
+    type: 'Type',
+    link: 'Link (URL)',
+    date: 'Date',
+    season: 'Season',
+    style: 'Style',
+    montier: 'Montier/Design',
+    writer: 'Writer',
+    notes: 'Notes',
   },
 }
