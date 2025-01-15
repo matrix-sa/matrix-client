@@ -24,5 +24,6 @@
 <template>
   <div>
     <AdsHeader />
+    <AdsLibraryTable />
   </div>
 </template>
