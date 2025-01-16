@@ -47,7 +47,7 @@
       </div>
       <div class="d-flex ga-2 ">
         <v-btn color="#24C87E" rounded>
-          <p>{{ t("save") }}</p>
+          <p class="text-white">{{ t("save") }}</p>
         </v-btn>
         <v-btn color="#F8F7FA" rounded>
           <v-icon icon="heroicons-outline:table" />
