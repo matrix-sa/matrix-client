@@ -51,6 +51,15 @@
           },
         },
         {
+          title: t('ads_library.name'),
+          props: {
+            prependIcon: 'solar:cart-linear',
+            active: isActive('/ads-library/'),
+            to: { name: '/ads-library/' },
+            disabled: userShouldLink.value,
+          },
+        },
+        {
           title: t('campaign_rules'),
           props: {
             prependIcon: 'tabler-list',
