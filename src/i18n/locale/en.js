@@ -1212,4 +1212,25 @@ export default {
   return: 'return',
   easily_add_new_ads_to_your_ad_library: 'Easily add new ads to your ad library',
 
+  ads_library: {
+    name: 'Ads Library',
+    header_text: 'You can hide the columns you want and control the display mode completely through the options below.',
+    add_ad: 'Add Ad',
+    filter: 'Filter',
+    group: 'Group within 4 fields',
+    sort: 'Sort by 1 field',
+    control: 'Column control',
+    display_windows: 'Display windows',
+  },
+  ads_table: {
+    reference: 'Reference',
+    type: 'Type',
+    link: 'Link (URL)',
+    date: 'Date',
+    season: 'Season',
+    style: 'Style',
+    montier: 'Montier/Design',
+    writer: 'Writer',
+    notes: 'Notes',
+  },
 }

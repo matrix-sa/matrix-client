@@ -29,6 +29,7 @@ declare module 'vue-router/auto-routes' {
     '/add-new-ad-library/': RouteRecordInfo<'/add-new-ad-library/', '/add-new-ad-library', Record<never, never>, Record<never, never>>,
     '/add-new-ad-library/add': RouteRecordInfo<'/add-new-ad-library/add', '/add-new-ad-library/add', Record<never, never>, Record<never, never>>,
     '/ads/[adGroupId]/add/': RouteRecordInfo<'/ads/[adGroupId]/add/', '/ads/:adGroupId/add', { adGroupId: ParamValue<true> }, { adGroupId: ParamValue<false> }>,
+    '/ads-library/': RouteRecordInfo<'/ads-library/', '/ads-library', Record<never, never>, Record<never, never>>,
     '/assistant/': RouteRecordInfo<'/assistant/', '/assistant', Record<never, never>, Record<never, never>>,
     '/assistant/designer/': RouteRecordInfo<'/assistant/designer/', '/assistant/designer', Record<never, never>, Record<never, never>>,
     '/assistant/writer/': RouteRecordInfo<'/assistant/writer/', '/assistant/writer', Record<never, never>, Record<never, never>>,
