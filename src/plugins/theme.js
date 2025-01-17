@@ -39,6 +39,7 @@ const matrixTheme = {
     'btn-size': '1rem',
     'dark-1': '#1F1625',
     'dark-2': '#41324C',
+    violet: '#9d79f01a',
   },
 }
 
