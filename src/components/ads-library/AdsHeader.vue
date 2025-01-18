@@ -1,11 +1,14 @@
 <script setup>
   import adsLogo from '@/assets/Ads-library-1.svg'
   import { useI18n } from 'vue-i18n'
+  import { useRouter } from 'vue-router'
 
   const { t } = useI18n()
 
+  const router = useRouter()
   const handleAddAd = () => {
     console.log('Add Ad')
+    router.push(`/ads-library/add`)
   }
 </script>
 
@@ -59,29 +62,28 @@
 </template>
 
 <style scoped lang='scss'>
-  .title {
-    font-size: 20px;
-    font-weight: 700;
-    line-height: 24px;
-    margin-bottom: 8px;
-  }
+.title {
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 24px;
+  margin-bottom: 8px;
+}
 
-  .sub_title {
-    font-size: 14px;
-    font-weight: 400;
-    line-height: 16.8px;
-  }
+.sub_title {
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 16.8px;
+}
 
-  hr {
+hr {
   border: 1px solid #1F16251A;
   margin-bottom: 24px;
   margin-top: 16px;
 }
 
-p{
-font-size: 11px;
-font-weight: 500;
-line-height: 13.2px;
+p {
+  font-size: 11px;
+  font-weight: 500;
+  line-height: 13.2px;
 }
-
 </style>

@@ -3,7 +3,7 @@
   import { useI18n } from 'vue-i18n'
 
   import adLibHeaderLogo from '@/assets/images/ad-lib-header.svg'
-  import AdLibraryForm from '@/components/ad-library/AdLibraryForm.vue'
+  import AdLibraryForm from '@/components/ads-library/AdLibraryForm.vue'
 
   const { update } = useBreadcrumbsStore()
   const { t, locale } = useI18n()
