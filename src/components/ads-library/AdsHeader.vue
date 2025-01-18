@@ -1,16 +1,15 @@
 <script setup>
-import adsLogo from '@/assets/Ads-library-1.svg'
-import { useI18n } from 'vue-i18n'
+  import adsLogo from '@/assets/Ads-library-1.svg'
+  import { useI18n } from 'vue-i18n'
+  import { useRouter } from 'vue-router'
 
-const { t } = useI18n()
-import { useRouter } from 'vue-router'
+  const { t } = useI18n()
 
-const router = useRouter()
-const handleAddAd = () => {
-  console.log('Add Ad')
-  router.push(`/ads-library/add`)
-
-}
+  const router = useRouter()
+  const handleAddAd = () => {
+    console.log('Add Ad')
+    router.push(`/ads-library/add`)
+  }
 </script>
 
 <template>

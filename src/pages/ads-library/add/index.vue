@@ -1,32 +1,32 @@
 <script setup>
-import { useBreadcrumbsStore } from '@/stores/useBreadcrumbsStore'
-import { useI18n } from 'vue-i18n'
+  import { useBreadcrumbsStore } from '@/stores/useBreadcrumbsStore'
+  import { useI18n } from 'vue-i18n'
 
-import adLibHeaderLogo from '@/assets/images/ad-lib-header.svg'
-import AdLibraryForm from '@/components/ads-library/AdLibraryForm.vue'
+  import adLibHeaderLogo from '@/assets/images/ad-lib-header.svg'
+  import AdLibraryForm from '@/components/ads-library/AdLibraryForm.vue'
 
-const { update } = useBreadcrumbsStore()
-const { t, locale } = useI18n()
+  const { update } = useBreadcrumbsStore()
+  const { t, locale } = useI18n()
 
-watch(
-  locale,
-  () => {
-    update([
-      {
-        title: t('campaigns'),
-        active: false,
-        to: '/campaigns/',
-      },
-      {
-        title: t('add_campaign'),
-        active: true,
-        disabled: true,
-        to: `/campaigns/add`,
-      },
-    ])
-  },
-  { immediate: true }
-)
+  watch(
+    locale,
+    () => {
+      update([
+        {
+          title: t('campaigns'),
+          active: false,
+          to: '/campaigns/',
+        },
+        {
+          title: t('add_campaign'),
+          active: true,
+          disabled: true,
+          to: `/campaigns/add`,
+        },
+      ])
+    },
+    { immediate: true }
+  )
 </script>
 <template>
   <div>
