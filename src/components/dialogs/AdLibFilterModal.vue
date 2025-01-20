@@ -1,112 +1,112 @@
 <script setup>
-import { requiredValidator } from '@/utilities/validators'
-import { useI18n } from 'vue-i18n'
-import { useRequest } from 'vue-request'
-import { useSnackbarStore } from '@/stores/useSnackBarStore'
-import connectionRuleIcon from '@/assets/doc.svg'
-import AppSelect from '../core/AppSelect.vue'
-import { useRulesModalsStore } from '@/stores/rulesModalsStore'
-import AppTextInput from '../core/AppTextInput.vue'
-import PaymentService from '@/services/payment-service'
+  import { requiredValidator } from '@/utilities/validators'
+  import { useI18n } from 'vue-i18n'
+  import { useRequest } from 'vue-request'
+  import { useSnackbarStore } from '@/stores/useSnackBarStore'
+  import connectionRuleIcon from '@/assets/doc.svg'
+  import AppSelect from '../core/AppSelect.vue'
+  import { useRulesModalsStore } from '@/stores/rulesModalsStore'
+  import AppTextInput from '../core/AppTextInput.vue'
+  import PaymentService from '@/services/payment-service'
 
-const props = defineProps({
-  rule: {
-    type: Object,
-    required: false,
-  },
-})
-
-const emit = defineEmits(['saved', 'update:isDialogVisible', 'refetch-transactions'])
-
-const form = ref({
-  credit_card_id: null,
-  wallet_recharge_amount: null,
-
-})
-
-const paymentMethods = ref([])
-
-const { t } = useI18n()
-const { show } = useSnackbarStore()
-const rulesModalsStore = useRulesModalsStore()
-
-const handleClose = () => {
-  emit('update:isDialogVisible', false)
-}
-const handleWalletRechargeAmountInput = event => {
-  const value = event.target.value
-  if (value < 0) {
-    event.preventDefault()
-    form.value.wallet_recharge_amount = ''
-  } else {
-    form.value.wallet_recharge_amount = value
-  }
-}
-
-const handleWalletRechargeAmountKeydown = event => {
-  // Allow only numeric keys, backspace, delete, and arrow keys
-  const allowedKeys = [
-    '0', '1', '2', '3', '4', '5', '6', '7', '8', '9',
-    'Backspace', 'Delete',
-    'ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown',
-    'Tab',
-  ]
-
-  // Prevent if the key is not allowed
-  if (!allowedKeys.includes(event.key)) {
-    event.preventDefault()
-  }
-}
-
-const submit = () => {
-  chargeWallet(form.value)
-}
-
-const { run, loading: loadData } = useRequest(
-  () => PaymentService.getCreditCards(),
-  {
-
-    onSuccess: res => {
-      const { data, error, messages } = res.data
-      if (error) {
-        show(messages[0], 'error')
-        return
-      }
-      paymentMethods.value = data.map(item => ({ ...item, title: item.name }))
+  const props = defineProps({
+    rule: {
+      type: Object,
+      required: false,
     },
-    onError: err => {
-      console.error(err)
-    },
+  })
+
+  const emit = defineEmits(['saved', 'update:isDialogVisible', 'refetch-transactions'])
+
+  const form = ref({
+    credit_card_id: null,
+    wallet_recharge_amount: null,
+
+  })
+
+  const paymentMethods = ref([])
+
+  const { t } = useI18n()
+  const { show } = useSnackbarStore()
+  const rulesModalsStore = useRulesModalsStore()
+
+  const handleClose = () => {
+    emit('update:isDialogVisible', false)
   }
-)
-
-const { run: chargeWallet, loading: startLoading } = useRequest(
-  data => PaymentService.chargeWallet(data),
-  {
-    manual: true,
-    onSuccess: res => {
-      const { error, data, messages, code } = res.data
-
-      if (error) {
-        show(messages[0], 'error')
-      }
-
-      show(t('charge_success'), 'success')
-
-      emit('refetch-transactions')
-      emit('update:isDialogVisible', false)
-    },
+  const handleWalletRechargeAmountInput = event => {
+    const value = event.target.value
+    if (value < 0) {
+      event.preventDefault()
+      form.value.wallet_recharge_amount = ''
+    } else {
+      form.value.wallet_recharge_amount = value
+    }
   }
-)
 
-const isFormValid = computed(() => {
-  return (
-    !!form.value.credit_card_id &&
-    !!form.value.wallet_recharge_amount &&
-    form.value.wallet_recharge_amount > 0
+  const handleWalletRechargeAmountKeydown = event => {
+    // Allow only numeric keys, backspace, delete, and arrow keys
+    const allowedKeys = [
+      '0', '1', '2', '3', '4', '5', '6', '7', '8', '9',
+      'Backspace', 'Delete',
+      'ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown',
+      'Tab',
+    ]
 
+    // Prevent if the key is not allowed
+    if (!allowedKeys.includes(event.key)) {
+      event.preventDefault()
+    }
+  }
+
+  const submit = () => {
+    chargeWallet(form.value)
+  }
+
+  const { run, loading: loadData } = useRequest(
+    () => PaymentService.getCreditCards(),
+    {
+
+      onSuccess: res => {
+        const { data, error, messages } = res.data
+        if (error) {
+          show(messages[0], 'error')
+          return
+        }
+        paymentMethods.value = data.map(item => ({ ...item, title: item.name }))
+      },
+      onError: err => {
+        console.error(err)
+      },
+    }
   )
-})
+
+  const { run: chargeWallet, loading: startLoading } = useRequest(
+    data => PaymentService.chargeWallet(data),
+    {
+      manual: true,
+      onSuccess: res => {
+        const { error, data, messages, code } = res.data
+
+        if (error) {
+          show(messages[0], 'error')
+        }
+
+        show(t('charge_success'), 'success')
+
+        emit('refetch-transactions')
+        emit('update:isDialogVisible', false)
+      },
+    }
+  )
+
+  const isFormValid = computed(() => {
+    return (
+      !!form.value.credit_card_id &&
+      !!form.value.wallet_recharge_amount &&
+      form.value.wallet_recharge_amount > 0
+
+    )
+  })
 
 </script>
 <template>
@@ -120,38 +120,35 @@ const isFormValid = computed(() => {
 
     <v-divider />
 
-
     <div class="d-flex  ga-4">
       <span class="flex-2 text-tajawal filter-text mt-4">
         {{ $t('ads_library.filter') }}
       </span>
-      <AppSelect class="mt-5" v-model="form.credit_card_id" :item-title="item => item.type"
-        :item-value="item => item.id" :items="paymentMethods" />
+      <AppSelect
+        v-model="form.credit_card_id"
+        class="mt-5"
+        :item-title="item => item.type"
+        :item-value="item => item.id"
+        :items="paymentMethods"
+      />
 
-      <AppSelect class="mt-5" v-model="form.credit_card_id" :item-title="item => item.type"
-        :item-value="item => item.id" :items="paymentMethods" />
+      <AppSelect
+        v-model="form.credit_card_id"
+        class="mt-5"
+        :item-title="item => item.type"
+        :item-value="item => item.id"
+        :items="paymentMethods"
+      />
 
-      <AppTextInput class="mt-5" v-model="form.wallet_recharge_amount" min="0" :placeholder="t('enter_value')"
-        type="number" @input="handleWalletRechargeAmountInput" @keydown="handleWalletRechargeAmountKeydown" />
-
-      <div class="w-50px">
-        <VBtn class="delete-btn">
-          <v-icon size="25">mdi-trash-can</v-icon>
-        </VBtn>
-      </div>
-    </div>
-
-    <div class="d-flex  ga-4">
-      <AppSelect class="mt-5 flex-2" v-model="form.credit_card_id" :item-title="item => item.type"
-        :item-value="item => item.id" :items="paymentMethods" />
-      <AppSelect class="mt-5" v-model="form.credit_card_id" :item-title="item => item.type"
-        :item-value="item => item.id" :items="paymentMethods" />
-
-      <AppSelect class="mt-5" v-model="form.credit_card_id" :item-title="item => item.type"
-        :item-value="item => item.id" :items="paymentMethods" />
-
-      <AppTextInput class="mt-5" v-model="form.wallet_recharge_amount" min="0" :placeholder="t('enter_value')"
-        type="number" @input="handleWalletRechargeAmountInput" @keydown="handleWalletRechargeAmountKeydown" />
+      <AppTextInput
+        v-model="form.wallet_recharge_amount"
+        class="mt-5"
+        min="0"
+        :placeholder="t('enter_value')"
+        type="number"
+        @input="handleWalletRechargeAmountInput"
+        @keydown="handleWalletRechargeAmountKeydown"
+      />
 
       <div class="w-50px">
         <VBtn class="delete-btn">
@@ -161,16 +158,38 @@ const isFormValid = computed(() => {
     </div>
 
     <div class="d-flex  ga-4">
-      <AppSelect class="mt-5 flex-2" v-model="form.credit_card_id" :item-title="item => item.type"
-        :item-value="item => item.id" :items="paymentMethods" />
-      <AppSelect class="mt-5" v-model="form.credit_card_id" :item-title="item => item.type"
-        :item-value="item => item.id" :items="paymentMethods" />
+      <AppSelect
+        v-model="form.credit_card_id"
+        class="mt-5 flex-2"
+        :item-title="item => item.type"
+        :item-value="item => item.id"
+        :items="paymentMethods"
+      />
+      <AppSelect
+        v-model="form.credit_card_id"
+        class="mt-5"
+        :item-title="item => item.type"
+        :item-value="item => item.id"
+        :items="paymentMethods"
+      />
 
-      <AppSelect class="mt-5" v-model="form.credit_card_id" :item-title="item => item.type"
-        :item-value="item => item.id" :items="paymentMethods" />
+      <AppSelect
+        v-model="form.credit_card_id"
+        class="mt-5"
+        :item-title="item => item.type"
+        :item-value="item => item.id"
+        :items="paymentMethods"
+      />
 
-      <AppTextInput class="mt-5" v-model="form.wallet_recharge_amount" min="0" :placeholder="t('enter_value')"
-        type="number" @input="handleWalletRechargeAmountInput" @keydown="handleWalletRechargeAmountKeydown" />
+      <AppTextInput
+        v-model="form.wallet_recharge_amount"
+        class="mt-5"
+        min="0"
+        :placeholder="t('enter_value')"
+        type="number"
+        @input="handleWalletRechargeAmountInput"
+        @keydown="handleWalletRechargeAmountKeydown"
+      />
 
       <div class="w-50px">
         <VBtn class="delete-btn">
@@ -179,7 +198,46 @@ const isFormValid = computed(() => {
       </div>
     </div>
 
+    <div class="d-flex  ga-4">
+      <AppSelect
+        v-model="form.credit_card_id"
+        class="mt-5 flex-2"
+        :item-title="item => item.type"
+        :item-value="item => item.id"
+        :items="paymentMethods"
+      />
+      <AppSelect
+        v-model="form.credit_card_id"
+        class="mt-5"
+        :item-title="item => item.type"
+        :item-value="item => item.id"
+        :items="paymentMethods"
+      />
 
+      <AppSelect
+        v-model="form.credit_card_id"
+        class="mt-5"
+        :item-title="item => item.type"
+        :item-value="item => item.id"
+        :items="paymentMethods"
+      />
+
+      <AppTextInput
+        v-model="form.wallet_recharge_amount"
+        class="mt-5"
+        min="0"
+        :placeholder="t('enter_value')"
+        type="number"
+        @input="handleWalletRechargeAmountInput"
+        @keydown="handleWalletRechargeAmountKeydown"
+      />
+
+      <div class="w-50px">
+        <VBtn class="delete-btn">
+          <v-icon size="25">mdi-trash-can</v-icon>
+        </VBtn>
+      </div>
+    </div>
 
   </v-card>
 </template>
@@ -207,7 +265,6 @@ const isFormValid = computed(() => {
   right: 3%;
 } */
 
-
 .connect-platform {
 
   .filter-title {
@@ -224,7 +281,6 @@ const isFormValid = computed(() => {
     display: flex;
     justify-content: flex-end
   }
-
 
   .filter-text {
     font-size: 16px;

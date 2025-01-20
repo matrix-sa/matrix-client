@@ -1,22 +1,22 @@
 <script setup>
-import adsLogo from '@/assets/Ads-library-1.svg'
-import { useI18n } from 'vue-i18n'
-import { useRouter } from 'vue-router'
-import AdLibFilterModal from '../dialogs/AdLibFilterModal.vue'
+  import adsLogo from '@/assets/Ads-library-1.svg'
+  import { useI18n } from 'vue-i18n'
+  import { useRouter } from 'vue-router'
+  import AdLibFilterModal from '../dialogs/AdLibFilterModal.vue'
 
-const { t } = useI18n()
+  const { t } = useI18n()
 
-const router = useRouter()
-const handleAddAd = () => {
-  console.log('Add Ad')
-  router.push(`/ads-library/add`)
-}
+  const router = useRouter()
+  const handleAddAd = () => {
+    console.log('Add Ad')
+    router.push(`/ads-library/add`)
+  }
 
-const openFilterDialog = ref(false)
+  const openFilterDialog = ref(false)
 
-const filterModalHandler = () => {
-  openFilterDialog.value = true
-}
+  const filterModalHandler = () => {
+    openFilterDialog.value = true
+  }
 
 </script>
 
@@ -42,7 +42,7 @@ const filterModalHandler = () => {
     <!--  Filter links  -->
     <div class="d-flex justify-space-between mb-4">
       <div class="d-flex ga-2 ">
-        <v-btn color="#F8F7FA" @click="filterModalHandler" rounded>
+        <v-btn color="#F8F7FA" rounded @click="filterModalHandler">
           <v-icon icon="meteor-icons:bars-filter " />
           <p>{{ t("ads_library.filter") }}11</p>
         </v-btn>
@@ -87,9 +87,7 @@ const filterModalHandler = () => {
   }
 }
 
-
 .main-container {
-
 
   .title {
     font-size: 20px;

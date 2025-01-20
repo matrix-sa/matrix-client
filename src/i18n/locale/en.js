@@ -1221,7 +1221,7 @@ export default {
     sort: 'Sort by 1 field',
     control: 'Column control',
     display_windows: 'Display windows',
-        filters: 'filters'
+    filters: 'filters',
 
   },
   ads_table: {
