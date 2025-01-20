@@ -8,21 +8,21 @@
 
   const headers = [
     { title: '#', key: 'id' },
-    { title: t('ads_table.reference'), key: 'reference' },
-    { title: t('ads_table.type'), key: 'type' },
-    { title: t('ads_table.link'), key: 'link' },
-    { title: t('ads_table.date'), key: 'date' },
-    { title: t('ads_table.season'), key: 'season' },
-    { title: t('ads_table.style'), key: 'style' },
-    { title: t('ads_table.montier'), key: 'montier' },
-    { title: t('ads_table.writer'), key: 'writer' },
-    { title: t('ads_table.notes'), key: 'notes' },
+    { title: t('ads_table.reference'), key: 'reference', icon: 'tabler-list' },
+    { title: t('ads_table.type'), key: 'type', icon: 'tabler-circles' },
+    { title: t('ads_table.link'), key: 'link', icon: 'mdi-link' },
+    { title: t('ads_table.date'), key: 'date', icon: 'tabler-calendar-week' },
+    { title: t('ads_table.season'), key: 'season', icon: 'tabler-building-lighthouse' },
+    { title: t('ads_table.style'), key: 'style', icon: 'mdi-palette-swatch-outline' },
+    { title: t('ads_table.montier'), key: 'montier', icon: 'mdi-fountain-pen-tip' },
+    { title: t('ads_table.writer'), key: 'writer', icon: 'mdi-typewriter' },
+    { title: t('ads_table.notes'), key: 'notes', icon: 'tabler-notes' },
   ]
 
   // Mock data
   const items = ref([
     { id: 1, title: 'إفطار صائم', reference: '5896324', type: 'تصميم', link: 'http://urlinkgoeshere.com', date: '2025.01.12', season: 'رمضان', style: 'بلان فاربادي', montier: 'أحمد محمد', writer: 'سعد عبدالعادي', notes: 'ملاحظات الإعلان تظهر هنا..' },
-    { id: 2, title: 'إفطار صائم', reference: '4893254', type: 'تصميم', link: 'http://urlinkgoeshere.com', date: '2024.05.08', season: 'رمضان', style: 'مونتاج', montier: 'أسامة عبدالله', writer: 'جلال أحمد', notes: 'ملاحظات الإعلان تظهر هنا..' },
+    { id: 2, title: 'إفطار صائم', reference: '4893254', type: 'كتابة', link: 'http://urlinkgoeshere.com', date: '2024.05.08', season: 'رمضان', style: 'مونتاج', montier: 'أسامة عبدالله', writer: 'جلال أحمد', notes: 'ملاحظات الإعلان تظهر هنا..' },
     { id: 3, title: 'إفطار صائم', reference: '89711235', type: 'تصميم', link: 'http://urlinkgoeshere.com', date: '2023.12.25', season: 'اليوم الوطني', style: 'تصوير ميداني', montier: 'خالد ملهم', writer: 'عبدالرحمن سعيد', notes: 'ملاحظات الإعلان تظهر هنا..' },
     { id: 4, title: 'سقيا الحجاج', reference: '5896324', type: 'تصميم', link: 'http://urlinkgoeshere.com', date: '2025.01.12', season: 'رمضان', style: 'مونتاج', montier: 'أحمد محمد', writer: 'سعد عبدالعادي', notes: 'ملاحظات الإعلان تظهر هنا..' },
     { id: 5, title: 'سقيا الحجاج', reference: '4893254', type: 'تصميم', link: 'http://urlinkgoeshere.com', date: '2024.05.08', season: 'رمضان', style: 'مونتاج جرافيك', montier: 'أسامة عبدالله', writer: 'جلال أحمد', notes: 'ملاحظات الإعلان تظهر هنا..' },
@@ -54,6 +54,15 @@
     },
     { immediate: true }
   )
+
+  const getTypeColor = type => {
+    return type === 'تصميم' ? 'green' : 'yellow'
+  }
+
+  const getRandomColor = () => {
+    const colors = ['#DFFDC4', '#E91E63', '#C4FDF4', '#D5C4FD', '#C4EAFD']
+    return colors[Math.floor(Math.random() * colors.length)]
+  }
 </script>
 
 <template>
@@ -67,32 +76,102 @@
           hide-default-footer
         >
           <v-card-text>
-            <v-data-table
-              class="text-no-wrap pa-8 table-header"
-              :headers="headers"
-              hide-default-body
-              hide-default-footer
-              :items="items"
-            />
-            <template v-for="([title, ads], index) in groupedAds" :key="index">
-              <div class="category-section rounded-lg">
-                <div class="group-title">
-                  <span>{{ title }} </span>
-                  <span class="ad-count">({{ ads.length }})</span>
-                </div>
+            <v-card-text>
+              <v-card-text>
                 <v-data-table
-                  class="text-no-wrap pa-4"
+                  class="text-no-wrap pa-8 table-header"
                   :headers="headers"
+                  hide-default-body
                   hide-default-footer
-                  hide-default-header
-                  :items="ads"
+                  :items="items"
                 >
-                  <template #item.id="{ index:idx }">
-                    {{ idx + 1 }}
+                  <!-- Customize header.type slot -->
+                  <template #header.reference="{ column }">
+                    <v-icon>{{ column.icon }}</v-icon>
+                    {{ column.title }}
+                  </template>
+
+                  <template #header.type="{ column }">
+                    <v-icon class="mx-1">{{ column.icon }}</v-icon>
+                    {{ column.title }}
+                  </template>
+                  <template #header.link="{ column }">
+                    <v-icon class="mx-2">{{ column.icon }}</v-icon>
+                    {{ column.title }}
+                  </template>
+                  <template #header.date="{ column }">
+                    <v-icon class="mx-1">{{ column.icon }}</v-icon>
+                    {{ column.title }}
+                  </template>
+                  <template #header.season="{ column }">
+                    <v-icon class="mx-1">{{ column.icon }}</v-icon>
+                    {{ column.title }}
+                  </template>
+                  <template #header.style="{ column }">
+                    <v-icon class="mx-1">{{ column.icon }}</v-icon>
+                    {{ column.title }}
+                  </template>
+                  <template #header.montier="{ column }">
+                    <v-icon class="mx-1">{{ column.icon }}</v-icon>
+                    {{ column.title }}
+                  </template>
+                  <template #header.writer="{ column }">
+                    <v-icon class="mx-1">{{ column.icon }}</v-icon>
+                    {{ column.title }}
+                  </template>
+                  <template #header.notes="{ column }">
+                    <v-icon class="mx-1">{{ column.icon }}</v-icon>
+                    {{ column.title }}
                   </template>
                 </v-data-table>
-              </div>
-            </template>
+
+                <template v-for="([title, ads], index) in groupedAds" :key="index">
+                  <div class="category-section rounded-lg">
+                    <div class="group-title">
+                      <span>{{ title }} </span>
+                      <span class="ad-count">({{ ads.length }})</span>
+                    </div>
+                    <v-data-table
+                      class="text-no-wrap pa-4"
+                      :headers="headers"
+                      hide-default-footer
+                      hide-default-header
+                      :items="ads"
+                    >
+                      <!-- Customize item.type slot -->
+                      <template #item.id="{ index:idx }">
+                        {{ idx + 1 }}
+                      </template>
+
+                      <template #item.type="{ item }">
+                        <v-chip class="mx-12" :color="getTypeColor(item.type)">
+                          <p class="text-black font-weight-medium"> {{ item.type }}</p>
+                        </v-chip>
+                      </template>
+
+                      <template #item.style="{ item }">
+                        <v-chip class="mr-6" :color="getRandomColor()">
+                          <p class="text-black font-weight-medium"> {{ item.style }}</p>
+                        </v-chip>
+                      </template>
+
+                      <template #item.montier="{ item }">
+                        <v-chip class="mr-6" :color="getRandomColor()">
+                          <p class="text-black font-weight-medium"> {{ item.montier }}</p>
+                        </v-chip>
+                      </template>
+
+                      <template #item.writer="{ item }">
+                        <v-chip class="mr-6" :color="getRandomColor()">
+                          <p class="text-black font-weight-medium"> {{ item.writer }}</p>
+                        </v-chip>
+                      </template>
+
+                    </v-data-table>
+                  </div>
+                </template>
+              </v-card-text>
+            </v-card-text>
           </v-card-text>
         </v-data-table>
       </v-card>
@@ -133,10 +212,21 @@
 }
 
 :deep(.v-data-table-header__content) {
+  width: 0px !important;
+}
+:deep(.v-table__wrapper > table > thead > tr > th) {
   font-size: 12px;
   line-height: 14.4px;
   font-weight: 400;
   color: #706D79;
+
+  &:first-child {
+    padding-left: 6px !important;
+  }
+}
+
+:deep(.v-chip--variant-tonal .v-chip__underlay) {
+opacity: .5;
 }
 
 :deep(.v-data-table) {
