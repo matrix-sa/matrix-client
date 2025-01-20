@@ -1216,6 +1216,7 @@ export default {
     sort: 'ترتيب حسب 1 حقل',
     control: 'التحكم بالأعمدة',
     display_windows: 'نوافذ العرض',
+    filters: 'فلاتر',
   },
   ads_table: {
     reference: 'الرمز المرجعي',
