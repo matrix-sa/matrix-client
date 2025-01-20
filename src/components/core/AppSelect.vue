@@ -1,45 +1,37 @@
 <script setup>
-  defineOptions({
-    name: 'AppSelect',
-    inheritAttrs: false,
-  })
+defineOptions({
+  name: 'AppSelect',
+  inheritAttrs: false,
+})
 
-  const elementId = computed(() => {
-    const attrs = useAttrs()
-    const _elementIdToken = attrs.id || attrs.label
+const elementId = computed(() => {
+  const attrs = useAttrs()
+  const _elementIdToken = attrs.id || attrs.label
 
-    return _elementIdToken
-      ? `app-select-${_elementIdToken}-${Math.random()
-        .toString(36)
-        .slice(2, 7)}`
-      : undefined
-  })
+  return _elementIdToken
+    ? `app-select-${_elementIdToken}-${Math.random()
+      .toString(36)
+      .slice(2, 7)}`
+    : undefined
+})
 
-  const label = computed(() => useAttrs().label)
+const label = computed(() => useAttrs().label)
 </script>
 
 <template>
   <div class="app-select flex-grow-1" :class="$attrs.class">
-    <VLabel
-      v-if="label"
-      class="mb-1 text-body-2 text-dark-1"
-      :for="elementId"
-      persistent-placeholder
-      :text="label"
-    />
-    <v-select
-      v-bind="{
-        ...$attrs,
-        class: null,
-        label: undefined,
-        variant: 'solo-filled',
-        id: elementId,
-        'bg-color': 'secondary',
-        flat: true,
-        density: 'comfortable',
-        height: '48'
-      }"
-    >
+    <VLabel v-if="label" class="mb-1 text-body-2 text-dark-1" :for="elementId" persistent-placeholder :text="label" />
+    <v-select v-bind="{
+      ...$attrs,
+      class: null,
+      label: undefined,
+      variant: 'solo-filled',
+      id: elementId,
+      'bg-color': 'secondary',
+      flat: true,
+      density: 'comfortable',
+      height: '48'
+    }">
       <template v-for="(_, name) in $slots" #[name]="slotProps">
         <slot :name="name" v-bind="slotProps || {}" />
       </template>
