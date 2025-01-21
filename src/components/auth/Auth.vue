@@ -116,6 +116,7 @@
       await authStore.register(value)
       if (authStore.otp) {
         document.querySelector('.tabs-login li:nth-child(1) a').click()
+        phoneNumber.value = registerForm.value.values.mobile_number
         registerForm.value.resetForm()
       }
     } catch (error) {
