@@ -5,6 +5,9 @@
   import { useRequest } from 'vue-request'
   import { useSnackbarStore } from '@/stores/useSnackBarStore'
   import { useAuthStore } from '@/stores/useAuthStore'
+  import { useRouter } from 'vue-router'
+
+  const router = useRouter()
 
   const props = defineProps({
     platform: {
@@ -130,6 +133,7 @@
           } else {
             runCheckAuth(props.platform.code)
             show(t('connected_successfully'), 'success')
+            router.push(`/link-ad-accounts/connect-platform`)
           }
 
           emit('update:isDialogVisible', false)

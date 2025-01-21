@@ -5,6 +5,9 @@
   import { useI18n } from 'vue-i18n'
   import { useRequest } from 'vue-request'
   import { useSnackbarStore } from '@/stores/useSnackBarStore'
+  import { useRouter } from 'vue-router'
+
+  const router = useRouter()
 
   const platformsStore = usePlatformsStore()
 
@@ -72,6 +75,14 @@
     platformsStore.checkAuth,
     {
       manual: true,
+      onSuccess: res => {
+        const { error, messages } = res.data
+        if (error) {
+          show(messages[0], 'error')
+        } else {
+          router.push(`/`)
+        }
+      },
     }
   )
 
