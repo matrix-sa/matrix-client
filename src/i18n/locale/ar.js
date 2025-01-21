@@ -1229,4 +1229,6 @@ export default {
     writer: 'اسم الكاتب',
     notes: 'ملاحظات',
   },
+  not_subscribe_writer: 'أنت غير مشترك فى خدمة الكاتب الرقمى',
+
 }

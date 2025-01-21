@@ -1235,4 +1235,5 @@ export default {
     writer: 'Writer',
     notes: 'Notes',
   },
+  not_subscribe_writer: 'You are not subscribed to the digital writer service',
 }
