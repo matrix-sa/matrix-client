@@ -917,7 +917,7 @@ export default {
   activate: 'تفعيل',
   communication_rule_card_BiggerThan: 'زاد',
   communication_rule_card_LessThan: 'قل',
-  add_control_rule: 'أضف قاعدة تحكم',
+  add_control_rule: 'إضافة قاعدة',
   roas_condition: 'الحالة',
   roas_rules: 'العائد على الإنفاق',
   rule_increase_by: 'قم بزيادة القيمة بمقدار',
@@ -1230,5 +1230,6 @@ export default {
     notes: 'ملاحظات',
   },
   not_subscribe_writer: 'أنت غير مشترك فى خدمة الكاتب الرقمى',
+  soon: 'قريبا',
 
 }
