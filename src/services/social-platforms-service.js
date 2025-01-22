@@ -11,7 +11,7 @@ const SocialPlatformsService = function (platform) {
     return API.get(`${prefix}/StartAuthentication`, {})
   }
   const cancelAuthentication = async () => {
-    return API.put(`${prefix}/cancel`, {})
+    return API.put(`${prefix}/Diconnect`, {})
   }
   const getAdAccounts = async () => {
     return API.get(`${platform}/AdAccounts/GetAdAccounts`, {})
