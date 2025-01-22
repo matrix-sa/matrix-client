@@ -6,7 +6,7 @@
   import { useRequest } from 'vue-request'
   import { useSnackbarStore } from '@/stores/useSnackBarStore'
   import { useRouter } from 'vue-router'
-
+  import { onMounted } from 'vue'
   const router = useRouter()
 
   const platformsStore = usePlatformsStore()
@@ -20,9 +20,13 @@
   const selectedPlatform = ref(null)
   const showConfirmationDialog = ref(false)
 
-  const { loading: loadingCheckingPlatforms } = useRequest(
+  const { run: getActivePlatforms, loading: loadingCheckingPlatforms } = useRequest(
     platformsStore.getActivePlatforms
   )
+
+  onMounted(() => {
+    getActivePlatforms()
+  })
 
   const getProperties = status => {
     switch (status) {
@@ -75,13 +79,8 @@
     platformsStore.checkAuth,
     {
       manual: true,
-      onSuccess: res => {
-        const { error, messages } = res.data
-        if (error) {
-          show(messages[0], 'error')
-        } else {
-          router.push(`/`)
-        }
+      onSuccess: () => {
+        router.push(`/`)
       },
     }
   )
@@ -91,14 +90,10 @@
     platform => platformsStore.cancelAuthentication(platform),
     {
       manual: true,
-      onSuccess: res => {
-        const { error, messages } = res.data
-        if (error) {
-          show(messages[0], 'error')
-        } else {
-          show(t('connection_canceled'), 'success')
-          runCheckAuth(selectedPlatform.value)
-        }
+
+      onSuccess: () => {
+        show(t('connection_canceled'), 'success')
+        getActivePlatforms()
       },
 
     })
@@ -136,6 +131,8 @@
 
         show(t('connected_successfully'), 'success')
         runCheckAuth(selectedPlatform.value)
+        startConnection(selectedPlatform)
+
       // toggleAdFormDialog(selectedPlatform.value)
       }
     })
@@ -196,8 +193,7 @@
       />
       <v-btn
         v-if="
-          platform.status === 'OnlyAuthenticated' ||
-            platform.status === 'Success'
+          platform.status === 'Success'
         "
         color="error"
         rounded
