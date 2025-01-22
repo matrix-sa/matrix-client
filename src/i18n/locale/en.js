@@ -919,7 +919,7 @@ export default {
   activate: 'Activate',
   communication_rule_card_BiggerThan: 'Exceeded',
   communication_rule_card_LessThan: 'Fell Below',
-  add_control_rule: 'Add Control Rule',
+  add_control_rule: 'Add Rule',
   roas_condition: 'Status',
   roas_rules: 'ROAS',
   rule_increase_by: 'Increase By',
@@ -1236,4 +1236,5 @@ export default {
     notes: 'Notes',
   },
   not_subscribe_writer: 'You are not subscribed to the digital writer service',
+  soon: 'Coming Soon',
 }
