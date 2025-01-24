@@ -1,121 +1,121 @@
 <script setup>
-  import { localeTitle, paginationMeta } from '@/composable/utils'
-  import { useI18n } from 'vue-i18n'
-  import { DateFormat } from '@/composable/useFormat'
-  import MarketingConsultationsOrdersService from '@/services/marketing-consultations-orders-service'
-  import { useSnackbarStore } from '@/stores/useSnackBarStore'
-  import { useRequest } from 'vue-request'
-  import { useBreadcrumbsStore } from '@/stores/useBreadcrumbsStore'
-  import { watch } from 'vue'
-  const { update } = useBreadcrumbsStore()
-  const totalCount = ref(0)
-  const consultationsOrders = ref([])
+import { localeTitle, paginationMeta } from '@/composable/utils'
+import { useI18n } from 'vue-i18n'
+import { DateFormat, NumberFormat } from '@/composable/useFormat'
+import MarketingConsultationsOrdersService from '@/services/marketing-consultations-orders-service'
+import { useSnackbarStore } from '@/stores/useSnackBarStore'
+import { useRequest } from 'vue-request'
+import { useBreadcrumbsStore } from '@/stores/useBreadcrumbsStore'
+import { watch } from 'vue'
+const { update } = useBreadcrumbsStore()
+const totalCount = ref(0)
+const consultationsOrders = ref([])
 
-  const options = ref({
-    page: 1,
-    itemsPerPage: 10,
-    sortBy: [],
-    groupBy: [],
-    search: undefined,
-  })
+const options = ref({
+  page: 1,
+  itemsPerPage: 10,
+  sortBy: [],
+  groupBy: [],
+  search: undefined,
+})
 
-  const { t, locale } = useI18n()
+const { t, locale } = useI18n()
 
-  const { show } = useSnackbarStore()
+const { show } = useSnackbarStore()
 
-  const headers = [
-    {
-      title: t('marketing-consultation-order.title'),
-      key: localeTitle,
-    },
-    {
-      title: t('marketing-consultation-order.status'),
-      key: 'status',
-    },
-    {
-      title: t('marketing-consultation-order.created_at'),
-      key: 'created_at',
-    },
-    {
-      title: t('marketing-consultation-order.serial_number'),
-      key: 'serial_number',
-    },
-    {
-      title: t('marketing-consultation-order.price'),
-      key: 'price',
-    },
+const headers = [
+  {
+    title: t('marketing-consultation-order.title'),
+    key: localeTitle,
+  },
+  {
+    title: t('marketing-consultation-order.status'),
+    key: 'status',
+  },
+  {
+    title: t('marketing-consultation-order.created_at'),
+    key: 'created_at',
+  },
+  {
+    title: t('marketing-consultation-order.serial_number'),
+    key: 'serial_number',
+  },
+  {
+    title: t('marketing-consultation-order.price'),
+    key: 'price',
+  },
   // {
   //   title: t("marketing-consultation-order.actions"),
   //   key: "actions",
   // },
-  ]
+]
 
-  const { run: fetchOrders, loading: loadingOrders } = useRequest(
-    MarketingConsultationsOrdersService.getAll,
-    {
-      isManual: true,
-      onSuccess: response => {
-        const { data, error, messages } = response.data
+const { run: fetchOrders, loading: loadingOrders } = useRequest(
+  MarketingConsultationsOrdersService.getAll,
+  {
+    isManual: true,
+    onSuccess: response => {
+      const { data, error, messages } = response.data
 
-        if (error) {
-          show(messages[0], 'error')
+      if (error) {
+        show(messages[0], 'error')
 
-          return
-        }
+        return
+      }
 
-        consultationsOrders.value = data.items
-        options.value.page = data.current_page
-        options.value.itemsPerPage = data.page_size
-        totalCount.value = data.total_count
+      consultationsOrders.value = data.items
+      options.value.page = data.current_page
+      options.value.itemsPerPage = data.page_size
+      totalCount.value = data.total_count
+    },
+  },
+)
+
+const resolveStatusVariant = status => {
+  const statusVariants = {
+    created: 'success',
+    accepted: 'primary',
+    rejected: 'error',
+    confirmed: 'info',
+    cancelled: 'warning',
+    completed: 'success',
+    deleted: 'secondary',
+  }
+
+  return statusVariants[status?.toLowerCase()] || 'primary'
+}
+
+const getStatus = status => {
+  const loweredStatus = status?.toLowerCase()
+
+  return t(`marketing-consultation-order.statuses.${loweredStatus}`)
+}
+
+watch(
+  options,
+  () => {
+    fetchOrders({
+      PageSize: options.value.itemsPerPage,
+      Page: options.value.page,
+    })
+  },
+  { deep: true },
+)
+watch(
+  locale,
+  () => {
+    update([
+      {
+        title: t('marketing-consultation.name'),
+        active: true,
+        to: '/marketing-consultations',
       },
-    },
-  )
+    ])
+  },
+  { immediate: true }
+)
 
-  const resolveStatusVariant = status => {
-    const statusVariants = {
-      created: 'success',
-      accepted: 'primary',
-      rejected: 'error',
-      confirmed: 'info',
-      cancelled: 'warning',
-      completed: 'success',
-      deleted: 'secondary',
-    }
-
-    return statusVariants[status?.toLowerCase()] || 'primary'
-  }
-
-  const getStatus = status => {
-    const loweredStatus = status?.toLowerCase()
-
-    return t(`marketing-consultation-order.statuses.${loweredStatus}`)
-  }
-
-  watch(
-    options,
-    () => {
-      fetchOrders({
-        PageSize: options.value.itemsPerPage,
-        Page: options.value.page,
-      })
-    },
-    { deep: true },
-  )
-  watch(
-    locale,
-    () => {
-      update([
-        {
-          title: t('marketing-consultation.name'),
-          active: true,
-          to: '/marketing-consultations',
-        },
-      ])
-    },
-    { immediate: true }
-  )
-
-  const loading = computed(() => loadingOrders.value)
+const loading = computed(() => loadingOrders.value)
 </script>
 
 <template>
@@ -132,17 +132,9 @@
 
     <VCardText class="pa-4 pt-0">
       <VDivider />
-      <VDataTableServer
-        v-model:items-per-page="options.itemsPerPage"
-        v-model:page="options.page"
-        class="text-no-wrap"
-        :headers="headers"
-        :items="consultationsOrders"
-        :items-length="totalCount"
-        :loading="loading"
-        :no-data-text="$t('no_data_text')"
-        @update:options="options = $event"
-      >
+      <VDataTableServer v-model:items-per-page="options.itemsPerPage" v-model:page="options.page" class="text-no-wrap"
+        :headers="headers" :items="consultationsOrders" :items-length="totalCount" :loading="loading"
+        :no-data-text="$t('no_data_text')" @update:options="options = $event">
         <!-- Created At -->
         <template #item.created_at="{ item }">
           {{ DateFormat(item.created_at) }}
@@ -150,7 +142,7 @@
 
         <!-- Last Updated -->
         <template #item.price="{ item }">
-          {{ item.price }}
+          {{ NumberFormat(item.price) }}
           <sub> {{ $t(item.currency) }}</sub>
         </template>
 
@@ -192,11 +184,8 @@
               {{ paginationMeta(options, totalCount) }}
             </p>
 
-            <VPagination
-              v-model="options.page"
-              :length="Math.ceil(totalCount / options.itemsPerPage)"
-              total-visible="6"
-            />
+            <VPagination v-model="options.page" :length="Math.ceil(totalCount / options.itemsPerPage)"
+              total-visible="6" />
           </div>
         </template>
       </VDataTableServer>

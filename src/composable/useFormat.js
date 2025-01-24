@@ -7,3 +7,7 @@ export const DateFormat = date => {
 export const DateOnlyFormat = date => {
   return moment(date).format('M.D.YYYY')
 }
+
+export const NumberFormat = number => {
+  return number?.toLocaleString('de-DE')?.toString()?.replace('.', ',');
+}

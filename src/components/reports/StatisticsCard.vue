@@ -1,23 +1,24 @@
 <script setup>
-  import i18n from '@/i18n'
+import { NumberFormat } from '@/composable/useFormat';
+import i18n from '@/i18n'
 
-  const { t } = i18n.global
+const { t } = i18n.global
 
-  const props = defineProps({
-    value1: {
-      required: true,
-    },
-    value2: {
-      required: true,
-    },
-    title: {
-      required: true,
-    },
-    subtitle: {
-      required: false,
+const props = defineProps({
+  value1: {
+    required: true,
+  },
+  value2: {
+    required: true,
+  },
+  title: {
+    required: true,
+  },
+  subtitle: {
+    required: false,
 
-    },
-  })
+  },
+})
 
 </script>
 <template>
@@ -45,7 +46,7 @@
         <v-col class="px-1" cols="6">
           <div class="inner-card">
             <span>{{ t('total-sum') }}</span>
-            <p>{{ value2 ? value2 : 0 }}</p>
+            <p>{{ value2 ? NumberFormat(value2) : 0 }}</p>
           </div>
         </v-col>
       </v-row>

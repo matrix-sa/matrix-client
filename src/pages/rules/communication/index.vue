@@ -1,134 +1,135 @@
 <script setup>
-  import { computed, ref, watch } from 'vue'
-  import { useRequest } from 'vue-request'
-  import CommunicationRuleService from '@/services/connection-rule-service'
-  import { useSnackbarStore } from '@/stores/useSnackBarStore'
-  import { useI18n } from 'vue-i18n'
-  import { useBreadcrumbsStore } from '@/stores/useBreadcrumbsStore'
-  import mailIcon from '@/assets/mail.svg'
-  import whatsappIcon from '@/assets/whatsapp.svg'
-  import smsIcon from '@/assets/sms.svg'
-  import { useRulesModalsStore } from '@/stores/rulesModalsStore'
+import { computed, ref, watch } from 'vue'
+import { useRequest } from 'vue-request'
+import CommunicationRuleService from '@/services/connection-rule-service'
+import { useSnackbarStore } from '@/stores/useSnackBarStore'
+import { useI18n } from 'vue-i18n'
+import { useBreadcrumbsStore } from '@/stores/useBreadcrumbsStore'
+import mailIcon from '@/assets/mail.svg'
+import whatsappIcon from '@/assets/whatsapp.svg'
+import smsIcon from '@/assets/sms.svg'
+import { useRulesModalsStore } from '@/stores/rulesModalsStore'
+import { NumberFormat } from '@/composable/useFormat'
 
-  const { show } = useSnackbarStore()
-  const { t, locale } = useI18n()
-  const { update } = useBreadcrumbsStore()
-  const rulesModalsStore = useRulesModalsStore()
+const { show } = useSnackbarStore()
+const { t, locale } = useI18n()
+const { update } = useBreadcrumbsStore()
+const rulesModalsStore = useRulesModalsStore()
 
-  const openCommunicationRuleDialog = ref(false)
-  const openDeleteDialog = ref(false)
-  const openStatusChangeDialog = ref(false)
-  const ruleToEdit = ref(null)
-  const ruleToDelete = ref(null)
-  const ruleToChangeStatus = ref(null)
-  const rules = ref([])
+const openCommunicationRuleDialog = ref(false)
+const openDeleteDialog = ref(false)
+const openStatusChangeDialog = ref(false)
+const ruleToEdit = ref(null)
+const ruleToDelete = ref(null)
+const ruleToChangeStatus = ref(null)
+const rules = ref([])
 
-  const { run: fetchRules, loading: loadingRules } = useRequest(
-    CommunicationRuleService.getAll,
-    {
-      onSuccess: response => {
-        const { data, error, messages } = response.data
-        if (error) {
-          show(messages, 'error')
-          return
-        }
-        rules.value = data
-      },
-    }
-  )
-
-  const { run: changeStatus, loading: loadingChangeStatus } = useRequest(
-    CommunicationRuleService.changeStatus,
-    {
-      manual: true,
-      onSuccess: response => {
-        const { error, messages } = response.data
-        if (error) {
-          show(messages[0], 'error')
-          return
-        }
-        show(t('status_changed_successfully'), 'success')
-        fetchRules()
-      },
-    }
-  )
-
-  const { run: deleteRule, loading: loadingDeleteRule } = useRequest(
-    CommunicationRuleService.deleteRule,
-    {
-      manual: true,
-      onSuccess: response => {
-        const { error, messages } = response.data
-        if (error) {
-          show(messages[0], 'error')
-          return
-        }
-        show(t('rule_deleted_successfully'), 'success')
-        fetchRules()
-      },
-    }
-  )
-
-  const loading = computed(() => loadingRules.value || loadingChangeStatus.value || loadingDeleteRule.value)
-
-  const handleEditRule = rule => {
-    openCommunicationRuleDialog.value = true
-    ruleToEdit.value = rule
-  }
-
-  const handleStatusChange = rule => {
-    ruleToChangeStatus.value = rule
-    openStatusChangeDialog.value = true
-  }
-
-  const handleDeleteRule = rule => {
-    ruleToDelete.value = rule
-    openDeleteDialog.value = true
-  }
-
-  const deleteConfirmed = confirmed => {
-    if (!confirmed) return
-    deleteRule({ id: ruleToDelete.value.id })
-    openDeleteDialog.value = false
-  }
-
-  const statusChangeConfirmed = confirmed => {
-    if (!confirmed) return
-    changeStatus({
-      id: ruleToChangeStatus.value.id,
-      status: ruleToChangeStatus.value.status === 'Active' ? 'Inactive' : 'Active',
-    })
-    openStatusChangeDialog.value = false
-  }
-
-  rulesModalsStore.$onAction(
-    ({
-      name,
-    }) => {
-      if (name !== 'modalSaved') return
-      fetchRules()
-    }
-  )
-
-  watch(
-    locale,
-    () => {
-      update([
-        {
-          title: t('campaign_rules'),
-          active: false,
-          to: '/rules',
-        },
-        {
-          title: t('communication_rules'),
-          active: true,
-          disabled: true,
-          to: '/rules/communication/',
-        },
-      ])
+const { run: fetchRules, loading: loadingRules } = useRequest(
+  CommunicationRuleService.getAll,
+  {
+    onSuccess: response => {
+      const { data, error, messages } = response.data
+      if (error) {
+        show(messages, 'error')
+        return
+      }
+      rules.value = data
     },
-    { immediate: true }
-  )
+  }
+)
+
+const { run: changeStatus, loading: loadingChangeStatus } = useRequest(
+  CommunicationRuleService.changeStatus,
+  {
+    manual: true,
+    onSuccess: response => {
+      const { error, messages } = response.data
+      if (error) {
+        show(messages[0], 'error')
+        return
+      }
+      show(t('status_changed_successfully'), 'success')
+      fetchRules()
+    },
+  }
+)
+
+const { run: deleteRule, loading: loadingDeleteRule } = useRequest(
+  CommunicationRuleService.deleteRule,
+  {
+    manual: true,
+    onSuccess: response => {
+      const { error, messages } = response.data
+      if (error) {
+        show(messages[0], 'error')
+        return
+      }
+      show(t('rule_deleted_successfully'), 'success')
+      fetchRules()
+    },
+  }
+)
+
+const loading = computed(() => loadingRules.value || loadingChangeStatus.value || loadingDeleteRule.value)
+
+const handleEditRule = rule => {
+  openCommunicationRuleDialog.value = true
+  ruleToEdit.value = rule
+}
+
+const handleStatusChange = rule => {
+  ruleToChangeStatus.value = rule
+  openStatusChangeDialog.value = true
+}
+
+const handleDeleteRule = rule => {
+  ruleToDelete.value = rule
+  openDeleteDialog.value = true
+}
+
+const deleteConfirmed = confirmed => {
+  if (!confirmed) return
+  deleteRule({ id: ruleToDelete.value.id })
+  openDeleteDialog.value = false
+}
+
+const statusChangeConfirmed = confirmed => {
+  if (!confirmed) return
+  changeStatus({
+    id: ruleToChangeStatus.value.id,
+    status: ruleToChangeStatus.value.status === 'Active' ? 'Inactive' : 'Active',
+  })
+  openStatusChangeDialog.value = false
+}
+
+rulesModalsStore.$onAction(
+  ({
+    name,
+  }) => {
+    if (name !== 'modalSaved') return
+    fetchRules()
+  }
+)
+
+watch(
+  locale,
+  () => {
+    update([
+      {
+        title: t('campaign_rules'),
+        active: false,
+        to: '/rules',
+      },
+      {
+        title: t('communication_rules'),
+        active: true,
+        disabled: true,
+        to: '/rules/communication/',
+      },
+    ])
+  },
+  { immediate: true }
+)
 </script>
 
 <template>
@@ -145,11 +146,7 @@
         <p>{{ rule.name }}</p>
         <v-tooltip :text="t('delete')">
           <template #activator="{ props: toolTipProps }">
-            <v-btn
-              class="check-icon"
-              v-bind="toolTipProps"
-              @click="handleDeleteRule(rule)"
-            >
+            <v-btn class="check-icon" v-bind="toolTipProps" @click="handleDeleteRule(rule)">
               <v-icon class="delete-icon" color="error" icon="tabler-x" />
             </v-btn>
           </template>
@@ -168,7 +165,7 @@
       <div class="data-row">
         <p>{{ t("communication_rule_card_value") }}</p>
         <v-chip class="font-weight-bold" color="primary" label>
-          {{ rule.target_value }}
+          {{ NumberFormat(rule.target_value) }}
         </v-chip>
       </div>
       <div class="data-row">
@@ -186,43 +183,23 @@
         </div>
       </div>
       <div class="data-row">
-        <v-btn
-          class="rule-btn"
-          color="primary"
-          flat
-          :text="t('edit')"
-          @click="handleEditRule(rule)"
-        />
-        <v-btn
-          class="rule-btn"
-          :color="rule.status === 'Active' ? 'error' : 'warning'"
-          flat
-          :text="rule.status === 'Active' ? t('deactivate') : t('activate')"
-          @click="handleStatusChange(rule)"
-        />
+        <v-btn class="rule-btn" color="primary" flat :text="t('edit')" @click="handleEditRule(rule)" />
+        <v-btn class="rule-btn" :color="rule.status === 'Active' ? 'error' : 'warning'" flat
+          :text="rule.status === 'Active' ? t('deactivate') : t('activate')" @click="handleStatusChange(rule)" />
       </div>
     </div>
 
     <v-dialog v-model="openCommunicationRuleDialog" max-width="500">
-      <ConnectionRuleModal
-        v-model:is-dialog-visible="openCommunicationRuleDialog"
-        :rule="ruleToEdit"
-        @saved="fetchRules"
-      />
+      <ConnectionRuleModal v-model:is-dialog-visible="openCommunicationRuleDialog" :rule="ruleToEdit"
+        @saved="fetchRules" />
     </v-dialog>
     <!-- Delete Dialog -->
-    <ConfirmDialog
-      v-model:is-dialog-visible="openDeleteDialog"
-      :confirmation-question="t('dialog_question')"
-      @confirm="deleteConfirmed"
-    />
+    <ConfirmDialog v-model:is-dialog-visible="openDeleteDialog" :confirmation-question="t('dialog_question')"
+      @confirm="deleteConfirmed" />
 
     <!-- Status Change Dialog -->
-    <ConfirmDialog
-      v-model:is-dialog-visible="openStatusChangeDialog"
-      :confirmation-question="t('dialog_question')"
-      @confirm="statusChangeConfirmed"
-    />
+    <ConfirmDialog v-model:is-dialog-visible="openStatusChangeDialog" :confirmation-question="t('dialog_question')"
+      @confirm="statusChangeConfirmed" />
   </div>
 </template>
 
@@ -230,14 +207,17 @@
 .channels-icons-container {
   display: flex;
   gap: 0.5rem;
+
   img {
     width: 24px;
   }
 }
+
 .v-btn--variant-elevated {
-background-color: transparent;
-box-shadow: none;
+  background-color: transparent;
+  box-shadow: none;
 }
+
 .no-rules {
   grid-column: 2;
   margin-top: 20px;
