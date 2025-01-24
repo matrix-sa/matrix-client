@@ -7,7 +7,7 @@ import googleads from '@/assets/images/logos/reports/google.svg'
 import youtube from '@/assets/images/logos/reports/youtube.svg'
 import twitter from '@/assets/images/logos/reports/x.svg' */
   import { paginationMeta } from '@/composable/utils'
-  import { DateOnlyFormat } from '@/composable/useFormat'
+  import { DateOnlyFormat, NumberFormat } from '@/composable/useFormat'
   /* import TablesIcon from '@/assets/table.svg' */
   import { useI18n } from 'vue-i18n'
   import { useRequest } from 'vue-request'
@@ -50,9 +50,9 @@ import twitter from '@/assets/images/logos/reports/x.svg' */
     },
 
     /*   {
-      title: t('status'),
-      key: 'status',
-    }, */
+    title: t('status'),
+    key: 'status',
+  }, */
     {
       title: t('total_count'),
       key: 'total_units',
@@ -150,17 +150,22 @@ import twitter from '@/assets/images/logos/reports/x.svg' */
       </template> -->
 
       <template #item.total_units="{ item }">
-        {{ item.total_units }}
+        {{ NumberFormat(item.total_units) }}
+
         {{ t('SMS') }}
       </template>
 
       <template #item.consumed_balance="{ item }">
-        {{ item?.total_units - item?.remaining_units }}
+
+        {{ NumberFormat(item?.total_units - item?.remaining_units) }}
+
         {{ t('SMS') }}
       </template>
 
       <template #item.remaining_units="{ item }">
-        {{ item.remaining_units }}
+
+        {{ NumberFormat(item.remaining_units) }}
+
         {{ t('SMS') }}
       </template>
 

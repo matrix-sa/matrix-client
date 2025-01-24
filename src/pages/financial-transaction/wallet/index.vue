@@ -1,6 +1,6 @@
 <script setup>
   import { paginationMeta } from '@/composable/utils'
-  import { DateOnlyFormat } from '@/composable/useFormat'
+  import { DateOnlyFormat, NumberFormat } from '@/composable/useFormat'
   import { useBreadcrumbsStore } from '@/stores/useBreadcrumbsStore'
 
   import { useI18n } from 'vue-i18n'
@@ -211,12 +211,14 @@
         </template>
 
         <template #item.new_balnace="{ item }">
-          {{ item.new_balnace }}
+          {{ NumberFormat(item.new_balnace) }}
+
           <span> {{ $t('sar') }}</span>
         </template>
 
         <template #item.amount="{ item }">
-          {{ item.amount }}
+          {{ NumberFormat(item.amount) }}
+
           <span> {{ $t('sar') }}</span>
         </template>
 

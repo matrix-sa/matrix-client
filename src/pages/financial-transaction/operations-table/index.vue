@@ -1,6 +1,6 @@
 <script setup>
   import { paginationMeta } from '@/composable/utils'
-  import { DateOnlyFormat } from '@/composable/useFormat'
+  import { DateOnlyFormat, NumberFormat } from '@/composable/useFormat'
   import { usePagination } from 'vue-request'
   import { useSnackbarStore } from '@/stores/useSnackBarStore'
   import { useBreadcrumbsStore } from '@/stores/useBreadcrumbsStore'
@@ -154,7 +154,7 @@
       </template>
 
       <template #item.amount="{ item }">
-        {{ item.amount }}
+        {{ NumberFormat(item.amount) }}
         <span> {{ $t(item.currency) }}</span>
       </template>
 

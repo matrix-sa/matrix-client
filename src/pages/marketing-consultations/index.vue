@@ -1,7 +1,7 @@
 <script setup>
   import { localeTitle, paginationMeta } from '@/composable/utils'
   import { useI18n } from 'vue-i18n'
-  import { DateFormat } from '@/composable/useFormat'
+  import { DateFormat, NumberFormat } from '@/composable/useFormat'
   import MarketingConsultationsOrdersService from '@/services/marketing-consultations-orders-service'
   import { useSnackbarStore } from '@/stores/useSnackBarStore'
   import { useRequest } from 'vue-request'
@@ -150,7 +150,7 @@
 
         <!-- Last Updated -->
         <template #item.price="{ item }">
-          {{ item.price }}
+          {{ NumberFormat(item.price) }}
           <sub> {{ $t(item.currency) }}</sub>
         </template>
 

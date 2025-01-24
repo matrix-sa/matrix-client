@@ -14,6 +14,7 @@
   import twitter from '@/assets/images/logos/reports/x.svg'
   import trakingIcon from '@/assets/trackingTableIcon.svg'
   import { VDateInput } from 'vuetify/labs/VDateInput'
+  import { NumberFormat } from '@/composable/useFormat'
 
   const dateRange = ref(null)
 
@@ -332,24 +333,64 @@
 
       <!-- Status -->
       <template #item.status="{ item }">
-        <VChip
-          class="text-capitalize"
-          :color="resolveUserStatusVariant(item.status)"
-          label
-          size="small"
-        >
+        <VChip class="text-capitalize" :color="resolveUserStatusVariant(item.status)" label size="small">
           {{ getStatus(item.status) }}
         </VChip>
+      </template>
+
+      <template #item.spending="{ item }">
+        <span>
+          {{ NumberFormat(item.spending) }}
+        </span>
+      </template>
+
+      <template #item.reach="{ item }">
+        <span>
+          {{ NumberFormat(item.reach) }}
+        </span>
+      </template>
+
+      <template #item.views="{ item }">
+        <span>
+          {{ NumberFormat(item.views) }}
+        </span>
+      </template>
+
+      <template #item.frequency="{ item }">
+        <span>
+          {{ NumberFormat(item.frequency) }}
+        </span>
+      </template>
+
+      <template #item.ctr="{ item }">
+        <span>
+          {{ NumberFormat(item.ctr) }}
+        </span>
+      </template>
+
+      <template #item.sales="{ item }">
+        <span>
+          {{ NumberFormat(item.sales) }}
+        </span>
+      </template>
+
+      <template #item.total_sales="{ item }">
+        <span>
+          {{ NumberFormat(item.total_sales) }}
+        </span>
+      </template>
+
+      <template #item.customers_count="{ item }">
+        <span>
+          {{ NumberFormat(item.customers_count) }}
+        </span>
       </template>
 
       <!-- Actions -->
       <template #item.actions="{ item }">
         <VTooltip :text="t('delete')">
           <template #activator="{ props: toolTipProps }">
-            <VBtn
-              v-bind="toolTipProps"
-              @click="toggleDialog('delete', item.id, item.platform)"
-            >
+            <VBtn v-bind="toolTipProps" @click="toggleDialog('delete', item.id, item.platform)">
               <VIcon color="error" icon="tabler-trash" />
             </VBtn>
           </template>
@@ -358,7 +399,7 @@
           <template #activator="{ props: toolTipProps }">
             <VBtn
               v-bind="toolTipProps"
-              :disabled="item.is_external===true"
+              :disabled="item.is_external === true"
               @click="editCampaign(item.id, item.platform)"
             >
               <VIcon icon="tabler-edit" />
@@ -367,8 +408,7 @@
         </VTooltip>
         <VTooltip
           v-if="statuses.includes(item.status)"
-          :text="
-            item.status === 'Paused' ? t('start_campaign') : t('pause_campaign')
+          :text="item.status === 'Paused' ? t('start_campaign') : t('pause_campaign')
           "
         >
           <template #activator="{ props: toolTipProps }">
@@ -388,9 +428,7 @@
       <!-- pagination -->
       <template #bottom>
         <VDivider />
-        <div
-          class="d-flex align-center justify-sm-space-between justify-center flex-wrap gap-3 pa-5 pt-3"
-        >
+        <div class="d-flex align-center justify-sm-space-between justify-center flex-wrap gap-3 pa-5 pt-3">
           <p class="text-sm text-disabled mb-0">
             {{ paginationMeta(options, totalCampaigns) }}
           </p>
@@ -428,12 +466,12 @@
 
 <style lang="scss" scoped>
 .filter-container {
-width: 270px;
-height: 40px;
+  width: 270px;
+  height: 40px;
 }
 
-:deep(.v-field.v-field--appended){
-background-color: #F8F7FA;
-border-radius: 12px;
+:deep(.v-field.v-field--appended) {
+  background-color: #F8F7FA;
+  border-radius: 12px;
 }
 </style>

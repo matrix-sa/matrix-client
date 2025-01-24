@@ -9,6 +9,7 @@
   import whatsappIcon from '@/assets/whatsapp.svg'
   import smsIcon from '@/assets/sms.svg'
   import { useRulesModalsStore } from '@/stores/rulesModalsStore'
+  import { NumberFormat } from '@/composable/useFormat'
 
   const { show } = useSnackbarStore()
   const { t, locale } = useI18n()
@@ -145,11 +146,7 @@
         <p>{{ rule.name }}</p>
         <v-tooltip :text="t('delete')">
           <template #activator="{ props: toolTipProps }">
-            <v-btn
-              class="check-icon"
-              v-bind="toolTipProps"
-              @click="handleDeleteRule(rule)"
-            >
+            <v-btn class="check-icon" v-bind="toolTipProps" @click="handleDeleteRule(rule)">
               <v-icon class="delete-icon" color="error" icon="tabler-x" />
             </v-btn>
           </template>
@@ -168,7 +165,7 @@
       <div class="data-row">
         <p>{{ t("communication_rule_card_value") }}</p>
         <v-chip class="font-weight-bold" color="primary" label>
-          {{ rule.target_value }}
+          {{ NumberFormat(rule.target_value) }}
         </v-chip>
       </div>
       <div class="data-row">
@@ -230,14 +227,17 @@
 .channels-icons-container {
   display: flex;
   gap: 0.5rem;
+
   img {
     width: 24px;
   }
 }
+
 .v-btn--variant-elevated {
-background-color: transparent;
-box-shadow: none;
+  background-color: transparent;
+  box-shadow: none;
 }
+
 .no-rules {
   grid-column: 2;
   margin-top: 20px;

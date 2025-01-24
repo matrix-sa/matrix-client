@@ -8,6 +8,7 @@
   import { useAuthStore } from '@/stores/useAuthStore'
   import { storeToRefs } from 'pinia'
   import { useRulesModalsStore } from '@/stores/rulesModalsStore'
+  import { NumberFormat } from '@/composable/useFormat'
 
   const { show } = useSnackbarStore()
   const { t, locale } = useI18n()
@@ -190,7 +191,7 @@
       <div class="data-row">
         <p>{{ t("rule_increase_by") }}</p>
         <v-chip class="font-weight-bold" color="primary" label>
-          {{ rule.value }}
+          {{ rule.value_type === "Percentage" ? rule.value : NumberFormat(rule.value) }}
           {{ rule.value_type === "Percentage" ? "%" : t(user.currency) }}
         </v-chip>
       </div>
@@ -213,11 +214,7 @@
     </div>
 
     <v-dialog v-model="openControlRuleDialog" max-width="500">
-      <CampaignRuleModal
-        v-model:is-dialog-visible="openControlRuleDialog"
-        :rule="ruleToEdit"
-        @saved="fetchRules"
-      />
+      <CampaignRuleModal v-model:is-dialog-visible="openControlRuleDialog" :rule="ruleToEdit" @saved="fetchRules" />
     </v-dialog>
     <!-- Activate Dialog -->
     <ConfirmDialog
@@ -247,9 +244,9 @@
   background-color: transparent;
   box-shadow: none;
 }
+
 .no-rules {
   grid-column: 2;
   margin-top: 20px;
 }
-
 </style>

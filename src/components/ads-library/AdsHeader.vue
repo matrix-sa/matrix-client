@@ -44,7 +44,7 @@
       <div class="d-flex ga-2 ">
         <v-btn color="#F8F7FA" rounded @click="filterModalHandler">
           <v-icon icon="meteor-icons:bars-filter " />
-          <p>{{ t("ads_library.filter") }}11</p>
+          <p>{{ t("ads_library.filter") }}</p>
         </v-btn>
         <v-btn color="#C4ECFD" rounded>
           <v-icon icon="bitcoin-icons:node-0-connections-filled " />

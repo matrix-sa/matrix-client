@@ -3,7 +3,7 @@
   import TablesIcon from '@/assets/table.svg'
   import PaymentService from '@/services/payment-service'
   import { useRequest } from 'vue-request'
-  import { DateOnlyFormat } from '@/composable/useFormat'
+  import { DateOnlyFormat, NumberFormat } from '@/composable/useFormat'
   import { useSnackbarStore } from '@/stores/useSnackBarStore'
   import { useBreadcrumbsStore } from '@/stores/useBreadcrumbsStore'
 
@@ -164,7 +164,8 @@
       </template>
 
       <template #item.amount="{ item }">
-        {{ item.amount }}
+        {{ NumberFormat(item.amount) }}
+
         <span> {{ $t(item.currency) }}</span>
       </template>
 
