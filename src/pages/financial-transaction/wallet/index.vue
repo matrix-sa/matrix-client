@@ -1,37 +1,37 @@
 <script setup>
-import { paginationMeta } from '@/composable/utils'
-import { DateOnlyFormat, NumberFormat } from '@/composable/useFormat'
-import { useBreadcrumbsStore } from '@/stores/useBreadcrumbsStore'
+  import { paginationMeta } from '@/composable/utils'
+  import { DateOnlyFormat, NumberFormat } from '@/composable/useFormat'
+  import { useBreadcrumbsStore } from '@/stores/useBreadcrumbsStore'
 
-import { useI18n } from 'vue-i18n'
-import Wallet from '@images/Wallet.png'
-import { usePagination } from 'vue-request'
-import PaymentService from '@/services/payment-service'
-import { useAuthStore } from '@/stores/useAuthStore'
-import { storeToRefs } from 'pinia'
-import ChargeWalletModal from '@/components/dialogs/ChargeWalletModal.vue'
-const { t, locale } = useI18n()
+  import { useI18n } from 'vue-i18n'
+  import Wallet from '@images/Wallet.png'
+  import { usePagination } from 'vue-request'
+  import PaymentService from '@/services/payment-service'
+  import { useAuthStore } from '@/stores/useAuthStore'
+  import { storeToRefs } from 'pinia'
+  import ChargeWalletModal from '@/components/dialogs/ChargeWalletModal.vue'
+  const { t, locale } = useI18n()
 
-const options = ref({
-  page: 1,
-  itemsPerPage: 10,
-  sortBy: [],
-  groupBy: [],
-  search: undefined,
-})
-const authStore = useAuthStore()
-const { update } = useBreadcrumbsStore()
-const { user } = storeToRefs(authStore)
-/* const switch1 = ref(false) */
-const totalCount = ref(0)
-const pageSize = ref()
-const openChargeWalletDialog = ref(false)
+  const options = ref({
+    page: 1,
+    itemsPerPage: 10,
+    sortBy: [],
+    groupBy: [],
+    search: undefined,
+  })
+  const authStore = useAuthStore()
+  const { update } = useBreadcrumbsStore()
+  const { user } = storeToRefs(authStore)
+  /* const switch1 = ref(false) */
+  const totalCount = ref(0)
+  const pageSize = ref()
+  const openChargeWalletDialog = ref(false)
 
-const chargeWalletHandler = () => {
-  openChargeWalletDialog.value = true
-}
+  const chargeWalletHandler = () => {
+    openChargeWalletDialog.value = true
+  }
 
-const operations = ref([
+  const operations = ref([
   /*   {
       id: 1,
       transaction: 1,
@@ -51,87 +51,87 @@ const operations = ref([
       card_name: 'card_name',
 
     }, */
-])
+  ])
 
-const headers = [
-  {
-    title: t('transaction'),
-    key: 'transaction',
-  },
-  {
-    title: t('date'),
-    key: 'creation_time',
-  },
-  {
-    title: t('amount_after_transaction'),
-    key: 'new_balnace',
-  },
-  {
-    title: t('amount'),
-    key: 'amount',
-  },
-  {
-    title: t('payment_method'),
-    key: 'credit_card_type',
-  },
-  {
-    title: t('card_name'),
-    key: 'credit_card_name',
-  },
-
-]
-
-const getQuery = params => {
-  const query = new URLSearchParams()
-
-  query.append('PageSize', options.value.itemsPerPage)
-  query.append('Page', options.value.page)
-
-  return query
-}
-
-const { run, loading: loadingTransactions } = usePagination(
-  params => PaymentService.getWalletTransactions(getQuery(params)),
-  {
-    manual: true,
-    onSuccess: res => {
-      const { data, error, messages } = res.data
-      if (error) {
-        show(messages[0], 'error')
-        return
-      }
-
-      operations.value = data.items
-      options.value.page = data.current_page
-      pageSize.value = data.page_size
-      totalCount.value = data.total_count
-      authStore.fetchUser(true)
+  const headers = [
+    {
+      title: t('transaction'),
+      key: 'transaction',
     },
-    onError: err => {
-      console.error(err)
+    {
+      title: t('date'),
+      key: 'creation_time',
     },
+    {
+      title: t('amount_after_transaction'),
+      key: 'new_balnace',
+    },
+    {
+      title: t('amount'),
+      key: 'amount',
+    },
+    {
+      title: t('payment_method'),
+      key: 'credit_card_type',
+    },
+    {
+      title: t('card_name'),
+      key: 'credit_card_name',
+    },
+
+  ]
+
+  const getQuery = params => {
+    const query = new URLSearchParams()
+
+    query.append('PageSize', options.value.itemsPerPage)
+    query.append('Page', options.value.page)
+
+    return query
   }
-)
-run()
 
-watch(
-  locale,
-  () => {
-    update([
-      {
-        title: t('financial_transaction'),
-        active: true,
-        to: '/financial-transaction/operations-table',
+  const { run, loading: loadingTransactions } = usePagination(
+    params => PaymentService.getWalletTransactions(getQuery(params)),
+    {
+      manual: true,
+      onSuccess: res => {
+        const { data, error, messages } = res.data
+        if (error) {
+          show(messages[0], 'error')
+          return
+        }
+
+        operations.value = data.items
+        options.value.page = data.current_page
+        pageSize.value = data.page_size
+        totalCount.value = data.total_count
+        authStore.fetchUser(true)
       },
-      {
-        title: t('wallet'),
-        active: true,
-        to: '/financial_transaction/wallet',
+      onError: err => {
+        console.error(err)
       },
-    ])
-  },
-  { immediate: true }
-)
+    }
+  )
+  run()
+
+  watch(
+    locale,
+    () => {
+      update([
+        {
+          title: t('financial_transaction'),
+          active: true,
+          to: '/financial-transaction/operations-table',
+        },
+        {
+          title: t('wallet'),
+          active: true,
+          to: '/financial_transaction/wallet',
+        },
+      ])
+    },
+    { immediate: true }
+  )
 </script>
 <template>
   <div>
@@ -171,20 +171,30 @@ watch(
     </div>
     <div class="main">
 
-      <VDataTableServer v-model:items-per-page="options.itemsPerPage" v-model:page="options.page" class="text-no-wrap"
-        :headers="headers" :items="operations" :items-length="totalCount" :loading="loadingTransactions"
-        :no-data-text="$t('no_data_text')" @update:options="options = $event">
+      <VDataTableServer
+        v-model:items-per-page="options.itemsPerPage"
+        v-model:page="options.page"
+        class="text-no-wrap"
+        :headers="headers"
+        :items="operations"
+        :items-length="totalCount"
+        :loading="loadingTransactions"
+        :no-data-text="$t('no_data_text')"
+        @update:options="options = $event"
+      >
         <!-- Created At -->
         <template #item.transaction="{ item }">
 
           <div class="d-flex ga-2 align-center">
 
-            <div :class="{
-              'icon-container d-flex align-center justify-center': true,
-              'add-transaction': item.amount > 0,
-              'sub-transaction': item.amount < 0,
+            <div
+              :class="{
+                'icon-container d-flex align-center justify-center': true,
+                'add-transaction': item.amount > 0,
+                'sub-transaction': item.amount < 0,
 
-            }">
+              }"
+            >
               <VIcon v-if="item.amount < 0" icon="tabler-minus" size="15" />
               <VIcon v-else icon="tabler-plus" size="15" />
             </div>
@@ -230,8 +240,11 @@ watch(
               {{ paginationMeta(options, totalCount) }}
             </p>
 
-            <VPagination v-model="options.page" :length="Math.ceil(totalCount / options.itemsPerPage)"
-              total-visible="6" />
+            <VPagination
+              v-model="options.page"
+              :length="Math.ceil(totalCount / options.itemsPerPage)"
+              total-visible="6"
+            />
           </div>
         </template>
       </VDataTableServer>

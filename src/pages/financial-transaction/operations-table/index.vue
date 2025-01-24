@@ -1,29 +1,29 @@
 <script setup>
-import { paginationMeta } from '@/composable/utils'
-import { DateOnlyFormat, NumberFormat } from '@/composable/useFormat'
-import { usePagination } from 'vue-request'
-import { useSnackbarStore } from '@/stores/useSnackBarStore'
-import { useBreadcrumbsStore } from '@/stores/useBreadcrumbsStore'
+  import { paginationMeta } from '@/composable/utils'
+  import { DateOnlyFormat, NumberFormat } from '@/composable/useFormat'
+  import { usePagination } from 'vue-request'
+  import { useSnackbarStore } from '@/stores/useSnackBarStore'
+  import { useBreadcrumbsStore } from '@/stores/useBreadcrumbsStore'
 
-import { useI18n } from 'vue-i18n'
-import PaymentService from '@/services/payment-service'
-const { t, locale } = useI18n()
-const { show } = useSnackbarStore()
+  import { useI18n } from 'vue-i18n'
+  import PaymentService from '@/services/payment-service'
+  const { t, locale } = useI18n()
+  const { show } = useSnackbarStore()
 
-const { update } = useBreadcrumbsStore()
+  const { update } = useBreadcrumbsStore()
 
-const options = ref({
-  page: 1,
-  itemsPerPage: 10,
-  sortBy: [],
-  groupBy: [],
-  search: undefined,
-})
-const pageSize = ref()
-// const switch1 = ref(false)
-const totalCount = ref(0)
+  const options = ref({
+    page: 1,
+    itemsPerPage: 10,
+    sortBy: [],
+    groupBy: [],
+    search: undefined,
+  })
+  const pageSize = ref()
+  // const switch1 = ref(false)
+  const totalCount = ref(0)
 
-const operations = ref([
+  const operations = ref([
   /*   {
       id: 1,
       product_name: 'First',
@@ -33,92 +33,100 @@ const operations = ref([
       amount: 100,
       download_invoice: 'invoice1.pdf',
     }, */
-])
+  ])
 
-const headers = [
-  {
-    title: t('product_name'),
-    key: `service_name_${locale.value}`,
-  },
-  {
-    title: t('reference_number'),
-    key: 'merchant_reference',
-  },
-  {
-    title: t('status'),
-    key: 'is_successful',
-  },
-  {
-    title: t('order_date'),
-    key: 'creation_time',
-  },
-  {
-    title: t('amount'),
-    key: 'amount',
-  },
-  {
-    title: t('download_invoice'),
-    key: 'download_invoice',
-  },
-
-]
-
-const getQuery = params => {
-  const query = new URLSearchParams()
-
-  query.append('PageSize', options.value.itemsPerPage)
-  query.append('Page', options.value.page)
-
-  return query
-}
-
-const { run, loading: loadingTransactions } = usePagination(
-  params => PaymentService.getFinancialTransactions(getQuery(params)),
-  {
-    manual: true,
-    onSuccess: res => {
-      const { data, error, messages } = res.data
-      if (error) {
-        show(messages[0], 'error')
-        return
-      }
-      operations.value = data.items
-      options.value.page = data.current_page
-      pageSize.value = data.page_size
-      totalCount.value = data.total_count
+  const headers = [
+    {
+      title: t('product_name'),
+      key: `service_name_${locale.value}`,
     },
-    onError: err => {
-      console.error(err)
+    {
+      title: t('reference_number'),
+      key: 'merchant_reference',
     },
+    {
+      title: t('status'),
+      key: 'is_successful',
+    },
+    {
+      title: t('order_date'),
+      key: 'creation_time',
+    },
+    {
+      title: t('amount'),
+      key: 'amount',
+    },
+    {
+      title: t('download_invoice'),
+      key: 'download_invoice',
+    },
+
+  ]
+
+  const getQuery = params => {
+    const query = new URLSearchParams()
+
+    query.append('PageSize', options.value.itemsPerPage)
+    query.append('Page', options.value.page)
+
+    return query
   }
-)
-run()
 
-watch(
-  locale,
-  () => {
-    update([
-      {
-        title: t('financial_transaction'),
-        active: true,
-        to: '/financial-transaction/operations-table',
+  const { run, loading: loadingTransactions } = usePagination(
+    params => PaymentService.getFinancialTransactions(getQuery(params)),
+    {
+      manual: true,
+      onSuccess: res => {
+        const { data, error, messages } = res.data
+        if (error) {
+          show(messages[0], 'error')
+          return
+        }
+        operations.value = data.items
+        options.value.page = data.current_page
+        pageSize.value = data.page_size
+        totalCount.value = data.total_count
       },
-      {
-        title: t('operations_table'),
-        active: true,
-        to: '/financial_transaction/operations-table',
+      onError: err => {
+        console.error(err)
       },
-    ])
-  },
-  { immediate: true }
-)
+    }
+  )
+  run()
+
+  watch(
+    locale,
+    () => {
+      update([
+        {
+          title: t('financial_transaction'),
+          active: true,
+          to: '/financial-transaction/operations-table',
+        },
+        {
+          title: t('operations_table'),
+          active: true,
+          to: '/financial_transaction/operations-table',
+        },
+      ])
+    },
+    { immediate: true }
+  )
 </script>
 <template>
   <div class="main">
 
-    <VDataTableServer v-model:items-per-page="options.itemsPerPage" v-model:page="options.page" class="text-no-wrap"
-      :headers="headers" :items="operations" :items-length="totalCount" :loading="loadingTransactions"
-      :no-data-text="$t('no_data_text')" @update:options="options = $event">
+    <VDataTableServer
+      v-model:items-per-page="options.itemsPerPage"
+      v-model:page="options.page"
+      class="text-no-wrap"
+      :headers="headers"
+      :items="operations"
+      :items-length="totalCount"
+      :loading="loadingTransactions"
+      :no-data-text="$t('no_data_text')"
+      @update:options="options = $event"
+    >
       <!-- Created At -->
 
       <template #item.creation_time="{ item }">
@@ -165,8 +173,11 @@ watch(
             {{ paginationMeta(options, totalCount) }}
           </p>
 
-          <VPagination v-model="options.page" :length="Math.ceil(totalCount / options.itemsPerPage)"
-            total-visible="6" />
+          <VPagination
+            v-model="options.page"
+            :length="Math.ceil(totalCount / options.itemsPerPage)"
+            total-visible="6"
+          />
         </div>
       </template>
     </VDataTableServer>

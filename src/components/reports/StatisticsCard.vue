@@ -1,24 +1,24 @@
 <script setup>
-import { NumberFormat } from '@/composable/useFormat';
-import i18n from '@/i18n'
+  import { NumberFormat } from '@/composable/useFormat'
+  import i18n from '@/i18n'
 
-const { t } = i18n.global
+  const { t } = i18n.global
 
-const props = defineProps({
-  value1: {
-    required: true,
-  },
-  value2: {
-    required: true,
-  },
-  title: {
-    required: true,
-  },
-  subtitle: {
-    required: false,
+  const props = defineProps({
+    value1: {
+      required: true,
+    },
+    value2: {
+      required: true,
+    },
+    title: {
+      required: true,
+    },
+    subtitle: {
+      required: false,
 
-  },
-})
+    },
+  })
 
 </script>
 <template>

@@ -9,5 +9,5 @@ export const DateOnlyFormat = date => {
 }
 
 export const NumberFormat = number => {
-  return number?.toLocaleString('de-DE')?.toString()?.replace('.', ',');
+  return number?.toLocaleString('de-DE')?.toString()?.replace('.', ',')
 }

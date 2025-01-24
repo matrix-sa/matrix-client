@@ -1,47 +1,47 @@
 <script setup>
-import ChatbotLogo from '@/assets/digital-writer/digital.svg'
-import CalendarIcon from '@/assets/images/icons/calendar.svg'
-import { useAuthStore } from '@/stores/useAuthStore'
-import { storeToRefs } from 'pinia'
+  import ChatbotLogo from '@/assets/digital-writer/digital.svg'
+  import CalendarIcon from '@/assets/images/icons/calendar.svg'
+  import { useAuthStore } from '@/stores/useAuthStore'
+  import { storeToRefs } from 'pinia'
 
-import { useI18n } from 'vue-i18n'
+  import { useI18n } from 'vue-i18n'
 
-const props = defineProps({
-  orderSummaryData: {
-    type: Object,
-  },
-})
-const emit = defineEmits(['update-package'])
+  const props = defineProps({
+    orderSummaryData: {
+      type: Object,
+    },
+  })
+  const emit = defineEmits(['update-package'])
 
-const { locale, t } = useI18n()
+  const { locale, t } = useI18n()
 
-const authStore = useAuthStore()
+  const authStore = useAuthStore()
 
-const selectedPackage = ref(null)
-const selectedPackageObject = ref(null)
+  const selectedPackage = ref(null)
+  const selectedPackageObject = ref(null)
 
-const language = computed(() =>
-  locale.value
-)
-const { user } = storeToRefs(authStore)
+  const language = computed(() =>
+    locale.value
+  )
+  const { user } = storeToRefs(authStore)
 
-const packages = computed(() => {
-  if (!props.orderSummaryData?.packages) return []
-  return props.orderSummaryData?.packages?.map(item => ({
-    id: item.code,
-    title: language.value === 'en' ? item.name_en : item.name_ar,
-    haveDiscount: false,
-  }))
-})
+  const packages = computed(() => {
+    if (!props.orderSummaryData?.packages) return []
+    return props.orderSummaryData?.packages?.map(item => ({
+      id: item.code,
+      title: language.value === 'en' ? item.name_en : item.name_ar,
+      haveDiscount: false,
+    }))
+  })
 
-watch(selectedPackage, newValue => {
-  if (newValue) {
-    emit('update-package', newValue)
-    selectedPackageObject.value = props.orderSummaryData?.packages?.find(item => item.code == newValue)
-  } else {
-    selectedPackageObject.value = null
-  }
-})
+  watch(selectedPackage, newValue => {
+    if (newValue) {
+      emit('update-package', newValue)
+      selectedPackageObject.value = props.orderSummaryData?.packages?.find(item => item.code == newValue)
+    } else {
+      selectedPackageObject.value = null
+    }
+  })
 
 </script>
 <template>
@@ -55,7 +55,7 @@ watch(selectedPackage, newValue => {
           </div>
           <div>
             <span class="title">{{ language == "en" ? props.orderSummaryData.name_en : props.orderSummaryData.name_ar
-              }}</span>
+            }}</span>
             <div class="mt-1">
               <span class="ref-text">{{ t('ref_num') }}</span>:
               <span class="ref-num">5628</span>
@@ -86,8 +86,13 @@ watch(selectedPackage, newValue => {
     <hr class="separator mt-4">
     <div class="mt-4">
       <pre />
-      <AppChipSelect v-if="packages" v-model="selectedPackage" :have-discount="true" :items="packages"
-        :label="t('select_the_subscription_duration')">
+      <AppChipSelect
+        v-if="packages"
+        v-model="selectedPackage"
+        :have-discount="true"
+        :items="packages"
+        :label="t('select_the_subscription_duration')"
+      >
         <template #text>
           <span>%25</span>
         </template>
