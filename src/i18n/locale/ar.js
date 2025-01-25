@@ -1217,6 +1217,12 @@ export default {
     control: 'التحكم بالأعمدة',
     display_windows: 'نوافذ العرض',
     filters: 'فلاتر',
+    new_window: 'نافذة جديدة',
+    edit_display_windows: 'تعديل نافذة عرض',
+    enter_name: 'ادخل الاسم',
+    create_new_window: 'انشاء نافذة جديدة',
+    enter_name_for_display_window: 'ادخل مسمى نافذة العرض',
+
   },
   ads_table: {
     reference: 'الرمز المرجعي',

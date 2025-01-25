@@ -1222,6 +1222,11 @@ export default {
     control: 'Column control',
     display_windows: 'Display windows',
     filters: 'filters',
+    new_window: 'New window',
+    edit_display_windows: 'Edit Display windows',
+    enter_name: 'Enter Name',
+    create_new_window: 'Create New Window',
+    enter_name_for_display_window: 'Enter Name for display window',
 
   },
   ads_table: {

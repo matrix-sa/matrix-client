@@ -87,20 +87,31 @@
     flex-grow: 1;
     border-radius: 12px;
     height: 48px;
+
     &.v-chip-selected {
       background-color: rgb(var(--v-theme-primary));
+
       .v-chip__content {
         color: white;
+
+        img {
+          filter: brightness(0) invert(1);
+        }
       }
     }
+
     .v-chip__content {
       font-size: 16px;
       margin: auto;
+
+      img {
+        transform: scale(1.3)
+      }
     }
   }
 }
 
-.absolute-element{
+.absolute-element {
   position: absolute;
   top: 0;
   left: 20px;
