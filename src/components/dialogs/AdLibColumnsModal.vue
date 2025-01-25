@@ -1,111 +1,25 @@
 <script setup>
-import { useI18n } from 'vue-i18n'
-import { useRequest } from 'vue-request'
-import { useSnackbarStore } from '@/stores/useSnackBarStore'
-import PaymentService from '@/services/payment-service'
+  import { useI18n } from 'vue-i18n'
+  import { useSnackbarStore } from '@/stores/useSnackBarStore'
 
-defineProps({
-  headers: {
-    type: Array,
-    required: true
-  }
-})
-
-
-
-const emit = defineEmits(['saved', 'update:isDialogVisible', 'refetch-transactions', 'emitToggleVisibility'])
-
-const form = ref({
-  credit_card_id: null,
-  wallet_recharge_amount: null,
-
-})
-
-const paymentMethods = ref([])
-
-const { t } = useI18n()
-const { show } = useSnackbarStore()
-
-const toggleColumn = index => {
-  emit('emitToggleVisibility', index)
-}
-const handleClose = () => {
-  emit('update:isDialogVisible', false)
-}
-const handleWalletRechargeAmountInput = event => {
-  const value = event.target.value
-  if (value < 0) {
-    event.preventDefault()
-    form.value.wallet_recharge_amount = ''
-  } else {
-    form.value.wallet_recharge_amount = value
-  }
-}
-
-const handleWalletRechargeAmountKeydown = event => {
-  // Allow only numeric keys, backspace, delete, and arrow keys
-  const allowedKeys = [
-    '0', '1', '2', '3', '4', '5', '6', '7', '8', '9',
-    'Backspace', 'Delete',
-    'ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown',
-    'Tab',
-  ]
-
-  // Prevent if the key is not allowed
-  if (!allowedKeys.includes(event.key)) {
-    event.preventDefault()
-  }
-}
-
-const submit = () => {
-  chargeWallet(form.value)
-}
-
-const { run, loading: loadData } = useRequest(
-  () => PaymentService.getCreditCards(),
-  {
-
-    onSuccess: res => {
-      const { data, error, messages } = res.data
-      if (error) {
-        show(messages[0], 'error')
-        return
-      }
-      paymentMethods.value = data.map(item => ({ ...item, title: item.name }))
+  defineProps({
+    headers: {
+      type: Array,
+      required: true,
     },
-    onError: err => {
-      console.error(err)
-    },
+  })
+
+  const emit = defineEmits(['update:isDialogVisible', 'refetch-transactions', 'emitToggleVisibility'])
+
+  const { t } = useI18n()
+  const { show } = useSnackbarStore()
+
+  const toggleColumn = index => {
+    emit('emitToggleVisibility', index)
   }
-)
-
-const { run: chargeWallet, loading: startLoading } = useRequest(
-  data => PaymentService.chargeWallet(data),
-  {
-    manual: true,
-    onSuccess: res => {
-      const { error, data, messages, code } = res.data
-
-      if (error) {
-        show(messages[0], 'error')
-      }
-
-      show(t('charge_success'), 'success')
-
-      emit('refetch-transactions')
-      emit('update:isDialogVisible', false)
-    },
+  const handleClose = () => {
+    emit('update:isDialogVisible', false)
   }
-)
-
-const isFormValid = computed(() => {
-  return (
-    !!form.value.credit_card_id &&
-    !!form.value.wallet_recharge_amount &&
-    form.value.wallet_recharge_amount > 0
-
-  )
-})
 
 </script>
 <template>
@@ -114,24 +28,26 @@ const isFormValid = computed(() => {
       <div class="py-4 px-6 ga-2 mt-4  align-center w-100 d-flex filter-title">
         <v-icon icon="bx:hide " />
 
-
         <span>{{ $t("ads_library.control") }}</span>
       </div>
     </v-card-title>
-
 
     <v-divider />
 
     <v-card-text>
       <div class="d-flex flex-column ga-3">
-        <div class="columns-parent" v-for="(head, index) in headers" :key="index">
+        <div v-for="(head, index) in headers" :key="index" class="columns-parent">
           <div v-if="index != 0" class="columns-item d-flex justify-space-between align-center">
             <span>{{ head.title }}</span>
-            <v-btn class="show-btn" width="24" :color="head.visible ? '#24C87E' : '#F54A41'"
-              @click="toggleColumn(index)">
+            <v-btn
+              class="show-btn"
+              :color="head.visible ? '#24C87E' : '#F54A41'"
+              width="24"
+              @click="toggleColumn(index)"
+            >
 
-              <v-icon icon="mdi:eye-outline " size="20" color="#FFF" v-if="head.visible" />
-              <v-icon icon="mdi:eye-off-outline " size="20" color="#FFF" v-else />
+              <v-icon v-if="head.visible" color="#FFF" icon="mdi:eye-outline " size="20" />
+              <v-icon v-else color="#FFF" icon="mdi:eye-off-outline " size="20" />
             </v-btn>
           </div>
         </div>
@@ -144,7 +60,6 @@ const isFormValid = computed(() => {
 .v-col-sm-6 {
   padding: 0 8px;
 }
-
 
 .column-control {
 

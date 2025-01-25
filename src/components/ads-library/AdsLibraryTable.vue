@@ -1,62 +1,62 @@
 <script setup>
-import { computed, ref, watch } from 'vue'
-import { useI18n } from 'vue-i18n'
-import { useBreadcrumbsStore } from '@/stores/useBreadcrumbsStore'
+  import { computed, ref, watch } from 'vue'
+  import { useI18n } from 'vue-i18n'
+  import { useBreadcrumbsStore } from '@/stores/useBreadcrumbsStore'
 
-const { t, locale } = useI18n()
-const { update } = useBreadcrumbsStore()
+  const { t, locale } = useI18n()
+  const { update } = useBreadcrumbsStore()
 
-defineProps({
-  headers: {
-    type: Array,
-    required: true
+  defineProps({
+    headers: {
+      type: Array,
+      required: true,
+    },
+  })
+
+  // Mock data
+  const items = ref([
+    { id: 1, title: 'إفطار صائم', reference: '5896324', type: 'تصميم', link: 'http://urlinkgoeshere.com', date: '2025.01.12', season: 'رمضان', style: 'بلان فاربادي', montier: 'أحمد محمد', writer: 'سعد عبدالعادي', notes: 'ملاحظات الإعلان تظهر هنا..' },
+    { id: 2, title: 'إفطار صائم', reference: '4893254', type: 'كتابة', link: 'http://urlinkgoeshere.com', date: '2024.05.08', season: 'رمضان', style: 'مونتاج', montier: 'أسامة عبدالله', writer: 'جلال أحمد', notes: 'ملاحظات الإعلان تظهر هنا..' },
+    { id: 3, title: 'إفطار صائم', reference: '89711235', type: 'تصميم', link: 'http://urlinkgoeshere.com', date: '2023.12.25', season: 'اليوم الوطني', style: 'تصوير ميداني', montier: 'خالد ملهم', writer: 'عبدالرحمن سعيد', notes: 'ملاحظات الإعلان تظهر هنا..' },
+    { id: 4, title: 'سقيا الحجاج', reference: '5896324', type: 'تصميم', link: 'http://urlinkgoeshere.com', date: '2025.01.12', season: 'رمضان', style: 'مونتاج', montier: 'أحمد محمد', writer: 'سعد عبدالعادي', notes: 'ملاحظات الإعلان تظهر هنا..' },
+    { id: 5, title: 'سقيا الحجاج', reference: '4893254', type: 'تصميم', link: 'http://urlinkgoeshere.com', date: '2024.05.08', season: 'رمضان', style: 'مونتاج جرافيك', montier: 'أسامة عبدالله', writer: 'جلال أحمد', notes: 'ملاحظات الإعلان تظهر هنا..' },
+  ])
+
+  // Group ads by title
+  const groupedAds = computed(() => {
+    const groups = items.value.reduce((acc, ad) => {
+      if (!acc[ad.title]) {
+        acc[ad.title] = []
+      }
+      acc[ad.title].push(ad)
+      return acc
+    }, {})
+
+    return Object.entries(groups)
+  })
+
+  watch(
+    locale,
+    () => {
+      update([
+        {
+          title: t('ads_library.name'),
+          active: false,
+          to: '/ads-library/',
+        },
+      ])
+    },
+    { immediate: true }
+  )
+
+  const getTypeColor = type => {
+    return type === 'تصميم' ? 'green' : 'yellow'
   }
-})
 
-// Mock data
-const items = ref([
-  { id: 1, title: 'إفطار صائم', reference: '5896324', type: 'تصميم', link: 'http://urlinkgoeshere.com', date: '2025.01.12', season: 'رمضان', style: 'بلان فاربادي', montier: 'أحمد محمد', writer: 'سعد عبدالعادي', notes: 'ملاحظات الإعلان تظهر هنا..' },
-  { id: 2, title: 'إفطار صائم', reference: '4893254', type: 'كتابة', link: 'http://urlinkgoeshere.com', date: '2024.05.08', season: 'رمضان', style: 'مونتاج', montier: 'أسامة عبدالله', writer: 'جلال أحمد', notes: 'ملاحظات الإعلان تظهر هنا..' },
-  { id: 3, title: 'إفطار صائم', reference: '89711235', type: 'تصميم', link: 'http://urlinkgoeshere.com', date: '2023.12.25', season: 'اليوم الوطني', style: 'تصوير ميداني', montier: 'خالد ملهم', writer: 'عبدالرحمن سعيد', notes: 'ملاحظات الإعلان تظهر هنا..' },
-  { id: 4, title: 'سقيا الحجاج', reference: '5896324', type: 'تصميم', link: 'http://urlinkgoeshere.com', date: '2025.01.12', season: 'رمضان', style: 'مونتاج', montier: 'أحمد محمد', writer: 'سعد عبدالعادي', notes: 'ملاحظات الإعلان تظهر هنا..' },
-  { id: 5, title: 'سقيا الحجاج', reference: '4893254', type: 'تصميم', link: 'http://urlinkgoeshere.com', date: '2024.05.08', season: 'رمضان', style: 'مونتاج جرافيك', montier: 'أسامة عبدالله', writer: 'جلال أحمد', notes: 'ملاحظات الإعلان تظهر هنا..' },
-])
-
-// Group ads by title
-const groupedAds = computed(() => {
-  const groups = items.value.reduce((acc, ad) => {
-    if (!acc[ad.title]) {
-      acc[ad.title] = []
-    }
-    acc[ad.title].push(ad)
-    return acc
-  }, {})
-
-  return Object.entries(groups)
-})
-
-watch(
-  locale,
-  () => {
-    update([
-      {
-        title: t('ads_library.name'),
-        active: false,
-        to: '/ads-library/',
-      },
-    ])
-  },
-  { immediate: true }
-)
-
-const getTypeColor = type => {
-  return type === 'تصميم' ? 'green' : 'yellow'
-}
-
-const getRandomColor = () => {
-  const colors = ['#DFFDC4', '#E91E63', '#C4FDF4', '#D5C4FD', '#C4EAFD']
-  return colors[Math.floor(Math.random() * colors.length)]
-}
+  const getRandomColor = () => {
+    const colors = ['#DFFDC4', '#E91E63', '#C4FDF4', '#D5C4FD', '#C4EAFD']
+    return colors[Math.floor(Math.random() * colors.length)]
+  }
 </script>
 
 <template>
@@ -68,8 +68,13 @@ const getRandomColor = () => {
           <v-card-text>
             <v-card-text>
               <v-card-text>
-                <v-data-table class="text-no-wrap pa-8 table-header" :headers="headers" hide-default-body
-                  hide-default-footer :items="items">
+                <v-data-table
+                  class="text-no-wrap pa-8 table-header"
+                  :headers="headers"
+                  hide-default-body
+                  hide-default-footer
+                  :items="items"
+                >
                   <!-- Customize header.type slot -->
                   <template #header.reference="{ column }">
                     <v-icon>{{ column.icon }}</v-icon>
@@ -116,8 +121,13 @@ const getRandomColor = () => {
                       <span>{{ title }} </span>
                       <span class="ad-count">({{ ads.length }})</span>
                     </div>
-                    <v-data-table class="text-no-wrap pa-4" :headers="headers" hide-default-footer hide-default-header
-                      :items="ads">
+                    <v-data-table
+                      class="text-no-wrap pa-4"
+                      :headers="headers"
+                      hide-default-footer
+                      hide-default-header
+                      :items="ads"
+                    >
                       <!-- Customize item.type slot -->
                       <template #item.id="{ index: idx }">
                         {{ idx + 1 }}

@@ -1,13 +1,9 @@
 <script setup>
-  import { requiredValidator } from '@/utilities/validators'
   import { useI18n } from 'vue-i18n'
-  import { useRequest } from 'vue-request'
   import { useSnackbarStore } from '@/stores/useSnackBarStore'
-  import connectionRuleIcon from '@/assets/doc.svg'
   import AppSelect from '../core/AppSelect.vue'
   import { useRulesModalsStore } from '@/stores/rulesModalsStore'
   import AppTextInput from '../core/AppTextInput.vue'
-  import PaymentService from '@/services/payment-service'
 
   const props = defineProps({
     rule: {
@@ -28,19 +24,9 @@
 
   const { t } = useI18n()
   const { show } = useSnackbarStore()
-  const rulesModalsStore = useRulesModalsStore()
 
   const handleClose = () => {
     emit('update:isDialogVisible', false)
-  }
-  const handleWalletRechargeAmountInput = event => {
-    const value = event.target.value
-    if (value < 0) {
-      event.preventDefault()
-      form.value.wallet_recharge_amount = ''
-    } else {
-      form.value.wallet_recharge_amount = value
-    }
   }
 
   const handleWalletRechargeAmountKeydown = event => {
@@ -57,56 +43,6 @@
       event.preventDefault()
     }
   }
-
-  const submit = () => {
-    chargeWallet(form.value)
-  }
-
-  const { run, loading: loadData } = useRequest(
-    () => PaymentService.getCreditCards(),
-    {
-
-      onSuccess: res => {
-        const { data, error, messages } = res.data
-        if (error) {
-          show(messages[0], 'error')
-          return
-        }
-        paymentMethods.value = data.map(item => ({ ...item, title: item.name }))
-      },
-      onError: err => {
-        console.error(err)
-      },
-    }
-  )
-
-  const { run: chargeWallet, loading: startLoading } = useRequest(
-    data => PaymentService.chargeWallet(data),
-    {
-      manual: true,
-      onSuccess: res => {
-        const { error, data, messages, code } = res.data
-
-        if (error) {
-          show(messages[0], 'error')
-        }
-
-        show(t('charge_success'), 'success')
-
-        emit('refetch-transactions')
-        emit('update:isDialogVisible', false)
-      },
-    }
-  )
-
-  const isFormValid = computed(() => {
-    return (
-      !!form.value.credit_card_id &&
-      !!form.value.wallet_recharge_amount &&
-      form.value.wallet_recharge_amount > 0
-
-    )
-  })
 
 </script>
 <template>
@@ -146,7 +82,6 @@
         min="0"
         :placeholder="t('enter_value')"
         type="number"
-        @input="handleWalletRechargeAmountInput"
         @keydown="handleWalletRechargeAmountKeydown"
       />
 
@@ -187,7 +122,6 @@
         min="0"
         :placeholder="t('enter_value')"
         type="number"
-        @input="handleWalletRechargeAmountInput"
         @keydown="handleWalletRechargeAmountKeydown"
       />
 
@@ -228,7 +162,6 @@
         min="0"
         :placeholder="t('enter_value')"
         type="number"
-        @input="handleWalletRechargeAmountInput"
         @keydown="handleWalletRechargeAmountKeydown"
       />
 

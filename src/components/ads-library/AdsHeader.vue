@@ -1,41 +1,56 @@
 <script setup>
-import adsLogo from '@/assets/Ads-library-1.svg'
-import { useI18n } from 'vue-i18n'
-import { useRouter } from 'vue-router'
-import AdLibFilterModal from '../dialogs/AdLibFilterModal.vue'
-import AdLibColumnsModal from '../dialogs/AdLibColumnsModal.vue'
+  import adsLogo from '@/assets/Ads-library-1.svg'
+  import { useI18n } from 'vue-i18n'
+  import { useRouter } from 'vue-router'
+  import AdLibFilterModal from '../dialogs/AdLibFilterModal.vue'
+  import AdLibColumnsModal from '../dialogs/AdLibColumnsModal.vue'
 
-defineProps({
-  headers: {
-    type: Array,
-    required: true
+  defineProps({
+    headers: {
+      type: Array,
+      required: true,
+    },
+  })
+  const emit = defineEmits(['toggleVisibility'])
+
+  const { t } = useI18n()
+
+  const router = useRouter()
+  const handleAddAd = () => {
+    console.log('Add Ad')
+    router.push(`/ads-library/add`)
   }
-})
-const emit = defineEmits(['toggleVisibility'])
 
-const { t } = useI18n()
+  const openFilterDialog = ref(false)
+  const openColumnsDialog = ref(false)
+  const openDisplayWindowsDialog = ref(false)
+  const openEditDisplayWindowsDialog = ref(false)
+  const openAddDisplayWindowsDialog = ref(false)
 
-const router = useRouter()
-const handleAddAd = () => {
-  console.log('Add Ad')
-  router.push(`/ads-library/add`)
-}
+  const filterModalHandler = () => {
+    openFilterDialog.value = true
+  }
 
-const openFilterDialog = ref(false)
-const openColumnsDialog = ref(false)
+  const columnsModalHandler = () => {
+    openColumnsDialog.value = true
+  }
 
+  const displayWindowsModalHandler = () => {
+    openDisplayWindowsDialog.value = true
+  }
 
-const filterModalHandler = () => {
-  openFilterDialog.value = true
-}
+  const editModalHandler = () => {
+    openDisplayWindowsDialog.value = false
+    openEditDisplayWindowsDialog.value = true
+  }
 
-const columnsModalHandler = () => {
-  openColumnsDialog.value = true
-}
-
-const emitToggleVisibility = index => {
-  emit('toggleVisibility', index)
-}
+  const addModalHandler = () => {
+    openDisplayWindowsDialog.value = false
+    openAddDisplayWindowsDialog.value = true
+  }
+  const emitToggleVisibility = index => {
+    emit('toggleVisibility', index)
+  }
 
 </script>
 
@@ -47,9 +62,32 @@ const emitToggleVisibility = index => {
     </v-dialog>
 
     <v-dialog v-model="openColumnsDialog" content-class="v-dialog--custom">
-      <AdLibColumnsModal v-model:is-dialog-visible="openColumnsDialog" :headers="headers"
-        @emitToggleVisibility="emitToggleVisibility" />
+      <AdLibColumnsModal
+        v-model:is-dialog-visible="openColumnsDialog"
+        :headers="headers"
+        @emit-toggle-visibility="emitToggleVisibility"
+      />
     </v-dialog>
+
+    <v-dialog v-model="openDisplayWindowsDialog" content-class="v-dialog--custom">
+      <AdLibDisplayWindowsModal
+        v-model:is-dialog-visible="openDisplayWindowsDialog"
+        @add-modal-handler="addModalHandler"
+        @edit-modal-handler="editModalHandler"
+      />
+    </v-dialog>
+
+    <v-dialog v-model="openEditDisplayWindowsDialog" content-class="v-dialog--custom">
+      <AdLibDisplayWindowsEditModal v-model:is-dialog-visible="openEditDisplayWindowsDialog" />
+    </v-dialog>
+
+    <v-dialog v-model="openAddDisplayWindowsDialog" content-class="v-dialog--custom">
+      <AdLibDisplayWindowsAddModal
+        v-model:is-dialog-visible="openAddDisplayWindowsDialog"
+        @add-modal-handler="addModalHandler"
+      />
+    </v-dialog>
+
     <div class="d-flex justify-space-between align-center">
       <div class="d-flex align-center mb-5">
         <img alt="ads Logo" :src="adsLogo">
@@ -88,7 +126,7 @@ const emitToggleVisibility = index => {
         <v-btn color="#24C87E" rounded>
           <p class="text-white">{{ t("save") }}</p>
         </v-btn>
-        <v-btn color="#F8F7FA" rounded>
+        <v-btn color="#F8F7FA" rounded @click="displayWindowsModalHandler">
           <v-icon icon="heroicons-outline:table" />
           <p>{{ t("ads_library.display_windows") }}</p>
         </v-btn>
