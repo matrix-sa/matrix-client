@@ -1,9 +1,9 @@
 <script setup>
   import { useI18n } from 'vue-i18n'
   import { useSnackbarStore } from '@/stores/useSnackBarStore'
-  import AppSelect from '../core/AppSelect.vue'
+  import AppSelect from '../../core/AppSelect.vue'
   import { useRulesModalsStore } from '@/stores/rulesModalsStore'
-  import AppTextInput from '../core/AppTextInput.vue'
+  import AppTextInput from '../../core/AppTextInput.vue'
 
   const props = defineProps({
     rule: {

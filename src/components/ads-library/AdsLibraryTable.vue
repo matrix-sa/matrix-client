@@ -64,102 +64,107 @@
     <v-card-text>
 
       <v-card class="px-4">
-        <v-data-table class="text-no-wrap" :headers="headers" hide-default-footer>
+        <v-data-table
+          class="text-no-wrap"
+          :headers="headers"
+          hide-default-footer
+        >
           <v-card-text>
             <v-card-text>
               <v-card-text>
                 <v-data-table
-                  class="text-no-wrap pa-8 table-header"
+                  class="text-no-wrap pa-8 table-header text-center"
                   :headers="headers"
-                  hide-default-body
                   hide-default-footer
                   :items="items"
                 >
-                  <!-- Customize header.type slot -->
+                  <!-- Customize header.type slot-->
                   <template #header.reference="{ column }">
                     <v-icon>{{ column.icon }}</v-icon>
                     {{ column.title }}
                   </template>
 
                   <template #header.type="{ column }">
-                    <v-icon class="mx-1">{{ column.icon }}</v-icon>
+                    <v-icon>{{ column.icon }}</v-icon>
                     {{ column.title }}
                   </template>
                   <template #header.link="{ column }">
-                    <v-icon class="mx-2">{{ column.icon }}</v-icon>
+                    <v-icon>{{ column.icon }}</v-icon>
                     {{ column.title }}
                   </template>
                   <template #header.date="{ column }">
-                    <v-icon class="mx-1">{{ column.icon }}</v-icon>
+                    <v-icon>{{ column.icon }}</v-icon>
                     {{ column.title }}
                   </template>
                   <template #header.season="{ column }">
-                    <v-icon class="mx-1">{{ column.icon }}</v-icon>
+                    <v-icon>{{ column.icon }}</v-icon>
                     {{ column.title }}
                   </template>
                   <template #header.style="{ column }">
-                    <v-icon class="mx-1">{{ column.icon }}</v-icon>
+                    <v-icon>{{ column.icon }}</v-icon>
                     {{ column.title }}
                   </template>
                   <template #header.montier="{ column }">
-                    <v-icon class="mx-1">{{ column.icon }}</v-icon>
+                    <v-icon>{{ column.icon }}</v-icon>
                     {{ column.title }}
                   </template>
                   <template #header.writer="{ column }">
-                    <v-icon class="mx-1">{{ column.icon }}</v-icon>
+                    <v-icon>{{ column.icon }}</v-icon>
                     {{ column.title }}
                   </template>
                   <template #header.notes="{ column }">
-                    <v-icon class="mx-1">{{ column.icon }}</v-icon>
+                    <v-icon>{{ column.icon }}</v-icon>
                     {{ column.title }}
                   </template>
                 </v-data-table>
 
-                <template v-for="([title, ads], index) in groupedAds" :key="index">
-                  <div class="category-section rounded-lg">
-                    <div class="group-title">
-                      <span>{{ title }} </span>
-                      <span class="ad-count">({{ ads.length }})</span>
+                <div :style="`margin-top: -${items.length *52}px;`">
+                  <template v-for="([title, ads], index) in groupedAds" :key="index">
+                    <div class="category-section rounded-lg">
+                      <div class="group-title">
+                        <span>{{ title }} </span>
+                        <span class="ad-count">({{ ads.length }})</span>
+                      </div>
+                      <v-data-table
+                        class="text-no-wrap pa-4"
+                        :headers="headers"
+                        hide-default-footer
+                        hide-default-header
+                        :items="ads"
+                      >
+                        <!-- Customize item.type slot -->
+                        <template #item.id="{ index:idx }">
+                          {{ idx + 1 }}
+                        </template>
+
+                        <template #item.type="{ item }">
+                          <v-chip :color="getTypeColor(item.type)">
+                            <p class="text-black font-weight-medium"> {{ item.type }}</p>
+                          </v-chip>
+                        </template>
+
+                        <template #item.style="{ item }">
+                          <v-chip :color="getRandomColor()">
+                            <p class="text-black font-weight-medium"> {{ item.style }}</p>
+                          </v-chip>
+                        </template>
+
+                        <template #item.montier="{ item }">
+                          <v-chip :color="getRandomColor()">
+                            <p class="text-black font-weight-medium"> {{ item.montier }}</p>
+                          </v-chip>
+                        </template>
+
+                        <template #item.writer="{ item }">
+                          <v-chip :color="getRandomColor()">
+                            <p class="text-black font-weight-medium"> {{ item.writer }}</p>
+                          </v-chip>
+                        </template>
+
+                      </v-data-table>
                     </div>
-                    <v-data-table
-                      class="text-no-wrap pa-4"
-                      :headers="headers"
-                      hide-default-footer
-                      hide-default-header
-                      :items="ads"
-                    >
-                      <!-- Customize item.type slot -->
-                      <template #item.id="{ index: idx }">
-                        {{ idx + 1 }}
-                      </template>
-
-                      <template #item.type="{ item }">
-                        <v-chip class="mx-12" :color="getTypeColor(item.type)">
-                          <p class="text-black font-weight-medium"> {{ item.type }}</p>
-                        </v-chip>
-                      </template>
-
-                      <template #item.style="{ item }">
-                        <v-chip class="mr-6" :color="getRandomColor()">
-                          <p class="text-black font-weight-medium"> {{ item.style }}</p>
-                        </v-chip>
-                      </template>
-
-                      <template #item.montier="{ item }">
-                        <v-chip class="mr-6" :color="getRandomColor()">
-                          <p class="text-black font-weight-medium"> {{ item.montier }}</p>
-                        </v-chip>
-                      </template>
-
-                      <template #item.writer="{ item }">
-                        <v-chip class="mr-6" :color="getRandomColor()">
-                          <p class="text-black font-weight-medium"> {{ item.writer }}</p>
-                        </v-chip>
-                      </template>
-
-                    </v-data-table>
-                  </div>
-                </template>
+                  </template>
+                </div>
               </v-card-text>
             </v-card-text>
           </v-card-text>
@@ -201,8 +206,11 @@
   padding: 10px 0;
 }
 
-:deep(.v-data-table-header__content) {
-  width: 0px !important;
+:deep(.table-header.v-table > .v-table__wrapper > table > tbody) {
+ opacity: 0;
+}
+:deep( .v-table > .v-table__wrapper > table > tbody) {
+  // text-align: center !important;
 }
 
 :deep(.v-table__wrapper > table > thead > tr > th) {
@@ -210,9 +218,10 @@
   line-height: 14.4px;
   font-weight: 400;
   color: #706D79;
+  // text-align: center !important;
 
   &:first-child {
-    padding-left: 6px !important;
+    padding-left: 0px !important;
   }
 }
 

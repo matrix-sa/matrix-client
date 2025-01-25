@@ -1,7 +1,7 @@
 <script setup>
   import { useI18n } from 'vue-i18n'
   import { useSnackbarStore } from '@/stores/useSnackBarStore'
-  import AppTextInput from '../core/AppTextInput.vue'
+  import AppTextInput from '../../core/AppTextInput.vue'
   import editIcon from '@/assets/images/icons/pen.svg'
 
   const props = defineProps({
