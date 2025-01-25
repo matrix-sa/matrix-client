@@ -1222,6 +1222,13 @@ export default {
     enter_name: 'ادخل الاسم',
     create_new_window: 'انشاء نافذة جديدة',
     enter_name_for_display_window: 'ادخل مسمى نافذة العرض',
+    in_groups_via: 'ضمن مجموعات عن طريق',
+    product: 'المنتج',
+    type: 'النوع',
+    first_to_last: 'الأول --->  الأخير',
+    last_to_first: 'الأخير  ---> الأول',
+    sort_within_groups: 'ترتيب داخل المجموعات',
+    writer: 'الكاتب',
 
   },
   ads_table: {

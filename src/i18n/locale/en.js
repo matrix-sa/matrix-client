@@ -1227,6 +1227,13 @@ export default {
     enter_name: 'Enter Name',
     create_new_window: 'Create New Window',
     enter_name_for_display_window: 'Enter Name for display window',
+    in_groups_via: 'In Groups Via',
+    product: 'Product',
+    type: 'Type',
+    first_to_last: 'First ---> Last',
+    last_to_first: 'Last ---> First',
+    sort_within_groups: 'Sort Within Groups',
+    writer: 'Writer',
 
   },
   ads_table: {
