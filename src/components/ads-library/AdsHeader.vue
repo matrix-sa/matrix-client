@@ -15,7 +15,6 @@
 
   const router = useRouter()
   const handleAddAd = () => {
-    console.log('Add Ad')
     router.push(`/ads-library/add`)
   }
 
@@ -24,6 +23,8 @@
   const openDisplayWindowsDialog = ref(false)
   const openEditDisplayWindowsDialog = ref(false)
   const openAddDisplayWindowsDialog = ref(false)
+  const openGroupOf4Modal = ref(false)
+  const openSortWithinGroupsModal = ref(false)
 
   const filterModalHandler = () => {
     openFilterDialog.value = true
@@ -48,6 +49,14 @@
   }
   const emitToggleVisibility = index => {
     emit('toggleVisibility', index)
+  }
+  // group of 4 modal
+  const groupOf4ModalHandler = () => {
+    openGroupOf4Modal.value = true
+  }
+  // sort within groups modal
+  const sortWithinGroupsModalHandler = () => {
+    openSortWithinGroupsModal.value = true
   }
 
 </script>
@@ -85,7 +94,12 @@
         @add-modal-handler="addModalHandler"
       />
     </v-dialog>
-
+    <v-dialog v-model="openGroupOf4Modal" content-class="v-dialog--custom">
+      <AdGroupOf4Modal v-model:is-dialog-visible="openGroupOf4Modal" />
+    </v-dialog>
+    <v-dialog v-model="openSortWithinGroupsModal" content-class="v-dialog--custom">
+      <AdSortWithinGroups v-model:is-dialog-visible="openSortWithinGroupsModal" />
+    </v-dialog>
     <div class="d-flex justify-space-between align-center">
       <div class="d-flex align-center mb-5">
         <img alt="ads Logo" :src="adsLogo">
@@ -107,11 +121,11 @@
           <v-icon icon="meteor-icons:bars-filter " />
           <p>{{ t("ads_library.filter") }}</p>
         </v-btn>
-        <v-btn color="#C4ECFD" rounded>
+        <v-btn color="#C4ECFD" rounded @click="groupOf4ModalHandler">
           <v-icon icon="bitcoin-icons:node-0-connections-filled " />
           <p>{{ t("ads_library.group") }}</p>
         </v-btn>
-        <v-btn color="#FDE1C4" rounded>
+        <v-btn color="#FDE1C4" rounded @click="sortWithinGroupsModalHandler">
           <v-icon icon="solar:sort-from-bottom-to-top-linear" />
           <p>{{ t("ads_library.sort") }}</p>
         </v-btn>
