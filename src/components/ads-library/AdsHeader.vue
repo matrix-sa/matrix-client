@@ -1,29 +1,54 @@
 <script setup>
-  import adsLogo from '@/assets/Ads-library-1.svg'
-  import { useI18n } from 'vue-i18n'
-  import { useRouter } from 'vue-router'
-  import AdLibFilterModal from '../dialogs/AdLibFilterModal.vue'
+import adsLogo from '@/assets/Ads-library-1.svg'
+import { useI18n } from 'vue-i18n'
+import { useRouter } from 'vue-router'
+import AdLibFilterModal from '../dialogs/AdLibFilterModal.vue'
+import AdLibColumnsModal from '../dialogs/AdLibColumnsModal.vue'
 
-  const { t } = useI18n()
-
-  const router = useRouter()
-  const handleAddAd = () => {
-    console.log('Add Ad')
-    router.push(`/ads-library/add`)
+defineProps({
+  headers: {
+    type: Array,
+    required: true
   }
+})
+const emit = defineEmits(['toggleVisibility'])
 
-  const openFilterDialog = ref(false)
+const { t } = useI18n()
 
-  const filterModalHandler = () => {
-    openFilterDialog.value = true
-  }
+const router = useRouter()
+const handleAddAd = () => {
+  console.log('Add Ad')
+  router.push(`/ads-library/add`)
+}
+
+const openFilterDialog = ref(false)
+const openColumnsDialog = ref(false)
+
+
+const filterModalHandler = () => {
+  openFilterDialog.value = true
+}
+
+const columnsModalHandler = () => {
+  openColumnsDialog.value = true
+}
+
+const emitToggleVisibility = index => {
+  emit('toggleVisibility', index)
+}
 
 </script>
 
 <template>
-  <v-container class="rounded-xl bg-white main-container">
+  <v-container class="rounded-xl bg-white main-container min-w-100">
+
     <v-dialog v-model="openFilterDialog" content-class="v-dialog--custom">
       <AdLibFilterModal v-model:is-dialog-visible="openFilterDialog" />
+    </v-dialog>
+
+    <v-dialog v-model="openColumnsDialog" content-class="v-dialog--custom">
+      <AdLibColumnsModal v-model:is-dialog-visible="openColumnsDialog" :headers="headers"
+        @emitToggleVisibility="emitToggleVisibility" />
     </v-dialog>
     <div class="d-flex justify-space-between align-center">
       <div class="d-flex align-center mb-5">
@@ -54,7 +79,7 @@
           <v-icon icon="solar:sort-from-bottom-to-top-linear" />
           <p>{{ t("ads_library.sort") }}</p>
         </v-btn>
-        <v-btn color="#F0C4FD" rounded>
+        <v-btn color="#F0C4FD" rounded @click="columnsModalHandler">
           <v-icon icon="bx:hide " />
           <p>{{ t("ads_library.control") }}</p>
         </v-btn>
@@ -73,6 +98,10 @@
 </template>
 
 <style lang='scss'>
+.min-w-100 {
+  min-width: 100%
+}
+
 .v-dialog {
   .v-dialog--custom {
     width: 50% !important
