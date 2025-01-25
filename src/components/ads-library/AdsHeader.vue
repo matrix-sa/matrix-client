@@ -2,8 +2,6 @@
   import adsLogo from '@/assets/Ads-library-1.svg'
   import { useI18n } from 'vue-i18n'
   import { useRouter } from 'vue-router'
-  import AdLibFilterModal from '../dialogs/AdLibFilterModal.vue'
-  import AdLibColumnsModal from '../dialogs/AdLibColumnsModal.vue'
 
   defineProps({
     headers: {
