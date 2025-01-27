@@ -387,7 +387,7 @@ export default {
   'account-setup': ' إعداد الحساب  ',
   earning_reports: ' تقرير الاستحقاقات   ',
   weekly_earnings_overview: ' الاستحقاقات الأسبوعية ',
-  expenses: 'المصاريف',
+  expenses: 'الإنفاق الإعلاني',
   profit: 'الربح',
   earning: 'المستحقات',
   personal_account: 'الحساب الشخصي',
@@ -1249,4 +1249,5 @@ export default {
   ads_group_name: 'اسم المجموعة الإعلانية',
   ads_name: 'اسم الإعلان',
   next: 'التالي',
+  release: 'أطلق وازهلها',
 }

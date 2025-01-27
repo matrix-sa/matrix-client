@@ -392,7 +392,7 @@ export default {
   'account-setup': ' Account setup  ',
   earning_reports: ' Entitlements report   ',
   weekly_earnings_overview: ' Weekly benefits ',
-  expenses: 'Expenses',
+  expenses: 'Ads Spending',
   profit: 'Profit',
   earning: 'Dues',
   personal_account: 'Personal account',
@@ -1254,4 +1254,5 @@ export default {
   ads_name: 'Ad Name',
   campaign_name1: 'Campaign Name',
   next: 'Next',
+  release: 'Release',
 }

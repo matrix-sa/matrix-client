@@ -196,7 +196,7 @@
         color="primary"
         :disabled="loading"
         :loading="loading"
-        :text="t('create')"
+        :text="t('release')"
         type="submit"
       />
     </VCol>
