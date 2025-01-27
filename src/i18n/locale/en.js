@@ -1253,4 +1253,5 @@ export default {
   ads_group_name: 'Ad Group Name',
   ads_name: 'Ad Name',
   campaign_name1: 'Campaign Name',
+  next: 'Next',
 }

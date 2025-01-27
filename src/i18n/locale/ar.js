@@ -292,7 +292,7 @@ export default {
   connected_accounts: 'الحسابات المرتبطة',
   create_campaign_title: 'انشاء حملة',
   create_ad_title: 'انشاء اعلان',
-  campaign_name: 'عنوان الحملة',
+  campaign_name: 'اسم الحملة',
   campaign_start_date: 'تاريخ البداية',
   campaign_start_time: 'توقيت البداية',
   campaign_end_date: 'تاريخ النهاية',
@@ -1248,6 +1248,5 @@ export default {
   soon: 'قريبا',
   ads_group_name: 'اسم المجموعة الإعلانية',
   ads_name: 'اسم الإعلان',
-  campaign_name1: 'اسم الحملة',
-
+  next: 'التالي',
 }
