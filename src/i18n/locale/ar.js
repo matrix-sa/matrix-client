@@ -1246,5 +1246,8 @@ export default {
   },
   not_subscribe_writer: 'أنت غير مشترك فى خدمة الكاتب الرقمى',
   soon: 'قريبا',
+  ads_group_name: 'اسم المجموعة الإعلانية',
+  ads_name: 'اسم الإعلان',
+  campaign_name1: 'اسم الحملة',
 
 }

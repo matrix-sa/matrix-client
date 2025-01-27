@@ -34,7 +34,7 @@
 
   const headers = [
     {
-      title: t('name'),
+      title: t('ads_group_name'),
       key: 'name',
     },
     {
