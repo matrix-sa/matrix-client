@@ -142,8 +142,7 @@
           <img :src="Wallet">
 
           <div>
-            <p class="title"> {{ t('a_wallet') }} <span class="text-warning">{{ t('matrix') }}</span> {{
-              t('outstanding') }}</p>
+            <p class="title"> {{ t('a_wallet') }} <span class="text-warning">{{ t('matrix') }}</span> </p>
             <div class="current-amount-container mt-3">
               <span> {{ t('current_credit') }}</span>
               <p> {{ user?.walltet_balance }} {{ t('saudi_sar') }} </p>

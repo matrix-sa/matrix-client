@@ -4,7 +4,7 @@
   const { locale } = useI18n()
   const languageOptions = ref([
     {
-      title: 'العربي',
+      title: 'العربية',
       value: 'ar',
     },
     {

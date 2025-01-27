@@ -25,7 +25,7 @@
 
   const headers = [
     {
-      title: t('marketing-consultation-order.title'),
+      title: t('marketing-consultation-order.consultation_type'),
       key: localeTitle,
     },
     {

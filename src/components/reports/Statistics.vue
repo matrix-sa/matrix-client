@@ -33,7 +33,7 @@
 
 <template>
 
-  <v-container class="px-0">
+  <v-container class="px-0 mx-0 min-w-100">
     <v-row>
 
       <v-col cols="4">
@@ -86,3 +86,9 @@
   </v-container>
 
 </template>
+
+<style scoped>
+.min-w-100 {
+  min-width: 100% !important
+}
+</style>

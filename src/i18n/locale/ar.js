@@ -416,7 +416,7 @@ export default {
   choose_pixel: 'اختر البكسل',
   image_upload_title: 'ارفع صورة',
   animated_image_upload_title: ' ارفع صورة متحركة',
-  target_url: 'رابط الهدف ',
+  target_url: 'رابط المنتج ',
   file_size_not_valid: 'حجم الملف غير صحيح',
   verify_your_email_title: 'تأكيد الحساب',
   verify_your_email_description: 'تم إرسال رمز التأكيد الى بريدك الإلكتروني ',
@@ -582,6 +582,8 @@ export default {
     serial_number: 'رقم تسلسلي',
     arabic_title: 'العنوان بالعربية',
     english_title: 'العنوان بالإنجليزية',
+    consultation_type: 'نوع الإستشارة',
+
     title: 'العنوان',
     price: 'السعر',
     currency: 'العملة',
