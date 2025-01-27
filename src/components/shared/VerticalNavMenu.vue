@@ -61,7 +61,7 @@
         {
           title: t('campaign_rules'),
           props: {
-            prependIcon: 'tabler-list',
+            prependIcon: 'tabler-blocks', // clipboard-text
             active: isActive('/rules', true),
             to: { name: '/rules' },
             disabled: userShouldLink.value,
@@ -97,7 +97,7 @@
         {
           title: t('digital_designer'),
           props: {
-            prependIcon: 'tabler-robot',
+            prependIcon: 'tabler-robot-face',
             active: isActive('/assistant/designer/'),
             to: { name: '/assistant/designer/' },
             disabled: userShouldLink.value,
@@ -107,7 +107,7 @@
         {
           title: t('marketing-consultation.name'),
           props: {
-            prependIcon: 'ic:baseline-recommend',
+            prependIcon: 'tabler:clipboard-text',
             active: isActive('/marketing-consultations/') || isActive('/marketing-consultations-orders/'),
             to: { name: '/marketing-consultations/' },
             disabled: userShouldLink.value,
@@ -125,7 +125,7 @@
         {
           title: t('account_settings'),
           props: {
-            prependIcon: 'tabler-link',
+            prependIcon: 'tabler-settings',
             active: isActive('/account-settings', true),
             to: { name: '/account-settings/account-details' },
             disabled: userShouldLink.value,

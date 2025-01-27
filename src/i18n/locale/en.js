@@ -422,7 +422,7 @@ export default {
   choose_pixel: 'Select pixels',
   image_upload_title: 'Upload a photo',
   animated_image_upload_title: ' Upload an animation',
-  target_url: 'Target link ',
+  target_url: 'Product link ',
   file_size_not_valid: 'The file size is incorrect',
   verify_your_email_title: 'Account Confirmation',
   verify_your_email_description:
@@ -590,6 +590,7 @@ export default {
     arabic_title: 'Arabic Title',
     english_title: 'English Title',
     title: 'Title',
+    consultation_type: 'Consultation Type',
     price: 'Price',
     currency: 'Currency',
     created_at: 'Created At',

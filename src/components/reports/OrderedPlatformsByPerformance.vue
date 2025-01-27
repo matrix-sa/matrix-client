@@ -61,7 +61,7 @@
 </script>
 
 <template>
-  <v-container class="rounded-lg bg-white">
+  <v-container class="rounded-lg bg-white mx-0 min-w-100">
     <div class="order_text">
       {{ t('platforms_order') }}
     </div>
@@ -74,11 +74,7 @@
         </tr>
       </thead>
       <tbody class="text-center">
-        <tr
-          v-for="(platform, index) in rankedPlatforms"
-          :key="index"
-          :class="{ 'highlight-row': index % 2 === 1 }"
-        >
+        <tr v-for="(platform, index) in rankedPlatforms" :key="index" :class="{ 'highlight-row': index % 2 === 1 }">
           <td class="text-start">
             <v-avatar class="mx-2" left>
               <v-img :src="getPlatformIcon(`${platform.platform}`.toLowerCase())" />
@@ -99,6 +95,10 @@
 </template>
 
 <style lang="scss">
+.min-w-100 {
+  min-width: 100%;
+}
+
 .header {
   color: #706D79;
   font-size: 14px;
@@ -110,13 +110,15 @@
   background-color: #f8f7fa;
 }
 
-th{
-    border-top: 1px solid #f0f0f1;
+th {
+  border-top: 1px solid #f0f0f1;
 }
+
 th:first-child {
   text-align: start !important;
   padding: 0 15px 0 15px !important;
 }
+
 .order_text {
   color: #1F1625;
   margin: 12px 12px 30px 12px !important;
@@ -124,17 +126,21 @@ th:first-child {
   font-weight: 500;
   line-height: 19.2px;
 }
-.v-table--density-default{
-    --v-table-header-height:41px;
+
+.v-table--density-default {
+  --v-table-header-height: 41px;
 }
+
 tr {
   clip-path: xywh(0 0 100% 100% round 30px);
   margin-right: 10px;
 }
-.v-table .v-table__wrapper > table > tbody > tr:not(:last-child) > td{
+
+.v-table .v-table__wrapper>table>tbody>tr:not(:last-child)>td {
   border-bottom: none;
 }
-.v-table__wrapper > table > tfoot > tr > th{
+
+.v-table__wrapper>table>tfoot>tr>th {
   padding: 0;
 }
 </style>
