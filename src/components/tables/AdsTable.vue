@@ -35,7 +35,7 @@
   // Headers
   const headers = [
     {
-      title: t('name'),
+      title: t('ads_name'),
       key: 'name',
     },
     {

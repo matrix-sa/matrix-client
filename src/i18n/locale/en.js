@@ -392,7 +392,7 @@ export default {
   'account-setup': ' Account setup  ',
   earning_reports: ' Entitlements report   ',
   weekly_earnings_overview: ' Weekly benefits ',
-  expenses: 'Expenses',
+  expenses: 'Ads Spending',
   profit: 'Profit',
   earning: 'Dues',
   personal_account: 'Personal account',
@@ -1250,4 +1250,9 @@ export default {
   },
   not_subscribe_writer: 'You are not subscribed to the digital writer service',
   soon: 'Coming Soon',
+  ads_group_name: 'Ad Group Name',
+  ads_name: 'Ad Name',
+  campaign_name1: 'Campaign Name',
+  next: 'Next',
+  release: 'Release',
 }

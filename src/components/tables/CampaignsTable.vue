@@ -69,7 +69,7 @@
 
   const headers = [
     {
-      title: t('name'),
+      title: t('campaign_name'),
       key: 'name',
     },
     {

@@ -77,9 +77,8 @@
                 <img alt="" height="45" :src="campaignHeaderLogo">
                 <div class="deascription">
                   <h3 class="text-black">
-                    {{ t("ad_group_settings") }} ({{ t(`platforms.${platform}.title`) }})
+                    {{ t("ad_group_settings") }}
                   </h3>
-                  <p>{{ t("how_to_edit_ad_group") }}</p>
                 </div>
               </header>
               <v-divider class="mb-4 mt-6" />

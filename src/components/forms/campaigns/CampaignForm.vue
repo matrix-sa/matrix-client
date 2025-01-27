@@ -70,9 +70,9 @@
   const rules = reactive({
     name: [requiredValidator],
     start_time: [requiredValidator],
-    end_time: [],
+    end_time: [requiredValidator],
     daily_budget: [
-      integerValidator,
+      integerValidator, requiredValidator,
       () => minIntValidator(form.value.daily_budget, 80),
     ],
   })
@@ -133,7 +133,6 @@
           return
         }
 
-        show(t('created_message'), 'success')
         router.push({
           path: `/ad-groups/${data.id}/add`,
           query: { platform: selectedPlatform.value.toLowerCase() },
@@ -310,6 +309,7 @@
           :label="$t('campaign_start_date')"
           :min="new Date()"
           :placeholder="null"
+          :rules="rules.start_time"
         />
       </VCol>
       <VCol cols="12">
@@ -318,6 +318,7 @@
           :disabled="!dateTimes.startDate"
           :label="$t('campaign_start_time')"
           :placeholder="null"
+          :rules="rules.end_time"
         />
       </VCol>
       <VCol cols="12">
@@ -327,6 +328,7 @@
           :label="$t('campaign_end_date')"
           :min="new Date()"
           :placeholder="null"
+          :rules="[requiredValidator]"
         />
       </VCol>
       <VCol cols="12">
@@ -336,6 +338,7 @@
           :disabled="!dateTimes.endDate"
           :label="$t('campaign_end_time')"
           :placeholder="null"
+          :rules="[requiredValidator]"
         />
       </VCol>
 
@@ -347,6 +350,7 @@
           :items="controlRules"
           :label="$t('control_rule')"
           :loading="loadingControlRules"
+          :rules="[requiredValidator]"
         />
       </VCol>
 
@@ -359,6 +363,7 @@
           :label="$t('connection_rule')"
           :loading="loadingCommunicationRules"
           multiple
+          :rules="[requiredValidator]"
         />
       </VCol>
 
@@ -380,7 +385,7 @@
           :disabled="loading"
           :loading="loading"
           :loading-text="$t('loading')"
-          :text="$t('save')"
+          :text="$t('next')"
           type="submit"
           @click="onSubmit"
         />

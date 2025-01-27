@@ -292,7 +292,7 @@ export default {
   connected_accounts: 'الحسابات المرتبطة',
   create_campaign_title: 'انشاء حملة',
   create_ad_title: 'انشاء اعلان',
-  campaign_name: 'عنوان الحملة',
+  campaign_name: 'اسم الحملة',
   campaign_start_date: 'تاريخ البداية',
   campaign_start_time: 'توقيت البداية',
   campaign_end_date: 'تاريخ النهاية',
@@ -387,7 +387,7 @@ export default {
   'account-setup': ' إعداد الحساب  ',
   earning_reports: ' تقرير الاستحقاقات   ',
   weekly_earnings_overview: ' الاستحقاقات الأسبوعية ',
-  expenses: 'المصاريف',
+  expenses: 'الإنفاق الإعلاني',
   profit: 'الربح',
   earning: 'المستحقات',
   personal_account: 'الحساب الشخصي',
@@ -1246,5 +1246,8 @@ export default {
   },
   not_subscribe_writer: 'أنت غير مشترك فى خدمة الكاتب الرقمى',
   soon: 'قريبا',
-
+  ads_group_name: 'اسم المجموعة الإعلانية',
+  ads_name: 'اسم الإعلان',
+  next: 'التالي',
+  release: 'أطلق وازهلها',
 }
