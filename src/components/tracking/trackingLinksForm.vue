@@ -142,7 +142,9 @@
       <img alt="track-link-icon" :src="trackIcon">
       <div>
         <p class="title">{{ t('tracking.create_tracking_link_title') }}</p>
-        <p class="sub_title">{{ t('tracking.create_tracking_link_subtitle') }}</p>
+        <p class="sub_title">
+          <v-icon icon="tabler-notes" />
+          {{ t('tracking.create_tracking_link_subtitle') }} ! </p>
       </div>
     </div>
     <hr>
