@@ -35,8 +35,6 @@
     campaign_id: [requiredValidator],
     ad_group_id: [requiredValidator],
     ad_id: [requiredValidator],
-    control_rule_id: [requiredValidator],
-    communication_rules_ids: [requiredValidator],
   })
 
   const platformsStore = usePlatformsStore()
@@ -214,7 +212,6 @@
             :label="$t('connection_rule')"
             :loading="loadingCommunicationRules"
             multiple
-            :rules="rules.communication_rules_ids"
           />
         </VCol>
 
@@ -226,7 +223,7 @@
             :items="controlRules"
             :label="$t('control_rule')"
             :loading="loadingControlRules"
-            :rules="rules.control_rule_id"
+            multiple
           />
         </VCol>
 
