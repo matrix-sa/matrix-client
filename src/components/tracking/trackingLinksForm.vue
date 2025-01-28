@@ -35,8 +35,6 @@
     campaign_id: [requiredValidator],
     ad_group_id: [requiredValidator],
     ad_id: [requiredValidator],
-    control_rule_id: [requiredValidator],
-    communication_rules_ids: [requiredValidator],
   })
 
   const platformsStore = usePlatformsStore()
@@ -142,7 +140,9 @@
       <img alt="track-link-icon" :src="trackIcon">
       <div>
         <p class="title">{{ t('tracking.create_tracking_link_title') }}</p>
-        <p class="sub_title">{{ t('tracking.create_tracking_link_subtitle') }}</p>
+        <p class="sub_title">
+          <v-icon icon="tabler-notes" />
+          {{ t('tracking.create_tracking_link_subtitle') }} ! </p>
       </div>
     </div>
     <hr>
@@ -212,7 +212,6 @@
             :label="$t('connection_rule')"
             :loading="loadingCommunicationRules"
             multiple
-            :rules="rules.communication_rules_ids"
           />
         </VCol>
 
@@ -224,7 +223,7 @@
             :items="controlRules"
             :label="$t('control_rule')"
             :loading="loadingControlRules"
-            :rules="rules.control_rule_id"
+            multiple
           />
         </VCol>
 

@@ -1052,7 +1052,7 @@ export default {
     name: 'Tracking links',
     create_tracking_link_title: 'Create Tracking Link',
     create_tracking_link_subtitle:
-      'This tool helps you to quickly and concisely link and create a trace.',
+      'This tool helps you to quickly and concisely link and create a trace',
     platform: 'Platform',
     campaignId: 'Campaign ID',
     ad_group_id: 'Ad Group ID',
@@ -1255,4 +1255,6 @@ export default {
   campaign_name1: 'Campaign Name',
   next: 'Next',
   release: 'Release',
+  advertiser_name: 'Advertiser Name !',
+
 }

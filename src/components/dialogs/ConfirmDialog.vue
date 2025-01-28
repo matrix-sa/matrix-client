@@ -82,12 +82,12 @@
       </VCardText>
 
       <VCardText class="d-flex align-center justify-center gap-2">
-        <VBtn color="primary" variant="elevated" @click="onConfirmation">
-          {{ confirmBtn ?? t("confirm_btn") }}
-        </VBtn>
-
         <VBtn color="secondary" variant="elevated" @click="onCancel">
           {{ cancelBtn ?? t("cancel_btn") }}
+        </VBtn>
+
+        <VBtn color="primary" variant="elevated" @click="onConfirmation">
+          {{ confirmBtn ?? t("confirm_btn") }}
         </VBtn>
       </VCardText>
     </VCard>
