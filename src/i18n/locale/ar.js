@@ -1250,4 +1250,5 @@ export default {
   ads_name: 'اسم الإعلان',
   next: 'التالي',
   release: 'أطلق وازهلها',
+  advertiser_name: 'اسم المعلن !',
 }

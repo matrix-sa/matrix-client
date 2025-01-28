@@ -1255,4 +1255,6 @@ export default {
   campaign_name1: 'Campaign Name',
   next: 'Next',
   release: 'Release',
+  advertiser_name: 'Advertiser Name !',
+
 }
