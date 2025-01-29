@@ -1139,7 +1139,7 @@ export default {
   do_you_have_discount_code: 'هل لديك رمز تخفيض؟',
   checkout: 'عملية الشراء',
   vat: 'ضريبة VAT',
-  cancel_connection: 'إلغاء الإتصال',
+  cancel_connection: 'انهاء الإتصال',
   connection_canceled: 'تم إلغاء الإتصال',
   add_card: 'أضف بطاقة',
   my_cards: 'بطاقاتي',

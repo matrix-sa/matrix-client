@@ -202,6 +202,16 @@
       >
         {{ t("cancel_connection") }}
       </v-btn>
+      <v-btn
+        v-if="
+          platform.status === 'UnlinkedAccount' || platform.status === 'OnlyAuthenticated'
+        "
+        disabled
+        rounded
+        width="90%"
+      >
+        {{ t("cancel_connection") }}
+      </v-btn>
     </div>
     <ConnectionConfirmationDialog
       v-if="selectedPlatform"
