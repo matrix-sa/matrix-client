@@ -124,7 +124,7 @@
     <VCol cols="12">
       <AppTextInput
         v-model="form.brand_name"
-        :label="$t('brand')"
+        :label="$t('advertiser_name')"
         :rules="rules.brand_name"
       />
     </VCol>
