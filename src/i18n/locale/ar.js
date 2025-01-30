@@ -1250,4 +1250,6 @@ export default {
   ads_name: 'اسم الإعلان',
   next: 'التالي',
   release: 'أطلق وازهلها',
+  double_for_each_sar: 'أضعاف لكل ريال',
+
 }

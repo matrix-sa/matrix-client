@@ -12,7 +12,7 @@
   // Reactive state
   const activeItem = ref(0)
   const isShowAnswers = ref(false)
-  const isUserHaveSubscribtion = ref(false)
+  const isUserHaveSubscribtion = ref(true)
   const messagesHistory = ref([])
   const chatResult = ref(null)
   const tabsRef = ref({ activeItem: null })
@@ -105,7 +105,7 @@
 
 <template>
   <div class="main-wrapper">
-    <div class="alert-wrapper mb-5">
+    <div v-if="!isUserHaveSubscribtion" class="alert-wrapper mb-5">
       <v-alert density="compact" type="warning">
         <template #icon>
 

@@ -12,8 +12,11 @@
   const selectedCampaignsIds = computed(() =>
     selectedCampaigns.value.map(c => c.id)
   )
-  const dateRange = ref(null)
-  const search = ref(null)
+
+  const dateRange = ref([
+    new Date(new Date().setHours(2, 0, 0, 0)).toISOString(),
+    new Date(new Date().setHours(23, 59, 59, 999)).toISOString(),
+  ]); const search = ref(null)
   const status = ref(null)
 
   const statuses = ref([
@@ -157,12 +160,7 @@
           value="ad-groups"
           variant="elevated"
         />
-        <v-tab
-          base-color="secondary"
-          :text="$t('ads')"
-          value="ads"
-          variant="elevated"
-        />
+        <v-tab base-color="secondary" :text="$t('ads')" value="ads" variant="elevated" />
       </v-tabs>
 
       <v-card-text>
@@ -170,9 +168,7 @@
           <v-tabs-window-item value="campaigns">
             <VCard>
               <div class="d-flex align-center justify-space-between ga-4 pa-4">
-                <VCardTitle
-                  class="font-weight-medium text-surface-variant pa-0"
-                >
+                <VCardTitle class="font-weight-medium text-surface-variant pa-0">
                   {{ $t("campaigns") }}
                 </VCardTitle>
                 <VBtn color="warning" rounded :to="{ name: '/campaigns/add' }">
@@ -196,17 +192,10 @@
           <v-tabs-window-item value="ad-groups">
             <VCard>
               <div class="d-flex align-center justify-space-between ga-4 pa-4">
-                <VCardTitle
-                  class="font-weight-medium text-surface-variant pa-0"
-                >
+                <VCardTitle class="font-weight-medium text-surface-variant pa-0">
                   {{ $t("ad_groups") }}
                 </VCardTitle>
-                <VBtn
-                  color="warning"
-                  :disabled="selectedCampaigns.length !== 1"
-                  rounded
-                  :to="addAdGroupRoute"
-                >
+                <VBtn color="warning" :disabled="selectedCampaigns.length !== 1" rounded :to="addAdGroupRoute">
                   <VIcon icon="tabler-circle-plus-filled" />
                   {{ $t("add_ad_group") }}
                 </VBtn>
@@ -214,10 +203,7 @@
 
               <VCardText class="pa-4 pt-0">
                 <VDivider />
-                <AdsGroupsTable
-                  :campaigns-ids="selectedCampaignsIds"
-                  @selection-updated="selectedAdGroups = $event"
-                />
+                <AdsGroupsTable :campaigns-ids="selectedCampaignsIds" @selection-updated="selectedAdGroups = $event" />
               </VCardText>
             </VCard>
           </v-tabs-window-item>
@@ -225,17 +211,10 @@
           <v-tabs-window-item value="ads">
             <VCard>
               <div class="d-flex align-center justify-space-between ga-4 pa-4">
-                <VCardTitle
-                  class="font-weight-medium text-surface-variant pa-0"
-                >
+                <VCardTitle class="font-weight-medium text-surface-variant pa-0">
                   {{ $t("ads") }}
                 </VCardTitle>
-                <VBtn
-                  color="warning"
-                  :disabled="selectedAdGroups.length !== 1"
-                  rounded
-                  :to="addAdRoute"
-                >
+                <VBtn color="warning" :disabled="selectedAdGroups.length !== 1" rounded :to="addAdRoute">
                   <VIcon icon="tabler-circle-plus-filled" />
                   {{ $t("add_ad") }}
                 </VBtn>
@@ -258,6 +237,7 @@
   flex-direction: column;
   gap: 2rem;
 }
+
 .filters-container {
   padding: 1rem;
   margin-bottom: 1rem;
@@ -274,6 +254,7 @@
     .v-field {
       border-radius: 0.75rem;
     }
+
     .v-field__overlay {
       background: unset;
       display: none;
@@ -292,6 +273,7 @@
     .v-field {
       border-radius: 0.75rem;
     }
+
     .v-field__overlay {
       background: unset;
       display: none;

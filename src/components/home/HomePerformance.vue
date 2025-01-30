@@ -1,80 +1,77 @@
 <script setup>
-  import i18n from '@/i18n'
-  import VueApexCharts from 'vue3-apexcharts'
-  import { useTheme } from 'vuetify'
+import i18n from '@/i18n'
+import VueApexCharts from 'vue3-apexcharts'
+import { useTheme } from 'vuetify'
 
-  const props = defineProps({
-    performance: Object,
-  })
+const props = defineProps({
+  performance: Object,
+})
 
-  const vuetifyTheme = useTheme()
-  const currentTheme = vuetifyTheme.current.value.colors
+const vuetifyTheme = useTheme()
+const currentTheme = vuetifyTheme.current.value.colors
 
-  const months = computed(() => {
-    return props.performance?.map(item => t(`month.${item.month}`))
-  })
+const months = computed(() => {
+  return props.performance?.map(item => t(`month.${item.month}`))
+})
 
-  const { t } = i18n.global
+const { t } = i18n.global
 
-  const series = [
-    {
-      name: t('sales'),
-      data: props.performance?.map(item => item.sales),
-    },
-    {
-      name: t('return_on_spending'),
-      data: props.performance?.map(item => item.spendings),
-    },
-  ]
+const series = [
+  {
+    name: t('sales'),
+    data: props.performance?.map(item => item.sales),
+  },
+  {
+    name: t('return_on_spending'),
+    data: props.performance?.map(item => item.spendings),
+  },
+]
 
-  const chartOptions = {
-    chart: {
-      type: 'radar',
-      toolbar: false,
-      height: '400px',
-    },
-    colors: [currentTheme.warning, currentTheme.primary],
-    fill: {
-      opacity: 1,
-    },
-    legend: {
-      fontSize: '12px',
-      fontWeight: 500,
-      fontFamily: 'Tajawal',
-      labels: {
-        colors: ['#706D79'],
-      },
-      markers: {
-        size: 8,
-        offsetX: 4,
-        fillColors: [currentTheme.warning, currentTheme.primary],
-      },
+const chartOptions = {
+  chart: {
+    type: 'radar',
+    toolbar: false,
+    height: '400px',
+  },
+  colors: [currentTheme.warning, currentTheme.primary],
+  fill: {
+    opacity: 1,
+  },
+  legend: {
+    fontSize: '12px',
+    fontWeight: 500,
+    fontFamily: 'Tajawal',
+    labels: {
+      colors: ['#706D79'],
     },
     markers: {
-      size: 0,
+      size: 8,
+      offsetX: 4,
+      fillColors: [currentTheme.warning, currentTheme.primary],
     },
-    yaxis: {
-      show: false,
-    },
-    xaxis: {
-      categories: months.value,
-      labels: {
-        style: {
-          fontFamily: 'Tajawal',
-        },
+  },
+  markers: {
+    size: 0,
+  },
+  yaxis: {
+    show: false,
+  },
+  xaxis: {
+    categories: months.value,
+    labels: {
+      style: {
+        fontFamily: 'Tajawal',
       },
     },
-  }
+  },
+}
 </script>
 
 <template>
-  <VCard :subtitle="$t('last-6-months')" :title="$t('performance')">
+  <VCard style="min-height: 350px" :subtitle="$t('last-6-months')" :title="$t('performance')">
     <VCardText class="pa-md-0">
-      <VueApexCharts
-        v-if="props.performance !== null"
-        :options="chartOptions"
-        :series="series"
-      />
+      <VueApexCharts v-if="props.performance !== null" :options="chartOptions" :series="series"
+        style="transform: scale(1.5) " />
 
       <HomeEmptyState v-else />
     </VCardText>

@@ -288,11 +288,7 @@
         />
       </VCol>
       <VCol cols="12">
-        <AppTextInput
-          v-model="form.name"
-          :label="$t('campaign_name')"
-          :rules="rules.name"
-        />
+        <AppTextInput v-model="form.name" :label="$t('campaign_name')" :rules="rules.name" />
       </VCol>
       <VCol cols="12">
         <AppTextInput
@@ -319,6 +315,7 @@
           :label="$t('campaign_start_time')"
           :placeholder="null"
           :rules="rules.end_time"
+          title_name="start"
         />
       </VCol>
       <VCol cols="12">
@@ -339,6 +336,7 @@
           :label="$t('campaign_end_time')"
           :placeholder="null"
           :rules="[requiredValidator]"
+          title_name="end"
         />
       </VCol>
 

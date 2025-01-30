@@ -52,7 +52,7 @@
   const submit = () => {
     const generalInfoData = accountComponent?.value.generalInfoData
 
-    if (isAccountDetails.value && accountComponent.value) {
+    if (activeRoute.value?.isAccountDetails && accountComponent.value) {
       runUpdate(generalInfoData)
     } else {
       runUpdate(generalInfoData)
@@ -79,7 +79,7 @@
     <div class="d-flex mb-6 justify-space-between align-center">
       <div class="buttons-container">
         <v-btn
-          v-bind="activeRoute.isAccountDetails ? activeBtnProps : inActiveBtnProps"
+          v-bind="activeRoute?.isAccountDetails ? activeBtnProps : inActiveBtnProps"
           height="40px"
           rounded
           :to="{ name: '/account-settings/account-details' }"
