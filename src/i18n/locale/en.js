@@ -1255,6 +1255,7 @@ export default {
   campaign_name1: 'Campaign Name',
   next: 'Next',
   release: 'Release',
+  double_for_each_sar: 'Double for every riyal',
   advertiser_name: 'Advertiser Name !',
 
 }

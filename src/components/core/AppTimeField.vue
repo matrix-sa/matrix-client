@@ -1,4 +1,5 @@
 <script setup>
+  import moment from 'moment'
   import { VTimePicker } from 'vuetify/labs/VTimePicker'
 
   defineOptions({
@@ -8,6 +9,11 @@
   })
 
   const props = defineProps({
+    title_name: {
+      type: String,
+      default: null,
+      required: false,
+    },
     bordered: {
       type: Boolean,
       default: false,
@@ -19,8 +25,8 @@
   })
 
   const emits = defineEmits(['update:modelValue'])
-
-  const time = ref(null)
+  const time = ref(
+    props.title_name ? (props.title_name == 'start' ? moment().startOf('day').format('HH:mm') : moment().endOf('day').format('HH:mm')) : null)
   const modal = ref(false)
 
   watch(time, newValue => {
@@ -29,7 +35,9 @@
 
   watch(
     () => props.modelValue,
-    newValue => time.value = newValue
+    newValue => { // Corrected arrow function syntax
+      time.value = newValue
+    }
   )
 
   const elementId = computed(() => {
@@ -74,16 +82,8 @@
       readonly
     >
       <template #default>
-        <v-dialog
-          v-model="modal"
-          activator="parent"
-          width="auto"
-        >
-          <v-time-picker
-            v-if="modal"
-            v-model="time"
-            :title="'select_time'"
-          />
+        <v-dialog v-model="modal" activator="parent" width="auto">
+          <v-time-picker v-if="modal" v-model="time" :title="'select_time'" />
         </v-dialog>
       </template>
     </v-text-field>
@@ -112,6 +112,7 @@
         border-color: rgb(var(--v-theme-primary));
       }
     }
+
     .v-field__overlay {
       background: unset;
     }

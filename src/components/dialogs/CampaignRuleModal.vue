@@ -150,12 +150,13 @@
           />
         </v-col>
 
-        <v-col cols="12" sm="6">
+        <v-col class="doubled-for-each" cols="12" sm="6">
           <AppTextInput
             v-model="form.roas_comparing_value"
-            :append-text="t('SAR')"
+            :append-text="t('double_for_each_sar')"
+            class="shrink"
             :label="t('the_value_of_return_on_spending')"
-            :placeholder="t('enter_value')"
+            :placeholder="t('5')"
             type="number"
           />
         </v-col>
@@ -232,6 +233,26 @@
 }
 
 .connect-platform {
+
+  .doubled-for-each {
+    .v-field--appended {
+      display: flex;
+      align-items: center;
+
+      .v-field__field {
+        flex: 2
+      }
+
+      .v-field__append-inner {
+        flex: 1;
+
+        .append-text {
+          font-size: 14px;
+        }
+      }
+    }
+  }
+
   .dark-1 {
     color: rgb(var(--v-dark-1));
   }

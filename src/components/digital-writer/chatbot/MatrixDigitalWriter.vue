@@ -24,11 +24,7 @@
       <img alt="chatbot" :src="matrixBot">
       <span> {{ t("matrix_digital_writer") }}</span>
     </div>
-    <div
-      id="digital-writer-wrapper"
-      class="content-wrapper"
-      v-html="message.replace(/\n/g, '<br>')"
-    />
+    <div id="digital-writer-wrapper" class="content-wrapper" v-html="message.replace(/\n/g, '<br>')" />
   </div>
 </template>
 
@@ -60,6 +56,26 @@
 #digital-writer-wrapper {
   li {
     list-style-position: inside;
+    font-size: 18px;
+  }
+
+  h3 {
+    margin-top: 10px;
+    margin-bottom: 12px;
+
+    &:not(:nth-child(1)) {
+      margin-top: 30px !important
+    }
+  }
+
+  hr {
+    margin: 24px 0
+  }
+
+  ol {
+    gap: 6px;
+    display: flex;
+    flex-direction: column
   }
 }
 </style>

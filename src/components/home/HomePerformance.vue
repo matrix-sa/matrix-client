@@ -68,12 +68,13 @@
 </script>
 
 <template>
-  <VCard :subtitle="$t('last-6-months')" :title="$t('performance')">
+  <VCard style="min-height: 350px" :subtitle="$t('last-6-months')" :title="$t('performance')">
     <VCardText class="pa-md-0">
       <VueApexCharts
         v-if="props.performance !== null"
         :options="chartOptions"
         :series="series"
+        style="transform: scale(1.5) "
       />
 
       <HomeEmptyState v-else />
