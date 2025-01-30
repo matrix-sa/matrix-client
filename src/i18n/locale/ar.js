@@ -1139,7 +1139,7 @@ export default {
   do_you_have_discount_code: 'هل لديك رمز تخفيض؟',
   checkout: 'عملية الشراء',
   vat: 'ضريبة VAT',
-  cancel_connection: 'إلغاء الإتصال',
+  cancel_connection: 'انهاء الإتصال',
   connection_canceled: 'تم إلغاء الإتصال',
   add_card: 'أضف بطاقة',
   my_cards: 'بطاقاتي',
@@ -1245,7 +1245,7 @@ export default {
     notes: 'ملاحظات',
   },
   not_subscribe_writer: 'أنت غير مشترك فى خدمة الكاتب الرقمى',
-  soon: 'قريبا',
+  soon: 'قريباً',
   ads_group_name: 'اسم المجموعة الإعلانية',
   ads_name: 'اسم الإعلان',
   next: 'التالي',
@@ -1253,4 +1253,5 @@ export default {
   double_for_each_sar: 'أضعاف لكل ريال',
 
   advertiser_name: 'اسم المعلن !',
+  generate_tracking_links: 'توليد روابط تتبع',
 }

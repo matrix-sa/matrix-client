@@ -1257,5 +1257,6 @@ export default {
   release: 'Release',
   double_for_each_sar: 'Double for every riyal',
   advertiser_name: 'Advertiser Name !',
+  generate_tracking_links: 'Generate Tracking Links',
 
 }
