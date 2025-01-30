@@ -186,11 +186,22 @@
       <v-img aspect-ratio="1/1" :src="platform.image" width="30%" />
       <p>{{ platform.title }}</p>
       <v-btn
+        v-if="platform.code !== 'twitter' && platform.code !== 'youtube' "
         v-bind="getProperties(platform.status)"
         rounded
         width="90%"
         v-on="getEvents(platform)"
       />
+      <v-btn
+        v-if="platform.code === 'twitter' || platform.code=== 'youtube'"
+        class="soon-btn"
+        disabled
+        rounded
+        width="90%"
+      >
+        {{ t("soon") }}
+
+      </v-btn>
       <v-btn
         v-if="
           platform.status === 'Success'
@@ -204,13 +215,23 @@
       </v-btn>
       <v-btn
         v-if="
-          platform.status === 'UnlinkedAccount' || platform.status === 'OnlyAuthenticated'
+          platform.status === 'UnlinkedAccount' || platform.status === 'OnlyAuthenticated' && platform.code !== 'twitter' && platform.code !== 'youtube'
         "
         disabled
         rounded
         width="90%"
       >
         {{ t("cancel_connection") }}
+      </v-btn>
+      <v-btn
+        v-if="platform.code === 'twitter' || platform.code === 'youtube' "
+        color="warning"
+        prepend-icon="tabler-wand"
+        rounded
+        to="/tracking"
+        width="90%"
+      >
+        {{ t("generate_tracking_links") }}
       </v-btn>
     </div>
     <ConnectionConfirmationDialog
@@ -261,5 +282,9 @@
 <style lang="scss">
 .v-btn--disabled .v-btn__overlay {
   opacity: 0 !important;
+}
+.soon-btn {
+  background-color: #4E1AC71A !important ;
+  color: #4E1AC7 !important;
 }
 </style>

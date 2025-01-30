@@ -1256,5 +1256,6 @@ export default {
   next: 'Next',
   release: 'Release',
   advertiser_name: 'Advertiser Name !',
+  generate_tracking_links: 'Generate Tracking Links',
 
 }

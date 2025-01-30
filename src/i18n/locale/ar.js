@@ -1245,10 +1245,11 @@ export default {
     notes: 'ملاحظات',
   },
   not_subscribe_writer: 'أنت غير مشترك فى خدمة الكاتب الرقمى',
-  soon: 'قريبا',
+  soon: 'قريباً',
   ads_group_name: 'اسم المجموعة الإعلانية',
   ads_name: 'اسم الإعلان',
   next: 'التالي',
   release: 'أطلق وازهلها',
   advertiser_name: 'اسم المعلن !',
+  generate_tracking_links: 'توليد روابط تتبع',
 }
